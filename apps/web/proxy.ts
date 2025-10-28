@@ -8,11 +8,7 @@ import {
   securityMiddleware,
 } from "@repo/security/middleware";
 import { createNEMO } from "@rescale/nemo";
-import {
-  type NextMiddleware,
-  type NextRequest,
-  NextResponse,
-} from "next/server";
+import { type NextProxy, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
 
 export const config = {
@@ -69,4 +65,4 @@ export default authMiddleware(async (_auth, request, event) => {
 
   // Return middleware response if it exists, otherwise headers response
   return middlewareResponse || headersResponse;
-}) as unknown as NextMiddleware;
+}) as unknown as NextProxy;
