@@ -15,7 +15,6 @@ export const config = {
   // matcher tells Next.js which routes to run the middleware on. This runs the
   // middleware on all routes except for static assets and Posthog ingest
   matcher: ["/((?!_next/static|_next/image|ingest|favicon.ico).*)"],
-  runtime: "nodejs",
 };
 
 const securityHeaders = env.FLAGS_SECRET
@@ -53,7 +52,7 @@ const composedMiddleware = createNEMO(
 );
 
 // Clerk middleware wraps other middleware in its callback
-export default authMiddleware(async (_auth, request, event) => {
+export const proxy = authMiddleware(async (_auth, request, event) => {
   // Run security headers first
   const headersResponse = securityHeaders();
 
