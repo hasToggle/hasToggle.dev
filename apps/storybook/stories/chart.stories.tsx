@@ -20,6 +20,11 @@ import {
   XAxis,
 } from "recharts";
 
+/**
+ * Length for abbreviated month names (e.g., "Jan", "Feb")
+ */
+const MONTH_ABBREVIATION_LENGTH = 3;
+
 const multiSeriesData = [
   { month: "January", desktop: 186, mobile: 80 },
   { month: "February", desktop: 305, mobile: 200 },
@@ -102,7 +107,7 @@ export const StackedAreaChart: Story = {
         <XAxis
           axisLine={false}
           dataKey="month"
-          tickFormatter={(value) => value.slice(0, 3)}
+          tickFormatter={(value) => value.slice(0, MONTH_ABBREVIATION_LENGTH)}
           tickLine={false}
           tickMargin={8}
         />
@@ -145,7 +150,7 @@ export const StackedBarChart: Story = {
         <XAxis
           axisLine={false}
           dataKey="month"
-          tickFormatter={(value) => value.slice(0, 3)}
+          tickFormatter={(value) => value.slice(0, MONTH_ABBREVIATION_LENGTH)}
           tickLine={false}
           tickMargin={10}
         />
@@ -181,7 +186,7 @@ export const MultiLineChart: Story = {
         <XAxis
           axisLine={false}
           dataKey="month"
-          tickFormatter={(value) => value.slice(0, 3)}
+          tickFormatter={(value) => value.slice(0, MONTH_ABBREVIATION_LENGTH)}
           tickLine={false}
           tickMargin={8}
         />

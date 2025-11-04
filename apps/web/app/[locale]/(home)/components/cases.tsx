@@ -13,6 +13,11 @@ type CasesProps = {
   dictionary: Dictionary;
 };
 
+/**
+ * Carousel auto-scroll delay in milliseconds
+ */
+const CAROUSEL_AUTO_SCROLL_DELAY_MS = 1000;
+
 export const Cases = ({ dictionary }: CasesProps) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
@@ -30,7 +35,7 @@ export const Cases = ({ dictionary }: CasesProps) => {
         api.scrollNext();
         setCurrent(current + 1);
       }
-    }, 1000);
+    }, CAROUSEL_AUTO_SCROLL_DELAY_MS);
   }, [api, current]);
 
   return (

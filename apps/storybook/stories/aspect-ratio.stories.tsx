@@ -3,6 +3,16 @@ import type { Meta, StoryObj } from "@storybook/react";
 import Image from "next/image";
 
 /**
+ * Common aspect ratio constants
+ */
+// biome-ignore lint/style/noMagicNumbers: Aspect ratio constants by definition contain numeric ratios
+const ASPECT_RATIO_16_9 = 16 / 9;
+// biome-ignore lint/style/noMagicNumbers: Aspect ratio constants by definition contain numeric ratios
+const ASPECT_RATIO_4_3 = 4 / 3;
+// biome-ignore lint/style/noMagicNumbers: Aspect ratio constants by definition contain numeric ratios
+const ASPECT_RATIO_CINEMASCOPE = 2.35 / 1;
+
+/**
  * Displays content within a desired ratio.
  */
 const meta: Meta<typeof AspectRatio> = {
@@ -38,7 +48,7 @@ type Story = StoryObj<typeof meta>;
  */
 export const Default: Story = {
   args: {
-    ratio: 16 / 9,
+    ratio: ASPECT_RATIO_16_9,
   },
 };
 
@@ -56,7 +66,7 @@ export const Square: Story = {
  */
 export const Landscape: Story = {
   args: {
-    ratio: 4 / 3,
+    ratio: ASPECT_RATIO_4_3,
   },
 };
 
@@ -65,6 +75,6 @@ export const Landscape: Story = {
  */
 export const Cinemascope: Story = {
   args: {
-    ratio: 2.35 / 1,
+    ratio: ASPECT_RATIO_CINEMASCOPE,
   },
 };

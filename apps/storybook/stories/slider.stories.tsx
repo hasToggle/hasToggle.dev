@@ -2,6 +2,11 @@ import { Slider } from "@repo/design-system/components/ui/slider";
 import type { Meta, StoryObj } from "@storybook/react";
 
 /**
+ * Default slider value (percentage)
+ */
+const DEFAULT_SLIDER_VALUE = 33;
+
+/**
  * An input where the user selects a value from within a given range.
  */
 const meta = {
@@ -10,7 +15,7 @@ const meta = {
   tags: ["autodocs"],
   argTypes: {},
   args: {
-    defaultValue: [33],
+    defaultValue: [DEFAULT_SLIDER_VALUE],
     max: 100,
     step: 1,
   },

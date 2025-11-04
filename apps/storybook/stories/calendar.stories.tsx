@@ -4,6 +4,16 @@ import { addDays } from "date-fns";
 import { action } from "storybook/actions";
 
 /**
+ * Day offset constants for calendar examples
+ */
+const DAYS_OFFSET_SHORT = 2;
+const DAYS_OFFSET_WEEK = 7;
+const DAYS_OFFSET_LONG = 8;
+const DAYS_OFFSET_1 = 1;
+const DAYS_OFFSET_3 = 3;
+const DAYS_OFFSET_5 = 5;
+
+/**
  * A date field component that allows users to enter and edit date.
  */
 const meta = {
@@ -37,7 +47,11 @@ export const Default: Story = {};
 export const Multiple: Story = {
   args: {
     min: 1,
-    selected: [new Date(), addDays(new Date(), 2), addDays(new Date(), 8)],
+    selected: [
+      new Date(),
+      addDays(new Date(), DAYS_OFFSET_SHORT),
+      addDays(new Date(), DAYS_OFFSET_LONG),
+    ],
     mode: "multiple",
   },
 };
@@ -49,7 +63,7 @@ export const Range: Story = {
   args: {
     selected: {
       from: new Date(),
-      to: addDays(new Date(), 7),
+      to: addDays(new Date(), DAYS_OFFSET_WEEK),
     },
     mode: "range",
   },
@@ -61,10 +75,10 @@ export const Range: Story = {
 export const Disabled: Story = {
   args: {
     disabled: [
-      addDays(new Date(), 1),
-      addDays(new Date(), 2),
-      addDays(new Date(), 3),
-      addDays(new Date(), 5),
+      addDays(new Date(), DAYS_OFFSET_1),
+      addDays(new Date(), DAYS_OFFSET_SHORT),
+      addDays(new Date(), DAYS_OFFSET_3),
+      addDays(new Date(), DAYS_OFFSET_5),
     ],
   },
 };

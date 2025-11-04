@@ -18,6 +18,12 @@ import {
   url,
 } from "./utils.js";
 
+/**
+ * Maximum buffer size for git diff operations (1 GB)
+ */
+// biome-ignore lint/style/noMagicNumbers: Buffer size constant by definition contains KB->MB->GB conversion
+const GIT_DIFF_MAX_BUFFER = 1024 * 1024 * 1024;
+
 const compareVersions = (a: string, b: string) => {
   const [aMajor, aMinor, aPatch] = a.split(".").map(Number);
   const [bMajor, bMinor, bPatch] = b.split(".").map(Number);
@@ -113,7 +119,7 @@ const getDiff = async (
       (
         await exec(
           `git diff ${from.version} ${to.version} -- "${cleanFileName(file)}"`,
-          { maxBuffer: 1024 * 1024 * 1024 }
+          { maxBuffer: GIT_DIFF_MAX_BUFFER }
         )
       )
         .toString()

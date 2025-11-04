@@ -19,6 +19,12 @@ type TestimonialsProps = {
   dictionary: Dictionary;
 };
 
+/**
+ * Carousel auto-scroll delay for testimonials in milliseconds
+ * Longer delay than other carousels to give users time to read testimonials
+ */
+const TESTIMONIAL_AUTO_SCROLL_DELAY_MS = 4000;
+
 export const Testimonials = ({ dictionary }: TestimonialsProps) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
@@ -36,7 +42,7 @@ export const Testimonials = ({ dictionary }: TestimonialsProps) => {
         api.scrollNext();
         setCurrent(current + 1);
       }
-    }, 4000);
+    }, TESTIMONIAL_AUTO_SCROLL_DELAY_MS);
   }, [api, current]);
 
   return (
