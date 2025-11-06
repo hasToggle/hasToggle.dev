@@ -1,5 +1,7 @@
 import { expect, test } from "bun:test";
-import Page, { metadata } from "../app/(unauthenticated)/sign-in/[[...sign-in]]/page";
+import Page, {
+  metadata,
+} from "../app/(unauthenticated)/sign-in/[[...sign-in]]/page";
 
 test("Sign In Page exports default component", () => {
   expect(Page).toBeDefined();
