@@ -18,4 +18,5 @@ if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = database;
 }
 
+// biome-ignore lint/performance/noBarrelFile: Package API re-export pattern for clean import surface
 export * from "./generated/client";

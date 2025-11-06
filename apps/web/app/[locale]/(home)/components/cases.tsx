@@ -47,10 +47,13 @@ export const Cases = ({ dictionary }: CasesProps) => {
           </h2>
           <Carousel className="w-full" setApi={setApi}>
             <CarouselContent>
-              {Array.from({ length: 15 }).map((_, index) => (
-                <CarouselItem className="basis-1/4 lg:basis-1/6" key={index}>
+              {Array.from({ length: 15 }, (_, index) => index).map((logoId) => (
+                <CarouselItem
+                  className="basis-1/4 lg:basis-1/6"
+                  key={`logo-${logoId}`}
+                >
                   <div className="flex aspect-square items-center justify-center rounded-md bg-muted p-6">
-                    <span className="text-sm">Logo {index + 1}</span>
+                    <span className="text-sm">Logo {logoId + 1}</span>
                   </div>
                 </CarouselItem>
               ))}

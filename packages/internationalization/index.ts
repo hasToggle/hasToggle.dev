@@ -7,6 +7,8 @@ export const locales = [
   ...languine.locale.targets,
 ] as const;
 
+export type Locale = (typeof locales)[number];
+
 export type Dictionary = typeof en;
 
 const dictionaries: Record<string, () => Promise<Dictionary>> =
@@ -22,10 +24,13 @@ const dictionaries: Record<string, () => Promise<Dictionary>> =
     ])
   );
 
+const isValidLocale = (locale: string): locale is Locale =>
+  locales.includes(locale as Locale);
+
 export const getDictionary = async (locale: string): Promise<Dictionary> => {
   const normalizedLocale = locale.split("-")[0];
 
-  if (!locales.includes(normalizedLocale as any)) {
+  if (!isValidLocale(normalizedLocale)) {
     return dictionaries.en();
   }
 

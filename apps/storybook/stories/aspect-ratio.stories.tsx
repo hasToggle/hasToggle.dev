@@ -31,9 +31,9 @@ const meta: Meta<typeof AspectRatio> = {
     </AspectRatio>
   ),
   decorators: [
-    (Story) => (
+    (StoryComponent) => (
       <div className="w-1/2">
-        <Story />
+        <StoryComponent />
       </div>
     ),
   ],
