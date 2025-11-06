@@ -4,19 +4,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is a **next-forge** monorepo - a production-grade Turborepo template for Next.js SaaS applications. The codebase is built around five core principles: Fast, Cheap, Opinionated, Modern, and Safe. It uses pnpm workspaces and Turborepo for managing multiple applications and shared packages.
+This is a **next-forge** monorepo - a production-grade Turborepo template for Next.js SaaS applications. The codebase is built around five core principles: Fast, Cheap, Opinionated, Modern, and Safe. It uses Bun workspaces and Turborepo for managing multiple applications and shared packages.
 
 ## Development Commands
 
 ### Setup & Installation
 ```bash
-pnpm install                    # Install all dependencies
-pnpm migrate                   # Format, generate, and push Prisma schema to database
+bun install                    # Install all dependencies
+bun migrate                   # Format, generate, and push Prisma schema to database
 ```
 
 ### Running Applications
 ```bash
-pnpm dev                       # Run all apps in development mode
+bun dev                       # Run all apps in development mode
 turbo dev --filter=app         # Run only the main app (port 3000)
 turbo dev --filter=web         # Run only the web/marketing site (port 3001)
 turbo dev --filter=api         # Run only the API (port 3002, includes Stripe webhook listener)
@@ -24,37 +24,37 @@ turbo dev --filter=api         # Run only the API (port 3002, includes Stripe we
 
 ### Testing
 ```bash
-pnpm test                      # Run tests across all workspaces
+bun test                      # Run tests across all workspaces
 turbo test --filter=app        # Run tests for specific app
-NODE_ENV=test vitest run       # Run vitest in apps/app or apps/api
+bun test                       # Run Bun test runner in apps/app or apps/api
 ```
 
 ### Code Quality
 ```bash
-pnpm check                     # Run Biome linter/formatter checks (uses ultracite presets)
-pnpm fix                       # Auto-fix linting/formatting issues
+bun run check                     # Run Biome linter/formatter checks (uses ultracite presets)
+bun run fix                       # Auto-fix linting/formatting issues
 turbo boundaries               # Check package boundaries
 ```
 
 ### Building
 ```bash
-pnpm build                     # Build all apps (depends on tests passing)
+bun run build                     # Build all apps (depends on tests passing)
 turbo build --filter=app       # Build specific app
 turbo analyze --filter=app     # Analyze bundle size
 ```
 
 ### Database
 ```bash
-pnpm migrate                   # Format schema, generate Prisma client, push to DB
-cd packages/database && npx prisma studio    # Open Prisma Studio
-cd packages/database && npx prisma generate  # Regenerate Prisma client only
+bun migrate                   # Format schema, generate Prisma client, push to DB
+cd packages/database && bunx prisma studio    # Open Prisma Studio
+cd packages/database && bunx prisma generate  # Regenerate Prisma client only
 ```
 
 ### Maintenance
 ```bash
-pnpm bump-deps                 # Update dependencies (excludes recharts)
-pnpm bump-ui                   # Update shadcn/ui components
-pnpm clean                     # Clean node_modules from root
+bun run bump-deps                 # Update dependencies (excludes recharts)
+bun run bump-ui                   # Update shadcn/ui components
+bun run clean                     # Clean node_modules from root
 turbo clean                    # Clean build artifacts and node_modules from all workspaces
 ```
 
@@ -62,7 +62,7 @@ turbo clean                    # Clean build artifacts and node_modules from all
 
 ### Monorepo Structure
 
-The repository uses **pnpm workspaces** with two main directories:
+The repository uses **Bun workspaces** with two main directories:
 
 - **apps/** - Deployable applications (independently deployable)
 - **packages/** - Shared packages consumed by apps
@@ -74,7 +74,7 @@ The repository uses **pnpm workspaces** with two main directories:
    - Uses Next.js 16 with App Router
    - Server actions in `app/actions/`
    - API routes in `app/api/`
-   - Tests configured with Vitest + React Testing Library
+   - Tests configured with Bun test runner
 
 2. **web** (port 3001) - Marketing/landing page
    - Internationalization support (uses `[locale]` route)
@@ -123,13 +123,13 @@ Core infrastructure packages:
 
 - **Framework**: Next.js 16 with App Router, React 19
 - **Language**: TypeScript 5.9 (strict mode, NodeNext module resolution)
-- **Package Manager**: pnpm 10.19.0
+- **Package Manager**: Bun 1.1.43
 - **Build Tool**: Turborepo 2.5.8
 - **Database**: PostgreSQL (Neon) via Prisma 6.18
 - **Auth**: Clerk
 - **Styling**: Tailwind CSS 4.1
 - **Linting**: Biome 2.3.1 with ultracite presets (core, react, next)
-- **Testing**: Vitest 4.0 + React Testing Library
+- **Testing**: Bun test runner
 - **Bundling**: tsup for package builds
 
 ### Important Patterns
@@ -147,7 +147,7 @@ Core infrastructure packages:
 
 4. **Environment Variables**: Uses @t3-oss/env-nextjs for type-safe env validation
 
-5. **Path Aliases**: Apps configure aliases in vitest.config.mts
+5. **Path Aliases**: Apps configure aliases via tsconfig.json paths
    - `@/` - points to app root
    - `@repo/` - points to packages directory
 
@@ -162,10 +162,9 @@ Core infrastructure packages:
 ## Key Files
 
 - `turbo.json` - Turborepo task pipeline configuration
-- `pnpm-workspace.yaml` - Workspace configuration
 - `biome.jsonc` - Linter/formatter configuration (extends ultracite presets)
 - `packages/database/prisma/schema.prisma` - Database schema
-- Root `package.json` - Monorepo scripts and CLI entry point (`dist/index.js`)
+- Root `package.json` - Monorepo scripts, workspace configuration, and CLI entry point (`dist/index.js`)
 
 ## Development Notes
 
