@@ -13,17 +13,17 @@
     "@t3-oss/env-nextjs": "^0.13.8",
     "@vercel/toolbar": "^0.1.41",
     "flags": "^4.0.1",
-    "react": "19.2.0",
+    "react": "^19.2.1",
     "zod": "^4.1.12"
   },
   "peerDependencies": {
-    "next": "15.5.4"
+    "next": "^16.0.7"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "@types/node": "24.9.1",
-    "@types/react": "19.2.2",
-    "@types/react-dom": "19.2.2",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.1",
     "typescript": "^5.9.3"
   }
 }
