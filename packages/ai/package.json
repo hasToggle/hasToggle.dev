@@ -10,7 +10,7 @@
     "@ai-sdk/openai": "^2.0.53",
     "@t3-oss/env-nextjs": "^0.13.8",
     "ai": "^5.0.80",
-    "next": "^16.0.7",
+    "next": "16.0.10",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "react-markdown": "^10.1.0",
