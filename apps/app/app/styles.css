@@ -1,2 +1,26 @@
 @import "tailwindcss";
 @import "@repo/design-system/styles/globals.css";
+
+@keyframes highlightFadeIn {
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: #808080;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.highlighted-line {
+  border-radius: 12px;
+  padding: 2px 8px 2px 0;
+  animation: highlightFadeIn 0.2s ease-in-out forwards;
+}
