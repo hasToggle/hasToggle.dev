@@ -7,6 +7,8 @@ import { env } from "@/env";
 
 let nextConfig: NextConfig = withToolbar(withLogging(config));
 
+nextConfig.reactCompiler = true;
+
 nextConfig.images?.remotePatterns?.push({
   protocol: "https",
   hostname: "assets.basehub.com",

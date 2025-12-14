@@ -6,6 +6,8 @@ import { env } from "@/env";
 
 let nextConfig: NextConfig = withToolbar(withLogging(config));
 
+nextConfig.reactCompiler = true;
+
 if (env.VERCEL) {
   nextConfig = withSentry(nextConfig);
 }
