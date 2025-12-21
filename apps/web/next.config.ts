@@ -34,4 +34,5 @@ if (env.ANALYZE === "true") {
   nextConfig = withAnalyzer(nextConfig);
 }
 
-export default withCMS(nextConfig);
+const finalConfig: NextConfig = withCMS(nextConfig);
+export default finalConfig;

@@ -7,6 +7,7 @@ import {
   noseconeOptionsWithToolbar,
   securityMiddleware,
 } from "@repo/security/middleware";
+// @ts-expect-error
 import { createNEMO } from "@rescale/nemo";
 import { type NextProxy, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
@@ -47,21 +48,26 @@ const arcjetMiddleware = async (request: NextRequest) => {
 const composedMiddleware = createNEMO(
   {},
   {
-    before: [internationalizationMiddleware, arcjetMiddleware],
+    // biome-ignore lint/suspicious/noExplicitAny: Type cast needed due to Next.js type duplication in monorepo
+    before: [internationalizationMiddleware as any, arcjetMiddleware],
   }
 );
 
 // Clerk middleware wraps other middleware in its callback
-export const proxy = authMiddleware(async (_auth, request, event) => {
-  // Run security headers first
-  const headersResponse = securityHeaders();
+export const proxy = authMiddleware(
+  // biome-ignore lint/suspicious/noExplicitAny: Type cast needed due to Next.js type duplication in monorepo
+  async (_auth: any, request: Request, event: any) => {
+    // Run security headers first
+    const headersResponse = securityHeaders();
 
-  // Then run composed middleware (i18n + arcjet)
-  const middlewareResponse = await composedMiddleware(
-    request as unknown as NextRequest,
-    event
-  );
+    // Then run composed middleware (i18n + arcjet)
+    const middlewareResponse = await composedMiddleware(
+      request as unknown as NextRequest,
+      // biome-ignore lint/suspicious/noExplicitAny: Type cast needed due to Next.js type duplication in monorepo
+      event as any
+    );
 
-  // Return middleware response if it exists, otherwise headers response
-  return middlewareResponse || headersResponse;
-}) as unknown as NextProxy;
+    // Return middleware response if it exists, otherwise headers response
+    return middlewareResponse || headersResponse;
+  }
+) as unknown as NextProxy;
