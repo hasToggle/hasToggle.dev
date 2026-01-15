@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
-    "@types/node": "24.9.1",
+    "@types/node": "25.0.9",
     "@types/ws": "^8.18.1",
     "bufferutil": "^4.0.9",
     "prisma": "6.18.0",
