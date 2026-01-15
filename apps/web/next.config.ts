@@ -8,7 +8,6 @@ import { env } from "@/env";
 let nextConfig: NextConfig = withToolbar(withLogging(config));
 
 nextConfig.reactCompiler = true;
-nextConfig.reactStrictMode = false; // TODO: Re-enable strict mode
 
 nextConfig.images?.remotePatterns?.push(
   {
