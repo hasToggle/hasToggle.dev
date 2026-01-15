@@ -7,7 +7,6 @@ import {
   noseconeOptionsWithToolbar,
   securityMiddleware,
 } from "@repo/security/middleware";
-// @ts-expect-error
 import { createNEMO } from "@rescale/nemo";
 import { type NextProxy, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
