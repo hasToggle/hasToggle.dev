@@ -8,11 +8,18 @@ import { env } from "@/env";
 let nextConfig: NextConfig = withToolbar(withLogging(config));
 
 nextConfig.reactCompiler = true;
+nextConfig.reactStrictMode = false; // TODO: Re-enable strict mode
 
-nextConfig.images?.remotePatterns?.push({
-  protocol: "https",
-  hostname: "assets.basehub.com",
-});
+nextConfig.images?.remotePatterns?.push(
+  {
+    protocol: "https",
+    hostname: "assets.basehub.com",
+  },
+  {
+    protocol: "https",
+    hostname: "picsum.photos",
+  }
+);
 
 if (process.env.NODE_ENV === "production") {
   const redirects: NextConfig["redirects"] = async () => [
