@@ -1,51 +1,23 @@
-import "./styles.css";
-import { AnalyticsProvider } from "@repo/analytics/provider";
 import { Toolbar as CMSToolbar } from "@repo/cms/components/toolbar";
-import { DesignSystemProvider } from "@repo/design-system";
-import { fonts } from "@repo/design-system/lib/fonts";
-import { cn } from "@repo/design-system/lib/utils";
-import { Toolbar } from "@repo/feature-flags/components/toolbar";
-// import { getDictionary } from "@repo/internationalization";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import type { ReactNode } from "react";
 
-// import { Footer } from "./components/footer";
-// import { Header } from "./components/header";
-
-type RootLayoutProperties = {
+type LocaleLayoutProperties = {
   readonly children: ReactNode;
   readonly params: Promise<{
     locale: string;
   }>;
 };
 
-const RootLayout = /* async */ ({
-  children /* params */,
-}: RootLayoutProperties) => {
-  // const { locale } = await params;
-  // const dictionary = await getDictionary(locale);
+const LocaleLayout = ({ children }: LocaleLayoutProperties) => (
+  <div className="font-switzer selection:bg-ht-cyan-400/30">
+    <link
+      href="https://api.fontshare.com/css?f%5B%5D=switzer@400,500,600,700&display=swap"
+      rel="stylesheet"
+    />
+    <NuqsAdapter>{children}</NuqsAdapter>
+    <CMSToolbar />
+  </div>
+);
 
-  return (
-    <html
-      className={cn(fonts, "scroll-smooth")}
-      lang="en"
-      suppressHydrationWarning
-    >
-      <body>
-        <AnalyticsProvider>
-          <DesignSystemProvider>
-            <NuqsAdapter>
-              {/* <Header dictionary={dictionary} /> */}
-              {children}
-              {/* <Footer /> */}
-            </NuqsAdapter>
-          </DesignSystemProvider>
-          <Toolbar />
-          <CMSToolbar />
-        </AnalyticsProvider>
-      </body>
-    </html>
-  );
-};
-
-export default RootLayout;
+export default LocaleLayout;

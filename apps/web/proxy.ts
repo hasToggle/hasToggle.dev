@@ -12,9 +12,12 @@ import { type NextProxy, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
 
 export const config = {
-  // matcher tells Next.js which routes to run the middleware on. This runs the
-  // middleware on all routes except for static assets and Posthog ingest
-  matcher: ["/((?!_next/static|_next/image|ingest|favicon.ico).*)"],
+  matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
+    "/((?!_next|ingest|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    // Always run for API routes
+    "/(api|trpc)(.*)",
+  ],
 };
 
 const securityHeaders = env.FLAGS_SECRET
