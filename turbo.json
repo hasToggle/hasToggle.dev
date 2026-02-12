@@ -1,6 +1,7 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "globalDependencies": ["**/.env.*local"],
+  "globalPassThroughEnv": ["SENTRY_AUTH_TOKEN"],
   "ui": "tui",
   "envMode": "loose",
   "tasks": {
@@ -11,7 +12,8 @@
         "!.next/cache/**",
         "**/generated/**",
         "storybook-static/**",
-        ".react-email/**"
+        ".react-email/**",
+        ".basehub/**"
       ]
     },
     "test": {

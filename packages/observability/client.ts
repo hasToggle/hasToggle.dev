@@ -8,6 +8,8 @@
 import * as Sentry from "@sentry/nextjs";
 import { keys } from "./keys";
 
+export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
+
 export const initializeSentry = (): ReturnType<typeof Sentry.init> =>
   Sentry.init({
     dsn: keys().NEXT_PUBLIC_SENTRY_DSN,
