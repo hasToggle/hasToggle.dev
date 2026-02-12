@@ -17,7 +17,6 @@
     "@repo/database": "workspace:*",
     "@repo/design-system": "workspace:*",
     "@repo/feature-flags": "workspace:*",
-    "@repo/learning-primitives": "workspace:*",
     "@repo/next-config": "workspace:*",
     "@repo/notifications": "workspace:*",
     "@repo/observability": "workspace:*",
