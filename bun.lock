@@ -68,7 +68,7 @@
         "clsx": "^2.1.1",
         "framer-motion": "^12.23.24",
         "fuse.js": "^7.1.0",
-        "lucide-react": "^0.548.0",
+        "lucide-react": "^0.564.0",
         "next": "16.1.6",
         "next-themes": "^0.4.6",
         "react": "^19.2.3",
@@ -120,7 +120,7 @@
         "cmdk": "^1.1.1",
         "date-fns": "^4.1.0",
         "input-otp": "^1.4.2",
-        "lucide-react": "^0.548.0",
+        "lucide-react": "^0.564.0",
         "next": "16.1.6",
         "react": "^19.2.3",
         "react-dom": "^19.2.3",
@@ -174,7 +174,7 @@
         "@t3-oss/env-nextjs": "^0.13.8",
         "date-fns": "^4.1.0",
         "framer-motion": "^12.23.24",
-        "lucide-react": "^0.548.0",
+        "lucide-react": "^0.564.0",
         "next": "16.1.6",
         "nuqs": "^2.8.5",
         "react": "^19.2.3",
@@ -335,7 +335,7 @@
         "embla-carousel-react": "^8.6.0",
         "geist": "^1.5.1",
         "input-otp": "^1.4.2",
-        "lucide-react": "^0.548.0",
+        "lucide-react": "^0.564.0",
         "next-themes": "^0.4.6",
         "radix-ui": "latest",
         "react": "^19.2.1",
@@ -2981,7 +2981,7 @@
 
     "lru-cache": ["lru-cache@7.18.3", "", {}, "sha512-jumlc0BIUrS3qJGgIkWZsyfAM7NCWiBcCDhnd+3NNM5KbBmLTgHVfWBcg6W+rLUsIpzpERPsvwUP7CckAQSOoA=="],
 
-    "lucide-react": ["lucide-react@0.548.0", "", { "peerDependencies": { "react": "^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0" } }, "sha512-63b16z63jM9yc1MwxajHeuu0FRZFsDtljtDjYm26Kd86UQ5HQzu9ksEtoUUw4RBuewodw/tGFmvipePvRsKeDA=="],
+    "lucide-react": ["lucide-react@0.564.0", "", { "peerDependencies": { "react": "^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0" } }, "sha512-JJ8GVTQqFwuliifD48U6+h7DXEHdkhJ/E87kksGByII3qHxtPciVb8T8woQONHBQgHVOl7rSMrrip3SeVNy7Fg=="],
 
     "lz-string": ["lz-string@1.5.0", "", { "bin": { "lz-string": "bin/bin.js" } }, "sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ=="],
 
