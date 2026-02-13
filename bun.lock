@@ -481,7 +481,7 @@
       "name": "@repo/payments",
       "version": "0.0.0",
       "dependencies": {
-        "@stripe/agent-toolkit": "^0.7.11",
+        "@stripe/agent-toolkit": "^0.9.0",
         "@t3-oss/env-nextjs": "^0.13.8",
         "server-only": "^0.0.1",
         "stripe": "^19.1.0",
@@ -1597,7 +1597,7 @@
 
     "@storybook/react-dom-shim": ["@storybook/react-dom-shim@9.1.16", "", { "peerDependencies": { "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta", "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta", "storybook": "^9.1.16" } }, "sha512-MsI4qTxdT6lMXQmo3IXhw3EaCC+vsZboyEZBx4pOJ+K/5cDJ6ZoQ3f0d4yGpVhumDxaxlnNAg954+f8WWXE1rQ=="],
 
-    "@stripe/agent-toolkit": ["@stripe/agent-toolkit@0.7.12", "", { "dependencies": { "stripe": "^17.5.0", "zod": "^3.24.1", "zod-to-json-schema": "^3.24.3" }, "peerDependencies": { "@langchain/core": "^0.3.6", "@modelcontextprotocol/sdk": "^1.17.1", "agents": "^0.0.84", "ai": "^3.4.7 || ^4.0.0", "openai": "^4.86.1" } }, "sha512-fbtpJAg63INJ2zLlefXuigbWMnMZ33e6J5m/2mep6s8FSsl1pQZtLBZsk2gSp4Ix4199hkS3AG3FSz5diUHXXg=="],
+    "@stripe/agent-toolkit": ["@stripe/agent-toolkit@0.9.0", "", { "dependencies": { "@ai-sdk/provider": "^2.0.0", "@modelcontextprotocol/sdk": "^1.17.1", "stripe": "^17.5.0", "zod": "^3.25.76", "zod-to-json-schema": "^3.24.6" }, "peerDependencies": { "@langchain/core": "^0.3.6", "agents": "^0.0.84", "ai": "^5.0.89", "openai": "^4.86.1" } }, "sha512-pJIcutzeQDjtv8jpqyMJmmKD04KABxyjWie9CXOG6Skj48G1q4orYAxxygcN1YKaufUT07vUKXdyxqpbJp/R1A=="],
 
     "@swc/helpers": ["@swc/helpers@0.5.15", "", { "dependencies": { "tslib": "^2.8.0" } }, "sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g=="],
 
