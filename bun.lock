@@ -461,7 +461,7 @@
       "name": "@repo/observability",
       "version": "0.0.0",
       "dependencies": {
-        "@logtail/next": "^0.2.1",
+        "@logtail/next": "^0.3.0",
         "@sentry/nextjs": "^10.22.0",
         "@t3-oss/env-nextjs": "^0.13.8",
         "next": "^16.1.0",
@@ -1069,7 +1069,7 @@
 
     "@liveblocks/react": ["@liveblocks/react@3.11.1", "", { "dependencies": { "@liveblocks/client": "3.11.1", "@liveblocks/core": "3.11.1" }, "peerDependencies": { "@types/react": "*", "@types/react-dom": "*", "react": "^18 || ^19 || ^19.0.0-rc" }, "optionalPeers": ["@types/react", "@types/react-dom"] }, "sha512-M48L8LaxA3vVPsFHOhcwVPkyGH/FuoYhl88KIvo9D734KlGbjpK8h+L0bjkAc6/+jmh1PHdn1m0zBq4rRNTTeA=="],
 
-    "@logtail/next": ["@logtail/next@0.2.1", "", { "dependencies": { "use-deep-compare": "^1.2.1", "whatwg-fetch": "^3.6.2" }, "peerDependencies": { "next": ">=14.0", "react": ">=18.0.0" } }, "sha512-kvI7CNzei+fIErWOfMf/o3mgZkmGptR6W/C4850+oyXS0ouJO9C2+5a166Rd6ywzXb/lP9QPOABPS1r26dNnpQ=="],
+    "@logtail/next": ["@logtail/next@0.3.1", "", { "dependencies": { "use-deep-compare": "^1.2.1", "whatwg-fetch": "^3.6.2" }, "peerDependencies": { "next": ">=15.0", "react": ">=18.0.0" } }, "sha512-RiIYLO51ax/TI67h6/TdCSh/mUmcSTtP5JbkcERcBK2/KIWylxLiPMK5SO5PA7NUfLJVaUIMYkqGHKIcVCKljw=="],
 
     "@lottiefiles/dotlottie-react": ["@lottiefiles/dotlottie-react@0.13.3", "", { "dependencies": { "@lottiefiles/dotlottie-web": "0.42.0" }, "peerDependencies": { "react": "^17 || ^18 || ^19" } }, "sha512-V4FfdYlqzjBUX7f0KV6vfQOOI0Cp+3XeG/ZqSDFSEVg5P7fpROpDv5/I9aTM8sOCESK1SWT96Fem+QVUnBV1wQ=="],
 
