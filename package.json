@@ -34,7 +34,7 @@
     "ultracite": "7.1.5"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20.19.0"
   },
   "packageManager": "bun@1.1.43",
   "dependencies": {
