@@ -31,7 +31,7 @@
     "tsup": "^8.5.0",
     "turbo": "^2.5.8",
     "typescript": "^5.9.3",
-    "ultracite": "7.1.5"
+    "ultracite": "7.2.0"
   },
   "engines": {
     "node": ">=20.19.0"
@@ -43,9 +43,9 @@
   },
   "type": "module",
   "overrides": {
-    "parse5": "^8.0.0",
     "@types/react": "19.2.14",
-    "@types/react-dom": "19.2.3"
+    "@types/react-dom": "19.2.3",
+    "parse5": "^8.0.0"
   },
   "workspaces": [
     "apps/*",
