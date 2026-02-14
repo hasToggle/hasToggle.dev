@@ -24,6 +24,6 @@
     "typescript": "^5.9.3"
   },
   "overrides": {
-    "@types/react": "19.2.7"
+    "@types/react": "19.2.14"
   }
 }
