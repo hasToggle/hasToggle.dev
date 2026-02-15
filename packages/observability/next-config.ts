@@ -15,9 +15,14 @@ export const sentryConfig: Parameters<typeof withSentryConfig>[1] = {
   sourcemaps: {
     disable: !hasAuthToken,
   },
-  release: {
-    create: hasAuthToken,
-  },
+  ...(hasAuthToken
+    ? {}
+    : {
+        release: {
+          name: "",
+          create: false,
+        },
+      }),
   telemetry: hasAuthToken,
 
   // Upload a larger set of source maps for prettier stack traces (increases build time)
