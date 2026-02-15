@@ -176,12 +176,12 @@
           }
         ],
         "form": {
-          "title": "Réservez une réunion",
-          "date": "Date",
-          "firstName": "Prénom",
-          "lastName": "Nom de famille",
-          "resume": "Téléchargez votre CV",
-          "cta": "Réservez la réunion"
+          "title": "Contactez-nous",
+          "name": "Nom",
+          "email": "E-mail",
+          "message": "Message",
+          "cta": "Envoyer le message",
+          "success": "Votre message a été envoyé avec succès !"
         }
       }
     }

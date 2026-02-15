@@ -1,6 +1,8 @@
 import { database } from "@repo/database";
 import { resend } from "@repo/email";
+import { parseError } from "@repo/observability/error";
 import { type NextRequest, NextResponse } from "next/server";
+import { env } from "@/env";
 import { generateTokenHash } from "@/lib/token";
 
 export async function GET(request: NextRequest) {
@@ -42,11 +44,11 @@ export async function GET(request: NextRequest) {
     const { error } = await resend.contacts.create({
       email: subscriber.email,
       unsubscribed: false,
-      audienceId: "6f1b2f2c-6db5-40fe-8bbc-dc55487c9aca",
+      audienceId: env.RESEND_AUDIENCE_ID,
     });
 
     if (error) {
-      console.error("Failed to add contact to Resend audience:", error);
+      parseError(error);
     }
 
     return new Response(null, {
@@ -55,7 +57,8 @@ export async function GET(request: NextRequest) {
         Location: "/confirmed",
       },
     });
-  } catch (_error) {
+  } catch (error) {
+    parseError(error);
     return NextResponse.json(
       { error: "An unexpected error occurred" },
       { status: 500 }

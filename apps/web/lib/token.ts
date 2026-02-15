@@ -10,11 +10,3 @@ export const generateToken = () => {
   const hash = generateTokenHash(token);
   return { token, hash };
 };
-
-export function validateToken(token: string, storedHash: string) {
-  const tokenHash = generateTokenHash(token);
-  return crypto.timingSafeEqual(
-    Buffer.from(tokenHash),
-    Buffer.from(storedHash)
-  );
-}

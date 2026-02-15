@@ -7,14 +7,24 @@ import { createRateLimiter, slidingWindow } from "@repo/rate-limit";
 import { headers } from "next/headers";
 import { env } from "@/env";
 
-export const contact = async (
-  name: string,
-  email: string,
-  message: string
-): Promise<{
+interface ContactState {
   error?: string;
-}> => {
+  success?: boolean;
+}
+
+export const contact = async (
+  _prevState: ContactState,
+  formData: FormData
+): Promise<ContactState> => {
   try {
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const message = formData.get("message") as string;
+
+    if (!(name && email && message)) {
+      return { error: "All fields are required." };
+    }
+
     if (env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN) {
       const rateLimiter = createRateLimiter({
         limiter: slidingWindow(1, "1d"),
@@ -31,7 +41,7 @@ export const contact = async (
       }
     }
 
-    await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: env.RESEND_FROM,
       to: env.RESEND_FROM,
       subject: "Contact form submission",
@@ -39,7 +49,11 @@ export const contact = async (
       react: <ContactTemplate email={email} message={message} name={name} />,
     });
 
-    return {};
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return { success: true };
   } catch (error) {
     const errorMessage = parseError(error);
 

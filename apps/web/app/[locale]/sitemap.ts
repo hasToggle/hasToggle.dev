@@ -8,13 +8,13 @@ const pages = appFolders
   .filter((file) => file.isDirectory())
   .filter((folder) => !folder.name.startsWith("_"))
   .filter((folder) => !folder.name.startsWith("("))
+  .filter((folder) => !folder.name.startsWith("["))
+  .filter((folder) => !folder.name.startsWith("."))
+  .filter((folder) => folder.name !== "api")
   .map((folder) => folder.name);
 const blogs = (await blog.getPosts()).map((post) => post._slug);
 const legals = (await legal.getPosts()).map((post) => post._slug);
-const protocol = env.VERCEL_PROJECT_PRODUCTION_URL?.startsWith("https")
-  ? "https"
-  : "http";
-const url = new URL(`${protocol}://${env.VERCEL_PROJECT_PRODUCTION_URL}`);
+const url = new URL(env.NEXT_PUBLIC_WEB_URL);
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => [
   {

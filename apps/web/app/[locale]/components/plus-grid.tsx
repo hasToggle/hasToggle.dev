@@ -7,7 +7,6 @@ export function PlusGrid({
   children,
 }: {
   className?: string;
-  variant?: ColorVariant;
   children: React.ReactNode;
 }) {
   return <div className={className}>{children}</div>;

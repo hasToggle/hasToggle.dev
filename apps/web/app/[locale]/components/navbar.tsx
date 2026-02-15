@@ -6,9 +6,7 @@ import { Logo } from "./logo";
 import { Link } from "./marketing-link";
 import { PlusGrid, PlusGridItem, PlusGridRow } from "./plus-grid";
 
-const links: { href: string; label: string }[] = [
-  // { href: '/blog', label: 'Blog' },
-];
+const links: { href: string; label: string }[] = [];
 
 function DesktopNav({ variant }: { variant: "light" | "dark" }) {
   return (
@@ -96,7 +94,7 @@ export function Navbar({
 
   return (
     <header className="pt-12 sm:pt-16">
-      <PlusGrid variant={variant}>
+      <PlusGrid>
         <PlusGridRow
           className="relative flex justify-between"
           variant={variant}

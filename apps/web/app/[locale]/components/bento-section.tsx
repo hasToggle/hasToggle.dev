@@ -14,7 +14,6 @@ export function BentoSection() {
         </Heading>
 
         <div className="mx-auto max-w-2xl lg:max-w-7xl">
-          <p className="mx-auto mt-2 max-w-lg text-balance text-center font-semibold text-4xl text-gray-950 tracking-tight sm:text-5xl" />
           <div className="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
             <div className="relative lg:row-span-2">
               <div className="absolute inset-px rounded-lg bg-white lg:rounded-l-[2rem]" />

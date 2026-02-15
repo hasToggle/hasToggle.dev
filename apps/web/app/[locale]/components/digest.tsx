@@ -27,8 +27,7 @@ export function Digest() {
   const [loading, setLoading] = useState<"idle" | "loading" | "success">(
     "idle"
   );
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [error, setError] = useState<SignUpError | null>();
+  const [error, setError] = useState<SignUpError | null>(null);
 
   const handleSignUp = async (
     event: React.FormEvent<HTMLFormElement>
@@ -37,23 +36,32 @@ export function Digest() {
     const form = event.target as HTMLFormElement;
     const emailInput = form.elements.namedItem("email") as HTMLInputElement;
     setLoading("loading");
-    const res = await fetch("/api/confirm", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: emailInput.value,
-      }),
-    });
-    const data: SignUpResponse = await res.json();
-    if ("error" in data) {
-      setError(data);
+    try {
+      const res = await fetch("/api/confirm", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: emailInput.value,
+        }),
+      });
+      const data: SignUpResponse = await res.json();
+      if ("error" in data) {
+        setError(data);
+        setLoading("idle");
+      } else {
+        setLoading("success");
+        form.reset();
+      }
+    } catch (_error) {
+      setError({
+        error: {
+          message: "A network error occurred. Please try again.",
+          name: "NetworkError",
+        },
+      });
       setLoading("idle");
-    } else {
-      setLoading("success");
-      setIsSuccess(true);
-      form.reset();
     }
   };
 
@@ -97,7 +105,7 @@ export function Digest() {
           </div>
         </form>
         <div className="mt-4">
-          {isSuccess && (
+          {loading === "success" && (
             <p className="font-medium text-base text-ht-blue-700">
               A confirmation email has been sent to you.
             </p>

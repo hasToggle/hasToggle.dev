@@ -176,12 +176,12 @@
           }
         ],
         "form": {
-          "title": "预约会议",
-          "date": "日期",
-          "firstName": "名",
-          "lastName": "姓",
-          "resume": "上传简历",
-          "cta": "预约会议"
+          "title": "联系我们",
+          "name": "姓名",
+          "email": "电子邮件",
+          "message": "留言",
+          "cta": "发送消息",
+          "success": "您的消息已成功发送！"
         }
       }
     }

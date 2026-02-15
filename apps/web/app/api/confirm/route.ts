@@ -1,7 +1,9 @@
 import { database } from "@repo/database";
 import { resend } from "@repo/email";
 import { ConfirmSubscription } from "@repo/email/templates/confirm-subscription";
+import { parseError } from "@repo/observability/error";
 import { type NextRequest, NextResponse } from "next/server";
+import { env } from "@/env";
 import { generateToken } from "@/lib/token";
 
 const TOKEN_EXPIRY_MS = 1000 * 60 * 60 * 24;
@@ -39,7 +41,7 @@ export async function POST(request: NextRequest) {
     });
 
     const { error } = await resend.emails.send({
-      from: process.env.RESEND_FROM || "Eric <eric@hastoggle.dev>",
+      from: env.RESEND_FROM,
       to: [email],
       subject: "Important: Confirm your subscription",
       react: ConfirmSubscription({ token }),
@@ -60,7 +62,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       message: "Confirm your subscription.",
     });
-  } catch (_error) {
+  } catch (error) {
+    parseError(error);
     return NextResponse.json(
       {
         error: { message: "An unexpected error occurred", name: "ServerError" },
