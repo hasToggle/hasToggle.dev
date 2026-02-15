@@ -16,7 +16,7 @@ export function Ping({
 }) {
   const { ping, dot } = pingColors[color];
   return (
-    <span className="-mr-1 -mt-1 absolute top-0 right-0 flex h-3 w-3">
+    <span className="absolute top-0 right-0 -mt-1 -mr-1 flex h-3 w-3">
       <span
         className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-80 ${ping}`}
       />

@@ -21,7 +21,6 @@ import {
 /**
  * Maximum buffer size for git diff operations (1 GB)
  */
-// biome-ignore lint/style/noMagicNumbers: Buffer size constant by definition contains KB->MB->GB conversion
 const GIT_DIFF_MAX_BUFFER = 1024 * 1024 * 1024;
 
 const compareVersions = (a: string, b: string) => {

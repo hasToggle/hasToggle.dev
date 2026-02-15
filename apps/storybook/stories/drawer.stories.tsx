@@ -13,7 +13,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 /**
  * A drawer component for React.
  */
-const meta: Meta<typeof Drawer> = {
+const meta: Meta = {
   title: "ui/Drawer",
   component: Drawer,
   tags: ["autodocs"],

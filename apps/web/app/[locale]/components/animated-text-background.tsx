@@ -1,11 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 export function AnimatedEmojiTextBackground() {
   return (
     <span className="relative ml-2 inline-flex">
-      <span className="-rotate-1 relative py-3 lg:py-6">
+      <span className="relative -rotate-1 py-3 lg:py-6">
         <motion.span
           animate={{ width: "100%" }}
           className="absolute inset-0 flex h-full bg-ht-cyan-200/90"
@@ -21,10 +21,10 @@ export function AnimatedEmojiTextBackground() {
         >
           <span className="relative p-1 text-slate-800">switch.</span>
         </motion.span>
-        <span className="-rotate-12 absolute right-0">
+        <span className="absolute right-0 -rotate-12">
           <motion.span
             animate={{ scale: 1 }}
-            className="-right-3 -top-7 md:-right-5 md:-top-10 lg:-right-6 lg:-top-14 absolute text-4xl md:text-6xl"
+            className="absolute -top-7 -right-3 text-4xl md:-top-10 md:-right-5 md:text-6xl lg:-top-14 lg:-right-6"
             initial={{ scale: 0 }}
             transition={{
               delay: 0.9,

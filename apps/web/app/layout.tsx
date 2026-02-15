@@ -6,9 +6,9 @@ import { cn } from "@repo/design-system/lib/utils";
 import { Toolbar } from "@repo/feature-flags/components/toolbar";
 import type { ReactNode } from "react";
 
-type RootLayoutProperties = {
+interface RootLayoutProperties {
   readonly children: ReactNode;
-};
+}
 
 const RootLayout = ({ children }: RootLayoutProperties) => (
   <html

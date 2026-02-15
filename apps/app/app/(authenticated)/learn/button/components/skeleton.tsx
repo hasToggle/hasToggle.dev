@@ -5,7 +5,7 @@ export const CodeSkeleton = ({ isLoading }: { isLoading?: boolean }) => (
     className={clsx(
       "my-auto h-60 rounded-2xl bg-gray-900/80 p-4 sm:h-72 lg:h-80",
       {
-        "before:-translate-x-full relative overflow-hidden before:absolute before:inset-0 before:animate-[shimmer_1.5s_infinite] before:bg-linear-to-r before:from-transparent before:via-white/10 before:to-transparent":
+        "relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_1.5s_infinite] before:bg-linear-to-r before:from-transparent before:via-white/10 before:to-transparent":
           isLoading,
       }
     )}

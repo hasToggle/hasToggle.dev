@@ -72,7 +72,7 @@ function FeatureSection() {
           className="relative mt-10 aspect-[1216/768] [--radius:0.75rem] sm:mt-16"
           style={{ "--width": 1216, "--height": 768 } as React.CSSProperties}
         >
-          <div className="-inset-[var(--padding)] absolute rounded-[calc(var(--radius)+var(--padding))] shadow-sm ring-1 ring-black/5 [--padding:0.5rem]" />
+          <div className="absolute -inset-[var(--padding)] rounded-[calc(var(--radius)+var(--padding))] shadow-sm ring-1 ring-black/5 [--padding:0.5rem]" />
           <div className="lg:hidden">
             <CounterMobile />
           </div>

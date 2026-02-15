@@ -2,7 +2,7 @@
 
 import { Button } from "@repo/design-system/components/ui/button";
 import clsx from "clsx";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import {
   type Reducer,
   Suspense,
@@ -18,7 +18,7 @@ import { CounterDisplay } from "./display";
 import { CodeSkeleton } from "./skeleton";
 import { getCounterSnippets } from "./snippets";
 
-type CounterState = {
+interface CounterState {
   count: number;
   internalCount: number;
   disabled: boolean;
@@ -27,11 +27,11 @@ type CounterState = {
   aside: string;
   label: string;
   animateRerendering: boolean;
-};
+}
 
-type CounterAction = {
+interface CounterAction {
   type: "updating" | "updated";
-};
+}
 
 const initialState: CounterState = {
   count: 0,

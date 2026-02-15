@@ -8,11 +8,11 @@ type Highlighter = Awaited<ReturnType<typeof createHighlighter>>;
 
 const LINE_ANIMATION_INTERVAL_MS = 300;
 
-type CodeDisplayProps = {
+interface CodeDisplayProps {
   code: Array<{ id: number; code: string }>;
   pendingHighlighter: Promise<Highlighter>;
   onAnimationComplete: () => void;
-};
+}
 
 export function CodeDisplay({
   code,

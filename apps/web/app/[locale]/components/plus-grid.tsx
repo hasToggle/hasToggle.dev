@@ -34,7 +34,7 @@ export function PlusGridRow({
     >
       <div
         aria-hidden="true"
-        className="-z-10 -translate-x-1/2 absolute inset-y-0 left-1/2 w-screen"
+        className="absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2"
       >
         <div className={cn("absolute inset-x-0 top-0 border-t", borderColor)} />
         <div className={cn("absolute inset-x-0 top-2 border-t", borderColor)} />

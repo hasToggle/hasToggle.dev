@@ -16,9 +16,9 @@ const baseUrl = process.env.NEXT_PUBLIC_APEX_URL
   ? `https://${process.env.NEXT_PUBLIC_APEX_URL}`
   : "";
 
-type ConfirmSubscriptionProps = {
+interface ConfirmSubscriptionProps {
   readonly token: string;
-};
+}
 
 export const ConfirmSubscription = ({ token }: ConfirmSubscriptionProps) => (
   <Html>

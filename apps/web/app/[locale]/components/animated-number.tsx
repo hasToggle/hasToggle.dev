@@ -6,7 +6,7 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
-} from "framer-motion";
+} from "motion/react";
 import { useEffect, useRef } from "react";
 
 export function AnimatedNumber({

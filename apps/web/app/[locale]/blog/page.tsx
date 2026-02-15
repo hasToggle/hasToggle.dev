@@ -9,11 +9,11 @@ import { createMetadata } from "@repo/seo/metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-type BlogProps = {
+interface BlogProps {
   params: Promise<{
     locale: string;
   }>;
-};
+}
 
 export const generateMetadata = async ({
   params,
@@ -45,7 +45,6 @@ const BlogIndex = async ({ params }: BlogProps) => {
           </div>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <Feed queries={[blog.postsQuery]}>
-              {/* biome-ignore lint/suspicious/useAwait: Server action requires async keyword */}
               {async ([data]) => {
                 "use server";
 

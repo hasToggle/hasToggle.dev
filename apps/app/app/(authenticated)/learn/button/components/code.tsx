@@ -4,11 +4,11 @@ import { use, useEffect, useState } from "react";
 import type { createHighlighter } from "shiki";
 import { CodeSkeleton } from "./skeleton";
 
-type CounterCodeProps = {
+interface CounterCodeProps {
   code: Array<{ id: number; code: string }>;
   pendingHighlighter: ReturnType<typeof createHighlighter>;
   onAnimationComplete: () => void;
-};
+}
 
 /**
  * Animation constants

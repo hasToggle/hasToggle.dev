@@ -56,7 +56,7 @@ export const Boundary = ({
   >
     <div
       className={cn(
-        "-top-3 absolute flex space-x-1 text-[9px] uppercase leading-4 tracking-widest sm:text-[10px]",
+        "absolute -top-3 flex space-x-1 text-[9px] uppercase leading-4 tracking-widest sm:text-[10px]",
         {
           "left-5": size === "small",
           "left-7": size === "default",

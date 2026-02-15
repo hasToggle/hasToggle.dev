@@ -1,19 +1,16 @@
 "use client";
 
 import { cn } from "@repo/design-system/lib/utils";
-import { motion } from "framer-motion";
 import { Code2Icon } from "lucide-react";
+import { motion } from "motion/react";
 import Image from "next/image";
 
 const RING_COUNT = 42;
 const RING_RADIUS_STEP = 14;
 const RING_RADIUS_BASE = 4;
 const RING_STAGGER_DELAY = 0.02;
-// biome-ignore lint/style/noMagicNumbers: named animation keyframes
 const RING_SCALE_KEYFRAMES = [1, 1.12, 1.05, 1.15, 1];
-// biome-ignore lint/style/noMagicNumbers: named animation keyframes
 const RING_OPACITY_KEYFRAMES = [0.15, 0.4, 0.25, 0.4, 0.15];
-// biome-ignore lint/style/noMagicNumbers: named animation keyframes
 const RING_ANIMATION_TIMES = [0, 0.2, 0.35, 0.5, 1];
 const HEART_ACTIVE_SCALE = 1.15;
 

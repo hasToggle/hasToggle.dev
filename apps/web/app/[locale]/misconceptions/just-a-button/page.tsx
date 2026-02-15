@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@repo/design-system/components/ui/button";
-import { AnimatePresence, motion } from "framer-motion";
 import { CheckCircle2, Database, Server, ShieldCheck, Zap } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { parseAsString, useQueryState } from "nuqs";
 import { useEffect, useMemo, useState } from "react";
@@ -25,7 +25,7 @@ type SystemCapability =
 
 type LabPreset = "minimal" | "modern" | "fragile" | "monolith";
 
-type CapabilityConfig = {
+interface CapabilityConfig {
   id: SystemCapability;
   label: string;
   description: string;
@@ -35,7 +35,7 @@ type CapabilityConfig = {
     ux: string;
     dx: string;
   };
-};
+}
 
 const CAPABILITIES: CapabilityConfig[] = [
   {
@@ -156,7 +156,7 @@ function PipelineVisualization({
 }) {
   return (
     <div className="relative flex w-full items-center justify-between">
-      <div className="-translate-y-1/2 absolute top-1/2 right-0 left-0 h-px bg-white/5" />
+      <div className="absolute top-1/2 right-0 left-0 h-px -translate-y-1/2 bg-white/5" />
       {CAPABILITIES.map((cap) => {
         const isActive = activeStep === cap.id;
         const isEnabled = enabledCaps.has(cap.id);
@@ -185,7 +185,7 @@ function PipelineVisualization({
             </span>
             {isActive && (
               <motion.div
-                className="-inset-2 -z-10 absolute rounded-3xl bg-white/5 blur-md"
+                className="absolute -inset-2 -z-10 rounded-3xl bg-white/5 blur-md"
                 layoutId="active-glow"
               />
             )}
@@ -196,16 +196,16 @@ function PipelineVisualization({
   );
 }
 
-type ImpactItem = {
+interface ImpactItem {
   id: string;
   label: string;
-};
+}
 
-type AggregateImpact = {
+interface AggregateImpact {
   latency: number;
   ux: ImpactItem[];
   dx: ImpactItem[];
-};
+}
 
 function TelemetryDisplay({
   latency,

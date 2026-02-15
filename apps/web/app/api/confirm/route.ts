@@ -4,7 +4,6 @@ import { ConfirmSubscription } from "@repo/email/templates/confirm-subscription"
 import { type NextRequest, NextResponse } from "next/server";
 import { generateToken } from "@/lib/token";
 
-// biome-ignore lint/style/noMagicNumbers: 24h in milliseconds
 const TOKEN_EXPIRY_MS = 1000 * 60 * 60 * 24;
 
 export async function POST(request: NextRequest) {

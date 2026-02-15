@@ -8,13 +8,12 @@ import {
   TooltipTrigger,
 } from "@repo/design-system/components/ui/tooltip";
 import { cn } from "@repo/design-system/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import useMeasure from "react-use-measure";
 
 const MAX_INITIAL_REACTIONS = 100;
 const VIEW_TRANSITION_DURATION = 0.27;
-// biome-ignore lint/style/noMagicNumbers: named easing curve values
 const VIEW_TRANSITION_EASE = [0.25, 1, 0.5, 1] as const;
 
 type Emoji = "\u{1F923}" | "\u{1F644}" | "\u{1F648}";
@@ -157,7 +156,7 @@ export function InsiderJokeDesktop() {
             ))}
           </div>
           <div className="relative col-span-6 mx-auto mb-4 w-full max-w-md rounded-3xl bg-white p-8 text-center shadow-lg">
-            <div className="-inset-0.5 absolute bg-linear-to-r from-blue-500 to-purple-600 opacity-30 blur" />
+            <div className="absolute -inset-0.5 bg-linear-to-r from-blue-500 to-purple-600 opacity-30 blur" />
             <div className="relative rounded-3xl bg-gray-100 py-8 text-center shadow-2xl ring-1 ring-gray-800">
               <motion.div
                 animate={{
@@ -263,7 +262,7 @@ function DefaultView({
               </span>
               <div className="relative h-4">
                 {userReaction === emoji && (
-                  <span className="-translate-x-1/2 absolute top-0 left-1/2 w-20 whitespace-nowrap text-blue-500 text-xs">
+                  <span className="absolute top-0 left-1/2 w-20 -translate-x-1/2 whitespace-nowrap text-blue-500 text-xs">
                     {label}
                   </span>
                 )}
@@ -507,7 +506,7 @@ function Headline({ children }: { children: React.ReactNode }) {
     >
       {children}
       <Toggle
-        className="-right-px -top-[1.44rem] absolute h-5 rounded-none border border-transparent bg-red-800 py-2.5 font-semibold text-white text-xs hover:bg-red-700 hover:text-white disabled:opacity-90 data-[state=on]:bg-red-100 data-[state=on]:text-accent-foreground"
+        className="absolute -top-[1.44rem] -right-px h-5 rounded-none border border-transparent bg-red-800 py-2.5 font-semibold text-white text-xs hover:bg-red-700 hover:text-white disabled:opacity-90 data-[state=on]:bg-red-100 data-[state=on]:text-accent-foreground"
         onPressedChange={setPressed}
         pressed={pressed}
         variant="outline"
@@ -529,7 +528,7 @@ function ParagraphElement({ children }: { children: React.ReactNode }) {
     >
       {children}
       <Toggle
-        className="-right-px -top-[1.44rem] absolute h-5 rounded-none border border-transparent bg-blue-800 py-2.5 font-semibold text-white text-xs hover:bg-blue-700 hover:text-white disabled:opacity-90 data-[state=on]:bg-blue-100 data-[state=on]:text-accent-foreground"
+        className="absolute -top-[1.44rem] -right-px h-5 rounded-none border border-transparent bg-blue-800 py-2.5 font-semibold text-white text-xs hover:bg-blue-700 hover:text-white disabled:opacity-90 data-[state=on]:bg-blue-100 data-[state=on]:text-accent-foreground"
         onPressedChange={setPressed}
         pressed={pressed}
         variant="outline"
@@ -554,7 +553,7 @@ function DivElement({ children }: { children: React.ReactNode }) {
     >
       {children}
       <Toggle
-        className="-right-px -top-[1.44rem] absolute h-5 rounded-none border border-transparent bg-green-800 py-2.5 font-semibold text-white text-xs hover:bg-green-700 hover:text-white disabled:opacity-90 data-[state=on]:bg-green-100 data-[state=on]:text-accent-foreground"
+        className="absolute -top-[1.44rem] -right-px h-5 rounded-none border border-transparent bg-green-800 py-2.5 font-semibold text-white text-xs hover:bg-green-700 hover:text-white disabled:opacity-90 data-[state=on]:bg-green-100 data-[state=on]:text-accent-foreground"
         onPressedChange={setPressed}
         pressed={pressed}
         variant="outline"
@@ -710,7 +709,7 @@ export function InsiderJokeMobile() {
   return (
     <div className="w-full bg-gray-900">
       <div
-        className="-mb-4 -space-x-4 sm:-space-x-6 flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="-mb-4 flex snap-x snap-mandatory -space-x-4 overflow-x-auto overscroll-x-contain scroll-smooth pb-4 [scrollbar-width:none] sm:-space-x-6 [&::-webkit-scrollbar]:hidden"
         ref={slideContainerRef}
       >
         {views.map((view, viewIndex) => (
@@ -736,7 +735,7 @@ export function InsiderJokeMobile() {
               </p>
             </div>
             <div className="relative col-span-6 mx-auto mb-4 w-full max-w-md rounded-3xl bg-white p-4 text-center shadow-lg">
-              <div className="-inset-0.5 absolute bg-linear-to-r from-blue-500 to-purple-600 opacity-30 blur" />
+              <div className="absolute -inset-0.5 bg-linear-to-r from-blue-500 to-purple-600 opacity-30 blur" />
               <div className="relative rounded-3xl bg-gray-100 px-6 py-8 text-center shadow-2xl ring-1 ring-gray-800">
                 {view.component({
                   onReaction: handleReaction,
@@ -765,7 +764,7 @@ export function InsiderJokeMobile() {
             }}
             type="button"
           >
-            <span className="-inset-x-1.5 -inset-y-3 absolute" />
+            <span className="absolute -inset-x-1.5 -inset-y-3" />
           </button>
         ))}
       </div>

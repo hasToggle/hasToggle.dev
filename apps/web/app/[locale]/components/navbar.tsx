@@ -73,7 +73,7 @@ function MobileNav({
           </div>
         ))}
       </div>
-      <div className="-translate-x-1/2 absolute left-1/2 w-screen">
+      <div className="absolute left-1/2 w-screen -translate-x-1/2">
         <div
           className={`absolute inset-x-0 top-0 border-t ${variant === "dark" ? "border-white/10" : "border-black/5"}`}
         />

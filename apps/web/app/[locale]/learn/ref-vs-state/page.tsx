@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@repo/design-system/components/ui/button";
-import { AnimatePresence, motion } from "framer-motion";
 import { ImageIcon, RefreshCw } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { parseAsString, useQueryState } from "nuqs";
 import { useRef, useState } from "react";
@@ -109,7 +109,7 @@ function ImageDemo({
         Synthetic delay: {FAKE_LOAD_DELAY_MS}ms
       </div>
       <div className="relative">
-        <div className="-inset-4 absolute rounded-3xl bg-linear-to-br from-white/5 to-transparent" />
+        <div className="absolute -inset-4 rounded-3xl bg-linear-to-br from-white/5 to-transparent" />
         <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-black/40">
           {isUseRef ? (
             <Image

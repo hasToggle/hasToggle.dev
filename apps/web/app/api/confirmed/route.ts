@@ -46,7 +46,6 @@ export async function GET(request: NextRequest) {
     });
 
     if (error) {
-      // biome-ignore lint/suspicious/noConsole: intentional error logging for Resend API failures
       console.error("Failed to add contact to Resend audience:", error);
     }
 

@@ -5,11 +5,8 @@ import Image from "next/image";
 /**
  * Common aspect ratio constants
  */
-// biome-ignore lint/style/noMagicNumbers: Aspect ratio constants by definition contain numeric ratios
 const ASPECT_RATIO_16_9 = 16 / 9;
-// biome-ignore lint/style/noMagicNumbers: Aspect ratio constants by definition contain numeric ratios
 const ASPECT_RATIO_4_3 = 4 / 3;
-// biome-ignore lint/style/noMagicNumbers: Aspect ratio constants by definition contain numeric ratios
 const ASPECT_RATIO_CINEMASCOPE = 2.35 / 1;
 
 /**

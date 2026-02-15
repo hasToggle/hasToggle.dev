@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@repo/design-system/lib/utils";
+import { ArrowRight } from "lucide-react";
 import {
   type HTMLMotionProps,
   type MotionValue,
@@ -8,8 +9,7 @@ import {
   useMotionValueEvent,
   useScroll,
   useSpring,
-} from "framer-motion";
-import { ArrowRight } from "lucide-react";
+} from "motion/react";
 import Image from "next/image";
 import NextLink from "next/link";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
@@ -194,7 +194,7 @@ export function Testimonials() {
           <Subheading>What to expect</Subheading>
           <Heading as="h3" className="mt-2">
             You will{" "}
-            <span className="-rotate-1 inline-block bg-ht-cyan-400/50 py-3 pr-2 pl-1 text-zinc-900">
+            <span className="inline-block -rotate-1 bg-ht-cyan-400/50 py-3 pr-2 pl-1 text-zinc-900">
               not enjoy
             </span>{" "}
             hasToggle if ...

@@ -2,7 +2,7 @@
 
 import { Button } from "@repo/design-system/components/ui/button";
 import { cn } from "@repo/design-system/lib/utils";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Image from "next/image";
 import type { Dispatch } from "react";
 import { Suspense, useCallback, useReducer, useState } from "react";
@@ -43,7 +43,7 @@ export function CounterDesktop() {
   const codeSnippets = getCodeSnippets(state.internalCount);
 
   return (
-    <div className="h-full rounded-[var(--radius)] bg-zinc-50 px-4 py-6 shadow-2xl ring-1 ring-black/10 sm:px-6">
+    <div className="h-full rounded-lg bg-zinc-50 px-4 py-6 shadow-2xl ring-1 ring-black/10 sm:px-6">
       <Boundary
         animateRerendering={false}
         color="default"
@@ -137,10 +137,10 @@ export function CounterDesktop() {
   );
 }
 
-type CounterContentProps = {
+interface CounterContentProps {
   state: DesktopState;
   dispatch: Dispatch<DesktopAction>;
-};
+}
 
 function CounterContent({ state, dispatch }: CounterContentProps) {
   return (
@@ -170,12 +170,12 @@ function CounterContent({ state, dispatch }: CounterContentProps) {
         >
           +1 {"\u{1F330}"}
         </Button>
-        <div className="min-h-[3rem] text-balance text-center font-light text-base italic">
+        <div className="min-h-12 text-balance text-center font-light text-base italic">
           {state.info}
         </div>
       </div>
 
-      <div className="xl:-mt-3 relative my-auto flex aspect-square w-72 shrink-0 flex-col justify-end overflow-hidden rounded-2xl ring-1 ring-black/10 sm:w-96">
+      <div className="relative my-auto flex aspect-square w-72 shrink-0 flex-col justify-end overflow-hidden rounded-2xl ring-1 ring-black/10 sm:w-96 xl:-mt-3">
         <Image
           alt="squirrel waiting"
           className="absolute inset-x-0 top-0 aspect-square w-full object-cover"

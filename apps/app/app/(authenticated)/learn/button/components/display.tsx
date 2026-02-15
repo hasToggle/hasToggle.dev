@@ -5,21 +5,21 @@ import clsx from "clsx";
 import type { Dispatch } from "react";
 import { Ping } from "@/components/ui/ping";
 
-type CounterState = {
+interface CounterState {
   count: number;
   internalCount: number;
   disabled: boolean;
   info: string;
-};
+}
 
-type CounterAction = {
+interface CounterAction {
   type: "updating" | "updated";
-};
+}
 
-type CounterDisplayProps = {
+interface CounterDisplayProps {
   state: CounterState;
   dispatch: Dispatch<CounterAction>;
-};
+}
 
 export function CounterDisplay({ state, dispatch }: CounterDisplayProps) {
   return (

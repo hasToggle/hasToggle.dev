@@ -1,6 +1,6 @@
 import type { Reducer } from "react";
 
-export type DesktopState = {
+export interface DesktopState {
   count: number;
   internalCount: number;
   disabled: boolean;
@@ -10,11 +10,11 @@ export type DesktopState = {
   label: string;
   animateRerendering: boolean;
   image: string;
-};
+}
 
-export type DesktopAction = {
+export interface DesktopAction {
   type: "updating" | "updated";
-};
+}
 
 export const initialDesktopState: DesktopState = {
   count: 0,
@@ -62,7 +62,7 @@ export const desktopCounterReducer: Reducer<DesktopState, DesktopAction> = (
   }
 };
 
-export type MobileState = {
+export interface MobileState {
   count: number;
   label: string;
   incrementDisabled: boolean;
@@ -71,10 +71,10 @@ export type MobileState = {
   paragraph: string;
   cta: string;
   image: string;
-};
-export type MobileAction = {
+}
+export interface MobileAction {
   type: "decrement" | "increment";
-};
+}
 
 export const initialMobileState: MobileState = {
   count: 0,

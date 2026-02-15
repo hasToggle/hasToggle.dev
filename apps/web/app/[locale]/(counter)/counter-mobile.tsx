@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@repo/design-system/components/ui/button";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Image from "next/image";
 import {
   type Dispatch,
@@ -50,7 +50,7 @@ export function CounterMobile() {
   const codeSnippets = getCodeSnippets(state.count);
 
   return (
-    <div className="mx-auto h-full max-w-2xl rounded-[var(--radius)] bg-zinc-50 px-4 py-6 shadow-2xl ring-1 ring-black/10 sm:px-6">
+    <div className="mx-auto h-full max-w-2xl rounded-lg bg-zinc-50 px-4 py-6 shadow-2xl ring-1 ring-black/10 sm:px-6">
       <Boundary
         animateRerendering={false}
         color="default"
@@ -98,11 +98,11 @@ export function CounterMobile() {
   );
 }
 
-type CounterContentProps = {
+interface CounterContentProps {
   state: MobileState;
   dispatch: Dispatch<MobileAction>;
   onButtonClick: () => void;
-};
+}
 
 function CounterContent({
   state,

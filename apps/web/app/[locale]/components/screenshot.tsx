@@ -20,7 +20,7 @@ export function Screenshot({
       )}
       style={{ "--width": width, "--height": height } as React.CSSProperties}
     >
-      <div className="-inset-[var(--padding)] absolute rounded-[calc(var(--radius)+var(--padding))] shadow-sm ring-1 ring-black/5 [--padding:0.5rem]" />
+      <div className="absolute -inset-[var(--padding)] rounded-[calc(var(--radius)+var(--padding))] shadow-sm ring-1 ring-black/5 [--padding:0.5rem]" />
       <Image
         alt=""
         className="h-full rounded-[var(--radius)] shadow-2xl ring-1 ring-black/10"

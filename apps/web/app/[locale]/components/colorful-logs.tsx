@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 
 declare global {
-  // biome-ignore lint/style/useConsistentTypeDefinitions: extending global Window interface
   interface Window {
     startGuessingGame: () => void;
     guess: (userGuess: number) => void;

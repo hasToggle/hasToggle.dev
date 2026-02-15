@@ -9,7 +9,7 @@ export function Testimonial() {
           <div className="-mt-96 lg:-mt-52">
             <div className="-m-2 rounded-4xl bg-white/15 shadow-[inset_0_0_2px_1px_#ffffff4d] ring-1 ring-black/5 max-lg:mx-auto max-lg:max-w-xs">
               <div className="rounded-4xl p-2 shadow-black/5 shadow-md">
-                <div className="-outline-offset-1 overflow-hidden rounded-3xl shadow-2xl outline outline-black/10">
+                <div className="overflow-hidden rounded-3xl shadow-2xl outline outline-black/10 -outline-offset-1">
                   <Image
                     alt=""
                     className="aspect-3/4 w-full object-cover"
@@ -24,7 +24,7 @@ export function Testimonial() {
           <div className="flex max-lg:mt-16 lg:col-span-2 lg:px-16">
             <figure className="mx-auto flex max-w-xl flex-col gap-16 max-lg:text-center">
               <blockquote>
-                <p className="before:-translate-x-full relative text-3xl text-white tracking-tight before:absolute before:content-['“'] after:absolute after:content-['”'] lg:text-4xl">
+                <p className="relative text-3xl text-white tracking-tight before:absolute before:-translate-x-full before:content-['“'] after:absolute after:content-['”'] lg:text-4xl">
                   With hasToggle, I am more confident than ever when tackling
                   tough challenges like cracking open a coconut.
                 </p>

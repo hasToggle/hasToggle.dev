@@ -1,7 +1,7 @@
-type CodeSnippet = {
+interface CodeSnippet {
   id: number;
   code: string;
-};
+}
 
 const CODE_ANIMATION_STEPS = {
   STATE_UPDATE: 3,

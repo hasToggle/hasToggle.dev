@@ -2,11 +2,11 @@ import "server-only";
 import { Liveblocks as LiveblocksNode } from "@liveblocks/node";
 import { keys } from "./keys";
 
-type AuthenticateOptions = {
+interface AuthenticateOptions {
   userId: string;
   orgId: string;
   userInfo: Liveblocks["UserMeta"]["info"];
-};
+}
 
 const secret = keys().LIVEBLOCKS_SECRET;
 

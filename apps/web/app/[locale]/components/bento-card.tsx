@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@repo/design-system/lib/utils";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Subheading } from "./text";
 
 export function BentoCard({
