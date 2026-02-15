@@ -2,6 +2,8 @@ import { withLogtail } from "@logtail/next";
 import { withSentryConfig } from "@sentry/nextjs";
 import { keys } from "./keys";
 
+const hasAuthToken = !!process.env.SENTRY_AUTH_TOKEN;
+
 export const sentryConfig: Parameters<typeof withSentryConfig>[1] = {
   org: keys().SENTRY_ORG,
   project: keys().SENTRY_PROJECT,
@@ -9,10 +11,14 @@ export const sentryConfig: Parameters<typeof withSentryConfig>[1] = {
   // Only print logs for uploading source maps in CI
   silent: !process.env.CI,
 
-  /*
-   * For all available options, see:
-   * https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-   */
+  // Disable source map uploads and releases when no auth token is available
+  sourcemaps: {
+    disable: !hasAuthToken,
+  },
+  release: {
+    create: hasAuthToken,
+  },
+  telemetry: hasAuthToken,
 
   // Upload a larger set of source maps for prettier stack traces (increases build time)
   widenClientFileUpload: true,
