@@ -12,7 +12,13 @@ import {
 } from "motion/react";
 import Image from "next/image";
 import NextLink from "next/link";
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import {
+  startTransition,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import useMeasure, { type RectReadOnly } from "react-use-measure";
 import { Container } from "./container";
 import { Heading, Subheading } from "./text";
@@ -175,8 +181,10 @@ export function Testimonials() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useMotionValueEvent(scrollX, "change", (x) => {
-    // biome-ignore lint/style/noNonNullAssertion: ref is always set when scroll events fire
-    setActiveIndex(Math.floor(x / scrollRef.current!.children[0].clientWidth));
+    startTransition(() => {
+      const containerWidth = scrollRef.current?.children[0].clientWidth ?? 1;
+      setActiveIndex(Math.floor(x / containerWidth));
+    });
   });
 
   function scrollTo(index: number) {

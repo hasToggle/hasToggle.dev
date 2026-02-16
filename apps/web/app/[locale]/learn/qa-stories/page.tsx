@@ -506,11 +506,11 @@ export default function QAStoriesLab() {
 
   const handleAddBug = (bugText: string) => {
     const newBug: BugEntry = { id: crypto.randomUUID(), text: bugText };
-    setBugsLogged([...bugsLogged, newBug]);
+    setBugsLogged((prev) => [...prev, newBug]);
   };
 
   const handleRemoveBug = (id: string) => {
-    setBugsLogged(bugsLogged.filter((bug) => bug.id !== id));
+    setBugsLogged((prev) => prev.filter((bug) => bug.id !== id));
   };
 
   const handleChallengeClick = () => {

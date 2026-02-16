@@ -325,10 +325,7 @@ export default function ToggleLab() {
   };
 
   const addLog = (text: string) => {
-    setTerminalOutput((prev) => [
-      ...prev,
-      { id: `${Date.now()}-${Math.random()}`, text },
-    ]);
+    setTerminalOutput((prev) => [...prev, { id: crypto.randomUUID(), text }]);
   };
 
   const handleClick = async () => {
