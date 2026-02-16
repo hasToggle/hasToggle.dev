@@ -1,7 +1,7 @@
 import { database } from "@repo/database";
 import { resend } from "@repo/email";
 import { parseError } from "@repo/observability/error";
-import { type NextRequest, NextResponse } from "next/server";
+import { after, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
 import { generateTokenHash } from "@/lib/token";
 
@@ -31,24 +31,26 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    if (!subscriber.emailVerified) {
-      await database.subscriber.update({
-        where: { id: subscriber.id },
-        data: {
-          emailVerified: new Date(),
-          tokenExpiresAt: null,
-        },
-      });
-    }
+    const updatePromise = subscriber.emailVerified
+      ? Promise.resolve()
+      : database.subscriber.update({
+          where: { id: subscriber.id },
+          data: {
+            emailVerified: new Date(),
+            tokenExpiresAt: null,
+          },
+        });
 
-    const { error } = await resend.contacts.create({
+    const contactPromise = resend.contacts.create({
       email: subscriber.email,
       unsubscribed: false,
       audienceId: env.RESEND_AUDIENCE_ID,
     });
 
+    const [, { error }] = await Promise.all([updatePromise, contactPromise]);
+
     if (error) {
-      parseError(error);
+      after(() => parseError(error));
     }
 
     return new Response(null, {
@@ -58,7 +60,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    parseError(error);
+    after(() => parseError(error));
     return NextResponse.json(
       { error: "An unexpected error occurred" },
       { status: 500 }

@@ -2,7 +2,7 @@ import { database } from "@repo/database";
 import { resend } from "@repo/email";
 import { ConfirmSubscription } from "@repo/email/templates/confirm-subscription";
 import { parseError } from "@repo/observability/error";
-import { type NextRequest, NextResponse } from "next/server";
+import { after, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
 import { generateToken } from "@/lib/token";
 
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
       message: "Confirm your subscription.",
     });
   } catch (error) {
-    parseError(error);
+    after(() => parseError(error));
     return NextResponse.json(
       {
         error: { message: "An unexpected error occurred", name: "ServerError" },

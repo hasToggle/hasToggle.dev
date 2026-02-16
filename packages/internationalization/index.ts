@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import type en from "./dictionaries/en.json";
 import languine from "./languine.json" with { type: "json" };
 
@@ -27,16 +28,18 @@ const dictionaries: Record<string, () => Promise<Dictionary>> =
 const isValidLocale = (locale: string): locale is Locale =>
   locales.includes(locale as Locale);
 
-export const getDictionary = async (locale: string): Promise<Dictionary> => {
-  const normalizedLocale = locale.split("-")[0];
+export const getDictionary = cache(
+  async (locale: string): Promise<Dictionary> => {
+    const normalizedLocale = locale.split("-")[0];
 
-  if (!isValidLocale(normalizedLocale)) {
-    return dictionaries.en();
-  }
+    if (!isValidLocale(normalizedLocale)) {
+      return dictionaries.en();
+    }
 
-  try {
-    return await dictionaries[normalizedLocale]();
-  } catch (_error) {
-    return dictionaries.en();
+    try {
+      return await dictionaries[normalizedLocale]();
+    } catch (_error) {
+      return dictionaries.en();
+    }
   }
-};
+);

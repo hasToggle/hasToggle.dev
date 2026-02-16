@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { CounterDesktop } from "./(counter)/counter-desktop";
 import { CounterMobile } from "./(counter)/counter-mobile";
 import { BentoCardWithState } from "./(curriculum-preview)/bento-card-with-state";
@@ -7,7 +8,11 @@ import { AnimatedEmojiTextBackground } from "./components/animated-text-backgrou
 import { BentoCard } from "./components/bento-card";
 import { BentoSection } from "./components/bento-section";
 import { ColorfulLogs } from "./components/colorful-logs";
-import { Confetti } from "./components/confetti";
+
+const Confetti = dynamic(() =>
+  import("./components/confetti").then((mod) => mod.Confetti)
+);
+
 import { Container } from "./components/container";
 import { FrequentlyAskedQuestions } from "./components/faqs";
 import { Footer } from "./components/footer";
@@ -69,10 +74,10 @@ function FeatureSection() {
           For beginners, squirrels, and everything in between 🐿️
         </Heading>
         <div
-          className="relative mt-10 aspect-[1216/768] [--radius:0.75rem] sm:mt-16"
+          className="relative mt-10 aspect-1216/768 [--radius:0.75rem] sm:mt-16"
           style={{ "--width": 1216, "--height": 768 } as React.CSSProperties}
         >
-          <div className="absolute -inset-[var(--padding)] rounded-[calc(var(--radius)+var(--padding))] shadow-sm ring-1 ring-black/5 [--padding:0.5rem]" />
+          <div className="absolute -inset-(--padding) rounded-[calc(var(--radius)+var(--padding))] shadow-sm ring-1 ring-black/5 [--padding:0.5rem]" />
           <div className="lg:hidden">
             <CounterMobile />
           </div>
@@ -104,7 +109,7 @@ function DarkBentoSection() {
             title="Learn to read and write data"
           />
           <BentoCard
-            className="!overflow-visible z-10 lg:col-span-2 lg:rounded-tr-4xl"
+            className="overflow-visible! z-10 lg:col-span-2 lg:rounded-tr-4xl"
             dark
             description="Follow a clear path to master the tools and skills for your web development journey."
             eyebrow="Developer Journey"
@@ -137,7 +142,7 @@ export default function MarketingPage() {
     <div className="overflow-hidden">
       <Hero />
       <main>
-        <div className="bg-gradient-to-b from-50% from-white to-gray-100 py-32">
+        <div className="bg-linear-to-b from-50% from-white to-gray-100 py-32">
           <FeatureSection />
           <BentoSection />
         </div>

@@ -1,13 +1,18 @@
-import { createHighlighter } from "shiki";
+import type { createHighlighter } from "shiki";
 
-let highlighterInstance: ReturnType<typeof createHighlighter> | null = null;
+type Highlighter = Awaited<ReturnType<typeof createHighlighter>>;
+
+let highlighterInstance: Promise<Highlighter> | null = null;
 
 export function initHighlighter() {
   if (!highlighterInstance) {
-    highlighterInstance = createHighlighter({
-      themes: ["ayu-dark"],
-      langs: ["jsx", "tsx"],
-    });
+    highlighterInstance = import("shiki").then(
+      ({ createHighlighter: create }) =>
+        create({
+          themes: ["ayu-dark"],
+          langs: ["jsx", "tsx"],
+        })
+    );
   }
   return highlighterInstance;
 }
