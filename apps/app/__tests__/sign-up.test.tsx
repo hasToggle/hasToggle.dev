@@ -10,6 +10,6 @@ test("Sign Up Page exports default component", () => {
 
 test("Sign Up Page has metadata", () => {
   expect(metadata).toBeDefined();
-  expect(metadata.title).toBe("Create an account | next-forge");
+  expect(metadata.title).toBe("Create an account | has-toggle");
   expect(metadata.description).toBe("Enter your details to get started.");
 });

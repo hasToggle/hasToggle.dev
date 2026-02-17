@@ -1,8 +1,8 @@
 {
-  "name": "next-forge",
+  "name": "has-toggle",
   "version": "5.2.1",
   "bin": {
-    "next-forge": "dist/index.js"
+    "has-toggle": "dist/index.js"
   },
   "files": [
     "dist/index.js"
