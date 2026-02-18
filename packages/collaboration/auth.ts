@@ -3,8 +3,8 @@ import { Liveblocks as LiveblocksNode } from "@liveblocks/node";
 import { keys } from "./keys";
 
 interface AuthenticateOptions {
-  userId: string;
   orgId: string;
+  userId: string;
   userInfo: Liveblocks["UserMeta"]["info"];
 }
 

@@ -6,8 +6,8 @@ import { CodeSkeleton } from "./skeleton";
 
 interface CounterCodeProps {
   code: Array<{ id: number; code: string }>;
-  pendingHighlighter: ReturnType<typeof createHighlighter>;
   onAnimationComplete: () => void;
+  pendingHighlighter: ReturnType<typeof createHighlighter>;
 }
 
 /**

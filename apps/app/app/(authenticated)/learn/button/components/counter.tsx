@@ -19,14 +19,14 @@ import { CodeSkeleton } from "./skeleton";
 import { getCounterSnippets } from "./snippets";
 
 interface CounterState {
+  animateRerendering: boolean;
+  aside: string;
   count: number;
-  internalCount: number;
   disabled: boolean;
   info: string;
-  title: string;
-  aside: string;
+  internalCount: number;
   label: string;
-  animateRerendering: boolean;
+  title: string;
 }
 
 interface CounterAction {

@@ -4,8 +4,8 @@ import { useEffect } from "react";
 
 declare global {
   interface Window {
-    startGuessingGame: () => void;
     guess: (userGuess: number) => void;
+    startGuessingGame: () => void;
   }
 }
 

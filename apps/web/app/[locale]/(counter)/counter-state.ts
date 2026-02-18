@@ -1,15 +1,15 @@
 import type { Reducer } from "react";
 
 export interface DesktopState {
-  count: number;
-  internalCount: number;
-  disabled: boolean;
-  info: string;
-  title: string;
-  aside: string;
-  label: string;
   animateRerendering: boolean;
+  aside: string;
+  count: number;
+  disabled: boolean;
   image: string;
+  info: string;
+  internalCount: number;
+  label: string;
+  title: string;
 }
 
 export interface DesktopAction {
@@ -64,13 +64,13 @@ export const desktopCounterReducer: Reducer<DesktopState, DesktopAction> = (
 
 export interface MobileState {
   count: number;
-  label: string;
-  incrementDisabled: boolean;
-  decrementDisabled: boolean;
-  title: string;
-  paragraph: string;
   cta: string;
+  decrementDisabled: boolean;
   image: string;
+  incrementDisabled: boolean;
+  label: string;
+  paragraph: string;
+  title: string;
 }
 export interface MobileAction {
   type: "decrement" | "increment";

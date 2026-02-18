@@ -10,8 +10,8 @@ const LINE_ANIMATION_INTERVAL_MS = 300;
 
 interface CodeDisplayProps {
   code: Array<{ id: number; code: string }>;
-  pendingHighlighter: Promise<Highlighter>;
   onAnimationComplete: () => void;
+  pendingHighlighter: Promise<Highlighter>;
 }
 
 export function CodeDisplay({

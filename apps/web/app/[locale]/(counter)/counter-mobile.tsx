@@ -99,9 +99,9 @@ export function CounterMobile() {
 }
 
 interface CounterContentProps {
-  state: MobileState;
   dispatch: Dispatch<MobileAction>;
   onButtonClick: () => void;
+  state: MobileState;
 }
 
 function CounterContent({

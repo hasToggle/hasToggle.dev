@@ -138,8 +138,8 @@ export function CounterDesktop() {
 }
 
 interface CounterContentProps {
-  state: DesktopState;
   dispatch: Dispatch<DesktopAction>;
+  state: DesktopState;
 }
 
 function CounterContent({ state, dispatch }: CounterContentProps) {

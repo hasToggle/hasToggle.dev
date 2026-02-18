@@ -26,15 +26,15 @@ type SystemCapability =
 type LabPreset = "minimal" | "modern" | "fragile" | "monolith";
 
 interface CapabilityConfig {
-  id: SystemCapability;
-  label: string;
   description: string;
   icon: React.ElementType;
+  id: SystemCapability;
   impact: {
     latency: number;
     ux: string;
     dx: string;
   };
+  label: string;
 }
 
 const CAPABILITIES: CapabilityConfig[] = [
@@ -202,9 +202,9 @@ interface ImpactItem {
 }
 
 interface AggregateImpact {
+  dx: ImpactItem[];
   latency: number;
   ux: ImpactItem[];
-  dx: ImpactItem[];
 }
 
 function TelemetryDisplay({

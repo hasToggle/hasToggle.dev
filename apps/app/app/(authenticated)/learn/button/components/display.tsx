@@ -7,9 +7,9 @@ import { Ping } from "@/components/ui/ping";
 
 interface CounterState {
   count: number;
-  internalCount: number;
   disabled: boolean;
   info: string;
+  internalCount: number;
 }
 
 interface CounterAction {
@@ -17,8 +17,8 @@ interface CounterAction {
 }
 
 interface CounterDisplayProps {
-  state: CounterState;
   dispatch: Dispatch<CounterAction>;
+  state: CounterState;
 }
 
 export function CounterDisplay({ state, dispatch }: CounterDisplayProps) {

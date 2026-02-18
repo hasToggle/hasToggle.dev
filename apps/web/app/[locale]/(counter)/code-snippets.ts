@@ -1,6 +1,6 @@
 interface CodeSnippet {
-  id: number;
   code: string;
+  id: number;
 }
 
 const CODE_ANIMATION_STEPS = {
