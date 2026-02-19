@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@auto-it/first-time-contributor": "^11.3.0",
-    "@biomejs/biome": "2.4.2",
+    "@biomejs/biome": "2.4.3",
     "@repo/typescript-config": "workspace:*",
     "bun-types": "latest",
     "@turbo/gen": "^2.8.9",
