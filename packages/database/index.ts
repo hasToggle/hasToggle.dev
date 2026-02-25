@@ -1,22 +1,24 @@
 import "server-only";
 
-import { neonConfig } from "@neondatabase/serverless";
-import { PrismaNeon } from "@prisma/adapter-neon";
-import ws from "ws";
-import { PrismaClient } from "./generated/client/client";
+import { MongoClient } from "mongodb";
 import { keys } from "./keys";
+import type { Subscriber } from "./types";
 
-const globalForPrisma = global as unknown as { prisma: PrismaClient };
+const globalForMongo = global as unknown as { mongo: MongoClient };
 
-neonConfig.webSocketConstructor = ws;
-
-const adapter = new PrismaNeon({ connectionString: keys().DATABASE_URL });
-
-export const database = globalForPrisma.prisma || new PrismaClient({ adapter });
+const client = globalForMongo.mongo || new MongoClient(keys().MONGODB_URI);
 
 if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = database;
+  globalForMongo.mongo = client;
 }
 
+const db = client.db();
+
+export const database = {
+  subscriber: db.collection<Subscriber>("subscribers"),
+  client,
+};
+
 // biome-ignore lint/performance/noBarrelFile: Package API re-export pattern for clean import surface
-export * from "./generated/client/client";
+export { createId } from "@paralleldrive/cuid2";
+export * from "./types";

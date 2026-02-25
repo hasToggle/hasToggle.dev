@@ -4,9 +4,9 @@ import { z } from "zod";
 export const keys = () =>
   createEnv({
     server: {
-      DATABASE_URL: z.url(),
+      MONGODB_URI: z.string().min(1),
     },
     runtimeEnv: {
-      DATABASE_URL: process.env.DATABASE_URL,
+      MONGODB_URI: process.env.MONGODB_URI,
     },
   });

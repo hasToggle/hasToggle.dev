@@ -1,4 +1,4 @@
-import { database } from "@repo/database";
+import { createId, database } from "@repo/database";
 import { resend } from "@repo/email";
 import { ConfirmSubscription } from "@repo/email/templates/confirm-subscription";
 import { parseError } from "@repo/observability/error";
@@ -27,18 +27,24 @@ export async function POST(request: NextRequest) {
 
     const { token, hash } = generateToken();
 
-    await database.subscriber.upsert({
-      where: { email },
-      update: {
-        token: hash,
-        tokenExpiresAt: new Date(Date.now() + TOKEN_EXPIRY_MS),
+    await database.subscriber.updateOne(
+      { email },
+      {
+        $set: {
+          token: hash,
+          tokenExpiresAt: new Date(Date.now() + TOKEN_EXPIRY_MS),
+        },
+        $setOnInsert: {
+          _id: createId(),
+          role: "user",
+          name: null,
+          emailVerified: null,
+          image: null,
+          createdAt: new Date(),
+        },
       },
-      create: {
-        email,
-        token: hash,
-        tokenExpiresAt: new Date(Date.now() + TOKEN_EXPIRY_MS),
-      },
-    });
+      { upsert: true }
+    );
 
     const { error } = await resend.emails.send({
       from: env.RESEND_FROM,

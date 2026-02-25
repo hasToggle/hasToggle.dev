@@ -18,7 +18,6 @@
     "boundaries": "turbo boundaries",
     "bump-deps": "bunx --bun npm-check-updates --deep -u && bun install",
     "bump-ui": "bunx --bun shadcn@latest add --all --overwrite -c packages/design-system",
-    "migrate": "cd packages/database && bunx --bun prisma format && bunx --bun prisma generate && bunx --bun prisma db push",
     "clean": "git clean -xdf node_modules",
     "update-docs": "npx @next/codemod@canary agents-md --output CLAUDE.md"
   },

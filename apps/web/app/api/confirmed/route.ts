@@ -17,11 +17,9 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const subscriber = await database.subscriber.findFirst({
-      where: {
-        token: generateTokenHash(token),
-        tokenExpiresAt: { gte: new Date() },
-      },
+    const subscriber = await database.subscriber.findOne({
+      token: generateTokenHash(token),
+      tokenExpiresAt: { $gte: new Date() },
     });
 
     if (!subscriber) {
@@ -33,13 +31,10 @@ export async function GET(request: NextRequest) {
 
     const updatePromise = subscriber.emailVerified
       ? Promise.resolve()
-      : database.subscriber.update({
-          where: { id: subscriber.id },
-          data: {
-            emailVerified: new Date(),
-            tokenExpiresAt: null,
-          },
-        });
+      : database.subscriber.updateOne(
+          { _id: subscriber._id },
+          { $set: { emailVerified: new Date(), tokenExpiresAt: null } }
+        );
 
     const contactPromise = resend.contacts.create({
       email: subscriber.email,
