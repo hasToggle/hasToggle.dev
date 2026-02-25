@@ -12,15 +12,19 @@ import {
   Text,
 } from "@react-email/components";
 
-const baseUrl = process.env.NEXT_PUBLIC_APEX_URL
+const fallbackBaseUrl = process.env.NEXT_PUBLIC_APEX_URL
   ? `https://${process.env.NEXT_PUBLIC_APEX_URL}`
   : "";
 
 interface ConfirmSubscriptionProps {
+  readonly baseUrl?: string;
   readonly token: string;
 }
 
-export const ConfirmSubscription = ({ token }: ConfirmSubscriptionProps) => (
+export const ConfirmSubscription = ({
+  token,
+  baseUrl = fallbackBaseUrl,
+}: ConfirmSubscriptionProps) => (
   <Html>
     <Head />
     <Preview>
@@ -77,6 +81,7 @@ export const ConfirmSubscription = ({ token }: ConfirmSubscriptionProps) => (
 
 ConfirmSubscription.PreviewProps = {
   token: "abc123",
+  baseUrl: "https://example.com",
 };
 
 export default ConfirmSubscription;

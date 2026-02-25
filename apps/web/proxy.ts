@@ -46,12 +46,23 @@ const arcjetMiddleware = async (request: NextRequest) => {
   }
 };
 
+// Skip i18n rewriting for routes outside [locale] (i18n middleware's own
+// matcher excludes these, but proxy.ts runs it for all matched routes via
+// createNEMO, causing rewrites to /en/... paths that don't exist)
+const i18nWithExclusions = (request: NextRequest) => {
+  const { pathname } = request.nextUrl;
+  if (pathname.startsWith("/api") || pathname.startsWith("/confirmed")) {
+    return;
+  }
+  return internationalizationMiddleware(request);
+};
+
 // Compose non-Clerk middleware with Nemo
 const composedMiddleware = createNEMO(
   {},
   {
     // biome-ignore lint/suspicious/noExplicitAny: Type cast needed due to Next.js type duplication in monorepo
-    before: [internationalizationMiddleware as any, arcjetMiddleware],
+    before: [i18nWithExclusions as any, arcjetMiddleware],
   }
 );
 

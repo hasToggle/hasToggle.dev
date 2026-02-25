@@ -50,7 +50,10 @@ export async function POST(request: NextRequest) {
       from: env.RESEND_FROM,
       to: [email],
       subject: "Important: Confirm your subscription",
-      react: ConfirmSubscription({ token }),
+      react: ConfirmSubscription({
+        token,
+        baseUrl: new URL(request.url).origin,
+      }),
     });
 
     if (error) {
