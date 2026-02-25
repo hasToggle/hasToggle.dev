@@ -75,13 +75,7 @@ export async function POST(request: NextRequest) {
     after(() => parseError(error));
     return NextResponse.json(
       {
-        error: {
-          message:
-            error instanceof Error
-              ? error.message
-              : "An unexpected error occurred",
-          name: error instanceof Error ? error.name : "ServerError",
-        },
+        error: { message: "An unexpected error occurred", name: "ServerError" },
       },
       { status: 500 }
     );
