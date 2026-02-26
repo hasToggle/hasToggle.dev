@@ -10,7 +10,7 @@
   "dependencies": {
     "@paralleldrive/cuid2": "^3.0.0",
     "@t3-oss/env-nextjs": "^0.13.8",
-    "mongodb": "^6.16.0",
+    "mongodb": "^7.0.0",
     "server-only": "^0.0.1",
     "zod": "^4.1.12"
   },
