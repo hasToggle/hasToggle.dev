@@ -46,7 +46,7 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "parse5": "^8.0.0",
-    "react-email/esbuild": "0.25.10"
+    "esbuild": "0.25.10"
   },
   "workspaces": [
     "apps/*",
