@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import { blog, legal } from "@repo/cms";
+import { getBlogSlugs, getLegalSlugs } from "@repo/cms";
 import type { MetadataRoute } from "next";
 import { env } from "@/env";
 
@@ -12,8 +12,8 @@ const pages = appFolders
   .filter((folder) => !folder.name.startsWith("."))
   .filter((folder) => folder.name !== "api")
   .map((folder) => folder.name);
-const blogs = (await blog.getPosts()).map((post) => post._slug);
-const legals = (await legal.getPosts()).map((post) => post._slug);
+const blogs = getBlogSlugs();
+const legals = getLegalSlugs();
 const url = new URL(env.NEXT_PUBLIC_WEB_URL);
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => [

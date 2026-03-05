@@ -1,0 +1,79 @@
+---
+title: "This is bananas: why you don't get arrays"
+description: "Finding the avocado 🥑 in an array illustrates a core computer science problem: search. Arrays don't remember storage locations — you provide items and they forget where things went."
+date: "2025-01-10"
+image: "/blog/this-is-bananas.png"
+imageAlt: "This is bananas: why you don't get arrays"
+authors:
+  - name: "Ernst Stolz"
+    avatar: "/avatars/ernst-stolz.png"
+    xUrl: "https://x.com/hastoggle"
+categories:
+  - "Arrays"
+---
+
+The array is among the first data structures you encounter when you first come in contact with coding. While they're relatively easy to wrap your head around **on the outside**, they get trickier on the inside when you think of methods like `filter`, `map`, or `find`. Let's see why that is.
+
+In every beginner tutorial, you will find arrays as part of the JavaScript basics and how to work with them.
+
+Let's take the `find` method and inspect how it works on the following array.
+
+```javascript
+const fruits = [🍑, 🍏, 🥑, 🍊, 🍉];
+```
+
+I'm looking for the avocado 🥑. Help me find it.
+
+Sure, you could just **look** at the array and say, just access it at index 2 like this `fruits[2]` and you'd be right. With some seasoning you'd enjoy your avocado.
+
+## But what if you couldn't see where the avocado is within the array?
+
+```javascript
+const fruits = [🙈, 🙈, 🙈, 🙈, 🙈]
+```
+
+The same fruits are still in the array, but now you're blindfolded and don't get to play peek-a-boo.
+
+I'm still hungry 😋 go find my avocado 🥑!
+
+```javascript
+const avocado = fruits.find((fruit) => fruit === 🥑);
+```
+
+All right, that was fast. Let's talk about it.
+
+## Finding the avocado 🥑 is the core problem in all of computer science
+
+When you think about hard computing problems you'll find all sorts of fascinating challenges — except the one I'm about to talk about.
+
+When I was a student myself, the professor told us that the **_single most important problem_** in computer science — was **_search._**
+
+And I was in disbelief.
+
+He was a funny professor and I figured he was joking. Search couldn't possibly be the most important problem. No way.
+
+Well.
+
+What you need to know about arrays, and what my younger self didn't yet know, is that the computer has no clue where it stores anything 😶.
+
+**You:** _Hey Array, take my avocado 🥑. Thanks._
+
+Instant amnesia. The array doesn't even remember **what** it just stored.
+
+**You:** _Erhm, Array, where's my 🥑?_
+
+**Array:** _Don't know. Go search for it._
+
+### That's how arrays work.
+
+Retrieving elements from a list requires you to loop through the list, one element at a time, and inspect each element **to see** 🐵 which one you're currently iterating over.
+
+The array is forgetful in the sense that it doesn't make note of where it stores any given item. **_You_** may be aware of where you stored an item, for example by pushing a pineapple 🍍 onto the list. Now it's the last item at the very end. **You know that.** But your knowledge is **_external_** to the array; it's not part of the array.
+
+All the array knows is how many entries it has in total. And if you want to find a specific item among all entries you need to **search** for that item.
+
+Every time you want to do anything with an individual item you'll have to loop through the list, look at the item you're currently sitting at and decide if that's the item you're looking for.
+
+So, did you find the 🥑?
+
+Keep it. It's yours.

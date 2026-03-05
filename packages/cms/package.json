@@ -3,23 +3,25 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "basehub dev",
-    "build": "basehub build",
-    "analyze": "basehub",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@t3-oss/env-nextjs": "^0.13.8",
-    "basehub": "^9.5.2",
+    "@mdx-js/mdx": "^3.1.1",
+    "@shikijs/rehype": "^4.0.1",
+    "github-slugger": "^2.0.0",
+    "gray-matter": "^4.0.3",
     "react": "^19.2.3",
-    "zod": "^4.1.12"
+    "rehype-slug": "^6.0.0",
+    "remark-gfm": "^4.0.1",
+    "shiki": "^4.0.0"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
+    "@types/mdx": "^2.0.13",
     "@types/node": "25.3.3",
     "@types/react": "^19.2.7",
-    "@types/react-dom": "^19.2.3",
+    "@types/react-dom": "19.2.3",
     "next": "^16.1.0"
   }
 }

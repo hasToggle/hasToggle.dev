@@ -1,4 +1,3 @@
-import { withCMS } from "@repo/cms/next-config";
 import { withToolbar } from "@repo/feature-flags/lib/toolbar";
 import { config, withAnalyzer } from "@repo/next-config";
 import { withLogging, withSentry } from "@repo/observability/next-config";
@@ -9,16 +8,10 @@ let nextConfig: NextConfig = withToolbar(withLogging(config));
 
 nextConfig.reactCompiler = true;
 
-nextConfig.images?.remotePatterns?.push(
-  {
-    protocol: "https",
-    hostname: "assets.basehub.com",
-  },
-  {
-    protocol: "https",
-    hostname: "picsum.photos",
-  }
-);
+nextConfig.images?.remotePatterns?.push({
+  protocol: "https",
+  hostname: "picsum.photos",
+});
 
 if (process.env.NODE_ENV === "production") {
   const redirects: NextConfig["redirects"] = async () => [
@@ -40,5 +33,4 @@ if (env.ANALYZE === "true") {
   nextConfig = withAnalyzer(nextConfig);
 }
 
-const finalConfig: NextConfig = withCMS(nextConfig);
-export default finalConfig;
+export default nextConfig;

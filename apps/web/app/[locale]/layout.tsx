@@ -1,4 +1,3 @@
-import { Toolbar as CMSToolbar } from "@repo/cms/components/toolbar";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import type { ReactNode } from "react";
 
@@ -16,7 +15,6 @@ const LocaleLayout = ({ children }: LocaleLayoutProperties) => (
       rel="stylesheet"
     />
     <NuqsAdapter>{children}</NuqsAdapter>
-    <CMSToolbar />
   </div>
 );
 
