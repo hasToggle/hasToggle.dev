@@ -4,16 +4,18 @@ import { withLogging, withSentry } from "@repo/observability/next-config";
 import type { NextConfig } from "next";
 import { env } from "@/env";
 
-let nextConfig: NextConfig = withToolbar(withLogging(config));
+export default async (): Promise<NextConfig> => {
+  let nextConfig: NextConfig = await withToolbar(withLogging(config));
 
-nextConfig.reactCompiler = true;
+  nextConfig.reactCompiler = true;
 
-if (env.VERCEL) {
-  nextConfig = withSentry(nextConfig);
-}
+  if (env.VERCEL) {
+    nextConfig = withSentry(nextConfig);
+  }
 
-if (env.ANALYZE === "true") {
-  nextConfig = withAnalyzer(nextConfig);
-}
+  if (env.ANALYZE === "true") {
+    nextConfig = withAnalyzer(nextConfig);
+  }
 
-export default nextConfig;
+  return nextConfig;
+};

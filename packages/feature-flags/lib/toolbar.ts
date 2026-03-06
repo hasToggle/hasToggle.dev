@@ -1,5 +1,9 @@
-import { withVercelToolbar } from "@vercel/toolbar/plugins/next";
 import { keys } from "../keys";
 
-export const withToolbar = (config: object) =>
-  keys().FLAGS_SECRET ? withVercelToolbar()(config) : config;
+export const withToolbar = async (config: object) => {
+  if (keys().FLAGS_SECRET) {
+    const { withVercelToolbar } = await import("@vercel/toolbar/plugins/next");
+    return withVercelToolbar()(config);
+  }
+  return config;
+};

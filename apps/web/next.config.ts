@@ -4,33 +4,35 @@ import { withLogging, withSentry } from "@repo/observability/next-config";
 import type { NextConfig } from "next";
 import { env } from "@/env";
 
-let nextConfig: NextConfig = withToolbar(withLogging(config));
+export default async (): Promise<NextConfig> => {
+  let nextConfig: NextConfig = await withToolbar(withLogging(config));
 
-nextConfig.reactCompiler = true;
+  nextConfig.reactCompiler = true;
 
-nextConfig.images?.remotePatterns?.push({
-  protocol: "https",
-  hostname: "picsum.photos",
-});
+  nextConfig.images?.remotePatterns?.push({
+    protocol: "https",
+    hostname: "picsum.photos",
+  });
 
-if (process.env.NODE_ENV === "production") {
-  const redirects: NextConfig["redirects"] = async () => [
-    {
-      source: "/legal",
-      destination: "/legal/privacy",
-      statusCode: 301,
-    },
-  ];
+  if (process.env.NODE_ENV === "production") {
+    const redirects: NextConfig["redirects"] = async () => [
+      {
+        source: "/legal",
+        destination: "/legal/privacy",
+        statusCode: 301,
+      },
+    ];
 
-  nextConfig.redirects = redirects;
-}
+    nextConfig.redirects = redirects;
+  }
 
-if (env.VERCEL) {
-  nextConfig = withSentry(nextConfig);
-}
+  if (env.VERCEL) {
+    nextConfig = withSentry(nextConfig);
+  }
 
-if (env.ANALYZE === "true") {
-  nextConfig = withAnalyzer(nextConfig);
-}
+  if (env.ANALYZE === "true") {
+    nextConfig = withAnalyzer(nextConfig);
+  }
 
-export default nextConfig;
+  return nextConfig;
+};
