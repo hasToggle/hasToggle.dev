@@ -51,7 +51,11 @@ const arcjetMiddleware = async (request: NextRequest) => {
 // createNEMO, causing rewrites to /en/... paths that don't exist)
 const i18nWithExclusions = (request: NextRequest) => {
   const { pathname } = request.nextUrl;
-  if (pathname.startsWith("/api") || pathname.startsWith("/confirmed")) {
+  if (
+    pathname.startsWith("/api") ||
+    pathname.startsWith("/confirmed") ||
+    pathname.startsWith("/.well-known")
+  ) {
     return;
   }
   return internationalizationMiddleware(request);
