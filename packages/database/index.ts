@@ -22,4 +22,5 @@ export const database = {
 
 // biome-ignore lint/performance/noBarrelFile: Package API re-export pattern for clean import surface
 export { createId } from "@paralleldrive/cuid2";
+export { ObjectId } from "mongodb";
 export * from "./types";
