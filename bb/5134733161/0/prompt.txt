@@ -1,0 +1,13 @@
+i just installed Entire.io and it created a settings.json inside.claude when i already have a settings.local.json. let's consolidate them into settings.json to have one source of truth
+
+---
+
+does this deny key mean i can configure claude code to never read my .envs ?
+
+---
+
+yes
+
+---
+
+give me a concise commit msg for the staged files
