@@ -1,0 +1,10 @@
+i installed entire.io and now vercel tries to build a preview from the checkpoints branch. how do i set it up such that it's ignored?
+
+---
+
+maybe i should place it in the exising script instead given what we already have?
+
+---
+
+the branch is called entire/checkpoints/v1
+does our check catch that? maybe not a strict equality but a startsWith on entire/checkpoints ?

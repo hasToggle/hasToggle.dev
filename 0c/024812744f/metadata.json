@@ -1,0 +1,28 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "0c024812744f",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "apps/api/scripts/skip-ci.js",
+    "apps/app/scripts/skip-ci.js",
+    "apps/storybook/scripts/skip-ci.js",
+    "apps/web/scripts/skip-ci.js"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0c/024812744f/0/metadata.json",
+      "transcript": "/0c/024812744f/0/full.jsonl",
+      "content_hash": "/0c/024812744f/0/content_hash.txt",
+      "prompt": "/0c/024812744f/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 26,
+    "cache_creation_tokens": 18336,
+    "cache_read_tokens": 497169,
+    "output_tokens": 3862,
+    "api_call_count": 17
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "0c024812744f",
+  "session_id": "dbf3ee5a-576d-4e98-a01f-9a0a964ec7e5",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-08T18:07:04.990753Z",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "apps/api/scripts/skip-ci.js",
+    "apps/app/scripts/skip-ci.js",
+    "apps/storybook/scripts/skip-ci.js",
+    "apps/web/scripts/skip-ci.js"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-6",
+  "turn_id": "dee58bc5abaf",
+  "token_usage": {
+    "input_tokens": 26,
+    "cache_creation_tokens": 18336,
+    "cache_read_tokens": 497169,
+    "output_tokens": 3862,
+    "api_call_count": 17
+  },
+  "session_metrics": {
+    "turn_count": 3
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-08T18:07:04.958503Z",
+    "agent_lines": 24,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 24,
+    "agent_percentage": 100
+  }
+}
