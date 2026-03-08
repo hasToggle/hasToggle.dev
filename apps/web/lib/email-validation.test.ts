@@ -45,7 +45,10 @@ describe("validateEmail", () => {
 
 describe("checkEmailDeliverability", () => {
   test("returns valid when no API key configured", async () => {
-    const result = await checkEmailDeliverability("test@obscure-domain.xyz", "");
+    const result = await checkEmailDeliverability(
+      "test@obscure-domain.xyz",
+      ""
+    );
     expect(result.valid).toBe(true);
   });
 

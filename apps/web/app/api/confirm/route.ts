@@ -4,6 +4,7 @@ import { ConfirmSubscription } from "@repo/email/templates/confirm-subscription"
 import { parseError } from "@repo/observability/error";
 import { after, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
+import { validateEmail } from "@/lib/email-validation";
 import { generateToken } from "@/lib/token";
 
 const TOKEN_EXPIRY_MS = 1000 * 60 * 60 * 24;
@@ -13,11 +14,21 @@ export async function POST(request: NextRequest) {
     const res = await request.json();
     const email = res.email;
 
-    if (!email || typeof email !== "string" || !email.includes("@")) {
+    const validation = await validateEmail(email, env.ABSTRACT_API_KEY);
+
+    if (!validation.valid) {
+      const messages: Record<string, string> = {
+        invalid_format: "Invalid email address provided",
+        disposable:
+          "This email address doesn't look quite right. Mind trying another one?",
+        undeliverable:
+          "This email address doesn't look quite right. Mind trying another one?",
+      };
+
       return NextResponse.json(
         {
           error: {
-            message: "Invalid email address provided",
+            message: messages[validation.reason] ?? "Invalid email address",
             name: "ValidationError",
           },
         },

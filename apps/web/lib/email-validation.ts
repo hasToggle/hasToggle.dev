@@ -28,7 +28,9 @@ const TRUSTED_DOMAINS = new Set([
 
 export function isDisposableEmail(email: string): boolean {
   const domain = email.split("@")[1]?.toLowerCase();
-  if (!domain) return false;
+  if (!domain) {
+    return false;
+  }
   return disposableSet.has(domain);
 }
 
@@ -39,7 +41,7 @@ export async function checkEmailDeliverability(
   const domain = email.split("@")[1]?.toLowerCase();
 
   // Skip API check for well-known domains or when no key configured
-  if (!apiKey || !domain || TRUSTED_DOMAINS.has(domain)) {
+  if (!(apiKey && domain) || TRUSTED_DOMAINS.has(domain)) {
     return { valid: true };
   }
 
@@ -79,7 +81,7 @@ export async function validateEmail(
   }
 
   if (apiKey) {
-    return checkEmailDeliverability(email, apiKey);
+    return await checkEmailDeliverability(email, apiKey);
   }
 
   return { valid: true };
