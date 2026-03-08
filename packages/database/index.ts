@@ -2,7 +2,7 @@ import "server-only";
 
 import { MongoClient } from "mongodb";
 import { keys } from "./keys";
-import type { Subscriber } from "./types";
+import type { Digest, Subscriber } from "./types";
 
 const globalForMongo = global as unknown as { mongo: MongoClient };
 
@@ -16,6 +16,7 @@ const db = client.db();
 
 export const database = {
   subscriber: db.collection<Subscriber>("subscribers"),
+  digest: db.collection<Digest>("digests"),
   client,
 };
 
