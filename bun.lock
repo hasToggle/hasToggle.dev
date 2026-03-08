@@ -51,11 +51,13 @@
     "apps/app": {
       "name": "app",
       "dependencies": {
+        "@react-email/render": "^2.0.4",
         "@repo/analytics": "workspace:*",
         "@repo/auth": "workspace:*",
         "@repo/collaboration": "workspace:*",
         "@repo/database": "workspace:*",
         "@repo/design-system": "workspace:*",
+        "@repo/email": "workspace:*",
         "@repo/feature-flags": "workspace:*",
         "@repo/next-config": "workspace:*",
         "@repo/notifications": "workspace:*",
