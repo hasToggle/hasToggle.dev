@@ -4,10 +4,8 @@ import { CounterDesktop } from "./(counter)/counter-desktop";
 import { CounterMobile } from "./(counter)/counter-mobile";
 import { BentoCardWithState } from "./(curriculum-preview)/bento-card-with-state";
 import LocalUnicorn from "./(storage)/local-unicorn";
-import { AnimatedEmojiTextBackground } from "./components/animated-text-background";
 import { BentoCard } from "./components/bento-card";
 import { BentoSection } from "./components/bento-section";
-import { ColorfulLogs } from "./components/colorful-logs";
 
 const Confetti = dynamic(() =>
   import("./components/confetti").then((mod) => mod.Confetti)
@@ -39,25 +37,19 @@ function Hero() {
   return (
     <div className="relative">
       <Gradient className="absolute inset-2 inset-ring inset-ring-black/5 bottom-0 rounded-4xl" />
-      <ColorfulLogs />
       <Container className="relative">
         <Navbar variant="dark" />
         <div className="pt-16 pb-24 sm:pt-24 sm:pb-32 md:pt-32 md:pb-48">
           <h1 className="max-w-64 font-display font-medium text-6xl/[0.9] text-ht-blue-200 tracking-tight sm:max-w-sm sm:text-8xl/[0.8] md:max-w-md md:text-9xl/[0.8] lg:max-w-full">
-            <span className="inline-flex flex-wrap items-baseline gap-x-2">
-              <span className="mr-3 whitespace-nowrap">It&apos;s time</span>
-              <span className="flex items-baseline whitespace-nowrap">
-                to <AnimatedEmojiTextBackground />
-              </span>
-            </span>
+            Build more. Type less.
           </h1>
           <p className="mt-8 max-w-lg font-medium text-gray-50/90 text-xl/7 sm:text-2xl/8">
-            Become a junior web developer and build your skills, from the first
-            line of code to crafting pro-level web apps with Next.js.
+            Learn to build production web apps by directing AI — not memorizing
+            syntax. hasToggle teaches you to orchestrate, review, and ship.
           </p>
           <div className="mt-12 flex flex-col gap-x-6 gap-y-4 sm:flex-row">
             <MarketingButton href="#digest">
-              Get coding tips every Monday
+              Get the weekly misconception buster
             </MarketingButton>
           </div>
         </div>
