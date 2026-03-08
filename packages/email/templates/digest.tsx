@@ -1,0 +1,157 @@
+import {
+  Body,
+  Button,
+  Container,
+  Head,
+  Heading,
+  Hr,
+  Html,
+  Img,
+  Link,
+  Preview,
+  Section,
+  Text,
+} from "@react-email/components";
+
+interface DigestEmailProps {
+  title: string;
+  misconception: string;
+  content: string;
+  series?: {
+    name: string;
+    part: number;
+  };
+  archiveUrl?: string;
+}
+
+const baseUrl = process.env.NEXT_PUBLIC_APEX_URL ?? "https://hastoggle.dev";
+
+export function DigestEmail({
+  title,
+  misconception,
+  content,
+  series,
+  archiveUrl,
+}: DigestEmailProps) {
+  return (
+    <Html>
+      <Head />
+      <Preview>{title}</Preview>
+      <Body style={main}>
+        <Container style={container}>
+          <Img
+            alt="hasToggle"
+            height={42}
+            src={`${baseUrl}/icon.png`}
+            width={42}
+          />
+          {series && (
+            <Text style={seriesLabel}>
+              {series.name} &mdash; Part {series.part}
+            </Text>
+          )}
+          <Heading style={heading}>{title}</Heading>
+          <Text style={misconceptionStyle}>
+            Misconception: &ldquo;{misconception}&rdquo;
+          </Text>
+          <Hr style={hr} />
+          <Text style={body}>{content}</Text>
+          {archiveUrl && (
+            <Section style={ctaSection}>
+              <Button href={archiveUrl} style={button}>
+                Read in the app
+              </Button>
+            </Section>
+          )}
+          <Hr style={hr} />
+          <Text style={footer}>
+            You&apos;re receiving this because you subscribed to the hasToggle
+            weekly digest.
+          </Text>
+        </Container>
+      </Body>
+    </Html>
+  );
+}
+
+DigestEmail.PreviewProps = {
+  title: "You don't need to learn to code",
+  misconception: "AI writes all the code for me",
+  content: "Here's why understanding how things work still matters...",
+  series: { name: "The AI Toolchain", part: 1 },
+  archiveUrl: "https://app.hastoggle.dev/digest/123",
+} satisfies DigestEmailProps;
+
+export default DigestEmail;
+
+// Styles — match existing template patterns
+const main = {
+  backgroundColor: "#f6f9fc",
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif',
+};
+
+const container = {
+  backgroundColor: "#ffffff",
+  border: "1px solid #f0f0f0",
+  borderRadius: "8px",
+  margin: "40px auto",
+  padding: "40px 48px",
+  maxWidth: "600px",
+};
+
+const heading = {
+  color: "#1a1a1a",
+  fontSize: "24px",
+  fontWeight: "700" as const,
+  lineHeight: "1.3",
+  margin: "16px 0",
+};
+
+const seriesLabel = {
+  color: "#6b7280",
+  fontSize: "12px",
+  fontWeight: "600" as const,
+  letterSpacing: "0.05em",
+  textTransform: "uppercase" as const,
+  margin: "24px 0 0",
+};
+
+const misconceptionStyle = {
+  color: "#6b7280",
+  fontSize: "16px",
+  fontStyle: "italic" as const,
+  margin: "0 0 16px",
+};
+
+const body = {
+  color: "#374151",
+  fontSize: "16px",
+  lineHeight: "1.6",
+};
+
+const hr = {
+  borderColor: "#e5e7eb",
+  margin: "24px 0",
+};
+
+const ctaSection = {
+  textAlign: "center" as const,
+  margin: "32px 0",
+};
+
+const button = {
+  backgroundColor: "#1a1a1a",
+  borderRadius: "6px",
+  color: "#ffffff",
+  fontSize: "14px",
+  fontWeight: "600" as const,
+  padding: "12px 24px",
+  textDecoration: "none",
+};
+
+const footer = {
+  color: "#9ca3af",
+  fontSize: "12px",
+  lineHeight: "1.5",
+};
