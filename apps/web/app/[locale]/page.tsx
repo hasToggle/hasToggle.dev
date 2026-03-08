@@ -12,9 +12,9 @@ import { Navbar } from "./components/navbar";
 import { Heading, Subheading } from "./components/text";
 
 export const metadata: Metadata = {
-  title: "hasToggle - It's time to switch on your coding skills!",
+  title: "hasToggle — Build more. Type less.",
   description:
-    "Level up your coding skills by learning modern web development.",
+    "Learn to build production web apps by directing AI. Weekly misconception-busting content for AI-empowered developers.",
 };
 
 function Hero() {
@@ -96,9 +96,9 @@ function About() {
           </Heading>
           <p className="mt-6 text-gray-600 text-lg leading-8 dark:text-gray-400">
             hasToggle is built on a simple idea: AI is the best thing that
-            happened to individual developers. It manages cognitive complexity so
-            you can focus on what matters — architecture, product decisions, and
-            shipping. You&apos;re not learning to type code. You&apos;re
+            happened to individual developers. It manages cognitive complexity
+            so you can focus on what matters — architecture, product decisions,
+            and shipping. You&apos;re not learning to type code. You&apos;re
             learning to build.
           </p>
           <p className="mt-4 text-gray-500 text-sm">
