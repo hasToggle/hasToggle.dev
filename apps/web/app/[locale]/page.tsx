@@ -1,31 +1,11 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
-import { CounterDesktop } from "./(counter)/counter-desktop";
-import { CounterMobile } from "./(counter)/counter-mobile";
-import { BentoCardWithState } from "./(curriculum-preview)/bento-card-with-state";
-import LocalUnicorn from "./(storage)/local-unicorn";
-import { BentoCard } from "./components/bento-card";
-import { BentoSection } from "./components/bento-section";
-
-const Confetti = dynamic(() =>
-  import("./components/confetti").then((mod) => mod.Confetti)
-);
-
 import { Container } from "./components/container";
 import { FrequentlyAskedQuestions } from "./components/faqs";
 import { Footer } from "./components/footer";
 import { Gradient } from "./components/gradient";
-import { Testimonial } from "./components/hazel-testimonial";
-import {
-  InsiderJokeDesktop,
-  InsiderJokeMobile,
-} from "./components/insider-joke";
-import { LinkedAvatars } from "./components/linked-avatars";
-import { LogoTimeline } from "./components/logo-timeline";
 import { MarketingButton } from "./components/marketing-button";
 import { Navbar } from "./components/navbar";
-import { Testimonials } from "./components/testimonials";
-import { Heading, Subheading } from "./components/text";
+import { Heading } from "./components/text";
 
 export const metadata: Metadata = {
   title: "hasToggle - It's time to switch on your coding skills!",
@@ -58,74 +38,33 @@ function Hero() {
   );
 }
 
-function FeatureSection() {
+function MisconceptionDemos() {
   return (
-    <div className="overflow-hidden">
-      <Container className="pb-24">
-        <Heading as="h2" className="max-w-3xl">
-          For beginners, squirrels, and everything in between 🐿️
-        </Heading>
-        <div
-          className="relative mt-10 aspect-1216/768 [--radius:0.75rem] sm:mt-16"
-          style={{ "--width": 1216, "--height": 768 } as React.CSSProperties}
-        >
-          <div className="absolute -inset-(--padding) rounded-[calc(var(--radius)+var(--padding))] shadow-sm ring-1 ring-black/5 [--padding:0.5rem]" />
-          <div className="lg:hidden">
-            <CounterMobile />
-          </div>
-          <div className="hidden lg:block">
-            <CounterDesktop />
-          </div>
-        </div>
+    <section>
+      <Container className="py-24">
+        <Heading as="h2">Misconception demos coming soon</Heading>
       </Container>
-    </div>
+    </section>
   );
 }
 
-function DarkBentoSection() {
+function About() {
   return (
-    <div className="mx-2 mt-2 rounded-4xl bg-gray-900 py-32">
-      <Container>
-        <Subheading dark>Curriculum</Subheading>
-        <Heading as="h3" className="mt-2 max-w-3xl" dark>
-          A curriculum that fuels curiosity and builds skills.
-        </Heading>
-
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-16 lg:grid-cols-6 lg:grid-rows-2">
-          <BentoCard
-            className="max-lg:rounded-t-4xl lg:col-span-4 lg:rounded-tl-4xl"
-            dark
-            description="Horses, unicorns, or just a simple list of numbers - learn about SQL and NoSQL databases and store anything you want."
-            eyebrow="Storage"
-            graphic={<LocalUnicorn />}
-            title="Learn to read and write data"
-          />
-          <BentoCard
-            className="overflow-visible! z-10 lg:col-span-2 lg:rounded-tr-4xl"
-            dark
-            description="Follow a clear path to master the tools and skills for your web development journey."
-            eyebrow="Developer Journey"
-            graphic={<LogoTimeline />}
-            title="Explore web technologies"
-          />
-          <BentoCard
-            className="lg:col-span-2 lg:rounded-bl-4xl"
-            dark
-            description="Discover the power of TailwindCSS to craft stunning, responsive designs effortlessly."
-            eyebrow="Styling Reinvented"
-            graphic={<LinkedAvatars />}
-            title="Master TailwindCSS"
-          />
-          <BentoCardWithState
-            className="max-lg:rounded-b-4xl lg:col-span-4 lg:rounded-br-4xl"
-            dark
-            description="At the heart of modern web development is JavaScript. It powers everything from the most basic web pages to the most complex web applications."
-            eyebrow="Language"
-            title="JavaScript"
-          />
-        </div>
+    <section>
+      <Container className="py-24">
+        <Heading as="h2">About section coming soon</Heading>
       </Container>
-    </div>
+    </section>
+  );
+}
+
+function DigestCTA() {
+  return (
+    <section>
+      <Container className="py-24">
+        <Heading as="h2">Digest CTA coming soon</Heading>
+      </Container>
+    </section>
   );
 }
 
@@ -134,37 +73,12 @@ export default function MarketingPage() {
     <div className="overflow-hidden">
       <Hero />
       <main>
-        <div className="bg-linear-to-b from-50% from-white to-gray-100 py-32">
-          <FeatureSection />
-          <BentoSection />
-        </div>
-        <DarkBentoSection />
-        <Testimonial />
-        <div className="mx-2 mt-2 rounded-4xl bg-gray-900 py-32">
-          <Container>
-            <Subheading dark>Be part of the conversation</Subheading>
-            <Heading as="h3" className="mt-2 max-w-3xl" dark>
-              Get insider jokes.
-            </Heading>
-            <p className="mt-4 text-gray-400 text-lg">
-              Ever tried explaining web development at a party? It's like
-              describing a circus where HTML is the ringmaster, CSS is the
-              makeup artist, and JavaScript is that one clown who won't stop
-              poking everything.
-            </p>
-            <div className="lg:hidden">
-              <InsiderJokeMobile />
-            </div>
-            <div className="hidden lg:block">
-              <InsiderJokeDesktop />
-            </div>
-          </Container>
-        </div>
+        <MisconceptionDemos />
+        <About />
+        <DigestCTA />
+        <FrequentlyAskedQuestions />
       </main>
-      <Testimonials />
-      <FrequentlyAskedQuestions />
       <Footer />
-      <Confetti />
     </div>
   );
 }
