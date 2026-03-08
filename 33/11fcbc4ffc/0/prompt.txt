@@ -1,0 +1,9 @@
+do not commit these docs. they only serve as temporary files. confirm and hand the conversation over to me before continuing.
+
+---
+
+Let's continue with the implementation.
+
+---
+
+launch subagents each in their respective worktrees (use the superpowers worktree skill) which themselves use specialized agents and subagents (also a superpowers skill) to implement the design plan. this session serves as the master session listening on them, orchestrating them, and them reporting back to us.
