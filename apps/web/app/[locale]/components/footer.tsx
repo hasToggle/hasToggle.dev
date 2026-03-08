@@ -10,15 +10,15 @@ function CallToAction() {
   return (
     <div className="relative pt-20 pb-16 text-center sm:py-24">
       <hgroup>
-        <Subheading>Get your nuts together</Subheading>
+        <Subheading>Stay sharp</Subheading>
         <p className="mt-6 font-medium text-3xl text-gray-950 tracking-tight sm:text-5xl">
-          Hazel is waiting for you.
+          One misconception, busted weekly.
           <br />
-          Sign up for the weekly digest today.
+          Sign up for the digest.
         </p>
       </hgroup>
       <p className="mx-auto mt-6 max-w-xs text-gray-500 text-sm/6">
-        Practical coding tips, every Monday, right in your inbox.
+        AI-empowered web development insights, every Monday.
       </p>
 
       <Digest />
@@ -152,8 +152,7 @@ export function Footer() {
               </div>
               <div>
                 <div className="py-3 text-center text-gray-500 text-sm/6">
-                  because cracking the code shouldn&apos;t drive you nuts
-                  {" \uD83D\uDC3F\uFE0F"}
+                  build more, type less
                 </div>
               </div>
               <div className="flex">
