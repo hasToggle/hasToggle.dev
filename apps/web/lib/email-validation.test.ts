@@ -1,5 +1,9 @@
 import { describe, expect, test } from "bun:test";
-import { isDisposableEmail, validateEmail } from "./email-validation";
+import {
+  checkEmailDeliverability,
+  isDisposableEmail,
+  validateEmail,
+} from "./email-validation";
 
 describe("isDisposableEmail", () => {
   test("rejects known disposable domains", () => {
@@ -35,6 +39,18 @@ describe("validateEmail", () => {
 
   test("accepts legitimate emails", async () => {
     const result = await validateEmail("test@gmail.com");
+    expect(result.valid).toBe(true);
+  });
+});
+
+describe("checkEmailDeliverability", () => {
+  test("returns valid when no API key configured", async () => {
+    const result = await checkEmailDeliverability("test@obscure-domain.xyz", "");
+    expect(result.valid).toBe(true);
+  });
+
+  test("returns valid for known good domains without calling API", async () => {
+    const result = await checkEmailDeliverability("test@gmail.com", "fake-key");
     expect(result.valid).toBe(true);
   });
 });
