@@ -3,6 +3,7 @@ import { CounterDesktop } from "./(counter)/counter-desktop";
 import { CounterMobile } from "./(counter)/counter-mobile";
 import { MisconceptionWrapper } from "./(demos)/misconception-wrapper";
 import { Container } from "./components/container";
+import { Digest } from "./components/digest";
 import { FrequentlyAskedQuestions } from "./components/faqs";
 import { Footer } from "./components/footer";
 import { Gradient } from "./components/gradient";
@@ -112,11 +113,19 @@ function About() {
 
 function DigestCTA() {
   return (
-    <section>
-      <Container className="py-24">
-        <Heading as="h2">Digest CTA coming soon</Heading>
-      </Container>
-    </section>
+    <Container className="py-24">
+      <div className="mx-auto max-w-2xl text-center" id="digest">
+        <Heading as="h3">One misconception, busted every week.</Heading>
+        <p className="mt-4 text-gray-600 text-lg dark:text-gray-400">
+          The hasToggle digest delivers a weekly misconception about AI and web
+          development — and shows you why it&apos;s wrong. Straight to your
+          inbox.
+        </p>
+        <div className="mt-8">
+          <Digest />
+        </div>
+      </div>
+    </Container>
   );
 }
 
