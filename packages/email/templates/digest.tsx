@@ -7,21 +7,20 @@ import {
   Hr,
   Html,
   Img,
-  Link,
   Preview,
   Section,
   Text,
 } from "@react-email/components";
 
 interface DigestEmailProps {
-  title: string;
-  misconception: string;
+  archiveUrl?: string;
   content: string;
+  misconception: string;
   series?: {
     name: string;
     part: number;
   };
-  archiveUrl?: string;
+  title: string;
 }
 
 const baseUrl = process.env.NEXT_PUBLIC_APEX_URL ?? "https://hastoggle.dev";

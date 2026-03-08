@@ -2,10 +2,10 @@ import Link from "next/link";
 
 interface DigestSummary {
   id: string;
-  title: string;
   misconception: string;
-  series?: { name: string; part: number };
   sentAt: Date | null;
+  series?: { name: string; part: number };
+  title: string;
 }
 
 interface DigestListProps {
@@ -47,7 +47,7 @@ export function DigestList({ digests }: DigestListProps) {
           <h2 className="mb-4 font-semibold text-lg">{seriesName}</h2>
           <div className="space-y-2">
             {entries.map((d) => (
-              <DigestCard key={d.id} digest={d} showPart />
+              <DigestCard digest={d} key={d.id} showPart />
             ))}
           </div>
         </div>
@@ -56,7 +56,7 @@ export function DigestList({ digests }: DigestListProps) {
       {standalone.length > 0 && (
         <div className="space-y-2">
           {standalone.map((d) => (
-            <DigestCard key={d.id} digest={d} />
+            <DigestCard digest={d} key={d.id} />
           ))}
         </div>
       )}
@@ -67,11 +67,14 @@ export function DigestList({ digests }: DigestListProps) {
 function DigestCard({
   digest,
   showPart,
-}: { digest: DigestSummary; showPart?: boolean }) {
+}: {
+  digest: DigestSummary;
+  showPart?: boolean;
+}) {
   return (
     <Link
-      href={`/digest/${digest.id}`}
       className="block rounded-lg border p-4 transition-colors hover:bg-accent"
+      href={`/digest/${digest.id}`}
     >
       <div className="flex items-start justify-between gap-4">
         <div>

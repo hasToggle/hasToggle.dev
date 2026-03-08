@@ -11,7 +11,9 @@ export async function generateMetadata({
 }: DigestDetailPageProps): Promise<Metadata> {
   const { id } = await params;
   const digest = await getDigestById(id);
-  if (!digest) return { title: "Not Found" };
+  if (!digest) {
+    return { title: "Not Found" };
+  }
   return {
     title: digest.title,
     description: digest.misconception,
@@ -35,9 +37,7 @@ export default async function DigestDetailPage({
           {digest.series.name} &mdash; Part {digest.series.part}
         </p>
       )}
-      <h1 className="mt-2 font-bold text-3xl tracking-tight">
-        {digest.title}
-      </h1>
+      <h1 className="mt-2 font-bold text-3xl tracking-tight">{digest.title}</h1>
       <p className="mt-2 text-lg text-muted-foreground italic">
         &ldquo;{digest.misconception}&rdquo;
       </p>

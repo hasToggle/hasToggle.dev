@@ -2,17 +2,17 @@ import type { ObjectId } from "mongodb";
 
 export interface Digest {
   _id: ObjectId;
-  title: string;
-  misconception: string;
   content: string;
+  createdAt: Date;
+  misconception: string;
+  scheduledFor: Date | null;
+  sentAt: Date | null;
   series?: {
     name: string;
     part: number;
   };
   status: "draft" | "scheduled" | "sent";
-  sentAt: Date | null;
-  scheduledFor: Date | null;
-  createdAt: Date;
+  title: string;
   updatedAt: Date;
 }
 
