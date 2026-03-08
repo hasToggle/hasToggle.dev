@@ -8,7 +8,7 @@ import { Footer } from "./components/footer";
 import { Gradient } from "./components/gradient";
 import { MarketingButton } from "./components/marketing-button";
 import { Navbar } from "./components/navbar";
-import { Heading } from "./components/text";
+import { Heading, Subheading } from "./components/text";
 
 export const metadata: Metadata = {
   title: "hasToggle - It's time to switch on your coding skills!",
@@ -86,11 +86,27 @@ function MisconceptionDemos() {
 
 function About() {
   return (
-    <section>
+    <div className="bg-gray-50 dark:bg-gray-900">
       <Container className="py-24">
-        <Heading as="h2">About section coming soon</Heading>
+        <div className="mx-auto max-w-2xl text-center">
+          <Subheading>About</Subheading>
+          <Heading as="h3" className="mt-2">
+            AI amplifies. It doesn&apos;t replace.
+          </Heading>
+          <p className="mt-6 text-gray-600 text-lg leading-8 dark:text-gray-400">
+            hasToggle is built on a simple idea: AI is the best thing that
+            happened to individual developers. It manages cognitive complexity so
+            you can focus on what matters — architecture, product decisions, and
+            shipping. You&apos;re not learning to type code. You&apos;re
+            learning to build.
+          </p>
+          <p className="mt-4 text-gray-500 text-sm">
+            Created by Eric — developer, educator, and believer in AI-empowered
+            individuals.
+          </p>
+        </div>
       </Container>
-    </section>
+    </div>
   );
 }
 
