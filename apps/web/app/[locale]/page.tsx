@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import { CounterDesktop } from "./(counter)/counter-desktop";
+import { CounterMobile } from "./(counter)/counter-mobile";
+import { MisconceptionWrapper } from "./(demos)/misconception-wrapper";
 import { Container } from "./components/container";
 import { FrequentlyAskedQuestions } from "./components/faqs";
 import { Footer } from "./components/footer";
@@ -40,11 +43,44 @@ function Hero() {
 
 function MisconceptionDemos() {
   return (
-    <section>
-      <Container className="py-24">
-        <Heading as="h2">Misconception demos coming soon</Heading>
-      </Container>
-    </section>
+    <div>
+      {/* Demo 1: React State */}
+      <MisconceptionWrapper
+        hook="AI writes the code so I don't need to understand it."
+        reality="AI helps you type code, but you still need to understand how things work. Watch how React re-runs your function to get updated values."
+      >
+        <div className="relative mt-10 aspect-1216/768">
+          <div className="lg:hidden">
+            <CounterMobile />
+          </div>
+          <div className="hidden lg:block">
+            <CounterDesktop />
+          </div>
+        </div>
+      </MisconceptionWrapper>
+
+      {/* Demo 2: Optimistic Updates — placeholder */}
+      <div className="bg-gray-900">
+        <MisconceptionWrapper
+          hook="The user can wait."
+          reality="Perceived quality comes from UX patterns like optimistic updates. AI can implement them — but you need to know to ask."
+        >
+          <p className="text-gray-400">Demo coming soon</p>
+        </MisconceptionWrapper>
+      </div>
+
+      {/* Demo 3: Just a Button — link to existing page */}
+      <MisconceptionWrapper
+        hook="It's just a button, how hard can it be?"
+        reality="A button is a full-stack concern: validation, optimistic UI, error handling, auth, and database access."
+      >
+        <p className="text-gray-500">
+          <a className="underline" href="/misconceptions/just-a-button">
+            Explore the full demo →
+          </a>
+        </p>
+      </MisconceptionWrapper>
+    </div>
   );
 }
 
