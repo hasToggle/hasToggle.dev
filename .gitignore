@@ -279,3 +279,6 @@ packages/database/generated
 .source
 # next-agents-md
 .next-docs/
+
+# worktrees
+.worktrees/
