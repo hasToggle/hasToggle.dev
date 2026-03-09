@@ -1,5 +1,5 @@
 // Email validation pipeline: format → disposable domain blocklist → Abstract API deliverability.
-// Each layer short-circuits so expensive checks only run when cheaper ones pass.
+// Each layer short-circuits on failure, so expensive checks only run after cheaper ones pass.
 
 import { log } from "@repo/observability/log";
 import disposableDomains from "disposable-email-domains";
@@ -9,9 +9,14 @@ const disposableSet = new Set(disposableDomains);
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+export type ValidationFailureReason =
+  | "invalid_format"
+  | "disposable"
+  | "undeliverable";
+
 export type ValidationResult =
   | { valid: true }
-  | { valid: false; reason: "invalid_format" | "disposable" | "undeliverable" };
+  | { valid: false; reason: ValidationFailureReason };
 
 const TRUSTED_DOMAINS = new Set([
   "gmail.com",
@@ -54,6 +59,9 @@ async function checkEmailDeliverability(
   const domain = email.split("@")[1]?.toLowerCase();
 
   if (!apiKey) {
+    log.warn(
+      "ABSTRACT_API_KEY is not configured — email deliverability checks are disabled"
+    );
     return { valid: true };
   }
 

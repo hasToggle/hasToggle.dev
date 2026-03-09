@@ -2,18 +2,19 @@ import { createId, database } from "@repo/database";
 import { resend } from "@repo/email";
 import { ConfirmSubscription } from "@repo/email/templates/confirm-subscription";
 import { parseError } from "@repo/observability/error";
+import { log } from "@repo/observability/log";
 import { after, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
-import { type ValidationResult, validateEmail } from "@/lib/email-validation";
+import {
+  type ValidationFailureReason,
+  validateEmail,
+} from "@/lib/email-validation";
 import { generateToken } from "@/lib/token";
 
 const TOKEN_EXPIRY_MS = 1000 * 60 * 60 * 24;
 
 // Vague messaging for disposable/undeliverable to avoid revealing rejection reason
-const VALIDATION_MESSAGES: Record<
-  Extract<ValidationResult, { valid: false }>["reason"],
-  string
-> = {
+const VALIDATION_MESSAGES: Record<ValidationFailureReason, string> = {
   invalid_format: "Invalid email address provided",
   disposable:
     "This email address doesn't look quite right. Mind trying another one?",
@@ -72,6 +73,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (error) {
+      log.error(`Failed to send confirmation email: ${JSON.stringify(error)}`);
       return NextResponse.json(
         {
           error: {

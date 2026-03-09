@@ -28,7 +28,9 @@ describe("validateEmail", () => {
   test("rejects invalid format", async () => {
     const result = await validateEmail("not-an-email");
     expect(result.valid).toBe(false);
-    expect(result.reason).toBe("invalid_format");
+    if (!result.valid) {
+      expect(result.reason).toBe("invalid_format");
+    }
   });
 
   test("rejects null and undefined", async () => {
@@ -41,7 +43,9 @@ describe("validateEmail", () => {
   test("rejects empty string", async () => {
     const result = await validateEmail("");
     expect(result.valid).toBe(false);
-    expect(result.reason).toBe("invalid_format");
+    if (!result.valid) {
+      expect(result.reason).toBe("invalid_format");
+    }
   });
 
   test("rejects malformed emails that contain @", async () => {
@@ -54,13 +58,13 @@ describe("validateEmail", () => {
   test("rejects disposable emails", async () => {
     const result = await validateEmail("test@mailinator.com");
     expect(result.valid).toBe(false);
-    expect(result.reason).toBe("disposable");
+    if (!result.valid) {
+      expect(result.reason).toBe("disposable");
+    }
   });
 
-  test("disposable check short-circuits before deliverability", async () => {
-    // A disposable email should be rejected without reaching the API layer
-    const result = await validateEmail("test@mailinator.com");
-    expect(result.valid).toBe(false);
-    expect(result.reason).toBe("disposable");
+  test("accepts valid email addresses", async () => {
+    const result = await validateEmail("user@example.com");
+    expect(result.valid).toBe(true);
   });
 });

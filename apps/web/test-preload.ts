@@ -1,3 +1,6 @@
+// Bun test preload: globally mock server-only packages that cannot be imported
+// in a test environment. ABSTRACT_API_KEY is intentionally empty so the
+// deliverability API layer is bypassed in all tests (fail-open behavior).
 import { mock } from "bun:test";
 
 mock.module("server-only", () => ({}));
@@ -26,4 +29,8 @@ mock.module("@repo/email/templates/confirm-subscription", () => ({
 
 mock.module("@repo/observability/error", () => ({
   parseError: () => undefined,
+}));
+
+mock.module("@repo/observability/log", () => ({
+  log: { info: () => undefined, warn: () => undefined, error: () => undefined },
 }));
