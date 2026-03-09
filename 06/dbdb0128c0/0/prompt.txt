@@ -1,0 +1,5 @@
+vercel still tries to build preview deployments with every commit
+
+---
+
+I am trying the custom command now.
