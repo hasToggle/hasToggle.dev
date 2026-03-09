@@ -9,12 +9,6 @@ if (commitMessage.includes("[skip ci]")) {
   process.exit(0);
 }
 
-// Skip builds for Entire.io checkpoints branches
-if (branch.startsWith("entire/checkpoints")) {
-  console.log("Skipping build for Entire.io checkpoints branch.");
-  process.exit(0);
-}
-
 // Skip preview deployments for Renovate branches
 if (branch.startsWith("renovate/") && process.env.VERCEL_ENV === "preview") {
   console.log("Skipping preview build for Renovate branch.");
