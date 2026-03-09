@@ -6,6 +6,7 @@
     "build": "next build",
     "start": "next start",
     "analyze": "ANALYZE=true npm run build",
+    "test": "bun test",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
@@ -27,6 +28,7 @@
     "@sentry/nextjs": "^10.22.0",
     "@t3-oss/env-nextjs": "^0.13.8",
     "date-fns": "^4.1.0",
+    "disposable-email-domains": "^1.0.62",
     "lucide-react": "^0.577.0",
     "motion": "^12.23.24",
     "next": "16.1.6",
