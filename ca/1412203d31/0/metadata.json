@@ -1,0 +1,38 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "ca1412203d31",
+  "session_id": "a38ea1d3-5ef4-4611-8c62-afaf672b3925",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-09T10:40:30.50835Z",
+  "branch": "feature/email-validation",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "apps/web/app/api/confirm/route.ts",
+    "apps/web/env.ts",
+    "apps/web/lib/email-validation.ts",
+    "apps/web/package.json",
+    "apps/web/test-preload.ts"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-6",
+  "turn_id": "bc103a69b8d7",
+  "token_usage": {
+    "input_tokens": 78,
+    "cache_creation_tokens": 75359,
+    "cache_read_tokens": 3947581,
+    "output_tokens": 22316,
+    "api_call_count": 59
+  },
+  "session_metrics": {
+    "turn_count": 8
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-09T10:40:30.35182Z",
+    "agent_lines": 45,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 45,
+    "agent_percentage": 100
+  }
+}
