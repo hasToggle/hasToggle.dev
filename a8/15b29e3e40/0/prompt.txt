@@ -1,0 +1,1 @@
+actually, let's remove the fallback since i don't believe this is useful to keep if that case will likely never happen
