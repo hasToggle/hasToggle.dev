@@ -61,9 +61,6 @@ async function checkEmailDeliverability(
   const domain = email.split("@")[1]?.toLowerCase();
 
   if (!apiKey) {
-    log.warn(
-      "ABSTRACT_API_KEY is not configured — email deliverability checks are disabled"
-    );
     return { valid: true };
   }
 
