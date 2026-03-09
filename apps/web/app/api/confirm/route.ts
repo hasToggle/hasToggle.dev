@@ -89,6 +89,14 @@ export async function POST(request: NextRequest) {
       message: "Confirm your subscription.",
     });
   } catch (error) {
+    if (error instanceof SyntaxError) {
+      return NextResponse.json(
+        {
+          error: { message: "Invalid request body", name: "ValidationError" },
+        },
+        { status: 400 }
+      );
+    }
     after(() => parseError(error));
     return NextResponse.json(
       {

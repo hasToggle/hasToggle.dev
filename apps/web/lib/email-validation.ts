@@ -53,7 +53,9 @@ export function isDisposableEmail(email: string): boolean {
 async function checkEmailDeliverability(
   email: string
 ): Promise<ValidationResult> {
-  // Lazy import to avoid triggering env validation at module load (enables unit testing)
+  // Dynamic import: Bun's mock.module does not intercept @/ path aliases in
+  // transitive dynamic imports, so the test preload sets process.env fallbacks
+  // to keep the real env.ts from failing when loaded outside the mock scope.
   const { env } = await import("@/env");
   const apiKey = env.ABSTRACT_API_KEY;
   const domain = email.split("@")[1]?.toLowerCase();
@@ -76,7 +78,7 @@ async function checkEmailDeliverability(
     );
 
     if (!response.ok) {
-      log.warn(
+      log.error(
         `Email deliverability API returned HTTP ${response.status} for domain "${domain}". Failing open.`
       );
       return { valid: true };
@@ -86,7 +88,7 @@ async function checkEmailDeliverability(
     const parsed = AbstractApiResponse.safeParse(raw);
 
     if (!parsed.success) {
-      log.warn(
+      log.error(
         `Unexpected Abstract API response shape for domain "${domain}": ${JSON.stringify(raw)}`
       );
       return { valid: true };
@@ -98,15 +100,26 @@ async function checkEmailDeliverability(
 
     return { valid: true };
   } catch (error) {
-    log.error(
-      `Email deliverability check failed for domain "${domain}": ${error instanceof Error ? error.message : String(error)}`
-    );
+    if (error instanceof DOMException && error.name === "TimeoutError") {
+      log.warn(
+        `Email deliverability check timed out for domain "${domain}". Failing open.`
+      );
+    } else {
+      log.error(
+        `Email deliverability check failed for domain "${domain}": ${error instanceof Error ? error.message : String(error)}`
+      );
+    }
     return { valid: true };
   }
 }
 
 export async function validateEmail(email: string): Promise<ValidationResult> {
-  if (!email || typeof email !== "string" || !EMAIL_RE.test(email)) {
+  if (
+    !email ||
+    typeof email !== "string" ||
+    email.length > 254 ||
+    !EMAIL_RE.test(email)
+  ) {
     return { valid: false, reason: "invalid_format" };
   }
 
