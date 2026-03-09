@@ -1,0 +1,35 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "c0aaf6a367c4",
+  "session_id": "ddf7a2d5-dc55-41b4-af76-bd86235ea032",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-09T12:02:34.145655Z",
+  "branch": "feature/email-validation",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "apps/web/lib/email-deliverability.test.ts",
+    "apps/web/lib/email-validation.ts"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-6",
+  "turn_id": "ea5ec38d7cc7",
+  "token_usage": {
+    "input_tokens": 33,
+    "cache_creation_tokens": 41216,
+    "cache_read_tokens": 1083110,
+    "output_tokens": 10429,
+    "api_call_count": 25
+  },
+  "session_metrics": {
+    "turn_count": 3
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-09T12:02:34.049091Z",
+    "agent_lines": 95,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 95,
+    "agent_percentage": 100
+  }
+}

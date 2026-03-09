@@ -1,0 +1,9 @@
+/review this branch/pr
+
+---
+
+/receiving-code-review apply applicable fixes to the issues surfaced after deeply exploring the context and re-assessing each issue. what's more, the dynamic/static import should both work with bun; you can test it but leave the lazy import since it's the right choice for this implementation where the abstract api is only called upon in some cases and so the env import is only needed in a subset of cases.
+
+---
+
+warnedMissingKey is a closure. what's the flow again? does this closure actually take effect? my concern is that we're dealing with serverless functions where each invocation is stateless by design.
