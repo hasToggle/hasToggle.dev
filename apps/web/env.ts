@@ -19,7 +19,7 @@ export const env = createEnv({
     rateLimit(),
   ],
   server: {
-    ABSTRACT_API_KEY: z.string().optional().default(""),
+    ABSTRACT_API_KEY: z.string().default(""),
   },
   client: {},
   runtimeEnv: {

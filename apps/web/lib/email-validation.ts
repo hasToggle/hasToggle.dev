@@ -1,8 +1,15 @@
+// Email validation pipeline: format → disposable domain blocklist → Abstract API deliverability.
+// Each layer short-circuits so expensive checks only run when cheaper ones pass.
+
+import { log } from "@repo/observability/log";
 import disposableDomains from "disposable-email-domains";
+import { z } from "zod";
 
 const disposableSet = new Set(disposableDomains);
 
-type ValidationResult =
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+export type ValidationResult =
   | { valid: true }
   | { valid: false; reason: "invalid_format" | "disposable" | "undeliverable" };
 
@@ -26,6 +33,10 @@ const TRUSTED_DOMAINS = new Set([
   "mail.com",
 ]);
 
+const AbstractApiResponse = z.object({
+  deliverability: z.enum(["DELIVERABLE", "UNDELIVERABLE", "RISKY", "UNKNOWN"]),
+});
+
 export function isDisposableEmail(email: string): boolean {
   const domain = email.split("@")[1]?.toLowerCase();
   if (!domain) {
@@ -34,45 +45,60 @@ export function isDisposableEmail(email: string): boolean {
   return disposableSet.has(domain);
 }
 
-export async function checkEmailDeliverability(
-  email: string,
-  apiKey: string
+async function checkEmailDeliverability(
+  email: string
 ): Promise<ValidationResult> {
+  // Lazy import to avoid triggering env validation at module load (enables unit testing)
+  const { env } = await import("@/env");
+  const apiKey = env.ABSTRACT_API_KEY;
   const domain = email.split("@")[1]?.toLowerCase();
 
-  // Skip API check for well-known domains or when no key configured
-  if (!(apiKey && domain) || TRUSTED_DOMAINS.has(domain)) {
+  if (!apiKey) {
+    return { valid: true };
+  }
+
+  if (!domain || TRUSTED_DOMAINS.has(domain)) {
     return { valid: true };
   }
 
   try {
     const response = await fetch(
-      `https://emailvalidation.abstractapi.com/v1/?api_key=${apiKey}&email=${encodeURIComponent(email)}`
+      `https://emailvalidation.abstractapi.com/v1/?api_key=${apiKey}&email=${encodeURIComponent(email)}`,
+      { signal: AbortSignal.timeout(5000) }
     );
 
     if (!response.ok) {
-      // Fail open — don't block signups if the API is down
+      log.warn(
+        `Email deliverability API returned HTTP ${response.status} for domain "${domain}". Failing open.`
+      );
       return { valid: true };
     }
 
-    const data = await response.json();
+    const raw = await response.json();
+    const parsed = AbstractApiResponse.safeParse(raw);
 
-    if (data.deliverability === "UNDELIVERABLE") {
+    if (!parsed.success) {
+      log.warn(
+        `Unexpected Abstract API response shape for domain "${domain}": ${JSON.stringify(raw)}`
+      );
+      return { valid: true };
+    }
+
+    if (parsed.data.deliverability === "UNDELIVERABLE") {
       return { valid: false, reason: "undeliverable" };
     }
 
     return { valid: true };
-  } catch {
-    // Fail open on network errors
+  } catch (error) {
+    log.error(
+      `Email deliverability check failed for domain "${domain}": ${error instanceof Error ? error.message : String(error)}`
+    );
     return { valid: true };
   }
 }
 
-export async function validateEmail(
-  email: string,
-  apiKey?: string
-): Promise<ValidationResult> {
-  if (!email || typeof email !== "string" || !email.includes("@")) {
+export async function validateEmail(email: string): Promise<ValidationResult> {
+  if (!email || typeof email !== "string" || !EMAIL_RE.test(email)) {
     return { valid: false, reason: "invalid_format" };
   }
 
@@ -80,9 +106,5 @@ export async function validateEmail(
     return { valid: false, reason: "disposable" };
   }
 
-  if (apiKey) {
-    return await checkEmailDeliverability(email, apiKey);
-  }
-
-  return { valid: true };
+  return await checkEmailDeliverability(email);
 }

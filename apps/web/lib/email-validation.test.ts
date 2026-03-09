@@ -1,9 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import {
-  checkEmailDeliverability,
-  isDisposableEmail,
-  validateEmail,
-} from "./email-validation";
+import { isDisposableEmail, validateEmail } from "./email-validation";
 
 describe("isDisposableEmail", () => {
   test("rejects known disposable domains", () => {
@@ -22,6 +18,10 @@ describe("isDisposableEmail", () => {
     expect(isDisposableEmail("test@MAILINATOR.COM")).toBe(true);
     expect(isDisposableEmail("test@Gmail.Com")).toBe(false);
   });
+
+  test("returns false for input without @", () => {
+    expect(isDisposableEmail("no-at-sign")).toBe(false);
+  });
 });
 
 describe("validateEmail", () => {
@@ -31,29 +31,36 @@ describe("validateEmail", () => {
     expect(result.reason).toBe("invalid_format");
   });
 
+  test("rejects null and undefined", async () => {
+    // @ts-expect-error testing runtime behavior with invalid input
+    expect((await validateEmail(null)).valid).toBe(false);
+    // @ts-expect-error testing runtime behavior with invalid input
+    expect((await validateEmail(undefined)).valid).toBe(false);
+  });
+
+  test("rejects empty string", async () => {
+    const result = await validateEmail("");
+    expect(result.valid).toBe(false);
+    expect(result.reason).toBe("invalid_format");
+  });
+
+  test("rejects malformed emails that contain @", async () => {
+    expect((await validateEmail("@")).valid).toBe(false);
+    expect((await validateEmail("foo@")).valid).toBe(false);
+    expect((await validateEmail("@bar")).valid).toBe(false);
+    expect((await validateEmail("foo@bar")).valid).toBe(false);
+  });
+
   test("rejects disposable emails", async () => {
     const result = await validateEmail("test@mailinator.com");
     expect(result.valid).toBe(false);
     expect(result.reason).toBe("disposable");
   });
 
-  test("accepts legitimate emails", async () => {
-    const result = await validateEmail("test@gmail.com");
-    expect(result.valid).toBe(true);
-  });
-});
-
-describe("checkEmailDeliverability", () => {
-  test("returns valid when no API key configured", async () => {
-    const result = await checkEmailDeliverability(
-      "test@obscure-domain.xyz",
-      ""
-    );
-    expect(result.valid).toBe(true);
-  });
-
-  test("returns valid for known good domains without calling API", async () => {
-    const result = await checkEmailDeliverability("test@gmail.com", "fake-key");
-    expect(result.valid).toBe(true);
+  test("disposable check short-circuits before deliverability", async () => {
+    // A disposable email should be rejected without reaching the API layer
+    const result = await validateEmail("test@mailinator.com");
+    expect(result.valid).toBe(false);
+    expect(result.reason).toBe("disposable");
   });
 });

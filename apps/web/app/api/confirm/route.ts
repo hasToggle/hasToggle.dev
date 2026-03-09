@@ -4,31 +4,35 @@ import { ConfirmSubscription } from "@repo/email/templates/confirm-subscription"
 import { parseError } from "@repo/observability/error";
 import { after, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
-import { validateEmail } from "@/lib/email-validation";
+import { type ValidationResult, validateEmail } from "@/lib/email-validation";
 import { generateToken } from "@/lib/token";
 
 const TOKEN_EXPIRY_MS = 1000 * 60 * 60 * 24;
+
+// Vague messaging for disposable/undeliverable to avoid revealing rejection reason
+const VALIDATION_MESSAGES: Record<
+  Extract<ValidationResult, { valid: false }>["reason"],
+  string
+> = {
+  invalid_format: "Invalid email address provided",
+  disposable:
+    "This email address doesn't look quite right. Mind trying another one?",
+  undeliverable:
+    "This email address doesn't look quite right. Mind trying another one?",
+};
 
 export async function POST(request: NextRequest) {
   try {
     const res = await request.json();
     const email = res.email;
 
-    const validation = await validateEmail(email, env.ABSTRACT_API_KEY);
+    const validation = await validateEmail(email);
 
     if (!validation.valid) {
-      const messages: Record<string, string> = {
-        invalid_format: "Invalid email address provided",
-        disposable:
-          "This email address doesn't look quite right. Mind trying another one?",
-        undeliverable:
-          "This email address doesn't look quite right. Mind trying another one?",
-      };
-
       return NextResponse.json(
         {
           error: {
-            message: messages[validation.reason] ?? "Invalid email address",
+            message: VALIDATION_MESSAGES[validation.reason],
             name: "ValidationError",
           },
         },
