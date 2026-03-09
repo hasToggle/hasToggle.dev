@@ -1,0 +1,37 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "9978f0b1eb29",
+  "session_id": "6dd78de3-ea93-49b2-a614-373b16fdb716",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-09T12:18:12.18837Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "apps/api/vercel.json",
+    "apps/app/vercel.json",
+    "apps/storybook/vercel.json",
+    "apps/web/vercel.json"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-6",
+  "turn_id": "cf536970f9e4",
+  "token_usage": {
+    "input_tokens": 18,
+    "cache_creation_tokens": 26574,
+    "cache_read_tokens": 372929,
+    "output_tokens": 5615,
+    "api_call_count": 12
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-09T12:18:12.156934Z",
+    "agent_lines": 20,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 20,
+    "agent_percentage": 100
+  }
+}
