@@ -7,14 +7,18 @@
     "dev": "email dev --port 3003 --dir ../../packages/email/templates",
     "export": "email export --dir ../../packages/email/templates",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "digest": "bun run scripts/digest.ts",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
     "@react-email/components": "1.0.8",
     "@react-email/preview-server": "^5.0.0",
+    "@react-email/render": "^2.0.4",
     "@repo/email": "workspace:*",
+    "mongodb": "^7.1.0",
     "react": "^19.2.3",
-    "react-email": "5.2.9"
+    "react-email": "5.2.9",
+    "resend": "^6.9.3"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",

@@ -1,3 +1,21 @@
+import type { ObjectId } from "mongodb";
+
+export interface Digest {
+  _id: ObjectId;
+  content: string;
+  createdAt: Date;
+  misconception: string;
+  scheduledFor: Date | null;
+  sentAt: Date | null;
+  series?: {
+    name: string;
+    part: number;
+  };
+  status: "draft" | "scheduled" | "sent";
+  title: string;
+  updatedAt: Date;
+}
+
 export interface Subscriber {
   _id: string;
   createdAt: Date | null;
