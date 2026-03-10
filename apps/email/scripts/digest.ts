@@ -1,3 +1,5 @@
+import { render } from "@react-email/render";
+import { DigestEmail } from "@repo/email/templates/digest";
 import { MongoClient, ObjectId } from "mongodb";
 
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -143,6 +145,15 @@ async function handleSend() {
 
   console.log(`Sending to ${subscribers.length} subscribers...`);
 
+  const html = await render(
+    DigestEmail({
+      content: digest.content,
+      misconception: digest.misconception,
+      series: digest.series,
+      title: digest.title,
+    })
+  );
+
   const emails = subscribers.map((s) => s.email);
   const resendFrom = process.env.RESEND_FROM ?? "noreply@hastoggle.dev";
   const { error } = await resend.batch.send(
@@ -150,7 +161,7 @@ async function handleSend() {
       from: resendFrom,
       to,
       subject: digest.title,
-      html: `<h1>${digest.title}</h1><p><em>Misconception: "${digest.misconception}"</em></p><hr/><div>${digest.content}</div>`,
+      html,
     }))
   );
 

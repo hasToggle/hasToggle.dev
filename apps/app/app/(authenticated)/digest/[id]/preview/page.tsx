@@ -1,4 +1,5 @@
 import { render } from "@react-email/render";
+import { auth } from "@repo/auth/server";
 import { database, ObjectId } from "@repo/database";
 import { DigestEmail } from "@repo/email/templates/digest";
 import { notFound } from "next/navigation";
@@ -8,6 +9,11 @@ interface PreviewPageProps {
 }
 
 export default async function DigestPreviewPage({ params }: PreviewPageProps) {
+  const { has } = await auth();
+  if (!has({ role: "org:admin" })) {
+    notFound();
+  }
+
   const { id } = await params;
 
   const digest = await database.digest.findOne({
