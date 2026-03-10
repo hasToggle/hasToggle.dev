@@ -1,0 +1,38 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "6e1ae487eced",
+  "session_id": "8cc5ce69-8a25-44d6-afba-1256c35442fe",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-10T10:47:44.225374Z",
+  "branch": "feature/digest-system",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "apps/app/app/(authenticated)/digest/[id]/preview/page.tsx",
+    "apps/email/package.json",
+    "apps/email/scripts/digest.ts",
+    "apps/web/package.json",
+    "apps/web/scripts/digest.ts",
+    "bun.lock"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "5e19d31a6239",
+  "token_usage": {
+    "input_tokens": 18,
+    "cache_creation_tokens": 26405,
+    "cache_read_tokens": 578776,
+    "output_tokens": 6518,
+    "api_call_count": 16
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-10T10:47:44.195888Z",
+    "agent_lines": 251,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 251,
+    "agent_percentage": 100
+  }
+}

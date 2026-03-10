@@ -1,0 +1,30 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "6e1ae487eced",
+  "strategy": "manual-commit",
+  "branch": "feature/digest-system",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "apps/app/app/(authenticated)/digest/[id]/preview/page.tsx",
+    "apps/email/package.json",
+    "apps/email/scripts/digest.ts",
+    "apps/web/package.json",
+    "apps/web/scripts/digest.ts",
+    "bun.lock"
+  ],
+  "sessions": [
+    {
+      "metadata": "/6e/1ae487eced/0/metadata.json",
+      "transcript": "/6e/1ae487eced/0/full.jsonl",
+      "content_hash": "/6e/1ae487eced/0/content_hash.txt",
+      "prompt": ""
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 18,
+    "cache_creation_tokens": 26405,
+    "cache_read_tokens": 578776,
+    "output_tokens": 6518,
+    "api_call_count": 16
+  }
+}
