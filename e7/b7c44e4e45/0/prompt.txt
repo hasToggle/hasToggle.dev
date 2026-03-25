@@ -1,0 +1,9 @@
+i am going to merge main into this branch in order to have you resolve merge conflicts. the goal is to preserve changes from both branches. you will propose solutions to each conflict before applying the fix. also, explore the changes on this branch and the incoming changes in order to get a comprehensive understanding. confirm you understand.
+
+---
+
+there you go, your turn
+
+---
+
+yes
