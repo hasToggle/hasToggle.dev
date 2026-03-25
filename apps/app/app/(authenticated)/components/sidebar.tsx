@@ -45,6 +45,7 @@ import {
   LifeBuoyIcon,
   MapIcon,
   MoreHorizontalIcon,
+  NewspaperIcon,
   PieChartIcon,
   SendIcon,
   Settings2Icon,
@@ -128,6 +129,12 @@ const data = {
           url: "#",
         },
       ],
+    },
+    {
+      title: "Digest",
+      url: "/digest",
+      icon: NewspaperIcon,
+      items: [],
     },
     {
       title: "Settings",
