@@ -6,6 +6,7 @@
     "build": "next build",
     "start": "next start",
     "analyze": "ANALYZE=true npm run build",
+    "test": "bun test",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
@@ -27,9 +28,10 @@
     "@sentry/nextjs": "^10.22.0",
     "@t3-oss/env-nextjs": "^0.13.8",
     "date-fns": "^4.1.0",
-    "lucide-react": "^0.577.0",
+    "disposable-email-domains": "^1.0.62",
+    "lucide-react": "^1.0.0",
     "motion": "^12.23.24",
-    "next": "16.1.6",
+    "next": "16.2.1",
     "nuqs": "^2.8.5",
     "react": "^19.2.3",
     "react-canvas-confetti": "^2.0.7",
@@ -43,12 +45,12 @@
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4.1.16",
-    "@types/node": "25.3.5",
+    "@types/node": "25.5.0",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "babel-plugin-react-compiler": "^1.0.0",
     "tailwindcss": "^4.1.16",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.0"
   },
   "overrides": {
     "@types/react": "19.2.14",
