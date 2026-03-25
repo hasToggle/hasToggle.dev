@@ -1,0 +1,131 @@
+pushed and tried deploying but the build failed with this:
+
+16:06:26.447 Running build in Washington, D.C., USA (East) – iad1
+16:06:26.447 Build machine configuration: 4 cores, 8 GB
+16:06:26.549 Cloning github.com/hasToggle/hasToggle.dev (Branch: main, Commit: c76ea51)
+16:06:27.159 Cloning completed: 610.000ms
+16:06:34.916 Restored build cache from previous deployment (W1NJ4RSUxGq74T8fwpgSpUDfoNR9)
+16:06:35.055 Running "node scripts/skip-ci.js"
+16:06:45.417 npm warn exec The following package was not found and will be installed: turbo-ignore@2.8.20
+16:06:45.883 ≫   "turbo-ignore" is deprecated. Use Vercel's built-in project skipping instead.
+16:06:45.884 ≫   Learn more: https://vercel.com/docs/monorepos#skipping-unaffected-projects
+16:06:45.884 
+16:06:45.884 ≫   Using Turborepo to determine if this project is affected by the commit...
+16:06:45.884 
+16:06:45.886 ≫   Inferred "web" as workspace from "package.json"
+16:06:45.886 ≫   Inferred turbo version "^2.8.9" from "package.json"
+16:06:45.886 ≫   Using "build" as the task from
+16:06:45.891 ≫   Found previous deployment ("87d877555b226b3d63b979cae2268e63e4f0d14c") for "web" on branch "main"
+16:06:45.891 ≫   Analyzing results of `npx -y turbo@^2.8.9 run build --filter="web...[87d877555b226b3d63b979cae2268e63e4f0d14c]" --dry=json`
+16:06:55.667 ≫   This commit affects "web"
+16:06:55.667 ✓ Proceeding with deployment
+16:06:55.884 Running "vercel build"
+16:06:59.491 Vercel CLI 50.35.0
+16:06:59.569 > Detected Turbo. Adjusting default settings...
+16:06:59.717 Running "install" command: `bun install`...
+16:06:59.753 bun install v1.3.6 (d530ed99)
+16:07:03.826 
+16:07:03.827 + typescript@6.0.2
+16:07:03.827 + @rescale/nemo@2.1.1
+16:07:03.827 + @sentry/nextjs@10.42.0
+16:07:03.827 + @t3-oss/env-nextjs@0.13.10
+16:07:03.827 + lucide-react@1.0.1
+16:07:03.827 + next@16.2.1
+16:07:03.827 + nuqs@2.8.9
+16:07:03.827 
+16:07:03.827 118 packages installed [3.99s]
+16:07:03.855 Detected Next.js version: 16.2.1
+16:07:03.855 Running "turbo run build"
+16:07:04.233 • Packages in scope: web
+16:07:04.233 build in 1 packages
+16:07:04.233 • Remote caching enabled
+16:07:04.369 web:test: cache miss, executing 738d8f5f9c6e64c7
+16:07:04.371 web:test: $ bun test
+16:07:04.374 web:test: bun test v1.3.6 (d530ed99)
+16:07:04.410 web:test: 
+16:07:04.410 web:test: lib/email-deliverability.test.ts:
+16:07:04.545 web:test: (pass) email deliverability (Abstract API) > skips API call for trusted domains [3.35ms]
+16:07:04.547 web:test: (pass) email deliverability (Abstract API) > rejects undeliverable emails [2.42ms]
+16:07:04.548 web:test: (pass) email deliverability (Abstract API) > accepts deliverable emails [0.21ms]
+16:07:04.548 web:test: (pass) email deliverability (Abstract API) > accepts RISKY emails (fail open) [0.22ms]
+16:07:04.548 web:test: (pass) email deliverability (Abstract API) > fails open on HTTP error [0.25ms]
+16:07:04.549 web:test: (pass) email deliverability (Abstract API) > fails open on unexpected response shape [0.84ms]
+16:07:04.550 web:test: (pass) email deliverability (Abstract API) > fails open on nwork error [0.83ms]
+16:07:04.550 web:test: (pass) email deliverability (Abstract API) > fails open on timeout [0.18ms]
+16:07:04.550 web:test: 
+16:07:04.550 web:test: lib/email-validation.test.ts:
+16:07:04.551 web:test: (pass) isDisposableEmail > rejects known disposable domains [0.05ms]
+16:07:04.552 web:test: (pass) isDisposableEmail > accepts legitimate domains [0.04ms]
+16:07:04.552 web:test: (pass) isDisposableEmail > is case-insensitive [0.03ms]
+16:07:04.552 web:test: (pass) isDisposableEmail > returns false for input without @ [0.02ms]
+16:07:04.552 web:test: (pass) validateEmail > rejects invalid format [0.11ms]
+16:07:04.552 web:test: (pass) validateEmail > rejects null and undefined [0.12ms]
+16:07:04.552 web:test: (pass) validateEmail > rejects empty string [0.09ms]
+16:07:04.552 web:test: (pass) validateEmail > rejects malformed emails that contain @ [0.13ms]
+16:07:04.552 web:test: (pass) validateEmail > rejects disposable emails [0.09ms]
+16:07:04.552 web:test: (pass) validateEmail > accepts valid email addresses [0.19ms]
+16:07:04.553 web:test: 
+16:07:04.553 web:test: app/api/confirm/route.test.ts:
+16:07:04.616 web:test: (pass) /api/confirm > rejects disposable email addresses [3.19ms]
+16:07:04.617 web:test: (pass) /api/confirm > rejects invalid email format [0.31ms]
+16:07:04.617 web:test: 
+16:07:04.617 web:test:  20 pass
+16:07:04.617 web:test:  0 fail
+16:07:04.617 web:test:  35 expect() calls
+16:07:04.617 web:test: Ran 20 tests across 3 files. [242.00ms]
+16:07:04.727 web:build: cache miss, executing eccae3c41cb39425
+16:07:04.729 web:build: $ next build
+16:07:05.823 web:build: ▲ Next.js 16.2.1 (Turbopack)
+16:07:05.823 web:build: - Experiments (use with caution):
+16:07:05.824 web:build:   · clientTraceMetadata
+16:07:05.824 web:build: 
+16:07:05.861 web:build:   Creating an optimized production build ...
+16:07:38.342 web:build: ✓ Compiled successfully in 31.7s
+16:07:38.343 web:build:   Running next.config.js provided runAfterProductionCompile ...
+16:07:38.492 web:build: ✓ Completed runAfterProduction in 151ms
+16:07:38.513 web:build:   Running TypeScript ...
+16:07:48.591 web:build:   Finished TypeScript in 10.1s ...
+16:07:48.593 web:build:   Collecting page data using 3 workers ...
+16:07:50.170 web:build:   Generating static pages using 3 workers (0/7) ...
+16:07:50.212 web:build:   Generating static pages using 3 workers (1/7) 
+16:07:50.795 web:build:   Generating static pages using 3 workers (3/7) 
+16:07:51.062 web:build:   Generating static pages using 3 workers (5/7) 
+16:07:51.062 web:build: ✓ Generating static pages using 3 workers (7/7) in 892ms
+16:07:51.069 web:build:   Finalizing page optimization ...
+16:07:51.175 web:build: {
+16:07:51.175 web:build:   appOutputs: [
+16:07:51.175 web:build:     '/_not-found',
+16:07:51.175 web:build:     '/_global-error',
+16:07:51.175 web:build:     '/.well-known/vercel/flags',
+16:07:51.176 web:build:     '/[locale]/blog/[slug]',
+16:07:51.176 web:build:     '/[locale]/blog',
+16:07:51.176 web:build:     '/[locale]/contact',
+16:07:51.176 web:build:     '/[locale]/lrn/qa-stories',
+16:07:51.176 web:build:     '/[locale]/learn/ref-vs-state',
+16:07:51.176 web:build:     '/[locale]/legal/[slug]',
+16:07:51.176 web:build:     '/[locale]/misconceptions/just-a-button',
+16:07:51.176 web:build:     '/[locale]',
+16:07:51.176 web:build:     '/[locale]/pricing',
+16:07:51.176 web:build:     '/[locale]/sitemap.xml',
+16:07:51.176 web:build:     '/api/confirm',
+16:07:51.176 web:build:     '/api/confirmed',
+16:07:51.176 web:build:     '/confirmed'
+16:07:51.176 web:build:   ],
+16:07:51.176 web:build:   pageOutputs: []
+16:07:51.176 web:build: }
+16:07:51.679 web:build: 
+16:07:51.679 web:build: > Build error occurred
+16:07:51.682 web:build: Error: Invariant: failed to find source route /[locale]/apple-icon.png for prerender /[locale]/apple-icon.png
+16:07:51.682 web:build:     at ignore-listed frames
+16:07:51.778 web:build: error: script "build" exited with code 1
+16:07:51.779 web:build: ERROR: command finished with error: command (/vercel/path0/apps/web) /bun1/bun run build exited (1)
+16:07:51.780 web#build: command (/vercel/path0/apps/web) /bun1/bun run build exited (1)
+16:07:51.781 
+16:07:51.782   Tasks:    1 successful, 2 total
+16:07:51.782  Cached:    0 cached, 2 total
+16:07:51.782    Time:    47.874s 
+16:07:51.782 Summary:    /vercel/path0/.turbo/runs/3BRUFMphQaCiFJxuV39hYdS4Ky9.json
+16:07:51.782  Failed:    web#build
+16:07:51.783 
+16:07:51.805  ERROR  run failed: command  exited (1)
+16:07:51.821 Error: Command "turbo run build" exited with 1

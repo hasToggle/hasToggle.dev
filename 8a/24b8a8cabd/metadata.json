@@ -1,0 +1,28 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "8a24b8a8cabd",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "apps/web/app/[locale]/apple-icon.png",
+    "apps/web/app/[locale]/opengraph-image.png",
+    "apps/web/app/apple-icon.png",
+    "apps/web/app/opengraph-image.png"
+  ],
+  "sessions": [
+    {
+      "metadata": "/8a/24b8a8cabd/0/metadata.json",
+      "transcript": "/8a/24b8a8cabd/0/full.jsonl",
+      "content_hash": "/8a/24b8a8cabd/0/content_hash.txt",
+      "prompt": "/8a/24b8a8cabd/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 198,
+    "cache_creation_tokens": 9353,
+    "cache_read_tokens": 936189,
+    "output_tokens": 2824,
+    "api_call_count": 10
+  }
+}
