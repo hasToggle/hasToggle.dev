@@ -1,0 +1,55 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "cc7685c377b1",
+  "session_id": "8e8f995d-80f3-4548-9ceb-7aba8386646c",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-25T15:05:51.821289Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "apps/api/tsconfig.json",
+    "apps/app/tsconfig.json",
+    "apps/storybook/tsconfig.json",
+    "apps/web/tsconfig.json",
+    "packages/ai/tsconfig.json",
+    "packages/analytics/tsconfig.json",
+    "packages/auth/tsconfig.json",
+    "packages/cms/tsconfig.json",
+    "packages/collaboration/tsconfig.json",
+    "packages/database/tsconfig.json",
+    "packages/design-system/tsconfig.json",
+    "packages/email/tsconfig.json",
+    "packages/feature-flags/tsconfig.json",
+    "packages/internationalization/tsconfig.json",
+    "packages/next-config/tsconfig.json",
+    "packages/notifications/tsconfig.json",
+    "packages/observability/tsconfig.json",
+    "packages/payments/tsconfig.json",
+    "packages/security/tsconfig.json",
+    "packages/seo/tsconfig.json",
+    "packages/storage/tsconfig.json",
+    "packages/webhooks/tsconfig.json"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-6[1m]",
+  "turn_id": "d115bc5c8142",
+  "token_usage": {
+    "input_tokens": 48,
+    "cache_creation_tokens": 296595,
+    "cache_read_tokens": 1564082,
+    "output_tokens": 8740,
+    "api_call_count": 26
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-25T15:05:51.753233Z",
+    "agent_lines": 0,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 0,
+    "agent_percentage": 0
+  }
+}

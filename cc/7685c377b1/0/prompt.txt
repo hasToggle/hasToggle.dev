@@ -1,0 +1,147 @@
+i just pulled various changes made by renovate bot.
+
+git pull
+remote: Enumerating objects: 244, done.
+remote: Counting objects: 100% (91/91), done.
+remote: Compressing objects: 100% (11/11), done.
+remote: Total 244 (delta 84), reused 80 (delta 80), pack-reused 153 (from 2)
+Receiving objects: 100% (244/244), 575.85 KiB | 2.01 MiB/s, done.
+Resolving deltas: 100% (172/172), completed with 24 local objects.
+From github.com:hasToggle/hasToggle.dev
+   d0c0f17..8bd1b3a  main                   -> origin/main
+ + ed209e0...63f7d65 renovate/patch-updates -> origin/renovate/patch-updates  (forced update)
+Updating d0c0f17..8bd1b3a
+Fast-forward
+ apps/api/package.json                      |    6 +-
+ apps/app/package.json                      |    8 +-
+ apps/docs/package.json                     |    2 +-
+ apps/email/package.json                    |   10 +-
+ apps/storybook/package.json                |    8 +-
+ apps/studio/package.json                   |    2 +-
+ apps/web/package.json                      |    8 +-
+ bun.lock                                   | 1510 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----------------
+ package.json                               |    8 +-
+ packages/ai/package.json                   |    4 +-
+ packages/analytics/package.json            |    4 +-
+ packages/auth/package.json                 |    4 +-
+ packages/cms/package.json                  |    2 +-
+ packages/collaboration/package.json        |    2 +-
+ packages/database/package.json             |    4 +-
+ packages/design-system/package.json        |    4 +-
+ packages/email/package.json                |    6 +-
+ packages/feature-flags/package.json        |    4 +-
+ packages/internationalization/package.json |    2 +-
+ packages/notifications/package.json        |    4 +-
+ packages/observability/package.json        |    4 +-
+ packages/payments/package.json             |    2 +-
+ packages/rate-limit/package.json           |    2 +-
+ packages/security/package.json             |    6 +-
+ packages/seo/package.json                  |    4 +-
+ packages/webhooks/package.json             |    2 +-
+ 26 files changed, 1362 insertions(+), 260 deletions(-)
+
+the vercel build fails and logs this:
+06:51:58.961 Running build in Washington, D.C., USA (East) – iad1
+06:51:58.961 Build machine configuration: 4 cores, 8 GB
+06:51:59.072 Cloning github.com/hasToggle/hasToggle.dev (Branch: main, Commit: 8bd1b3a)
+06:51:59.735 Cloning completed: 662.000ms
+06:52:03.832 Restored build cache from previous deployment (W1NJ4RSUxGq74T8fwpgSpUDfoNR9)
+06:52:03.972 Running "node scripts/skip-ci.js"
+06:52:14.937 npm warn exec The following package was not found and will be installed: turbo-ignore@2.8.20
+06:52:15.327 ≫   "turbo-ignore" is deprecated. Use Vercel's built-in project skipping instead.
+06:52:15.328 ≫   Learn more: https://vercel.com/docs/monorepos#skipping-unaffected-projects
+06:52:15.328 
+06:52:15.328 ≫   Using Turborepo to determine if this project is affected by the commit...
+06:52:15.328 
+06:52:15.330 ≫   Inferred "web" as workspace from "package.json"
+06:52:15.330 ≫   Inferred turbo version "^2.8.9" from "package.json"
+06:52:15.331 ≫   Using "build" as the task from
+06:52:15.335 ≫   Found previous deployment ("87d877555b226b3d63b979cae2268e63e4f0d14c") for "web" on branch "main"
+06:52:15.336 ≫   Analyzing results of `npx -y turbo@^2.8.9 run build --filter="web...[87d877555b226b3d63b979cae2268e63e4f0d14c]" --dry=json`
+06:52:25.472 ≫   This commit affects "web"
+06:52:25.473 ✓ Proceeding with deployment
+06:52:25.679 Running "vercel build"
+06:52:27.278 Vercel CLI 50.35.0
+06:52:27.353 > Detected Turbo. Adjusting default settings...
+06:52:27.594 Running "install" command: `bun install`...
+06:52:27.632 bun install v1.3.6 (d530ed99)
+06:52:30.264 
+06:52:30.264 + typescript@6.0.2
+06:52:30.265 + @rescale/nemo@2.1.1
+06:52:30.265 + @sentry/nextjs@10.42.0
+06:52:30.265 + @t3-oss/env-nextjs@0.13.10
+06:52:30.265 + lucide-react@1.0.1
+06:52:30.265 + next@16.2.1
+06:52:30.265 + nuqs@2.8.9
+06:52:30.265 
+06:52:30.265 118 packages installed [2.65s]
+06:52:30.292 Detected Next.js version: 16.2.1
+06:52:30.293 Running "turbo run build"
+06:52:30.653 • Packages in scope: web
+06:52:30.655 build in 1 packages
+06:52:30.655 • Remote caching enabled
+06:52:30.817 web:test: cache miss, executing 7fd2ec8c7db53938
+06:52:30.849 web:test: $ bun test
+06:52:30.852 web:test: bun test v1.3.6 (d530ed99)
+06:52:30.884 web:test: 
+06:52:30.884 web:test: lib/email-deliverability.test.ts:
+06:52:31.113 web:test: (pass) email deliverability (Abstract API) > skips API call for trusted domains [1.38ms]
+06:52:31.115 web:test: (pass) email deliverability (Abstract API) > rejects undeliverable emails [1.82ms]
+06:52:31.115 web:test: (pass) email deliverability (Abstract API) > accepts deliverable emails [0.18ms]
+06:52:31.115 web:test: (pass) email deliverability (Abstract API) > accepts RISKY emails (fail open) [0.13ms]
+06:52:31.116 web:test: (pass) email deliverability (Abstract API) > fails open on HTTP error [0.19ms]
+06:52:31.116 web:test: (pass) email deliverability (Abstract API) > fails open on unexpected response shape [0.88ms]
+06:52:31.117 web:test: (pass) email deliverability (Abstract API) > fails open on nwork error [1.04ms]
+06:52:31.118 web:test: (pass) email deliverability (Abstract API) > fails open on timeout [0.18ms]
+06:52:31.118 web:test: 
+06:52:31.118 web:test: lib/email-validation.test.ts:
+06:52:31.122 web:test: (pass) isDisposableEmail > rejects known disposable domains [0.06ms]
+06:52:31.123 web:test: (pass) isDisposableEmail > accepts legitimate domains [0.03ms]
+06:52:31.123 web:test: (pass) isDisposableEmail > is case-insensitive [0.02ms]
+06:52:31.123 web:test: (pass) isDisposableEmail > returns false for input without @ [0.02ms]
+06:52:31.123 web:test: (pass) validateEmail > rejects invalid format [0.10ms]
+06:52:31.123 web:test: (pass) validateEmail > rejects null and undefined [0.06ms]
+06:52:31.123 web:test: (pass) validateEmail > rejects empty string [0.05ms]
+06:52:31.123 web:test: (pass) validateEmail > rejects malformed emails that contain @ [0.12ms]
+06:52:31.123 web:test: (pass) validateEmail > rejects disposable emails [0.10ms]
+06:52:31.123 web:test: (pass) validateEmail > accepts valid email addresses [0.19ms]
+06:52:31.123 web:test: 
+06:52:31.124 web:test: app/api/confirm/route.test.ts:
+06:52:31.181 web:test: (pass) /api/confirm > rejects disposable email addresses [2.89ms]
+06:52:31.183 web:test: (pass) /api/confirm > rejects invalid email format [0.31ms]
+06:52:31.183 web:test: 
+06:52:31.183 web:test:  20 pass
+06:52:31.183 web:test:  0 fail
+06:52:31.183 web:test:  35 expect() calls
+06:52:31.183 web:test: Ran 20 tests across 3 files. [330.00ms]
+06:52:31.284 web:build: cache miss, executing ba765b907ca3a5fb
+06:52:31.286 web:build: $ next build
+06:52:32.425 web:build: ▲ Next.js 16.2.1 (Turbopack)
+06:52:32.425 web:build: - Experiments (use with caution):
+06:52:32.425 web:build:   · clientTraceMetadata
+06:52:32.425 web:build: 
+06:52:32.462 web:build:   Creating an optimized production build ...
+06:53:04.274 web:build: ✓ Compiled successfully in 31.0s
+06:53:04.274 web:build:   Running next.config.js provided runAfterProductionCompile ...
+06:53:04.415 web:build: ✓ Completed runAfterProduction in 142ms
+06:53:04.418 web:build:   Running TypeScript ...
+06:53:14.553 web:build: Failed to type check.
+06:53:14.554 web:build: 
+06:53:14.554 web:build: Type error: Option 'baseUrl' is deprecated and will stop functioning in TypeScript 7.0. Specify compilerOption '"ignoreDeprecations": "6.0"' to silence this error.
+06:53:14.554 web:build:   Visit https://aka.ms/ts6 for migration information.
+06:53:14.554 web:build: 
+06:53:14.644 web:build: Next.js build worker exited with code: 1 and signal: null
+06:53:14.716 web:build: error: script "build" exited with code 1
+06:53:14.717 web:build: ERROR: command finished with error: command (/vercel/path0/apps/web) /bun1/bun run build exited (1)
+06:53:14.720 web#build: command (/vercel/path0/apps/web) /bun1/bun run build exited (1)
+06:53:14.721 
+06:53:14.721   Tasks:    1 successful, 2 total
+06:53:14.721  Cached:    0 cached, 2 total
+06:53:14.721    Time:    44.383s 
+06:53:14.721 Summary:    /vercel/path0/.turbo/runs/REDACTED.json
+06:53:14.722  Failed:    web#build
+06:53:14.722 
+06:53:14.743  ERROR  run failed: command  exited (1)
+06:53:14.762 Error: Command "turbo run build" exited with 1
+
+find the root cause(s) and suggest solutions before applying them

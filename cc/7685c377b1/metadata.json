@@ -1,0 +1,46 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "cc7685c377b1",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "apps/api/tsconfig.json",
+    "apps/app/tsconfig.json",
+    "apps/storybook/tsconfig.json",
+    "apps/web/tsconfig.json",
+    "packages/ai/tsconfig.json",
+    "packages/analytics/tsconfig.json",
+    "packages/auth/tsconfig.json",
+    "packages/cms/tsconfig.json",
+    "packages/collaboration/tsconfig.json",
+    "packages/database/tsconfig.json",
+    "packages/design-system/tsconfig.json",
+    "packages/email/tsconfig.json",
+    "packages/feature-flags/tsconfig.json",
+    "packages/internationalization/tsconfig.json",
+    "packages/next-config/tsconfig.json",
+    "packages/notifications/tsconfig.json",
+    "packages/observability/tsconfig.json",
+    "packages/payments/tsconfig.json",
+    "packages/security/tsconfig.json",
+    "packages/seo/tsconfig.json",
+    "packages/storage/tsconfig.json",
+    "packages/webhooks/tsconfig.json"
+  ],
+  "sessions": [
+    {
+      "metadata": "/cc/7685c377b1/0/metadata.json",
+      "transcript": "/cc/7685c377b1/0/full.jsonl",
+      "content_hash": "/cc/7685c377b1/0/content_hash.txt",
+      "prompt": "/cc/7685c377b1/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 48,
+    "cache_creation_tokens": 296595,
+    "cache_read_tokens": 1564082,
+    "output_tokens": 8740,
+    "api_call_count": 26
+  }
+}
