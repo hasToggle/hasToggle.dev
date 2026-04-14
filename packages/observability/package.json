@@ -7,9 +7,9 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@logtail/next": "^0.3.0",
+    "@logtail/next": "^0.3.1",
     "@sentry/nextjs": "^10.22.0",
-    "@t3-oss/env-nextjs": "^0.13.8",
+    "@t3-oss/env-nextjs": "^0.13.11",
     "next": "^16.2.3",
     "react": "^19.2.5",
     "server-only": "^0.0.1",
@@ -18,7 +18,7 @@
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "@types/node": "25.6.0",
-    "@types/react": "^19.2.7",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "19.2.3",
     "typescript": "^6.0.0"
   }
