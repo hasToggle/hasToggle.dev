@@ -1,0 +1,9 @@
+Research Entire.io. I am using it right now and it's created a branch in the same repo I'm working in. That in turn created preview deployment issues in that the builds instantly fail. There's not code on the branch that could be built. And I can't suppress Vercel from building this preview branch with every change. I have tried every option like Ignored Build Step and skip-ci.js. Doesn't work. Your task is to research how best to solve this. Other people must have come across this issue, too.
+
+---
+
+let's try option 1. do i need to switch to the entire branch or we make the change on both main and entire branch?
+
+---
+
+currently it's the apps/web that is being built
