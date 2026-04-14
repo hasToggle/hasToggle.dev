@@ -5,6 +5,10 @@
   "automergeType": "pr",
   "packageRules": [
     {
+      "matchFileNames": ["apps/**/package.json", "packages/**/package.json"],
+      "rangeStrategy": "bump"
+    },
+    {
       "matchUpdateTypes": ["patch", "pin", "digest"],
       "automerge": true,
       "groupName": "patch updates"
