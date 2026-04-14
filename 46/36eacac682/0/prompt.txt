@@ -1,0 +1,10 @@
+where does the type error come from? as you can see, this branch is a preview branch where packages are updated, but some update introduced this type error. find which one, find the root cause, then fix it.
+
+---
+
+understood. however, i find this concerning that most fixes we had to do revolved around adding overrides to package.json
+i understand we can't pin versions of packages any other way IF these packages are sub-dependencies of my installed packages. but for my installed ones we should be able to update them in their projects and /packages directory, shouldn't we?
+
+---
+
+yes, let's see if that works out
