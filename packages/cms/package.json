@@ -8,19 +8,19 @@
   },
   "dependencies": {
     "@mdx-js/mdx": "^3.1.1",
-    "@shikijs/rehype": "^4.0.1",
+    "@shikijs/rehype": "^4.0.2",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
     "react": "^19.2.5",
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.1",
-    "shiki": "^4.0.0"
+    "shiki": "^4.0.2"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "@types/mdx": "^2.0.13",
     "@types/node": "25.6.0",
-    "@types/react": "^19.2.7",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "19.2.3",
     "next": "^16.2.3"
   }
