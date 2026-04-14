@@ -1,0 +1,18 @@
+can you inspect the recent deployments on vercel and read the logs yourself?
+the preview branch still tried to built and errored again, after i pushed our changes to main
+
+---
+
+check the docs. i would presume entire need the remote since i can visit their dashboard to actually read the encrypted commits with my conversations.
+
+---
+
+sounds good. do i lose my data on the existing branch that i would delete?
+
+---
+
+yes let's see if GitHub webhook filter would solve it
+
+---
+
+if i create a dedicated repo called entire-checkpoints, is the branch in that repo then called entire/checkpoints/v1 as it is currently? and what about working in other repos when I want to have entire enabled, do i point it to the same dedicated repo? and what does entire call its branches then?
