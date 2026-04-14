@@ -1,0 +1,42 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "fdddbf49e166",
+  "strategy": "manual-commit",
+  "branch": "renovate/patch-updates",
+  "checkpoints_count": 3,
+  "files_touched": [
+    "apps/email/package.json",
+    "apps/storybook/package.json",
+    "apps/web/package.json",
+    "bun.lock",
+    "package.json",
+    "packages/ai/package.json",
+    "packages/analytics/package.json",
+    "packages/auth/package.json",
+    "packages/cms/package.json",
+    "packages/collaboration/package.json",
+    "packages/design-system/package.json",
+    "packages/email/package.json",
+    "packages/feature-flags/package.json",
+    "packages/internationalization/package.json",
+    "packages/next-config/package.json",
+    "packages/notifications/package.json",
+    "packages/observability/package.json",
+    "packages/seo/package.json"
+  ],
+  "sessions": [
+    {
+      "metadata": "/fd/ddbf49e166/0/metadata.json",
+      "transcript": "/fd/ddbf49e166/0/full.jsonl",
+      "content_hash": "/fd/ddbf49e166/0/content_hash.txt",
+      "prompt": "/fd/ddbf49e166/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 142,
+    "cache_creation_tokens": 226722,
+    "cache_read_tokens": 7888159,
+    "output_tokens": 22126,
+    "api_call_count": 82
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "fdddbf49e166",
+  "session_id": "c9cea0c7-5bf7-432d-8ed4-854c7dc82529",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-14T07:30:15.687907Z",
+  "branch": "renovate/patch-updates",
+  "checkpoints_count": 3,
+  "files_touched": [
+    "apps/email/package.json",
+    "apps/storybook/package.json",
+    "apps/web/package.json",
+    "bun.lock",
+    "package.json",
+    "packages/ai/package.json",
+    "packages/analytics/package.json",
+    "packages/auth/package.json",
+    "packages/cms/package.json",
+    "packages/collaboration/package.json",
+    "packages/design-system/package.json",
+    "packages/email/package.json",
+    "packages/feature-flags/package.json",
+    "packages/internationalization/package.json",
+    "packages/next-config/package.json",
+    "packages/notifications/package.json",
+    "packages/observability/package.json",
+    "packages/seo/package.json"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-6[1m]",
+  "turn_id": "d488aefe98f4",
+  "token_usage": {
+    "input_tokens": 142,
+    "cache_creation_tokens": 226722,
+    "cache_read_tokens": 7888159,
+    "output_tokens": 22126,
+    "api_call_count": 82
+  },
+  "session_metrics": {
+    "turn_count": 5
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-14T07:30:15.568192Z",
+    "agent_lines": 96,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 96,
+    "agent_percentage": 100
+  }
+}

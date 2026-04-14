@@ -1,0 +1,22 @@
+where does the type error come from? as you can see, this branch is a preview branch where packages are updated, but some update introduced this type error. find which one, find the root cause, then fix it.
+
+---
+
+understood. however, i find this concerning that most fixes we had to do revolved around adding overrides to package.json
+i understand we can't pin versions of packages any other way IF these packages are sub-dependencies of my installed packages. but for my installed ones we should be able to update them in their projects and /packages directory, shouldn't we?
+
+---
+
+yes, let's see if that works out
+
+---
+
+let's do something about that, too:
+
+ WARNING  No locally installed `turbo` found in your repository. Using globally installed version (2.8.10), which can cause unexpected behavior.
+
+Installing the version in your repository (^2.8.9) before calling `turbo` will result in more predictable behavior across environments.
+
+---
+
+yes
