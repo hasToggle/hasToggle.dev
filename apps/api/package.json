@@ -20,13 +20,13 @@
     "@repo/next-config": "workspace:*",
     "@repo/observability": "workspace:*",
     "@repo/payments": "workspace:*",
-    "@sentry/nextjs": "^10.22.0",
+    "@sentry/nextjs": "^10.48.0",
     "@t3-oss/env-nextjs": "^0.13.11",
     "next": "16.2.3",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
-    "svix": "^1.80.0",
-    "zod": "^4.1.12"
+    "svix": "^1.90.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",

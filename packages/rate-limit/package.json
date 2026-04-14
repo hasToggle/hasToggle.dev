@@ -9,8 +9,8 @@
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.13.11",
     "@upstash/ratelimit": "^2.0.8",
-    "@upstash/redis": "^1.35.6",
-    "zod": "^4.1.12"
+    "@upstash/redis": "^1.37.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
