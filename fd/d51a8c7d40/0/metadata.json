@@ -1,0 +1,36 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "fdd51a8c7d40",
+  "session_id": "c9cea0c7-5bf7-432d-8ed4-854c7dc82529",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-14T07:34:56.09847Z",
+  "branch": "renovate/patch-updates",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "renovate.json"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-6[1m]",
+  "turn_id": "475c5129f94b",
+  "checkpoint_transcript_start": 545,
+  "transcript_lines_at_start": 545,
+  "token_usage": {
+    "input_tokens": 23,
+    "cache_creation_tokens": 3898,
+    "cache_read_tokens": 1006979,
+    "output_tokens": 2533,
+    "api_call_count": 8
+  },
+  "session_metrics": {
+    "turn_count": 8
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-14T07:34:55.968509Z",
+    "agent_lines": 4,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 4,
+    "agent_percentage": 100
+  }
+}
