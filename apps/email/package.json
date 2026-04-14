@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@react-email/components": "1.0.11",
+    "@react-email/components": "1.0.12",
     "@react-email/preview-server": "^5.0.0",
     "@react-email/render": "^2.0.4",
     "@repo/email": "workspace:*",
@@ -24,7 +24,7 @@
     "@repo/typescript-config": "workspace:*",
     "@types/node": "25.6.0",
     "@types/react": "^19.2.7",
-    "next": "16.2.2",
+    "next": "16.2.3",
     "typescript": "^6.0.0"
   },
   "overrides": {
