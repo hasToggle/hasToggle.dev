@@ -16,3 +16,7 @@ yes let's see if GitHub webhook filter would solve it
 ---
 
 if i create a dedicated repo called entire-checkpoints, is the branch in that repo then called entire/checkpoints/v1 as it is currently? and what about working in other repos when I want to have entire enabled, do i point it to the same dedicated repo? and what does entire call its branches then?
+
+---
+
+revert and accept the noise, let chaos reign
