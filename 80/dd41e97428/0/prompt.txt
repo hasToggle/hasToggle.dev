@@ -1,0 +1,21 @@
+If you're capable of accessing the running dev server and inspect the page yourself using next mcp, please do so. identify any residual issues like   color mismatches, dark on dark, etc.
+
+---
+
+yes
+
+---
+
+Fix the deprecated warning, too.
+
+---
+
+Having fixed most of the issues (I will point out the remaining ones later), I am wondering if we can avoid adding a dark modifier to TailwindCSS as we just did. We should have a global light and dark mode definition, which is applied to the active theme.
+
+---
+
+yes
+
+---
+
+run a lint and typecheck to check for issues
