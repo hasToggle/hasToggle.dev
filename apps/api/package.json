@@ -22,7 +22,7 @@
     "@repo/payments": "workspace:*",
     "@sentry/nextjs": "^10.49.0",
     "@t3-oss/env-nextjs": "^0.13.11",
-    "next": "16.2.3",
+    "next": "16.2.4",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "svix": "^1.90.0",
@@ -34,7 +34,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "concurrently": "^9.2.1",
-    "typescript": "^6.0.0"
+    "typescript": "^6.0.3"
   },
   "overrides": {
     "@types/react": "19.2.14",
