@@ -8,3 +8,7 @@ this is a branch for rewriting and redesining the look and feel of the site. I w
 ---
 
 Everything you flagged and observed is spot-on. Let's go over each item and apply the changes hasToggle deserves. I trust your expertise. Think about the direction to go for each item and prepare the plan.
+
+---
+
+commit the changes
