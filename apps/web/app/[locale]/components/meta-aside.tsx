@@ -11,7 +11,7 @@ export function MetaAside({ children, className }: MetaAsideProps) {
   return (
     <p
       className={cn(
-        "font-mono text-gray-400 text-xs/5 italic tracking-wide dark:text-gray-500",
+        "font-mono text-muted-foreground text-xs/5 italic tracking-wide",
         className
       )}
     >

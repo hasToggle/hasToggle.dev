@@ -142,7 +142,7 @@ function MisconceptionDemos() {
         meta="The dev's mental model in five syllables. Confident. Wrong."
         reality="Correct and good are not the same thing. Optimistic updates exist because users trust what they see, not what the server says later."
       >
-        <p className="text-gray-500">Demo coming soon</p>
+        <p className="text-muted-foreground">Demo coming soon</p>
       </MisconceptionWrapper>
 
       {/* Demo 4: Just a Button — placeholder */}
@@ -191,7 +191,7 @@ function MisconceptionDemos() {
 
 function Values() {
   return (
-    <div className="bg-gray-50 dark:bg-gray-900">
+    <div className="bg-muted">
       <Container className="py-24">
         <div className="mx-auto max-w-2xl">
           <Subheading className="text-center">What we believe</Subheading>
@@ -206,7 +206,7 @@ function Values() {
               <Heading as="h3" className="text-2xl sm:text-3xl">
                 More, not less.
               </Heading>
-              <p className="mt-4 text-gray-600 text-lg leading-8 dark:text-gray-400">
+              <p className="mt-4 text-lg text-muted-foreground leading-8">
                 AI is the most powerful tool individual developers have ever
                 had. It handles cognitive load so you can focus on what actually
                 matters — architecture, product decisions, and shipping.
@@ -218,7 +218,7 @@ function Values() {
               <Heading as="h3" className="text-2xl sm:text-3xl">
                 The easy answer is the trap.
               </Heading>
-              <p className="mt-4 text-gray-600 text-lg leading-8 dark:text-gray-400">
+              <p className="mt-4 text-lg text-muted-foreground leading-8">
                 AI is about to be right often enough that checking feels like
                 overhead. That&apos;s the moment the skill disappears. The
                 developers who stay sharp are the ones who keep asking &ldquo;is
@@ -231,7 +231,7 @@ function Values() {
               <Heading as="h3" className="text-2xl sm:text-3xl">
                 The surface reading is never the whole story.
               </Heading>
-              <p className="mt-4 text-gray-600 text-lg leading-8 dark:text-gray-400">
+              <p className="mt-4 text-lg text-muted-foreground leading-8">
                 A button is never just a button.* A passing test doesn&apos;t
                 mean correct code. A confident answer isn&apos;t a true answer.
                 The best engineers aren&apos;t the ones who know the most.
@@ -255,7 +255,7 @@ function DigestCTA() {
         <Heading as="h3">
           Every Monday, we prove you wrong about something.
         </Heading>
-        <p className="mt-4 text-gray-600 text-lg dark:text-gray-400">
+        <p className="mt-4 text-lg text-muted-foreground">
           One misconception about AI or web development — what it is, why
           it&apos;s wrong, and what&apos;s actually true. Short, practical, and
           designed to leave you sharper than you were before you opened it.

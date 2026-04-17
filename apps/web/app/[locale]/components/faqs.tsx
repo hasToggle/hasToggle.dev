@@ -49,7 +49,7 @@ export function FrequentlyAskedQuestions() {
   return (
     <section
       aria-labelledby="faq-title"
-      className="relative overflow-hidden bg-slate-50 py-20 sm:py-32"
+      className="relative overflow-hidden bg-muted py-20 sm:py-32"
       id="faq"
     >
       <Container>
@@ -64,7 +64,9 @@ export function FrequentlyAskedQuestions() {
             {faqs.map((faq) => (
               <dl key={faq.question}>
                 <dt className="font-semibold text-base">{faq.question}</dt>
-                <dd className="mt-4 text-gray-600 text-sm/6">{faq.answer}</dd>
+                <dd className="mt-4 text-muted-foreground text-sm/6">
+                  {faq.answer}
+                </dd>
                 {faq.meta && (
                   <dd className="mt-2">
                     <MetaAside>{faq.meta}</MetaAside>
@@ -76,7 +78,9 @@ export function FrequentlyAskedQuestions() {
             {/* Who makes this — special treatment */}
             <dl>
               <dt className="font-semibold text-base">Who makes this?</dt>
-              <dd className="mt-4 text-gray-600 text-sm/6">{whoBio.short}</dd>
+              <dd className="mt-4 text-muted-foreground text-sm/6">
+                {whoBio.short}
+              </dd>
               <dd>
                 <Expandable label="How hasToggle started">
                   <p>{whoBio.origin}</p>

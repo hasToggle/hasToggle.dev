@@ -29,9 +29,7 @@ export function Digest() {
   );
   const [error, setError] = useState<SignUpError | null>(null);
 
-  const handleSignUp = async (
-    event: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  const handleSignUp = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
     const emailInput = form.elements.namedItem("email") as HTMLInputElement;
@@ -69,21 +67,21 @@ export function Digest() {
     <section aria-label="Digest sign-up" id="digest">
       <Container className="relative py-20" size="xs">
         <form className="lg:pl-16" onSubmit={handleSignUp}>
-          <h3 className="font-medium text-base text-gray-800 tracking-tight">
+          <h3 className="font-medium text-base text-foreground tracking-tight">
             Be the first to collect hazelnuts!
           </h3>
           <div className="mt-4 sm:relative sm:flex sm:items-center sm:px-1 sm:py-0.5">
             <div className="relative sm:static sm:flex-auto">
               <input
                 aria-label="Email address"
-                className="peer relative z-10 w-full appearance-none rounded-md bg-transparent px-4 py-2 text-base text-gray-900 placeholder:text-gray-500 focus:outline-none sm:py-3"
+                className="peer relative z-10 w-full appearance-none rounded-md bg-transparent px-4 py-2 text-base text-foreground placeholder:text-muted-foreground focus:outline-none sm:py-3"
                 id="email"
                 name="email"
                 placeholder="Email address"
                 required
                 type="email"
               />
-              <div className="absolute inset-0 rounded-md border border-gray-400 peer-focus:border-blue-500 peer-focus:bg-white/5 peer-focus:ring-1 peer-focus:ring-blue-500 sm:rounded-lg" />
+              <div className="absolute inset-0 rounded-md border border-border peer-focus:border-blue-500 peer-focus:bg-white/5 peer-focus:ring-1 peer-focus:ring-blue-500 sm:rounded-lg" />
             </div>
             <button
               className="mt-4 inline-flex w-full items-center justify-center overflow-hidden rounded-md border border-transparent bg-white px-4 py-2 font-semibold text-base text-ht-blue-700 tracking-tight shadow-[0_0_0.2em_0em_rgba(56,189,248,0.2)] ring-1 ring-black/10 hover:text-ht-blue-800 hover:shadow-[0_0_0.5em_0em_rgba(56,189,248,0.4)] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 active:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-70 sm:relative sm:z-10 sm:mt-0 sm:w-48 sm:flex-none"

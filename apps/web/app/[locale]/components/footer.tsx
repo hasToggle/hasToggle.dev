@@ -11,13 +11,13 @@ function CallToAction() {
     <div className="relative pt-20 pb-16 text-center sm:py-24">
       <hgroup>
         <Subheading>Stay sharp</Subheading>
-        <p className="mt-6 font-medium text-3xl text-gray-950 tracking-tight sm:text-5xl">
+        <p className="mt-6 font-medium text-3xl text-foreground tracking-tight sm:text-5xl">
           Every Monday, we prove you
           <br />
           wrong about something.
         </p>
       </hgroup>
-      <p className="mx-auto mt-6 max-w-xs text-gray-500 text-sm/6">
+      <p className="mx-auto mt-6 max-w-xs text-muted-foreground text-sm/6">
         One misconception about AI and web development, busted weekly.
       </p>
 
@@ -27,7 +27,9 @@ function CallToAction() {
 }
 
 function SitemapHeading({ children }: { children: React.ReactNode }) {
-  return <h3 className="font-medium text-gray-950/50 text-sm/6">{children}</h3>;
+  return (
+    <h3 className="font-medium text-foreground/50 text-sm/6">{children}</h3>
+  );
 }
 
 function SitemapLinks({ children }: { children: React.ReactNode }) {
@@ -39,7 +41,7 @@ function SitemapLink(props: React.ComponentPropsWithoutRef<typeof Link>) {
     <li>
       <Link
         {...props}
-        className="font-medium text-gray-950 hover:text-gray-950/75"
+        className="font-medium text-foreground hover:text-foreground/75"
       />
     </li>
   );
@@ -90,7 +92,7 @@ function SocialLinks() {
     <>
       <Link
         aria-label="Visit Eric on YouTube"
-        className="text-gray-950 hover:text-gray-950/75"
+        className="text-foreground hover:text-foreground/75"
         href="https://www.youtube.com/@hastoggle"
         target="_blank"
       >
@@ -98,7 +100,7 @@ function SocialLinks() {
       </Link>
       <Link
         aria-label="DM Eric on X"
-        className="text-gray-950 hover:text-gray-950/75"
+        className="text-foreground hover:text-foreground/75"
         href="https://x.com/hasToggle"
         target="_blank"
       >
@@ -106,7 +108,7 @@ function SocialLinks() {
       </Link>
       <Link
         aria-label="Connect with Eric on LinkedIn"
-        className="text-gray-950 hover:text-gray-950/75"
+        className="text-foreground hover:text-foreground/75"
         href="https://www.linkedin.com/in/ernst-stolz"
         target="_blank"
       >
@@ -118,7 +120,7 @@ function SocialLinks() {
 
 function Copyright() {
   return (
-    <div className="text-gray-950 text-sm/6">
+    <div className="text-foreground text-sm/6">
       &copy; {new Date().getFullYear()} hasToggle.
     </div>
   );
@@ -128,7 +130,7 @@ export function Footer() {
   return (
     <footer>
       <Gradient className="relative">
-        <div className="absolute inset-2 rounded-4xl bg-slate-50/90" />
+        <div className="absolute inset-2 rounded-4xl bg-muted/90" />
         <Container>
           <CallToAction />
           <PlusGrid className="pb-16">
@@ -136,7 +138,10 @@ export function Footer() {
               <div className="grid grid-cols-2 gap-y-10 pb-6 lg:grid-cols-6 lg:gap-8">
                 <div className="col-span-2 flex">
                   <PlusGridItem className="pt-6 lg:pb-6">
-                    <Logo className="inline-block h-6" fill="black" />
+                    <Logo
+                      className="inline-block h-6 text-foreground"
+                      fill="currentColor"
+                    />
                   </PlusGridItem>
                 </div>
                 <div className="col-span-2 grid grid-cols-2 gap-x-8 gap-y-12 lg:col-span-4 lg:grid-cols-subgrid lg:pt-6">
@@ -151,7 +156,7 @@ export function Footer() {
                 </PlusGridItem>
               </div>
               <div>
-                <div className="py-3 text-center text-gray-500 text-sm/6">
+                <div className="py-3 text-center text-muted-foreground text-sm/6">
                   You just scrolled past four misconceptions and a fake
                   statistic. Welcome to hasToggle.
                 </div>
