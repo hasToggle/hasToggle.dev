@@ -1,29 +1,7 @@
 import { Container } from "./container";
-import { Digest } from "./digest";
 import { Logo } from "./logo";
 import { Link } from "./marketing-link";
 import { PlusGrid, PlusGridItem, PlusGridRow } from "./plus-grid";
-import { Subheading } from "./text";
-
-function CallToAction() {
-  return (
-    <div className="relative pt-20 pb-16 text-center sm:py-24">
-      <hgroup>
-        <Subheading>Stay sharp</Subheading>
-        <p className="mt-6 font-medium text-3xl text-foreground tracking-tight sm:text-5xl">
-          Every Monday, we prove you
-          <br />
-          wrong about something.
-        </p>
-      </hgroup>
-      <p className="mx-auto mt-6 max-w-xs text-muted-foreground text-sm/6">
-        One misconception about AI and web development, busted weekly.
-      </p>
-
-      <Digest />
-    </div>
-  );
-}
 
 function SitemapHeading({ children }: { children: React.ReactNode }) {
   return (
@@ -129,8 +107,7 @@ export function Footer() {
   return (
     <footer className="bg-muted">
       <Container>
-        <CallToAction />
-        <PlusGrid className="pb-16">
+        <PlusGrid className="pt-16 pb-16">
           <PlusGridRow>
             <div className="grid grid-cols-2 gap-y-10 pb-6 lg:grid-cols-6 lg:gap-8">
               <div className="col-span-2 flex">
