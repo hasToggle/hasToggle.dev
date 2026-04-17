@@ -1,0 +1,10 @@
+read @SESSION_CONTEXT.md 
+@docs/superpowers/specs/2026-04-01-landing-page-positioning-design.md
+
+then explore the landing page in the web project.
+
+this is a branch for rewriting and redesining the look and feel of the site. I want to iterate on the page with you.
+
+---
+
+Everything you flagged and observed is spot-on. Let's go over each item and apply the changes hasToggle deserves. I trust your expertise. Think about the direction to go for each item and prepare the plan.
