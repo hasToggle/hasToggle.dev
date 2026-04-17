@@ -1,0 +1,30 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "952b8d3b8665",
+  "strategy": "manual-commit",
+  "branch": "feature/landing-page-rewrite",
+  "checkpoints_count": 36,
+  "files_touched": [
+    "apps/web/app/[locale]/(demos)/misconception-wrapper.tsx",
+    "apps/web/app/[locale]/components/expandable.tsx",
+    "apps/web/app/[locale]/components/faqs.tsx",
+    "apps/web/app/[locale]/components/footer.tsx",
+    "apps/web/app/[locale]/components/meta-aside.tsx",
+    "apps/web/app/[locale]/page.tsx"
+  ],
+  "sessions": [
+    {
+      "metadata": "/95/2b8d3b8665/0/metadata.json",
+      "transcript": "/95/2b8d3b8665/0/full.jsonl",
+      "content_hash": "/95/2b8d3b8665/0/content_hash.txt",
+      "prompt": "/95/2b8d3b8665/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 1861,
+    "cache_creation_tokens": 1868397,
+    "cache_read_tokens": 22127783,
+    "output_tokens": 82022,
+    "api_call_count": 217
+  }
+}
