@@ -1,66 +1,95 @@
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@repo/design-system/components/ui/hover-card";
+import { Separator } from "@repo/design-system/components/ui/separator";
 import { Container } from "./container";
-import { Gradient } from "./gradient";
 import { MarketingButton } from "./marketing-button";
 import { MetaAside } from "./meta-aside";
 import { Navbar } from "./navbar";
 
 const CHAPTERS: readonly { href: string; label: string; n: string }[] = [
-  { n: "01", label: "understanding", href: "#misconception-01" },
-  { n: "02", label: "defaults", href: "#misconception-02" },
-  { n: "03", label: "feel", href: "#misconception-03" },
-  { n: "04", label: "complexity", href: "#misconception-04" },
+  { n: "01", label: "Understanding", href: "#misconception-01" },
+  { n: "02", label: "Defaults", href: "#misconception-02" },
+  { n: "03", label: "Feel", href: "#misconception-03" },
+  { n: "04", label: "Complexity", href: "#misconception-04" },
 ];
 
 export function Hero() {
   return (
     <div className="relative">
-      <div className="absolute inset-x-0 top-0 bottom-0 overflow-hidden rounded-b-4xl">
-        <Gradient className="absolute inset-0" />
-      </div>
       <Container className="relative">
-        <Navbar variant="dark" />
-        <div className="pt-16 pb-16 sm:pt-24 sm:pb-20 md:pt-32 md:pb-24">
-          <h1 className="max-w-64 font-display font-medium text-6xl/[0.9] text-ht-blue-200 tracking-tight sm:max-w-sm sm:text-8xl/[0.8] md:max-w-md md:text-9xl/[0.8] lg:max-w-full">
+        <Navbar variant="light" />
+        <div className="pt-20 pb-20 sm:pt-28 sm:pb-24 md:pt-36 md:pb-28">
+          <h1 className="max-w-4xl font-display font-medium text-6xl/[0.95] text-foreground tracking-tight sm:text-7xl/[0.95] md:text-8xl/[0.95]">
             AI makes you more.
-            <a
-              aria-label="See footnote"
-              className="ml-1 inline-block align-top font-mono font-normal text-ht-cyan-300/80 text-xl tracking-normal no-underline hover:text-ht-cyan-200 sm:text-2xl md:text-3xl"
-              href="#hero-footnote-1"
-            >
-              <sup>1</sup>
-            </a>
+            <HoverCard closeDelay={100} openDelay={100}>
+              <HoverCardTrigger asChild>
+                <sup className="ml-1 inline-block cursor-help align-top font-mono font-normal text-ht-cyan-700/70 text-xl tracking-normal hover:text-ht-cyan-700 sm:text-2xl dark:text-ht-cyan-300/85 dark:hover:text-ht-cyan-200">
+                  1
+                </sup>
+              </HoverCardTrigger>
+              <HoverCardContent
+                align="start"
+                className="w-80 border-ht-cyan-700/20 dark:border-ht-cyan-500/30"
+                side="bottom"
+              >
+                <p className="font-mono text-ht-cyan-900/80 text-sm/6 dark:text-ht-cyan-300/90">
+                  <span aria-hidden="true" className="select-none opacity-70">
+                    1&nbsp;
+                  </span>
+                  More of what you already are. Which is the good news and the
+                  warning.
+                </p>
+              </HoverCardContent>
+            </HoverCard>
           </h1>
-          <p className="mt-8 max-w-lg font-medium text-gray-50/90 text-xl/7 sm:text-2xl/8">
+          <p className="mt-8 max-w-xl font-medium text-muted-foreground text-xl/8 sm:text-2xl/9">
             For developers who want to think sharper, not just ship faster.
           </p>
           <div className="mt-12 flex flex-col items-start gap-x-8 gap-y-4 sm:flex-row sm:flex-wrap sm:items-center">
             <MarketingButton href="#digest">
               Get the weekly misconception buster
             </MarketingButton>
-            <MetaAside className="sm:max-w-xs" dark>
+            <MetaAside className="sm:max-w-xs">
               This is the email capture. You knew it was coming.
             </MetaAside>
           </div>
         </div>
 
-        <nav
-          aria-label="Misconceptions"
-          className="mb-12 grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-4"
-        >
-          {CHAPTERS.map((chapter) => (
-            <a
-              className="group flex items-baseline gap-2 border-ht-blue-200/20 border-t pt-3 font-mono text-ht-blue-200/60 text-sm tracking-wide transition-colors hover:border-ht-blue-200/60 hover:text-ht-blue-100"
-              href={chapter.href}
-              key={chapter.n}
-            >
-              <span className="tabular-nums">{chapter.n}</span>
-              <span className="truncate">{chapter.label}</span>
-            </a>
-          ))}
-        </nav>
+        <Separator className="bg-foreground/10" />
 
-        <div className="pb-10" id="hero-footnote-1">
-          <MetaAside dark noMarker variant="block">
+        <section aria-labelledby="contents-heading" className="py-10 md:py-12">
+          <h2
+            className="mb-6 font-mono font-semibold text-[0.7rem] text-muted-foreground uppercase tracking-[0.2em]"
+            id="contents-heading"
+          >
+            Contents
+          </h2>
+          <ol className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2 md:grid-cols-4">
+            {CHAPTERS.map((chapter) => (
+              <li key={chapter.n}>
+                <a
+                  className="group flex items-baseline gap-3 text-foreground/70 transition-colors hover:text-foreground"
+                  href={chapter.href}
+                >
+                  <span className="font-mono text-muted-foreground text-sm tabular-nums transition-colors group-hover:text-ht-cyan-700 dark:group-hover:text-ht-cyan-300">
+                    {chapter.n}
+                  </span>
+                  <span className="font-display text-base tracking-tight">
+                    {chapter.label}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <Separator className="bg-foreground/10" />
+
+        <div className="pt-8 pb-16 md:hidden" id="hero-footnote-1">
+          <MetaAside noMarker variant="block">
             <span aria-hidden="true" className="select-none opacity-70">
               1&nbsp;
             </span>

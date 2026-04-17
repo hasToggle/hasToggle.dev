@@ -104,7 +104,7 @@ export function Navbar({
               <Link href="/" title="Home">
                 <Logo
                   className="inline-block h-6"
-                  fill={variant === "dark" ? "white" : "black"}
+                  fill={variant === "dark" ? "white" : "var(--foreground)"}
                 />
               </Link>
             </PlusGridItem>

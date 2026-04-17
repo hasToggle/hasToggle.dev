@@ -1,3 +1,4 @@
+import { Separator } from "@repo/design-system/components/ui/separator";
 import { Container } from "./container";
 import { Expandable } from "./expandable";
 import { MetaAside } from "./meta-aside";
@@ -45,53 +46,82 @@ const whoBio = {
   meta: "He also hacked his dorm\u2019s laundry machines for two years. Some people question systems professionally. Some start early.",
 };
 
+function FaqItem({
+  question,
+  answer,
+  meta,
+}: {
+  question: string;
+  answer: string;
+  meta?: string;
+}) {
+  return (
+    <div className="grid gap-x-12 gap-y-4 py-10 lg:grid-cols-[18rem_minmax(0,1fr)]">
+      <h3 className="font-display font-medium text-foreground text-xl leading-tight tracking-tight sm:text-2xl">
+        {question}
+      </h3>
+      <div className="max-w-2xl">
+        <p className="text-base text-foreground/75 leading-8">{answer}</p>
+        {meta && <MetaAside className="mt-3">{meta}</MetaAside>}
+      </div>
+    </div>
+  );
+}
+
 export function FrequentlyAskedQuestions() {
   return (
     <section
       aria-labelledby="faq-title"
-      className="relative overflow-hidden rounded-t-4xl bg-muted py-20 sm:py-32"
+      className="relative bg-muted/40 py-24 sm:py-32"
       id="faq"
     >
       <Container>
-        <section className="scroll-mt-8" id="faqs">
-          <Subheading className="text-center">
-            Frequently asked questions
-          </Subheading>
-          <Heading as="div" className="mt-2 text-center">
+        <div className="mb-16 max-w-2xl">
+          <Subheading id="faq-title">Frequently asked questions</Subheading>
+          <Heading
+            as="h2"
+            className="mt-3 text-balance text-4xl sm:text-5xl md:text-6xl"
+          >
             Your questions answered.
           </Heading>
-          <div className="mx-auto mt-16 mb-32 max-w-xl space-y-12">
-            {faqs.map((faq) => (
-              <dl key={faq.question}>
-                <dt className="font-semibold text-base">{faq.question}</dt>
-                <dd className="mt-4 text-muted-foreground text-sm/6">
-                  {faq.answer}
-                </dd>
-                {faq.meta && (
-                  <dd className="mt-2">
-                    <MetaAside>{faq.meta}</MetaAside>
-                  </dd>
-                )}
-              </dl>
-            ))}
+        </div>
 
-            {/* Who makes this — special treatment */}
-            <dl>
-              <dt className="font-semibold text-base">Who makes this?</dt>
-              <dd className="mt-4 text-muted-foreground text-sm/6">
-                {whoBio.short}
-              </dd>
-              <dd>
-                <Expandable label="How hasToggle started">
-                  <p>{whoBio.origin}</p>
+        <div id="faqs">
+          {faqs.map((faq, index) => (
+            <div key={faq.question}>
+              {index > 0 && <Separator className="bg-foreground/10" />}
+              <FaqItem
+                answer={faq.answer}
+                meta={faq.meta}
+                question={faq.question}
+              />
+            </div>
+          ))}
+
+          <Separator className="bg-foreground/10" />
+
+          {/* Who makes this — pull-quote treatment */}
+          <div className="py-12 sm:py-16">
+            <div className="grid gap-x-12 gap-y-8 lg:grid-cols-[18rem_minmax(0,1fr)]">
+              <h3 className="font-display font-medium text-foreground text-xl leading-tight tracking-tight sm:text-2xl">
+                Who makes this?
+              </h3>
+              <div className="max-w-2xl">
+                <blockquote className="border-ht-cyan-700/30 border-l-2 pl-6 dark:border-ht-cyan-500/40">
+                  <p className="font-display text-2xl/9 text-foreground tracking-tight sm:text-3xl/10">
+                    {whoBio.short}
+                  </p>
+                </blockquote>
+                <Expandable className="mt-8" label="How hasToggle started">
+                  <p className="text-base text-foreground/75 leading-8">
+                    {whoBio.origin}
+                  </p>
                 </Expandable>
-              </dd>
-              <dd className="mt-2">
-                <MetaAside>{whoBio.meta}</MetaAside>
-              </dd>
-            </dl>
+                <MetaAside className="mt-6">{whoBio.meta}</MetaAside>
+              </div>
+            </div>
           </div>
-        </section>
+        </div>
       </Container>
     </section>
   );

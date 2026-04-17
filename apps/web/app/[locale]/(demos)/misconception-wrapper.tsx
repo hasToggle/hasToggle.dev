@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge } from "@repo/design-system/components/ui/badge";
 import { cn } from "@repo/design-system/lib/utils";
 import { Container } from "../components/container";
 import { MetaAside } from "../components/meta-aside";
@@ -19,8 +20,8 @@ interface MisconceptionWrapperProps {
 }
 
 const STATUS_LABELS: Record<DemoStatus, string> = {
-  essay: "STATUS — ESSAY",
-  sketch: "STATUS — SKETCH",
+  essay: "Essay",
+  sketch: "Sketch",
 };
 
 export function MisconceptionWrapper({
@@ -37,83 +38,89 @@ export function MisconceptionWrapper({
   const statusLabel = status ? STATUS_LABELS[status] : null;
 
   return (
-    <Container className="py-12 sm:py-16" id={id}>
+    <Container className="py-16 sm:py-20 md:py-24" id={id}>
       <div
         className={cn(
           "relative",
           dark &&
-            "rounded-4xl bg-gray-900 px-6 py-16 sm:px-12 sm:py-20 lg:px-16"
+            "rounded-3xl bg-gray-950 px-6 py-16 sm:px-12 sm:py-20 md:px-16"
         )}
       >
-        <div className="mb-8 flex items-start justify-between gap-4">
-          <div
-            className={cn(
-              "font-medium font-mono text-5xl tabular-nums leading-none tracking-tight sm:text-6xl",
-              dark ? "text-gray-700" : "text-gray-300"
+        <div className="grid gap-x-12 gap-y-6 lg:grid-cols-[7rem_minmax(0,1fr)]">
+          <div className="flex items-start justify-between gap-4 lg:block">
+            <span
+              className={cn(
+                "font-mono text-4xl tabular-nums leading-none tracking-tight lg:text-right lg:text-5xl",
+                dark ? "text-gray-600" : "text-muted-foreground/40"
+              )}
+            >
+              {chapterNumber}
+            </span>
+            {statusLabel && (
+              <Badge
+                className={cn(
+                  "font-mono font-normal text-[0.65rem] uppercase tracking-[0.2em] lg:mt-4",
+                  dark
+                    ? "border-ht-cyan-500/35 text-ht-cyan-300/85"
+                    : "border-ht-cyan-700/25 text-ht-cyan-800/70 dark:border-ht-cyan-500/35 dark:text-ht-cyan-300/85"
+                )}
+                variant="outline"
+              >
+                {statusLabel}
+              </Badge>
             )}
-          >
-            №&nbsp;{chapterNumber}
           </div>
-          {statusLabel && (
-            <span
+
+          <div className="max-w-2xl">
+            <p
               className={cn(
-                "mt-3 inline-block whitespace-nowrap rounded-full border px-3 py-1 font-mono text-[0.7rem] uppercase tracking-widest",
+                "font-medium font-mono text-[0.7rem] uppercase tracking-[0.2em]",
                 dark
-                  ? "border-ht-cyan-500/40 text-ht-cyan-300/80"
-                  : "border-ht-cyan-700/30 text-ht-cyan-800/80"
+                  ? "text-red-400/90"
+                  : "text-red-600/80 dark:text-red-400/90"
               )}
             >
-              {statusLabel}
-            </span>
-          )}
-        </div>
+              Misconception
+            </p>
 
-        <div className="mb-12 max-w-2xl">
-          <p className="font-mono font-semibold text-red-500 text-sm uppercase tracking-widest">
-            Misconception
-          </p>
-
-          <div className="relative mt-3">
-            <span
-              aria-hidden="true"
-              className={cn(
-                "pointer-events-none absolute -top-8 -left-3 select-none font-display font-medium text-7xl leading-none sm:-top-12 sm:-left-6 sm:text-9xl",
-                dark ? "text-red-900/25" : "text-red-200/80"
-              )}
+            <Heading
+              as="h3"
+              className="mt-3 text-3xl/[1.1] sm:text-4xl/[1.1] md:text-5xl/[1.05]"
+              dark={dark}
             >
-              &ldquo;
-            </span>
-            <Heading as="h3" className="relative" dark={dark}>
               {hook}
             </Heading>
-          </div>
 
-          {meta && (
-            <MetaAside className="mt-4" dark={dark}>
-              {meta}
-            </MetaAside>
-          )}
+            {meta && (
+              <MetaAside className="mt-5" dark={dark}>
+                {meta}
+              </MetaAside>
+            )}
 
-          <div className="mt-8">
-            <p
-              className={cn(
-                "mb-2 font-mono font-semibold text-[0.7rem] uppercase tracking-widest",
-                dark ? "text-ht-cyan-400/80" : "text-ht-cyan-700"
-              )}
-            >
-              Reality →
-            </p>
-            <p
-              className={cn(
-                "text-lg",
-                dark ? "text-gray-300" : "text-foreground/80"
-              )}
-            >
-              {reality}
-            </p>
+            <div className="mt-10">
+              <p
+                className={cn(
+                  "mb-2 font-medium font-mono text-[0.7rem] uppercase tracking-[0.2em]",
+                  dark
+                    ? "text-ht-cyan-300/90"
+                    : "text-ht-cyan-700 dark:text-ht-cyan-300/90"
+                )}
+              >
+                Reality
+              </p>
+              <p
+                className={cn(
+                  "text-balance text-lg leading-8",
+                  dark ? "text-gray-300" : "text-foreground/80"
+                )}
+              >
+                {reality}
+              </p>
+            </div>
           </div>
         </div>
-        {children}
+
+        <div className="mt-12 lg:ml-12 lg:pl-[7rem]">{children}</div>
       </div>
     </Container>
   );

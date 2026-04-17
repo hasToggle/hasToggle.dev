@@ -23,8 +23,8 @@ export function MetaAside({
         className={cn(
           "border-l-2 pl-4 font-mono text-sm/6",
           dark
-            ? "border-ht-cyan-500/40 text-ht-cyan-300/80"
-            : "border-ht-cyan-700/30 text-ht-cyan-900/70",
+            ? "border-ht-cyan-500/40 text-ht-cyan-300/85"
+            : "border-ht-cyan-700/30 text-ht-cyan-900/70 dark:border-ht-cyan-500/40 dark:text-ht-cyan-300/85",
           className
         )}
       >
@@ -37,7 +37,9 @@ export function MetaAside({
     <p
       className={cn(
         "font-mono text-sm/6",
-        dark ? "text-ht-cyan-400/70" : "text-ht-cyan-800/75",
+        dark
+          ? "text-ht-cyan-300/85"
+          : "text-ht-cyan-800/75 dark:text-ht-cyan-300/85",
         className
       )}
     >
