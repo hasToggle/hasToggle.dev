@@ -1,0 +1,31 @@
+read @SESSION_CONTEXT.md 
+@docs/superpowers/specs/2026-04-01-landing-page-positioning-design.md
+
+then explore the landing page in the web project.
+
+this is a branch for rewriting and redesining the look and feel of the site. I want to iterate on the page with you.
+
+---
+
+Everything you flagged and observed is spot-on. Let's go over each item and apply the changes hasToggle deserves. I trust your expertise. Think about the direction to go for each item and prepare the plan.
+
+---
+
+commit the changes
+
+---
+
+Now lets do another pass by researching shadcn components and using your good taste and expertise to redesign the existing page in favor of a professional look and feel. in fact, before you research write up a text that captures hasToggle's spirit, its essence. Be a writer for a second and really capture hasToggle in beautiful, literary language. that will serve us as the base for redesigning the page with shadcn.
+
+---
+
+no persistent file. move on.
+
+---
+
+Go ahead.
+
+---
+
+'/var/folders/g3/1tf5thfs5zzfftd3xmnhjr_00000gn/T/TemporaryItems/NSIRD_screencaptureui_ppC4Xi/Screenshot 2026-04-17 at 20.09.03.png'
+the cyan-ish color is too dark against the black background. I understand it shouldn't be prominent and that's still the intent, but it should be readable. get a contrast ratio on that and see what nearby color you find to adjust it
