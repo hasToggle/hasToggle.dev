@@ -37,3 +37,8 @@ this is already a major improvement, thank you very much! let's finetune some th
 ---
 
 Very good! Question: what's with the dark blue bg at demo 2 in dark mode? no other demo has a bg. what's the thought process here?
+
+---
+
+'/var/folders/g3/1tf5thfs5zzfftd3xmnhjr_00000gn/T/TemporaryItems/NSIRD_screencaptureui_wCMi7T/Screenshot 2026-04-17 at 20.55.27.png'
+the transition from demo 4 to the values is still kind of missing a visual element. i understand your stance on fluency, continuing off a similar vein of thought, but the visual is still unsatisfying to the eye. what do you think?
