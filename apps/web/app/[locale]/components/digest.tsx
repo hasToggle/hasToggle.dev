@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { Container } from "./container";
+import { MarketingButton } from "./marketing-button";
 
 interface SignUpSuccess {
   message: string;
@@ -83,10 +84,11 @@ export function Digest() {
               />
               <div className="absolute inset-0 rounded-md border border-border peer-focus:border-blue-500 peer-focus:bg-white/5 peer-focus:ring-1 peer-focus:ring-blue-500 sm:rounded-lg" />
             </div>
-            <button
-              className="mt-4 inline-flex w-full items-center justify-center overflow-hidden rounded-md border border-transparent bg-white px-4 py-2 font-semibold text-base text-ht-blue-700 tracking-tight shadow-[0_0_0.2em_0em_rgba(56,189,248,0.2)] ring-1 ring-black/10 hover:text-ht-blue-800 hover:shadow-[0_0_0.5em_0em_rgba(56,189,248,0.4)] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 active:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-70 sm:relative sm:z-10 sm:mt-0 sm:w-48 sm:flex-none"
+            <MarketingButton
+              className="mt-4 w-full sm:relative sm:z-10 sm:mt-0 sm:w-48 sm:flex-none"
               disabled={loading !== "idle"}
               type="submit"
+              variant="brand"
             >
               <AnimatePresence initial={false} mode="popLayout">
                 <motion.span
@@ -99,7 +101,7 @@ export function Digest() {
                   {buttonCopy[loading]}
                 </motion.span>
               </AnimatePresence>
-            </button>
+            </MarketingButton>
           </div>
         </form>
         <div className="mt-4">

@@ -49,7 +49,7 @@ export function FrequentlyAskedQuestions() {
   return (
     <section
       aria-labelledby="faq-title"
-      className="relative overflow-hidden bg-muted py-20 sm:py-32"
+      className="relative overflow-hidden rounded-t-4xl bg-muted py-20 sm:py-32"
       id="faq"
     >
       <Container>

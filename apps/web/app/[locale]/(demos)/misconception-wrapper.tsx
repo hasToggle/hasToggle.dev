@@ -21,29 +21,36 @@ export function MisconceptionWrapper({
   children,
 }: MisconceptionWrapperProps) {
   return (
-    <Container className="py-24">
-      <div className="mb-12 max-w-2xl">
-        <p className="font-semibold text-red-500 text-sm uppercase tracking-wider">
-          Misconception
-        </p>
-        <Heading as="h3" className="mt-2" dark={dark}>
-          &ldquo;{hook}&rdquo;
-        </Heading>
-        {meta && (
-          <MetaAside className={cn("mt-3", dark && "text-gray-500")}>
-            {meta}
-          </MetaAside>
+    <Container className="py-12 sm:py-16">
+      <div
+        className={cn(
+          dark &&
+            "rounded-4xl bg-gray-900 px-6 py-16 sm:px-12 sm:py-20 lg:px-16"
         )}
-        <p
-          className={cn(
-            "mt-4 text-lg",
-            dark ? "text-gray-400" : "text-gray-600 dark:text-gray-400"
+      >
+        <div className="mb-12 max-w-2xl">
+          <p className="font-semibold text-red-500 text-sm uppercase tracking-wider">
+            Misconception
+          </p>
+          <Heading as="h3" className="mt-2" dark={dark}>
+            &ldquo;{hook}&rdquo;
+          </Heading>
+          {meta && (
+            <MetaAside className={cn("mt-3", dark && "text-gray-500")}>
+              {meta}
+            </MetaAside>
           )}
-        >
-          {reality}
-        </p>
+          <p
+            className={cn(
+              "mt-4 text-lg",
+              dark ? "text-gray-400" : "text-muted-foreground"
+            )}
+          >
+            {reality}
+          </p>
+        </div>
+        {children}
       </div>
-      {children}
     </Container>
   );
 }

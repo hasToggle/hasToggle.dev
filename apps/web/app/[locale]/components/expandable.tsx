@@ -25,7 +25,7 @@ export function Expandable({
           "group flex items-center gap-2 font-medium text-sm",
           dark
             ? "text-gray-200 hover:text-gray-400"
-            : "text-gray-950 hover:text-gray-700 dark:text-gray-200 dark:hover:text-gray-400"
+            : "text-foreground hover:text-muted-foreground"
         )}
         onClick={() => setOpen(!open)}
         type="button"
@@ -44,7 +44,7 @@ export function Expandable({
         <div
           className={cn(
             "mt-4 text-sm/6",
-            dark ? "text-gray-400" : "text-gray-600 dark:text-gray-400"
+            dark ? "text-gray-400" : "text-muted-foreground"
           )}
         >
           {children}

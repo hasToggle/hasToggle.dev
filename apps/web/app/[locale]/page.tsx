@@ -22,7 +22,9 @@ export const metadata: Metadata = {
 function Hero() {
   return (
     <div className="relative">
-      <Gradient className="absolute inset-2 inset-ring inset-ring-black/5 bottom-0 rounded-4xl" />
+      <div className="absolute inset-x-0 top-0 bottom-0 overflow-hidden rounded-b-4xl">
+        <Gradient className="absolute inset-0" />
+      </div>
       <Container className="relative">
         <Navbar variant="dark" />
         <div className="pt-16 pb-24 sm:pt-24 sm:pb-32 md:pt-32 md:pb-48">
@@ -69,72 +71,70 @@ function MisconceptionDemos() {
       </MisconceptionWrapper>
 
       {/* Demo 2: Destructive Defaults — placeholder */}
-      <div className="bg-gray-900">
-        <MisconceptionWrapper
+      <MisconceptionWrapper
+        dark
+        hook="I told AI exactly what I wanted."
+        meta="And the question you didn't ask is the one that shipped to production."
+        reality="AI builds what you ask for. Not what you need. The gap between those is your job."
+      >
+        <p className="text-gray-400">Demo coming soon</p>
+        <Expandable
           dark
-          hook="I told AI exactly what I wanted."
-          meta="And the question you didn't ask is the one that shipped to production."
-          reality="AI builds what you ask for. Not what you need. The gap between those is your job."
+          label={
+            'Did you know? "The safest brake is the one that\'s always on."'
+          }
         >
-          <p className="text-gray-400">Demo coming soon</p>
-          <Expandable
-            dark
-            label={
-              'Did you know? "The safest brake is the one that\'s always on."'
-            }
-          >
-            <div className="space-y-4 text-gray-400">
-              <p>
-                Heavy trucks use air brakes. This is interesting for a reason
-                that has nothing to do with trucks and everything to do with the
-                demo you just saw.
-              </p>
-              <p>
-                In a car, you press the brake pedal and fluid pushes the pads
-                against the wheels. If the fluid leaks out, you have no brakes.
-                This is what engineers call a &ldquo;failure mode,&rdquo; and
-                what passengers call &ldquo;screaming.&rdquo;
-              </p>
-              <p>
-                Truck engineers, being the sort of people who think about what
-                happens when things go wrong&thinsp;*&thinsp;— looked at this
-                and made a decision that seems obvious in hindsight and
-                brilliant in foresight: they reversed it. In a truck, massive
-                springs hold the brakes <em>on</em> by default. Air pressure is
-                what <em>releases</em> them. If a line is cut, if the compressor
-                dies, if anything fails at all, the springs do what springs do
-                and the truck stops.
-              </p>
-              <p>
-                The safe state isn&apos;t something the system has to achieve.
-                It&apos;s where the system already is.
-              </p>
-              <p>
-                Now look at the demo above. A developer asked AI to
-                &ldquo;handle errors.&rdquo; AI handled them. By deleting the
-                records. Nobody asked &ldquo;what should the <em>default</em> be
-                when something goes wrong?&rdquo; — and so the default became
-                the worst possible thing, delivered with the quiet confidence of
-                a system that is working exactly as instructed.
-              </p>
-              <p>
-                The truck engineer and the software developer faced the same
-                question. One of them thought about it first.&thinsp;**
-              </p>
-              <MetaAside className="mt-4 text-gray-500">
-                * A trait that, in software, is distressingly rare and
-                disproportionately valuable.
-              </MetaAside>
-              <MetaAside className="text-gray-500">
-                ** The other one shipped to production on a Friday.
-              </MetaAside>
-            </div>
-          </Expandable>
-          <MetaAside className="mt-8 text-gray-500">
-            When the answer is always there, the question stops getting asked.
-          </MetaAside>
-        </MisconceptionWrapper>
-      </div>
+          <div className="space-y-4 text-gray-400">
+            <p>
+              Heavy trucks use air brakes. This is interesting for a reason that
+              has nothing to do with trucks and everything to do with the demo
+              you just saw.
+            </p>
+            <p>
+              In a car, you press the brake pedal and fluid pushes the pads
+              against the wheels. If the fluid leaks out, you have no brakes.
+              This is what engineers call a &ldquo;failure mode,&rdquo; and what
+              passengers call &ldquo;screaming.&rdquo;
+            </p>
+            <p>
+              Truck engineers, being the sort of people who think about what
+              happens when things go wrong&thinsp;*&thinsp;— looked at this and
+              made a decision that seems obvious in hindsight and brilliant in
+              foresight: they reversed it. In a truck, massive springs hold the
+              brakes <em>on</em> by default. Air pressure is what{" "}
+              <em>releases</em> them. If a line is cut, if the compressor dies,
+              if anything fails at all, the springs do what springs do and the
+              truck stops.
+            </p>
+            <p>
+              The safe state isn&apos;t something the system has to achieve.
+              It&apos;s where the system already is.
+            </p>
+            <p>
+              Now look at the demo above. A developer asked AI to &ldquo;handle
+              errors.&rdquo; AI handled them. By deleting the records. Nobody
+              asked &ldquo;what should the <em>default</em> be when something
+              goes wrong?&rdquo; — and so the default became the worst possible
+              thing, delivered with the quiet confidence of a system that is
+              working exactly as instructed.
+            </p>
+            <p>
+              The truck engineer and the software developer faced the same
+              question. One of them thought about it first.&thinsp;**
+            </p>
+            <MetaAside className="mt-4 text-gray-500">
+              * A trait that, in software, is distressingly rare and
+              disproportionately valuable.
+            </MetaAside>
+            <MetaAside className="text-gray-500">
+              ** The other one shipped to production on a Friday.
+            </MetaAside>
+          </div>
+        </Expandable>
+        <MetaAside className="mt-8 text-gray-500">
+          When the answer is always there, the question stops getting asked.
+        </MetaAside>
+      </MisconceptionWrapper>
 
       {/* Demo 3: Optimistic Updates — placeholder */}
       <MisconceptionWrapper
@@ -146,105 +146,98 @@ function MisconceptionDemos() {
       </MisconceptionWrapper>
 
       {/* Demo 4: Just a Button — placeholder */}
-      <div className="bg-gray-900">
-        <MisconceptionWrapper
-          dark
-          hook="It's just a button."
-          meta="The word 'just' has mass-produced more missed deadlines than any project management tool in history."
-          reality="A button is a vertical slice through your entire application. It touches the client, the server, the database, the auth layer, and the user's trust. The only simple thing about it is how it looks."
-        >
-          <div className="mt-8 grid gap-8 text-gray-400 md:grid-cols-3">
-            <div>
-              <p className="mb-2 font-semibold text-gray-200 text-sm uppercase tracking-wider">
-                The PM sees
-              </p>
-              <p>
-                A button. &ldquo;Add to cart.&rdquo; Half a day, tops.
-                What&apos;s the hold-up?
-              </p>
-            </div>
-            <div>
-              <p className="mb-2 font-semibold text-gray-200 text-sm uppercase tracking-wider">
-                The developer sees
-              </p>
-              <p>
-                Client-side validation. Loading state. Optimistic update. Error
-                handling. Auth check. Server action. Database write. Cache
-                revalidation. Race condition if the user double-clicks.
-              </p>
-            </div>
-            <div>
-              <p className="mb-2 font-semibold text-gray-200 text-sm uppercase tracking-wider">
-                The user sees
-              </p>
-              <p>
-                Nothing happened. <em>Clicks again.</em> Two items in cart.{" "}
-                <em>Refreshes.</em> Zero items in cart.
-              </p>
-            </div>
+      <MisconceptionWrapper
+        dark
+        hook="It's just a button."
+        meta="The word 'just' has mass-produced more missed deadlines than any project management tool in history."
+        reality="A button is a vertical slice through your entire application. It touches the client, the server, the database, the auth layer, and the user's trust. The only simple thing about it is how it looks."
+      >
+        <div className="mt-8 grid gap-8 text-gray-400 md:grid-cols-3">
+          <div>
+            <p className="mb-2 font-semibold text-gray-200 text-sm uppercase tracking-wider">
+              The PM sees
+            </p>
+            <p>
+              A button. &ldquo;Add to cart.&rdquo; Half a day, tops. What&apos;s
+              the hold-up?
+            </p>
           </div>
-        </MisconceptionWrapper>
-      </div>
+          <div>
+            <p className="mb-2 font-semibold text-gray-200 text-sm uppercase tracking-wider">
+              The developer sees
+            </p>
+            <p>
+              Client-side validation. Loading state. Optimistic update. Error
+              handling. Auth check. Server action. Database write. Cache
+              revalidation. Race condition if the user double-clicks.
+            </p>
+          </div>
+          <div>
+            <p className="mb-2 font-semibold text-gray-200 text-sm uppercase tracking-wider">
+              The user sees
+            </p>
+            <p>
+              Nothing happened. <em>Clicks again.</em> Two items in cart.{" "}
+              <em>Refreshes.</em> Zero items in cart.
+            </p>
+          </div>
+        </div>
+      </MisconceptionWrapper>
     </div>
   );
 }
 
 function Values() {
   return (
-    <div className="bg-muted">
-      <Container className="py-24">
-        <div className="mx-auto max-w-2xl">
-          <Subheading className="text-center">What we believe</Subheading>
-          <MetaAside className="mt-2 text-center">
-            Most About sections exist so the founder can talk about themselves.
-            This one exists because we thought you&apos;d want to know what
-            you&apos;re getting into.
-          </MetaAside>
+    <Container className="py-24">
+      <div className="mx-auto max-w-2xl">
+        <Subheading className="text-center">What we believe</Subheading>
+        <MetaAside className="mt-2 text-center">
+          Most About sections exist so the founder can talk about themselves.
+          This one exists because we thought you&apos;d want to know what
+          you&apos;re getting into.
+        </MetaAside>
 
-          <div className="mt-16 space-y-12">
-            <div>
-              <Heading as="h3" className="text-2xl sm:text-3xl">
-                More, not less.
-              </Heading>
-              <p className="mt-4 text-lg text-muted-foreground leading-8">
-                AI is the most powerful tool individual developers have ever
-                had. It handles cognitive load so you can focus on what actually
-                matters — architecture, product decisions, and shipping.
-                You&apos;re not being replaced. You&apos;re being extended.
-              </p>
-            </div>
+        <div className="mt-16 space-y-12">
+          <div>
+            <Heading as="h3" className="text-2xl sm:text-3xl">
+              More, not less.
+            </Heading>
+            <p className="mt-4 text-lg text-muted-foreground leading-8">
+              AI is the most powerful tool individual developers have ever had.
+              It handles cognitive load so you can focus on what actually
+              matters — architecture, product decisions, and shipping.
+              You&apos;re not being replaced. You&apos;re being extended.
+            </p>
+          </div>
 
-            <div>
-              <Heading as="h3" className="text-2xl sm:text-3xl">
-                The easy answer is the trap.
-              </Heading>
-              <p className="mt-4 text-lg text-muted-foreground leading-8">
-                AI is about to be right often enough that checking feels like
-                overhead. That&apos;s the moment the skill disappears. The
-                developers who stay sharp are the ones who keep asking &ldquo;is
-                this actually right?&rdquo; even when nothing is forcing them
-                to.
-              </p>
-            </div>
+          <div>
+            <Heading as="h3" className="text-2xl sm:text-3xl">
+              The easy answer is the trap.
+            </Heading>
+            <p className="mt-4 text-lg text-muted-foreground leading-8">
+              AI is about to be right often enough that checking feels like
+              overhead. That&apos;s the moment the skill disappears. The
+              developers who stay sharp are the ones who keep asking &ldquo;is
+              this actually right?&rdquo; even when nothing is forcing them to.
+            </p>
+          </div>
 
-            <div>
-              <Heading as="h3" className="text-2xl sm:text-3xl">
-                The surface reading is never the whole story.
-              </Heading>
-              <p className="mt-4 text-lg text-muted-foreground leading-8">
-                A button is never just a button.* A passing test doesn&apos;t
-                mean correct code. A confident answer isn&apos;t a true answer.
-                The best engineers aren&apos;t the ones who know the most.
-                They&apos;re the ones who assume the least.
-              </p>
-              <MetaAside className="mt-2">
-                * See Demo 4. We warned you.
-              </MetaAside>
-            </div>
+          <div>
+            <Heading as="h3" className="text-2xl sm:text-3xl">
+              The surface reading is never the whole story.
+            </Heading>
+            <p className="mt-4 text-lg text-muted-foreground leading-8">
+              A button is never just a button.* A passing test doesn&apos;t mean
+              correct code. A confident answer isn&apos;t a true answer. The
+              best engineers aren&apos;t the ones who know the most.
+              They&apos;re the ones who assume the least.
+            </p>
+            <MetaAside className="mt-2">* See Demo 4. We warned you.</MetaAside>
           </div>
         </div>
-      </Container>
-    </div>
+      </div>
+    </Container>
   );
 }
 
