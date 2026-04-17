@@ -114,6 +114,18 @@
   --font-switzer: "Switzer", system-ui, sans-serif;
 }
 
+/* JetBrains Mono (loaded via Google Fonts in marketing layout) for the
+   meta-layer voice. The design system sets --font-mono to Geist Mono for
+   app-wide consistency; marketing uses a dedicated editorial face. This
+   override is scoped to the .font-switzer wrapper so it only affects the
+   marketing route tree. */
+.font-switzer .font-mono,
+.font-switzer.font-mono {
+  font-family:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    monospace;
+}
+
 /* Marketing keyframes */
 @keyframes rerender {
   0% {

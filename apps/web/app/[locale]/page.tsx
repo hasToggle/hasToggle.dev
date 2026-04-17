@@ -7,10 +7,8 @@ import { Digest } from "./components/digest";
 import { Expandable } from "./components/expandable";
 import { FrequentlyAskedQuestions } from "./components/faqs";
 import { Footer } from "./components/footer";
-import { Gradient } from "./components/gradient";
-import { MarketingButton } from "./components/marketing-button";
+import { Hero } from "./components/hero";
 import { MetaAside } from "./components/meta-aside";
-import { Navbar } from "./components/navbar";
 import { Heading, Subheading } from "./components/text";
 
 export const metadata: Metadata = {
@@ -19,45 +17,15 @@ export const metadata: Metadata = {
     "For developers who want to think sharper, not just ship faster. Weekly misconception busters about AI and web development.",
 };
 
-function Hero() {
-  return (
-    <div className="relative">
-      <div className="absolute inset-x-0 top-0 bottom-0 overflow-hidden rounded-b-4xl">
-        <Gradient className="absolute inset-0" />
-      </div>
-      <Container className="relative">
-        <Navbar variant="dark" />
-        <div className="pt-16 pb-24 sm:pt-24 sm:pb-32 md:pt-32 md:pb-48">
-          <h1
-            className="max-w-64 font-display font-medium text-6xl/[0.9] text-ht-blue-200 tracking-tight sm:max-w-sm sm:text-8xl/[0.8] md:max-w-md md:text-9xl/[0.8] lg:max-w-full"
-            title="More of what you already are. Which is the good news and the warning."
-          >
-            AI makes you more.
-          </h1>
-          <p className="mt-8 max-w-lg font-medium text-gray-50/90 text-xl/7 sm:text-2xl/8">
-            For developers who want to think sharper, not just ship faster.
-          </p>
-          <div className="mt-12 flex flex-col gap-x-6 gap-y-4 sm:flex-row">
-            <MarketingButton href="#digest">
-              Get the weekly misconception buster
-            </MarketingButton>
-          </div>
-          <MetaAside className="mt-4 text-gray-50/50">
-            This is the email capture. You knew it was coming.
-          </MetaAside>
-        </div>
-      </Container>
-    </div>
-  );
-}
-
 function MisconceptionDemos() {
   return (
     <div>
       {/* Demo 1: React State */}
       <MisconceptionWrapper
         hook="AI writes the code so I don't need to understand it."
+        id="misconception-01"
         meta="86% of developers have shipped code they couldn't explain. We made that number up. But you believed it for a second."
+        number={1}
         reality="AI helps you type code, but you still need to understand how things work. Watch how React re-runs your function to get updated values."
       >
         <div className="relative mt-10 aspect-1216/768">
@@ -70,14 +38,16 @@ function MisconceptionDemos() {
         </div>
       </MisconceptionWrapper>
 
-      {/* Demo 2: Destructive Defaults — placeholder */}
+      {/* Demo 2: Destructive Defaults — essay */}
       <MisconceptionWrapper
         dark
         hook="I told AI exactly what I wanted."
+        id="misconception-02"
         meta="And the question you didn't ask is the one that shipped to production."
+        number={2}
         reality="AI builds what you ask for. Not what you need. The gap between those is your job."
+        status="essay"
       >
-        <p className="text-gray-400">Demo coming soon</p>
         <Expandable
           dark
           label={
@@ -122,34 +92,49 @@ function MisconceptionDemos() {
               The truck engineer and the software developer faced the same
               question. One of them thought about it first.&thinsp;**
             </p>
-            <MetaAside className="mt-4 text-gray-500">
+            <MetaAside className="mt-4" dark noMarker>
               * A trait that, in software, is distressingly rare and
               disproportionately valuable.
             </MetaAside>
-            <MetaAside className="text-gray-500">
+            <MetaAside dark noMarker>
               ** The other one shipped to production on a Friday.
             </MetaAside>
           </div>
         </Expandable>
-        <MetaAside className="mt-8 text-gray-500">
+        <MetaAside className="mt-8" dark>
           When the answer is always there, the question stops getting asked.
         </MetaAside>
       </MisconceptionWrapper>
 
-      {/* Demo 3: Optimistic Updates — placeholder */}
+      {/* Demo 3: Optimistic Updates — sketch */}
       <MisconceptionWrapper
         hook="Drag it, drop it, done."
+        id="misconception-03"
         meta="The dev's mental model in five syllables. Confident. Wrong."
+        number={3}
         reality="Correct and good are not the same thing. Optimistic updates exist because users trust what they see, not what the server says later."
+        status="sketch"
       >
-        <p className="text-muted-foreground">Demo coming soon</p>
+        <div
+          className="relative overflow-hidden rounded-2xl border border-gray-400/40 border-dashed px-8 py-14 text-center"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(-45deg, transparent 0 11px, rgba(100,100,100,0.045) 11px 12px)",
+          }}
+        >
+          <MetaAside className="inline-block">
+            the demo isn&apos;t built yet. the misconception still is.
+          </MetaAside>
+        </div>
       </MisconceptionWrapper>
 
-      {/* Demo 4: Just a Button — placeholder */}
+      {/* Demo 4: Just a Button — three-panel perspective view */}
       <MisconceptionWrapper
         dark
         hook="It's just a button."
+        id="misconception-04"
         meta="The word 'just' has mass-produced more missed deadlines than any project management tool in history."
+        number={4}
         reality="A button is a vertical slice through your entire application. It touches the client, the server, the database, the auth layer, and the user's trust. The only simple thing about it is how it looks."
       >
         <div className="mt-8 grid gap-8 text-gray-400 md:grid-cols-3">
