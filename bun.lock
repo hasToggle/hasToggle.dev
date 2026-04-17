@@ -293,9 +293,9 @@
       "name": "@repo/collaboration",
       "version": "0.0.0",
       "dependencies": {
-        "@liveblocks/client": "^3.18.2",
-        "@liveblocks/node": "^3.18.2",
-        "@liveblocks/react": "^3.18.2",
+        "@liveblocks/client": "^3.18.3",
+        "@liveblocks/node": "^3.18.3",
+        "@liveblocks/react": "^3.18.3",
         "@t3-oss/env-nextjs": "^0.13.11",
         "next": "^16.2.4",
         "react": "^19.2.5",
@@ -1094,13 +1094,13 @@
 
     "@langchain/core": ["@langchain/core@0.3.80", "", { "dependencies": { "@cfworker/json-schema": "^4.0.2", "ansi-styles": "^5.0.0", "camelcase": "6", "decamelize": "1.2.0", "js-tiktoken": "^1.0.12", "langsmith": "^0.3.67", "mustache": "^4.2.0", "p-queue": "^6.6.2", "p-retry": "4", "uuid": "^10.0.0", "zod": "^3.25.32", "zod-to-json-schema": "^3.22.3" } }, "sha512-vcJDV2vk1AlCwSh3aBm/urQ1ZrlXFFBocv11bz/NBUfLWD5/UDNMzwPdaAd2dKvNmTWa9FM2lirLU3+JCf4cRA=="],
 
-    "@liveblocks/client": ["@liveblocks/client@3.18.2", "", { "dependencies": { "@liveblocks/core": "3.18.2" } }, "sha512-Mz0Ugrlv5QrFJmnRwOxJEVZEyfEai78+tVUXNxSJ2UUsMp4XLtacmyEiaxrjZ0XqRdNEJnRn6JV1tN9QXQBWQg=="],
+    "@liveblocks/client": ["@liveblocks/client@3.18.3", "", { "dependencies": { "@liveblocks/core": "3.18.3" } }, "sha512-u6gBavD+sjYDjIukz7gEdnzJo/tHs44Q1bfQXXhhqwlUBMtfWmlu3xl8Kdy+r1A5ObUl7gtSvpb25zS44lsrJQ=="],
 
-    "@liveblocks/core": ["@liveblocks/core@3.18.2", "", { "peerDependencies": { "@types/json-schema": "^7" } }, "sha512-Cx7agR9P5NAy7Ec+vJkBq8LRklmc6Tba7/xAZsExBN8KMOOUELw6jHPeev7GSXSN8E4gZnMNjeaMHMM8oOjBtw=="],
+    "@liveblocks/core": ["@liveblocks/core@3.18.3", "", { "peerDependencies": { "@types/json-schema": "^7" } }, "sha512-1wQBW0vPc/Squ1tz7gjyIsbCo/n/nPaDe3OdoWKcJuIMaLFnhABZ/SBoC+wE6RBCd/VWc65tFWMta3V6DJIrmw=="],
 
-    "@liveblocks/node": ["@liveblocks/node@3.18.2", "", { "dependencies": { "@liveblocks/core": "3.18.2", "@stablelib/base64": "^1.0.1", "fast-sha256": "^1.3.0", "node-fetch": "^2.6.1" } }, "sha512-wmXy1SiUOJV6x7W+owfVqnuwJD+Pgm5nejPJ77x+/yvlbD5Wh7fbJMnjQP+DyF0MboRCSs2XVo+DESvNDGue8g=="],
+    "@liveblocks/node": ["@liveblocks/node@3.18.3", "", { "dependencies": { "@liveblocks/core": "3.18.3", "@stablelib/base64": "^1.0.1", "fast-sha256": "^1.3.0", "node-fetch": "^2.6.1" } }, "sha512-Wiec9p0bl0luX3GgapVr02qrn1PyFZ9mVW2DC7Xb8SDakC4hoHJ0+F8OuigPuc6wJhe+V83TKC9yXwUYAiCNdA=="],
 
-    "@liveblocks/react": ["@liveblocks/react@3.18.2", "", { "dependencies": { "@liveblocks/client": "3.18.2", "@liveblocks/core": "3.18.2" }, "peerDependencies": { "@types/react": "*", "@types/react-dom": "*", "react": "^18 || ^19 || ^19.0.0-rc" }, "optionalPeers": ["@types/react", "@types/react-dom"] }, "sha512-WoMj5CgPm+nBFCcD7n7Rdhf9n+3IGt3bS3uzRI7m2nzPD0X9QDTpTq1+dQmIc6Nfa4d9AizPQAnZQtV0wnaFgQ=="],
+    "@liveblocks/react": ["@liveblocks/react@3.18.3", "", { "dependencies": { "@liveblocks/client": "3.18.3", "@liveblocks/core": "3.18.3" }, "peerDependencies": { "@types/react": "^18 || ^19", "@types/react-dom": "^18 || ^19", "react": "^18 || ^19 || ^19.0.0-rc" }, "optionalPeers": ["@types/react", "@types/react-dom"] }, "sha512-KTOEA2aPujYh128ijL42RtBXCd4Dpio94A16c0KVZQXRvgRsUVnjhwd4KfJcUqAarAYFw+WBVnf+Lif1XIkyJQ=="],
 
     "@logtail/next": ["@logtail/next@0.3.1", "", { "dependencies": { "use-deep-compare": "^1.2.1", "whatwg-fetch": "^3.6.2" }, "peerDependencies": { "next": ">=15.0", "react": ">=18.0.0" } }, "sha512-RiIYLO51ax/TI67h6/TdCSh/mUmcSTtP5JbkcERcBK2/KIWylxLiPMK5SO5PA7NUfLJVaUIMYkqGHKIcVCKljw=="],
 
