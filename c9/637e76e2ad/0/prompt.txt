@@ -1,0 +1,1 @@
+If you're capable of accessing the running dev server and inspect the page yourself using next mcp, please do so. identify any residual issues like   color mismatches, dark on dark, etc.
