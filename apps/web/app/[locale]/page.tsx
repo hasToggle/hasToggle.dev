@@ -263,29 +263,39 @@ function Values() {
 
 function DigestCTA() {
   return (
-    <Container className="py-24 sm:py-32">
-      <div
-        className="mx-auto flex max-w-2xl flex-col items-center text-center"
-        id="digest"
-      >
-        <Subheading>The weekly digest</Subheading>
-        <Heading as="h3" className="mt-3 text-balance text-4xl sm:text-5xl">
-          Every Monday, we prove you wrong about something.
-        </Heading>
-        <p className="mt-6 max-w-xl text-balance text-foreground/70 text-lg leading-8">
-          One misconception about AI or web development — what it is, why
-          it&apos;s wrong, and what&apos;s actually true. Short, practical, and
-          designed to leave you sharper than you were before you opened it.
-        </p>
-        <div className="mt-10 w-full">
-          <Digest />
+    <section
+      aria-labelledby="digest-heading"
+      className="relative bg-ht-cyan-50/80 py-24 sm:py-32 dark:bg-ht-cyan-950/30"
+      id="digest"
+    >
+      <Container>
+        <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
+          <Subheading className="text-ht-cyan-800/80 dark:text-ht-cyan-300/80">
+            The weekly digest
+          </Subheading>
+          <Heading
+            as="h3"
+            className="mt-3 text-balance text-4xl sm:text-5xl"
+            id="digest-heading"
+          >
+            Every Monday, we prove you wrong about something.
+          </Heading>
+          <p className="mt-6 max-w-xl text-balance text-foreground/75 text-lg leading-8">
+            One misconception about AI or web development — what it is, why
+            it&apos;s wrong, and what&apos;s actually true. Short, practical,
+            and designed to leave you sharper than you were before you opened
+            it.
+          </p>
+          <div className="mt-10 w-full">
+            <Digest />
+          </div>
+          <MetaAside className="mt-6">
+            The fact that you&apos;re reading the fine print under an email form
+            says something about you. Something good.
+          </MetaAside>
         </div>
-        <MetaAside className="mt-6">
-          The fact that you&apos;re reading the fine print under an email form
-          says something about you. Something good.
-        </MetaAside>
-      </div>
-    </Container>
+      </Container>
+    </section>
   );
 }
 
