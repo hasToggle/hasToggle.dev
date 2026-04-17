@@ -12,13 +12,13 @@ function CallToAction() {
       <hgroup>
         <Subheading>Stay sharp</Subheading>
         <p className="mt-6 font-medium text-3xl text-gray-950 tracking-tight sm:text-5xl">
-          One misconception, busted weekly.
+          Every Monday, we prove you
           <br />
-          Sign up for the digest.
+          wrong about something.
         </p>
       </hgroup>
       <p className="mx-auto mt-6 max-w-xs text-gray-500 text-sm/6">
-        AI-empowered web development insights, every Monday.
+        One misconception about AI and web development, busted weekly.
       </p>
 
       <Digest />
@@ -152,7 +152,8 @@ export function Footer() {
               </div>
               <div>
                 <div className="py-3 text-center text-gray-500 text-sm/6">
-                  build more, type less
+                  You just scrolled past four misconceptions and a fake
+                  statistic. Welcome to hasToggle.
                 </div>
               </div>
               <div className="flex">
