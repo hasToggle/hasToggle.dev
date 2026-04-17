@@ -1,0 +1,43 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "8499b5dabc37",
+  "session_id": "5ed6a27f-ed70-4e32-bff9-43fb29375262",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-17T14:45:39.385912Z",
+  "branch": "feature/landing-page-rewrite",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "apps/web/app/[locale]/(counter)/counter-desktop.tsx",
+    "apps/web/app/[locale]/(counter)/counter-mobile.tsx",
+    "apps/web/app/[locale]/(demos)/misconception-wrapper.tsx",
+    "apps/web/app/[locale]/components/digest.tsx",
+    "apps/web/app/[locale]/components/expandable.tsx",
+    "apps/web/app/[locale]/components/faqs.tsx",
+    "apps/web/app/[locale]/components/footer.tsx",
+    "apps/web/app/[locale]/components/marketing-button.tsx",
+    "apps/web/app/[locale]/components/navbar.tsx",
+    "apps/web/app/[locale]/page.tsx"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-7[1m]",
+  "turn_id": "2c614197c2f2",
+  "token_usage": {
+    "input_tokens": 454,
+    "cache_creation_tokens": 447905,
+    "cache_read_tokens": 36960844,
+    "output_tokens": 123786,
+    "api_call_count": 270
+  },
+  "session_metrics": {
+    "turn_count": 9
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-17T14:45:38.862272Z",
+    "agent_lines": 245,
+    "human_added": 0,
+    "human_modified": 1,
+    "human_removed": 0,
+    "total_committed": 246,
+    "agent_percentage": 99.59349593495935
+  }
+}
