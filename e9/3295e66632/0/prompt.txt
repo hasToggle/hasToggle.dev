@@ -1,0 +1,268 @@
+If you're capable of accessing the running dev server and inspect the page yourself using next mcp, please do so. identify any residual issues like   color mismatches, dark on dark, etc.
+
+---
+
+yes
+
+---
+
+Fix the deprecated warning, too.
+
+---
+
+Having fixed most of the issues (I will point out the remaining ones later), I am wondering if we can avoid adding a dark modifier to TailwindCSS as we just did. We should have a global light and dark mode definition, which is applied to the active theme.
+
+---
+
+yes
+
+---
+
+run a lint and typecheck to check for issues
+
+---
+
+Use the init tool to set up Next.js DevTools context
+
+---
+
+i get an error for plugins saying that vercel is installed twice. here's the result of running the context command in claude code:
+/context                                                                                                                                               
+  ⎿  Context Usage                                                                                                                                       
+     ⛁ ⛁ ⛁ ⛁ ⛀ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁   Opus 4.7 (1M context)                                                                                     
+     ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁   claude-opus-4-7[1m]                                                                                       
+     ⛁ ⛁ ⛁ ⛁ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶   220.8k/1m tokens (22%)                                                                                    
+     ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶                                                                                                             
+     ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶   Estimated usage by category                                                                               
+     ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶   ⛁ System prompt: 8.6k tokens (0.9%)                                                                       
+     ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶   ⛁ System tools: 11.9k tokens (1.2%)                                                                     
+     ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶   ⛁ MCP tools: 3.1k tokens (0.3%)                                                                           
+     ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶   ⛁ Custom agents: 5k tokens (0.5%)                                                           ⛁ Messages: 181.8k tokens (18.2%)                                                                         
+                                               ⛶ Free space: 742.5k (74.3%)                                                                              
+                                               ⛝ Autocompact buffer: 33k tokens (3.3%)                                                                   
+                                                                                                                                                         
+     MCP tools · /mcp (loaded on-demand)                                                                                                                 
+                                                                                                                                                         
+     Loaded                                                                                                                                              
+     └ mcp__ide__getDiagnostics: 132 tokens                                                                                                              
+     └ mcp__next-devtools__browser_eval: 1.2k tokens                                                                                                     
+     └ mcp__next-devtools__init: 347 tokens                                                                                                              
+     └ mcp__next-devtools__nextjs_call: 578 tokens                                                                                                       
+     └ mcp__next-devtools__nextjs_index: 855 tokens
+
+     Available
+     └ mcp__claude_ai_Canva__cancel-editing-transaction
+     └ mcp__claude_ai_Canva__comment-on-design
+     └ mcp__claude_ai_Canva__commit-editing-transaction
+     └ mcp__claude_ai_Canva__create-design-from-candidate
+     └ mcp__claude_ai_Canva__create-folder
+     └ mcp__claude_ai_Canva__export-design
+     └ mcp__claude_ai_Canva__generate-design
+     └ mcp__claude_ai_Canva__generate-design-structured
+     └ mcp__claude_ai_Canva__get-assets
+     └ mcp__claude_ai_Canva__get-design
+     └ mcp__claude_ai_Canva__get-design-content
+     └ mcp__claude_ai_Canva__get-design-pages
+     └ mcp__claude_ai_Canva__get-design-thumbnail
+     └ mcp__claude_ai_Canva__get-export-formats
+     └ mcp__claude_ai_Canva__get-presenter-notes
+     └ mcp__claude_ai_Canva__import-design-from-url
+     └ mcp__claude_ai_Canva__list-brand-kits
+     └ mcp__claude_ai_Canva__list-comments
+     └ mcp__claude_ai_Canva__list-folder-items
+     └ mcp__claude_ai_Canva__list-replies
+     └ mcp__claude_ai_Canva__merge-designs
+     └ mcp__claude_ai_Canva__move-item-to-folder
+     └ mcp__claude_ai_Canva__perform-editing-operations
+     └ mcp__claude_ai_Canva__reply-to-comment
+     └ mcp__claude_ai_Canva__request-outline-review
+     └ mcp__claude_ai_Canva__resize-design
+     └ mcp__claude_ai_Canva__resolve-shortlink
+     └ mcp__claude_ai_Canva__search-designs
+     └ mcp__claude_ai_Canva__search-folders
+     └ mcp__claude_ai_Canva__start-editing-transaction
+     └ mcp__claude_ai_Canva__upload-asset-from-url
+     └ mcp__claude_ai_Excalidraw__create_view
+     └ mcp__claude_ai_Excalidraw__export_to_excalidraw
+     └ mcp__claude_ai_Excalidraw__read_checkpoint
+     └ mcp__claude_ai_Excalidraw__read_me
+     └ mcp__claude_ai_Excalidraw__save_checkpoint
+     └ mcp__claude_ai_Figma__add_code_connect_map
+     └ mcp__claude_ai_Figma__create_design_system_rules
+     └ mcp__claude_ai_Figma__create_new_file
+     └ mcp__claude_ai_Figma__generate_diagram
+     └ mcp__claude_ai_Figma__get_code_connect_map
+     └ mcp__claude_ai_Figma__get_code_connect_suggestions
+     └ mcp__claude_ai_Figma__get_context_for_code_connect
+     └ mcp__claude_ai_Figma__get_design_context
+     └ mcp__claude_ai_Figma__get_figjam
+     └ mcp__claude_ai_Figma__get_metadata
+     └ mcp__claude_ai_Figma__get_screenshot
+     └ mcp__claude_ai_Figma__get_variable_defs
+     └ mcp__claude_ai_Figma__search_design_system
+     └ mcp__claude_ai_Figma__send_code_connect_mappings
+     └ mcp__claude_ai_Figma__use_figma
+     └ mcp__claude_ai_Figma__whoami
+     └ mcp__claude_ai_Google_Drive__authenticate
+     └ mcp__claude_ai_Google_Drive__complete_authentication
+     └ mcp__claude_ai_Slack__authenticate
+     └ mcp__claude_ai_Slack__complete_authentication
+     └ mcp__ide__executeCode
+     └ mcp__next-devtools__enable_cache_components
+     └ mcp__next-devtools__nextjs_docs
+     └ mcp__next-devtools__upgrade_nextjs_16
+     └ mcp__plugin_context7_context7__query-docs
+     └ mcp__plugin_context7_context7__resolve-library-id
+     └ mcp__plugin_vercel-plugin_vercel__authenticate
+     └ mcp__plugin_vercel-plugin_vercel__complete_authentication
+
+     Custom agents · /agents
+
+     Plugin
+     └ pr-review-toolkit:code-simplifier: 741 tokens
+     └ pr-review-toolkit:code-reviewer: 660 tokens
+     └ pr-review-toolkit:comment-analyzer: 657 tokens
+     └ pr-review-toolkit:pr-test-analyzer: 575 tokens
+     └ pr-review-toolkit:silent-failure-hunter: 528 tokens
+     └ pr-review-toolkit:type-design-analyzer: 485 tokens
+     └ superpowers:code-reviewer: 353 tokens
+     └ vercel-plugin:deployment-expert: 116 tokens
+     └ vercel-plugin:performance-optimizer: 114 tokens
+     └ vercel:deployment-expert: 112 tokens
+     └ vercel-plugin:ai-architect: 111 tokens
+     └ vercel:performance-optimizer: 110 tokens
+     └ vercel:ai-architect: 107 tokens
+     └ feature-dev:code-reviewer: 86 tokens
+     └ feature-dev:code-architect: 85 tokens
+     └ feature-dev:code-explorer: 79 tokens
+     └ code-simplifier:code-simplifier: 76 tokens
+
+     Memory files · /memory
+     └ ~/Projects/hasToggle/hasToggle.dev/.worktrees/landing-page-rewrite/CLAUDE.md: 6.8k tokens
+     └ ~/.claude/projects/-Users-eric-Projects-hasToggle-hasToggle-dev/memory/MEMORY.md: 150 tokens
+
+     Skills · /skills
+
+     User
+     └ get-api-docs: 106 tokens
+     └ vercel-react-best-practices: 89 tokens
+     └ vercel-composition-patterns: 85 tokens
+     └ find-skills: 79 tokens
+     └ web-design-guidelines: 52 tokens
+     └ effective-go: 52 tokens
+
+     Plugin
+     └ xlsx: 241 tokens
+     └ docx: 202 tokens
+     └ pptx: 177 tokens
+     └ doc-coauthoring: 115 tokens
+     └ pdf: 114 tokens
+     └ frontend-design: 108 tokens
+     └ claude-automation-recommender: 101 tokens
+     └ internal-comms: 90 tokens
+     └ algorithmic-art: 89 tokens
+     └ skill-creator: 87 tokens
+     └ shadcn: 86 tokens
+     └ shadcn: 84 tokens
+     └ web-artifacts-builder: 82 tokens
+     └ claude-api: 80 tokens
+     └ canvas-design: 80 tokens
+     └ marketplace: 80 tokens
+     └ chat-sdk: 78 tokens
+     └ bootstrap: 78 tokens
+     └ marketplace: 78 tokens
+     └ mcp-builder: 76 tokens
+     └ bootstrap: 76 tokens
+     └ chat-sdk: 76 tokens
+     └ theme-factory: 73 tokens
+     └ next-cache-components: 70 tokens
+     └ nextjs: 69 tokens
+     └ auth: 68 tokens
+     └ nextjs: 68 tokens
+     └ next-cache-components: 68 tokens
+     └ verification-before-completion: 67 tokens
+     └ receiving-code-review: 67 tokens
+     └ brand-guidelines: 67 tokens
+     └ ai-sdk: 67 tokens
+     └ routing-middleware: 66 tokens
+     └ ai-sdk: 66 tokens
+     └ auth: 66 tokens
+     └ slack-gif-creator: 65 tokens
+     └ react-best-practices: 65 tokens
+     └ runtime-cache: 65 tokens
+     └ routing-middleware: 64 tokens
+     └ vercel-functions: 63 tokens
+     └ workflow: 63 tokens
+     └ react-best-practices: 63 tokens
+     └ runtime-cache: 63 tokens
+     └ vercel-sandbox: 62 tokens
+     └ finishing-a-development-branch: 61 tokens
+     └ workflow: 61 tokens
+     └ vercel-functions: 61 tokens
+     └ vercel-sandbox: 60 tokens
+     └ using-git-worktrees: 59 tokens
+     └ webapp-testing: 59 tokens
+     └ vercel-agent: 59 tokens
+     └ verification: 58 tokens
+     └ next-forge: 57 tokens
+     └ vercel-agent: 57 tokens
+     └ brainstorming: 56 tokens
+     └ verification: 56 tokens
+     └ vercel-storage: 54 tokens
+     └ deployments-cicd: 54 tokens
+     └ vercel-cli: 54 tokens
+     └ vercel-cli: 53 tokens
+     └ next-upgrade: 52 tokens
+     └ vercel-storage: 52 tokens
+     └ deployments-cicd: 52 tokens
+     └ vercel-plugin:bootstrap: 51 tokens
+     └ next-upgrade: 50 tokens
+     └ vercel-plugin:env: 49 tokens
+     └ vercel:bootstrap: 49 tokens
+     └ vercel:env: 47 tokens
+     └ using-superpowers: 47 tokens
+     └ turbopack: 47 tokens
+     └ ai-gateway: 47 tokens
+     └ commit-commands:clean_gone: 46 tokens
+     └ env-vars: 46 tokens
+     └ vercel-plugin:marketplace: 45 tokens
+     └ ai-gateway: 45 tokens
+     └ turbopack: 45 tokens
+     └ env-vars: 44 tokens
+     └ vercel:marketplace: 43 tokens
+     └ vercel-plugin:deploy: 39 tokens
+     └ vercel:deploy: 37 tokens
+     └ dispatching-parallel-agents: 37 tokens
+     └ requesting-code-review: 36 tokens
+     └ knowledge-update: 36 tokens
+     └ vercel-plugin:status: 34 tokens
+     └ knowledge-update: 34 tokens
+     └ executing-plans: 33 tokens
+     └ vercel:status: 32 tokens
+     └ systematic-debugging: 31 tokens
+     └ writing-skills: 31 tokens
+     └ subagent-driven-development: 31 tokens
+     └ test-driven-development: 29 tokens
+     └ writing-plans: 28 tokens
+     └ feature-dev:feature-dev: 25 tokens
+     └ superpowers:execute-plan: 22 tokens
+     └ superpowers:write-plan: 21 tokens
+     └ superpowers:brainstorm: 21 tokens
+     └ pr-review-toolkit:review-pr: 19 tokens
+     └ commit-commands:commit-push-pr: 15 tokens
+     └ code-review:code-review: 13 tokens
+     └ commit-commands:commit: 11 tokens
+
+      Suggestions
+      ℹ Read results using 703.3k tokens (70%) → save ~211k
+        Use offset and limit parameters to read only the sections you need. Avoid re-reading entire files when you only need a few lines.
+
+help me fix this.
+
+---
+
+Run next mcp to get a view on the page in light and dark mode and improve the current choices in our design system. for instance, the rounded corners at the top and bottom do not look too great in combination with the chosen colors of the ui in top of it. This is just an example. Identify any issues and propose fixes. You are a senior design engineer; apply your good taste and expertise.
+
+---
+
+Check for any remaining non-semantic TailwindCSS that we need to switch to semantic ones. The end goal is a clean web project that is squarely built on the design system package. Also, the current landing page has two forms. The one in the footer can go, I think. Make sure the remaining form works.
