@@ -51,7 +51,6 @@ function MisconceptionDemos() {
 
       {/* Demo 2: Destructive Defaults — essay */}
       <MisconceptionWrapper
-        dark
         hook="I told AI exactly what I wanted."
         id="misconception-02"
         meta="And the question you didn't ask is the one that shipped to production."
@@ -60,12 +59,11 @@ function MisconceptionDemos() {
         status="essay"
       >
         <Expandable
-          dark
           label={
             'Did you know? "The safest brake is the one that\'s always on."'
           }
         >
-          <div className="space-y-4 text-gray-400">
+          <div className="space-y-4 text-foreground/75 leading-7">
             <p>
               Heavy trucks use air brakes. This is interesting for a reason that
               has nothing to do with trucks and everything to do with the demo
@@ -103,16 +101,16 @@ function MisconceptionDemos() {
               The truck engineer and the software developer faced the same
               question. One of them thought about it first.&thinsp;**
             </p>
-            <MetaAside className="mt-4" dark noMarker>
+            <MetaAside className="mt-4" noMarker>
               * A trait that, in software, is distressingly rare and
               disproportionately valuable.
             </MetaAside>
-            <MetaAside dark noMarker>
+            <MetaAside noMarker>
               ** The other one shipped to production on a Friday.
             </MetaAside>
           </div>
         </Expandable>
-        <MetaAside className="mt-8" dark>
+        <MetaAside className="mt-8">
           When the answer is always there, the question stops getting asked.
         </MetaAside>
       </MisconceptionWrapper>

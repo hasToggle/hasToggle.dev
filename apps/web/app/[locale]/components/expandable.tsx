@@ -6,27 +6,16 @@ import { useState } from "react";
 interface ExpandableProps {
   children: React.ReactNode;
   className?: string;
-  dark?: boolean;
   label: string;
 }
 
-export function Expandable({
-  children,
-  className,
-  dark = false,
-  label,
-}: ExpandableProps) {
+export function Expandable({ children, className, label }: ExpandableProps) {
   const [open, setOpen] = useState(false);
 
   return (
     <div className={cn("mt-6", className)}>
       <button
-        className={cn(
-          "group flex items-center gap-2 font-medium text-sm",
-          dark
-            ? "text-gray-200 hover:text-gray-400"
-            : "text-foreground hover:text-muted-foreground"
-        )}
+        className="group flex items-center gap-2 font-medium text-foreground text-sm hover:text-muted-foreground"
         onClick={() => setOpen(!open)}
         type="button"
       >
@@ -41,14 +30,7 @@ export function Expandable({
         {label}
       </button>
       {open && (
-        <div
-          className={cn(
-            "mt-4 text-sm/6",
-            dark ? "text-gray-400" : "text-muted-foreground"
-          )}
-        >
-          {children}
-        </div>
+        <div className="mt-4 text-muted-foreground text-sm/6">{children}</div>
       )}
     </div>
   );
