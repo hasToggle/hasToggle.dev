@@ -1,0 +1,38 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "c96f004fef21",
+  "session_id": "665f77d4-c734-4d62-8a34-2dc7f248d612",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-17T17:30:50.963841Z",
+  "branch": "feature/landing-page-rewrite",
+  "checkpoints_count": 3,
+  "files_touched": [
+    "apps/web/app/[locale]/(demos)/misconception-wrapper.tsx",
+    "apps/web/app/[locale]/components/meta-aside.tsx",
+    "apps/web/app/[locale]/layout.tsx",
+    "apps/web/app/[locale]/page.tsx",
+    "apps/web/app/styles.css"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-7[1m]",
+  "turn_id": "ecf17ae0dc3d",
+  "token_usage": {
+    "input_tokens": 29,
+    "cache_creation_tokens": 49756,
+    "cache_read_tokens": 276332,
+    "output_tokens": 5966,
+    "api_call_count": 5
+  },
+  "session_metrics": {
+    "turn_count": 3
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-17T17:30:50.913053Z",
+    "agent_lines": 73,
+    "human_added": 138,
+    "human_modified": 47,
+    "human_removed": 0,
+    "total_committed": 258,
+    "agent_percentage": 28.294573643410853
+  }
+}

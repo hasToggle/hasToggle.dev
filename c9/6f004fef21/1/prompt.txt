@@ -1,0 +1,33 @@
+read @SESSION_CONTEXT.md                                                                                                                               
+  @docs/superpowers/specs/2026-04-01-landing-page-positioning-design.md                                                                                  
+                                                                                                                                                         
+  then explore the landing page in the web project.                                                                                                      
+                                                                                                                                                         
+  this is a branch for rewriting and redesining the look and feel of the site. I want to iterate on the page with you.
+
+---
+
+Let's focus on content. Here's a post by Andrew Ng about his talk at the upcoming AI Dev Conference:
+
+As AI agents accelerate coding, what is the future of software engineering? Some trends are clear, such as the Product Management Bottleneck, referring to the idea that we are more constrained by deciding what to build rather than the actual building. But many implications, like AI’s impact on the job market, how software teams will be organized, and more, are still being sorted out.
+
+The theme of our AI Developer Conference on April 28-29 in San Francisco is The Future of Software Engineering. I look forward to speaking about this topic there, hearing from other speakers on this theme, and chatting with attendees about it. We’re shaping the future, and I hope you will join me there!
+
+Among professions, AI is accelerating software engineering most, given the rise of coding agents. According to a new report by Citadel Research, software engineering job postings are rising rapidly. So if software engineering is a harbinger of the impact AI will have on other professions, this expansion of software engineering jobs is encouraging. 
+
+In software engineering, I see a lot of exciting work ahead to adapt our workflows. It is already clear that: (i) As AI makes coding easier, a lot more people will be doing it. (ii) Writing code by hand and even reading (generated) code is not that important, because we can ask an LLM about the code and operate at a higher level than the raw syntax (although how high we can or should go is rapidly changing). (iii) There will be a lot more custom applications, because now it’s economical to write software for smaller and smaller audiences. (iv) Deciding what to build, more than the actual building, is becoming a bottleneck. (v) The cost of paying down technical debt is decreasing (since AI can refactor for you).
+
+At the same time, there are also a lot of open questions for our profession, such as:
+- In the future, what will be the key skills of a senior software engineer? And for junior levels, what should be the new Computer Science curriculum?
+- If everyone can build fea what skills, strategies, or resources create competitive advantage for individuals and for businesses?
+- What are the new building blocks (libraries, SDKs, etc.) of software? How do we organize coding agents to create software?
+- What should a software team look like? For example, how many engineers, product managers, designers, and so on. What tooling do we need to manage their workflow?
+- How do AI agents change the workflow of machine learning engineers and data scientists? For example, how can we use agents to accelerate exploring data, identifying hypotheses, and testing them?
+
+I’m excited to explore these and other questions about the future of software engineering at AI Dev. I expect this to be an exciting event.
+
+I want the copy to answer his questions very head-on, no doubt, no maybe, hasToggle IS the place where his questions are the very DNA of this new era of coding and working with AI.
+
+---
+
+Exactly that, your recommendation is spot-on. C, but weighted toward the existing copy.

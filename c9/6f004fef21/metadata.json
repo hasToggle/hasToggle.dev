@@ -3,10 +3,11 @@
   "checkpoint_id": "c96f004fef21",
   "strategy": "manual-commit",
   "branch": "feature/landing-page-rewrite",
-  "checkpoints_count": 1,
+  "checkpoints_count": 4,
   "files_touched": [
     "apps/web/app/[locale]/(demos)/misconception-wrapper.tsx",
     "apps/web/app/[locale]/components/meta-aside.tsx",
+    "apps/web/app/[locale]/layout.tsx",
     "apps/web/app/[locale]/page.tsx",
     "apps/web/app/styles.css"
   ],
@@ -16,13 +17,19 @@
       "transcript": "/c9/6f004fef21/0/full.jsonl",
       "content_hash": "/c9/6f004fef21/0/content_hash.txt",
       "prompt": "/c9/6f004fef21/0/prompt.txt"
+    },
+    {
+      "metadata": "/c9/6f004fef21/1/metadata.json",
+      "transcript": "/c9/6f004fef21/1/full.jsonl",
+      "content_hash": "/c9/6f004fef21/1/content_hash.txt",
+      "prompt": "/c9/6f004fef21/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 474,
-    "cache_creation_tokens": 628867,
-    "cache_read_tokens": 39585977,
-    "output_tokens": 128440,
-    "api_call_count": 286
+    "input_tokens": 503,
+    "cache_creation_tokens": 678623,
+    "cache_read_tokens": 39862309,
+    "output_tokens": 134406,
+    "api_call_count": 291
   }
 }
