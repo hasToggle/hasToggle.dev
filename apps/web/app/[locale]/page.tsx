@@ -20,6 +20,23 @@ function SectionDivider() {
   );
 }
 
+function PartDivider() {
+  return (
+    <Container className="py-12 sm:py-16">
+      <div className="flex items-center justify-center gap-6">
+        <Separator className="flex-1 bg-foreground/10" />
+        <span
+          aria-hidden="true"
+          className="select-none font-mono text-muted-foreground/60 text-sm tracking-[0.25em]"
+        >
+          §
+        </span>
+        <Separator className="flex-1 bg-foreground/10" />
+      </div>
+    </Container>
+  );
+}
+
 export const metadata: Metadata = {
   title: "hasToggle — AI makes you more.",
   description:
@@ -216,9 +233,15 @@ const VALUES: readonly {
 function Values() {
   return (
     <Container className="py-24 sm:py-32">
-      <div className="mb-16 max-w-2xl">
+      <div className="mb-20 max-w-2xl">
         <Subheading>What we believe</Subheading>
-        <MetaAside className="mt-3">
+        <Heading
+          as="h2"
+          className="mt-3 text-balance text-4xl sm:text-5xl md:text-6xl"
+        >
+          Three beliefs we keep coming back to.
+        </Heading>
+        <MetaAside className="mt-6">
           Most About sections exist so the founder can talk about themselves.
           This one exists because we thought you&apos;d want to know what
           you&apos;re getting into.
@@ -303,6 +326,7 @@ export default function MarketingPage() {
       <Hero />
       <main>
         <MisconceptionDemos />
+        <PartDivider />
         <Values />
         <DigestCTA />
         <FrequentlyAskedQuestions />
