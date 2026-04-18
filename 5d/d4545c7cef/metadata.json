@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "5dd4545c7cef",
+  "strategy": "manual-commit",
+  "branch": "feature/landing-page-rewrite",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "apps/web/app/[locale]/page.tsx"
+  ],
+  "sessions": [
+    {
+      "metadata": "/5d/d4545c7cef/0/metadata.json",
+      "transcript": "/5d/d4545c7cef/0/full.jsonl",
+      "content_hash": "/5d/d4545c7cef/0/content_hash.txt",
+      "prompt": "/5d/d4545c7cef/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 461,
+    "cache_creation_tokens": 511310,
+    "cache_read_tokens": 67282564,
+    "output_tokens": 165046,
+    "api_call_count": 287
+  }
+}
