@@ -50,7 +50,7 @@ export function CounterMobile() {
   const codeSnippets = getCodeSnippets(state.count);
 
   return (
-    <div className="mx-auto h-full max-w-2xl rounded-lg bg-zinc-50 px-4 py-6 shadow-2xl ring-1 ring-black/10 sm:px-6">
+    <div className="mx-auto h-full max-w-2xl rounded-lg bg-card px-4 py-6 shadow-2xl ring-1 ring-border sm:px-6">
       <Boundary
         animateRerendering={false}
         color="default"
@@ -113,14 +113,14 @@ function CounterContent({
     <div className="flex w-full flex-col gap-y-6">
       <div className="flex justify-between self-center sm:self-auto">
         <div className="hidden max-w-64 space-y-2 text-balance sm:block">
-          <h3 className="mt-5 font-semibold text-gray-900 text-xl">
+          <h3 className="mt-5 font-semibold text-foreground text-xl">
             {state.title}
           </h3>
-          <p className="text-gray-700 text-sm">{state.paragraph}</p>
-          <p className="text-gray-700 text-sm">{state.cta}</p>
+          <p className="text-muted-foreground text-sm">{state.paragraph}</p>
+          <p className="text-muted-foreground text-sm">{state.cta}</p>
         </div>
 
-        <div className="relative aspect-square w-56 overflow-hidden rounded-2xl ring-1 ring-black/10">
+        <div className="relative aspect-square w-56 overflow-hidden rounded-2xl ring-1 ring-border">
           <Image
             alt="squirrel"
             className="absolute inset-x-0 top-0 aspect-square w-full object-cover"
@@ -143,7 +143,7 @@ function CounterContent({
         >
           take one
         </Button>
-        <div className="inset-ring inset-ring-zinc-300 flex w-20 items-baseline justify-center rounded-md px-3.5 py-1.5 font-semibold text-gray-800 text-lg shadow-sm">
+        <div className="inset-ring inset-ring-border flex w-20 items-baseline justify-center rounded-md px-3.5 py-1.5 font-semibold text-foreground text-lg shadow-sm">
           {state.count} <span className="ml-1 text-sm">{"\u{1F330}"}</span>
         </div>
         <Button

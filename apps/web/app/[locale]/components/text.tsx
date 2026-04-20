@@ -18,7 +18,7 @@ export function Heading({
       {...props}
       className={cn(
         className,
-        "text-pretty font-medium text-4xl text-gray-950 tracking-tighter data-[dark]:text-white sm:text-6xl"
+        "text-pretty font-medium text-4xl text-foreground tracking-tighter data-dark:text-white sm:text-6xl"
       )}
       data-dark={dark ? "true" : undefined}
     />
@@ -36,7 +36,7 @@ export function Subheading({
       {...props}
       className={cn(
         className,
-        "font-mono font-semibold text-gray-500 text-xs/5 uppercase tracking-widest data-[dark]:text-gray-400"
+        "font-mono font-semibold text-muted-foreground text-xs/5 uppercase tracking-widest data-dark:text-gray-400"
       )}
       data-dark={dark ? "true" : undefined}
     />
@@ -49,7 +49,7 @@ export function Lead({
 }: React.ComponentPropsWithoutRef<"p">) {
   return (
     <p
-      className={cn(className, "font-medium text-2xl text-gray-500")}
+      className={cn(className, "font-medium text-2xl text-muted-foreground")}
       {...props}
     />
   );

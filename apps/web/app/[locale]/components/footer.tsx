@@ -1,33 +1,12 @@
 import { Container } from "./container";
-import { Digest } from "./digest";
-import { Gradient } from "./gradient";
 import { Logo } from "./logo";
 import { Link } from "./marketing-link";
 import { PlusGrid, PlusGridItem, PlusGridRow } from "./plus-grid";
-import { Subheading } from "./text";
-
-function CallToAction() {
-  return (
-    <div className="relative pt-20 pb-16 text-center sm:py-24">
-      <hgroup>
-        <Subheading>Get your nuts together</Subheading>
-        <p className="mt-6 font-medium text-3xl text-gray-950 tracking-tight sm:text-5xl">
-          Hazel is waiting for you.
-          <br />
-          Sign up for the weekly digest today.
-        </p>
-      </hgroup>
-      <p className="mx-auto mt-6 max-w-xs text-gray-500 text-sm/6">
-        Practical coding tips, every Monday, right in your inbox.
-      </p>
-
-      <Digest />
-    </div>
-  );
-}
 
 function SitemapHeading({ children }: { children: React.ReactNode }) {
-  return <h3 className="font-medium text-gray-950/50 text-sm/6">{children}</h3>;
+  return (
+    <h3 className="font-medium text-foreground/50 text-sm/6">{children}</h3>
+  );
 }
 
 function SitemapLinks({ children }: { children: React.ReactNode }) {
@@ -39,7 +18,7 @@ function SitemapLink(props: React.ComponentPropsWithoutRef<typeof Link>) {
     <li>
       <Link
         {...props}
-        className="font-medium text-gray-950 hover:text-gray-950/75"
+        className="font-medium text-foreground hover:text-foreground/75"
       />
     </li>
   );
@@ -90,7 +69,7 @@ function SocialLinks() {
     <>
       <Link
         aria-label="Visit Eric on YouTube"
-        className="text-gray-950 hover:text-gray-950/75"
+        className="text-foreground hover:text-foreground/75"
         href="https://www.youtube.com/@hastoggle"
         target="_blank"
       >
@@ -98,7 +77,7 @@ function SocialLinks() {
       </Link>
       <Link
         aria-label="DM Eric on X"
-        className="text-gray-950 hover:text-gray-950/75"
+        className="text-foreground hover:text-foreground/75"
         href="https://x.com/hasToggle"
         target="_blank"
       >
@@ -106,7 +85,7 @@ function SocialLinks() {
       </Link>
       <Link
         aria-label="Connect with Eric on LinkedIn"
-        className="text-gray-950 hover:text-gray-950/75"
+        className="text-foreground hover:text-foreground/75"
         href="https://www.linkedin.com/in/ernst-stolz"
         target="_blank"
       >
@@ -118,7 +97,7 @@ function SocialLinks() {
 
 function Copyright() {
   return (
-    <div className="text-gray-950 text-sm/6">
+    <div className="text-foreground text-sm/6">
       &copy; {new Date().getFullYear()} hasToggle.
     </div>
   );
@@ -126,45 +105,44 @@ function Copyright() {
 
 export function Footer() {
   return (
-    <footer>
-      <Gradient className="relative">
-        <div className="absolute inset-2 rounded-4xl bg-slate-50/90" />
-        <Container>
-          <CallToAction />
-          <PlusGrid className="pb-16">
-            <PlusGridRow>
-              <div className="grid grid-cols-2 gap-y-10 pb-6 lg:grid-cols-6 lg:gap-8">
-                <div className="col-span-2 flex">
-                  <PlusGridItem className="pt-6 lg:pb-6">
-                    <Logo className="inline-block h-6" fill="black" />
-                  </PlusGridItem>
-                </div>
-                <div className="col-span-2 grid grid-cols-2 gap-x-8 gap-y-12 lg:col-span-4 lg:grid-cols-subgrid lg:pt-6">
-                  <Sitemap />
-                </div>
-              </div>
-            </PlusGridRow>
-            <PlusGridRow className="flex justify-between">
-              <div>
-                <PlusGridItem className="py-3">
-                  <Copyright />
+    <footer className="bg-muted">
+      <Container>
+        <PlusGrid className="pt-16 pb-16">
+          <PlusGridRow>
+            <div className="grid grid-cols-2 gap-y-10 pb-6 lg:grid-cols-6 lg:gap-8">
+              <div className="col-span-2 flex">
+                <PlusGridItem className="pt-6 lg:pb-6">
+                  <Logo
+                    className="inline-block h-6 text-foreground"
+                    fill="currentColor"
+                  />
                 </PlusGridItem>
               </div>
-              <div>
-                <div className="py-3 text-center text-gray-500 text-sm/6">
-                  because cracking the code shouldn&apos;t drive you nuts
-                  {" \uD83D\uDC3F\uFE0F"}
-                </div>
+              <div className="col-span-2 grid grid-cols-2 gap-x-8 gap-y-12 lg:col-span-4 lg:grid-cols-subgrid lg:pt-6">
+                <Sitemap />
               </div>
-              <div className="flex">
-                <PlusGridItem className="flex items-center gap-8 py-3">
-                  <SocialLinks />
-                </PlusGridItem>
+            </div>
+          </PlusGridRow>
+          <PlusGridRow className="flex justify-between">
+            <div>
+              <PlusGridItem className="py-3">
+                <Copyright />
+              </PlusGridItem>
+            </div>
+            <div>
+              <div className="py-3 text-center text-muted-foreground text-sm/6">
+                You just scrolled past four misconceptions and a fake statistic.
+                Welcome to hasToggle.
               </div>
-            </PlusGridRow>
-          </PlusGrid>
-        </Container>
-      </Gradient>
+            </div>
+            <div className="flex">
+              <PlusGridItem className="flex items-center gap-8 py-3">
+                <SocialLinks />
+              </PlusGridItem>
+            </div>
+          </PlusGridRow>
+        </PlusGrid>
+      </Container>
     </footer>
   );
 }

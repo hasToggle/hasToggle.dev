@@ -12,9 +12,9 @@
   --color-hastoggle-green: #008000;
 
   /* ht-blue (hue: 236) */
-  --color-ht-blue-50: oklch(1 0 180);
-  --color-ht-blue-100: oklch(1 0 180);
-  --color-ht-blue-200: oklch(1 0 180);
+  --color-ht-blue-50: oklch(0.99 0.003 236);
+  --color-ht-blue-100: oklch(0.98 0.009 236);
+  --color-ht-blue-200: oklch(0.965 0.018 236);
   --color-ht-blue-300: oklch(0.953 0.028 235.946);
   --color-ht-blue-400: oklch(0.871 0.08 236);
   --color-ht-blue-500: oklch(0.789 0.135 236);
@@ -25,9 +25,9 @@
   --color-ht-blue-950: oklch(0.419 0.1 236);
 
   /* ht-red (hue: 20) */
-  --color-ht-red-50: oklch(1 0 180);
-  --color-ht-red-100: oklch(1 0 180);
-  --color-ht-red-200: oklch(1 0 180);
+  --color-ht-red-50: oklch(0.99 0.003 20);
+  --color-ht-red-100: oklch(0.98 0.009 20);
+  --color-ht-red-200: oklch(0.965 0.02 20);
   --color-ht-red-300: oklch(0.953 0.03 20);
   --color-ht-red-400: oklch(0.871 0.089 20);
   --color-ht-red-500: oklch(0.789 0.158 20);
@@ -38,9 +38,9 @@
   --color-ht-red-950: oklch(0.419 0.1 20);
 
   /* ht-green (hue: 147) */
-  --color-ht-green-50: oklch(1 0 180);
-  --color-ht-green-100: oklch(1 0 180);
-  --color-ht-green-200: oklch(1 0 180);
+  --color-ht-green-50: oklch(0.99 0.009 147);
+  --color-ht-green-100: oklch(0.98 0.027 147);
+  --color-ht-green-200: oklch(0.965 0.058 147);
   --color-ht-green-300: oklch(0.953 0.089 147);
   --color-ht-green-400: oklch(0.871 0.29 147);
   --color-ht-green-500: oklch(0.789 0.329 146.998);
@@ -51,9 +51,9 @@
   --color-ht-green-950: oklch(0.419 0.1 147);
 
   /* ht-greenish (hue: 156) */
-  --color-ht-greenish-50: oklch(1 0 180);
-  --color-ht-greenish-100: oklch(1 0 180);
-  --color-ht-greenish-200: oklch(1 0 180);
+  --color-ht-greenish-50: oklch(0.99 0.008 156);
+  --color-ht-greenish-100: oklch(0.98 0.025 156);
+  --color-ht-greenish-200: oklch(0.965 0.053 156);
   --color-ht-greenish-300: oklch(0.953 0.082 156.001);
   --color-ht-greenish-400: oklch(0.871 0.259 156);
   --color-ht-greenish-500: oklch(0.789 0.265 155.998);
@@ -64,9 +64,9 @@
   --color-ht-greenish-950: oklch(0.419 0.1 156);
 
   /* ht-darkgreen (hue: 169) */
-  --color-ht-darkgreen-50: oklch(1 0 180);
-  --color-ht-darkgreen-100: oklch(1 0 180);
-  --color-ht-darkgreen-200: oklch(1 0 180);
+  --color-ht-darkgreen-50: oklch(0.99 0.008 169);
+  --color-ht-darkgreen-100: oklch(0.98 0.023 169);
+  --color-ht-darkgreen-200: oklch(0.965 0.049 169);
   --color-ht-darkgreen-300: oklch(0.953 0.076 169.005);
   --color-ht-darkgreen-400: oklch(0.871 0.238 168.997);
   --color-ht-darkgreen-500: oklch(0.789 0.216 168.996);
@@ -77,9 +77,9 @@
   --color-ht-darkgreen-950: oklch(0.419 0.1 169);
 
   /* ht-cyan (hue: 206) */
-  --color-ht-cyan-50: oklch(1 0 180);
-  --color-ht-cyan-100: oklch(1 0 180);
-  --color-ht-cyan-200: oklch(1 0 180);
+  --color-ht-cyan-50: oklch(0.99 0.005 206);
+  --color-ht-cyan-100: oklch(0.98 0.015 206);
+  --color-ht-cyan-200: oklch(0.965 0.033 206);
   --color-ht-cyan-300: oklch(0.953 0.05 205.984);
   --color-ht-cyan-400: oklch(0.871 0.142 205.994);
   --color-ht-cyan-500: oklch(0.789 0.18 206.003);
@@ -90,9 +90,9 @@
   --color-ht-cyan-950: oklch(0.419 0.096 206.008);
 
   /* ht-orange (hue: 47) */
-  --color-ht-orange-50: oklch(1 0 180);
-  --color-ht-orange-100: oklch(1 0 180);
-  --color-ht-orange-200: oklch(1 0 180);
+  --color-ht-orange-50: oklch(0.99 0.003 47);
+  --color-ht-orange-100: oklch(0.98 0.01 47);
+  --color-ht-orange-200: oklch(0.965 0.021 47);
   --color-ht-orange-300: oklch(0.953 0.033 47.025);
   --color-ht-orange-400: oklch(0.871 0.096 47.001);
   --color-ht-orange-500: oklch(0.789 0.168 47.005);
@@ -112,6 +112,18 @@
 
   /* Switzer font (loaded via CDN in marketing layout) */
   --font-switzer: "Switzer", system-ui, sans-serif;
+}
+
+/* JetBrains Mono (loaded via Google Fonts in marketing layout) for the
+   meta-layer voice. The design system sets --font-mono to Geist Mono for
+   app-wide consistency; marketing uses a dedicated editorial face. This
+   override is scoped to the .font-switzer wrapper so it only affects the
+   marketing route tree. */
+.font-switzer .font-mono,
+.font-switzer.font-mono {
+  font-family:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    monospace;
 }
 
 /* Marketing keyframes */

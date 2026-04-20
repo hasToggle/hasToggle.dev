@@ -14,7 +14,7 @@ function DesktopNav({ variant }: { variant: "light" | "dark" }) {
       {links.map(({ href, label }) => (
         <PlusGridItem className="relative flex" key={href} variant={variant}>
           <Link
-            className={`flex items-center px-4 py-3 font-medium text-base ${variant === "dark" ? "text-slate-100" : "text-slate-900"} bg-blend-multiply hover:bg-black/[2.5%]`}
+            className={`flex items-center px-4 py-3 font-medium text-base ${variant === "dark" ? "text-white" : "text-foreground"} bg-blend-multiply hover:bg-black/2.5`}
             href={href}
           >
             {label}
@@ -40,7 +40,7 @@ function MobileNavButton({
       type="button"
     >
       <Menu
-        className={`size-6 ${variant === "dark" ? "text-gray-300" : "text-gray-900"}`}
+        className={`size-6 ${variant === "dark" ? "text-white" : "text-foreground"}`}
       />
     </button>
   );
@@ -63,7 +63,7 @@ function MobileNav({
         {links.map(({ href, label }) => (
           <div key={href}>
             <Link
-              className={`font-medium text-base ${variant === "dark" ? "text-gray-300" : "text-gray-900"}`}
+              className={`font-medium text-base ${variant === "dark" ? "text-white" : "text-foreground"}`}
               href={href}
             >
               {label}
@@ -104,7 +104,7 @@ export function Navbar({
               <Link href="/" title="Home">
                 <Logo
                   className="inline-block h-6"
-                  fill={variant === "dark" ? "white" : "black"}
+                  fill={variant === "dark" ? "white" : "var(--foreground)"}
                 />
               </Link>
             </PlusGridItem>
