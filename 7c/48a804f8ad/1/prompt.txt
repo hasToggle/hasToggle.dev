@@ -1,0 +1,105 @@
+i just realized something. here's some context:
+
+The Precht material is gold. The sharpest weapon it hands us isn't just Wittgenstein-in-general — it's the distinction between early Wittgenstein (AI) 
+  and late Wittgenstein (humans). That's the thesis crystallized.                                                                                        
+                                                                                                                                                         
+  The four strands that reshape hasToggle's identity                                                                                                     
+                                                                                                                                                         
+  1. AI is the Tractatus. Humans are the Investigations.                                                                                                 
+                                                                                                                                                         
+  Early Wittgenstein thought language could be made into a precision instrument for knowledge. The Vienna Circle tried to build it. That's exactly what  
+  AI is — the completion of the early-Wittgenstein project. Generate the next token with maximum probability. Speak precisely. Say what is the case.     
+                                                                                                                                                         
+  Late Wittgenstein abandoned the precision project. He realized: that's not what language is for. Language is games — pragmatic, contextual,            
+  metaphorical, ironic, approximate. Precht's quote:
+                                                                                                                                                         
+  ▎ "Language was never designed to be a precision weapon for knowledge. That was never its purpose."                                            
+  ▎ "It was about social understanding. And social understanding doesn't work through precision."
+                                                                                                                                                         
+  The human skill that AI can't automate isn't judgment in the abstract. It's living inside a language-game. AI produces sentences from the outside.     
+  Humans navigate meaning from the inside.
+                                                                                                                                                         
+  This is a much sharper technical distinction than "humans are the constant." It names the specific thing AI can't do, in terms of cognitive mechanism. 
+  
+  2. Interpretation is not decoding — it's inhabiting.                                                                                                   
+                                                                   
+  Precht on meaning-making: context is constitutive, meaning emerges through use, understanding is a form of life. Applied to code: you don't understand 
+  React by reading docs. You inhabit it until its grammar is yours. AI can produce React code. It cannot inhabit the language-game where
+  React-code-means-something.                                                                                                                            
+                                                                   
+  This reframes what learning code actually is. Not information acquisition. Linguistic inhabitation.                                                    
+  
+  3. The limits aren't of language — they're of language-es.                                                                                             
+                                                                   
+  The Wittgensteinian limit-of-world claim gets refined: each domain has its own language. Code is a language-game. Product thinking is a language-game. 
+  User empathy is a language-game. Expertise = the set of language-games you live inside.
+                                                                                                                                                         
+  This opens a huge structural door for hasToggle: the product isn't just "learn code well with AI." It's "inhabit more language-games, extend each one  
+  at its limits." The long-term vision (beyond developers) fits perfectly — every domain AI touches is a language-game humans used to inhabit.
+                                                                                                                                                         
+  4. Context is constitutive — and AI can't generate context.      
+
+  Duchamp's urinal is trash or art depending on context. The same code is good or bad depending on context (team, user, product moment, history, values).
+   AI can generate any artifact. It cannot generate the context that makes the artifact mean something. Context is the irreducibly human layer.
+                                                                                                                                                         
+  This is "AI builds what you ask for, not what you need" (Demo 2) given an academic chassis: need is context; AI doesn't have access to context; only 
+  you do.
+
+  ---
+  What this does to what we already have
+                                                                                                                                                         
+  - Tagline ("AI makes you more") — still works, now deeper. More of what? More of the language you live inside. The promise is linguistic expansion.
+  - Hero eyebrow ("The answer is cheap now. The skill is the question.") — still works. A question is language reaching for its limit. Precht-confirmed. 
+  - The three moves (Ask / Collide / Rediscover) — survive the reframe. They become moves of linguistic work:                                            
+    - Ask = extend your language at its edge                                                                                                             
+    - Collide = discover where your language breaks                                                                                                      
+    - Rediscover = rebuild the meaning in your own words                                                                                                 
+  - Closer ("Everything in AI moves except the way you actually learn.") — could be tightened against the language frame. Candidates: "AI speaks a 
+  thousand languages. You still think in one." / "The sentences change. The language-games don't."                                                       
+                                                                   
+  The existing work isn't wrong. The language thesis is the foundation underneath it that makes it philosophically load-bearing.                         
+                                                                   
+  ---                                                                                                                                                    
+  Identity drafts — five angles to drill into                      
+                                                                                                                                                         
+  A. The language-game school
+                                                                                                                                                         
+  ▎ hasToggle teaches code as a language-game. AI can speak it. You have to live inside it. The difference is the work.
+
+  B. The linguistic-ownership practice
+
+  ▎ hasToggle is a practice in linguistic ownership. AI generates the sentences of software. We teach you to own the meaning. Code is the proving ground.
+  ▎  Language is the subject.
+                                                                                                                                                         
+  C. The late-Wittgenstein school (for the philosophically literate reader)
+
+  ▎ AI is the precision project Wittgenstein abandoned. Humans live in language-games — contextual, ambiguous, alive. hasToggle trains the language-game
+  ▎ muscle. The one AI can't borrow.
+
+  D. The inhabiting place (softest, most inviting)
+
+  ▎ hasToggle is where you stop borrowing AI's sentences and start inhabiting your own language. Because understanding isn't information. It's a form of 
+  ▎ life.
+                                                                                                                                                         
+  E. The irreducible-layer thesis (most technical)                                                                                                       
+  
+  ▎ Context is what AI can't generate. Meaning lives in context. hasToggle teaches the one layer of software that AI will never do for you — the one that
+  ▎  makes the code actually mean anything.                        
+                                                                                                                                                         
+  ---                                                              
+  My read
+         
+  - A is the sharpest headline version. Fits on a wall.
+  - B is the most accurate long-form identity. "Linguistic ownership" is a precise new phrase that the brand could own.                                  
+  - C is brave and distinctive but narrows audience. Works as a deep-layer statement (About page, essay) not a front-door identity.
+  - D is the kindest. Invites rather than declares. Good for first-touch.                                                                                
+  - E technically strongest but sounds like a manifesto, not a pitch.                                                                                    
+                                                                                                                                                         
+  My push: B is the new core identity sentence. A is its t-shirt version. D is the invitation voice. C and E are essay material.                         
+                                                                                                                                                         
+  The word worth claiming: "inhabit." It's distinctive, it's Wittgensteinian, it's not yet claimed by any AI-learning brand I can think of, and it does  
+  honest work — you inhabit a language the way you inhabit a house. It suggests dwelling, living-in, becoming-familiar-with, none of which AI can do.
+
+if language is all the limits of our understanding and if AI going to produce ever more language all around us, for driving cars, for coding, for voice assistants, ... then our limits are guarded by the language these LLMs use. it's like living in a bubble of social media where you get more of the same and never learn anything, you just get reaffirmed in your world view. AI is going to make that even more pronounced. it's an issue, for sure, but people want to live in their bubble, too. 
+
+what i'm interested in is business ideas. what business can i build today that captures value, going off of the above?
