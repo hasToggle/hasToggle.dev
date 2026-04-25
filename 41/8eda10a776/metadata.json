@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "418eda10a776",
+  "strategy": "manual-commit",
+  "branch": "feature/landing-page-rewrite",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "docs/superpowers/specs/2026-04-25-grammar-without-meaning-demo-design.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/41/8eda10a776/0/metadata.json",
+      "transcript": "/41/8eda10a776/0/full.jsonl",
+      "content_hash": "/41/8eda10a776/0/content_hash.txt",
+      "prompt": "/41/8eda10a776/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 28,
+    "cache_creation_tokens": 16984,
+    "cache_read_tokens": 874451,
+    "output_tokens": 13685,
+    "api_call_count": 8
+  }
+}

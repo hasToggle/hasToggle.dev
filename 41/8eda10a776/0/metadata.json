@@ -1,0 +1,36 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "418eda10a776",
+  "session_id": "33ccd8b8-bdb5-4b92-b894-3f3c8d90155f",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-25T12:31:54.595057Z",
+  "branch": "feature/landing-page-rewrite",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "docs/superpowers/specs/2026-04-25-grammar-without-meaning-demo-design.md"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-7[1m]",
+  "turn_id": "e7a07e87894c",
+  "checkpoint_transcript_start": 184,
+  "transcript_lines_at_start": 184,
+  "token_usage": {
+    "input_tokens": 28,
+    "cache_creation_tokens": 16984,
+    "cache_read_tokens": 874451,
+    "output_tokens": 13685,
+    "api_call_count": 8
+  },
+  "session_metrics": {
+    "turn_count": 16
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-25T12:31:54.503394Z",
+    "agent_lines": 0,
+    "human_added": 266,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 266,
+    "agent_percentage": 0
+  }
+}
