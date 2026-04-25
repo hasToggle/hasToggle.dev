@@ -3,7 +3,7 @@
   "checkpoint_id": "7c48a804f8ad",
   "strategy": "manual-commit",
   "branch": "feature/landing-page-rewrite",
-  "checkpoints_count": 37,
+  "checkpoints_count": 49,
   "files_touched": [
     "apps/web/app/[locale]/components/hero.tsx",
     "apps/web/app/[locale]/page.tsx"
@@ -20,13 +20,19 @@
       "transcript": "/7c/48a804f8ad/1/full.jsonl",
       "content_hash": "/7c/48a804f8ad/1/content_hash.txt",
       "prompt": "/7c/48a804f8ad/1/prompt.txt"
+    },
+    {
+      "metadata": "/7c/48a804f8ad/2/metadata.json",
+      "transcript": "/7c/48a804f8ad/2/full.jsonl",
+      "content_hash": "/7c/48a804f8ad/2/content_hash.txt",
+      "prompt": "/7c/48a804f8ad/2/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 605,
-    "cache_creation_tokens": 993064,
-    "cache_read_tokens": 13282638,
-    "output_tokens": 194434,
-    "api_call_count": 117
+    "input_tokens": 700,
+    "cache_creation_tokens": 1370465,
+    "cache_read_tokens": 14645990,
+    "output_tokens": 224802,
+    "api_call_count": 139
   }
 }

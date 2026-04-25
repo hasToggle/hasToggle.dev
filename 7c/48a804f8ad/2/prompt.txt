@@ -1,0 +1,55 @@
+Read @docs/superpowers/specs/2026-04-01-landing-page-positioning-design.md and the main page of the web repo. Deeply understand what hasToggle is about (work in progress as far as the copy is concerned). I have an idea for one of the demos on the page. 
+
+A demo that displays how LLMs generate text (instead of tokens, for simplification). The lesson being that it's probabilistic. Display some words being generated, then sentences, then a paragraph, all in response to a question. The word makes sense, the sentence makes sense, the paragraph looks confident but is wrong. The lesson here is to explain and show the mechanism of LLMs, display that on an example (word, sentence, paragraph) and then draw the conclusion, too: you cannot trust probabilistic output on its own. This is just training data reflected in its most likely output. The LLM doesn't count or calculate; it tells a narrative based on the most likely next character. This is why grounding is so vital. The last step in the demo is to show an improved question to the LLM where there is an instruction to do a web search and operate on the actually retrieved information rather than internal training data (this is grounding). Do not use AI as a database of wisdom, or like an oracle that knows everything. Use it as a tool that can apply intelligence on the input. But the input (the grounding) should be chosen/directed towards by you. Let the LLM generate the thinking around the chosen subject, but make sure to constrain it within grounded truths.
+
+The exact word, sentence, and paragraph are up for debate. I am open to suggestion of what fits best for hasToggle. The only constraint is that it has to be excellent and badass.
+
+---
+
+no, stay in terminal
+
+---
+
+I like A and elements of C. Do you think there's an example where we demo that even grounding (in docs via context7 or whatever) is not sufficient? It's essential (or else hallucination) but it's not sufficient. Any ideas?
+
+---
+
+Yes, 1) it is
+
+---
+
+C
+
+---
+
+B. i)
+
+---
+
+β
+
+---
+
+γ
+
+---
+
+β
+
+---
+
+A mix:
+Hook: β
+Question: α
+Meta: α
+Reality: β
+
+I also like γ's Meta and Reality. Maybe we can use those at some occasion in the demo as well.
+
+---
+
+want this.
+
+---
+
+approve. the status badge receives a new purpose: it's no longer reflecting the state of the demo and instead captures the demo in a word. give me some variations of what best to capture, then you proceed.
