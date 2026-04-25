@@ -20,3 +20,7 @@ Use the init tool to set up Next.js DevTools context in case you haven't already
 ---
 
 The substance is all there, but the ui/ux needs the attention of your expertise as a senior design engineer. write a summary of the landing page's copy and the core thesis in the markdown file, with the goal of capturing the design language and apply it to the demo. the final result should be intuitive, coherent, and just badass. apply the changes to the demo.
+
+---
+
+i staged the changes, commit them. we'll iterate on them next.
