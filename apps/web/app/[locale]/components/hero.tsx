@@ -22,6 +22,9 @@ export function Hero() {
       <Container className="relative">
         <Navbar variant="light" />
         <div className="pt-20 pb-20 sm:pt-28 sm:pb-24 md:pt-36 md:pb-28">
+          <p className="mb-8 max-w-2xl font-medium text-foreground/70 text-lg/7 sm:text-xl/8">
+            Answers got cheap. Questions didn&apos;t.
+          </p>
           <h1 className="max-w-4xl font-display font-medium text-6xl/[0.95] text-foreground tracking-tight sm:text-7xl/[0.95] md:text-8xl/[0.95]">
             AI makes you more.
             <HoverCard closeDelay={100} openDelay={100}>
@@ -39,21 +42,21 @@ export function Hero() {
                   <span aria-hidden="true" className="select-none opacity-70">
                     1&nbsp;
                   </span>
-                  More of what you already are. Which is the good news and the
-                  warning.
+                  AI doesn&apos;t make you better. It makes you bigger.
+                  That&apos;s the good news and the warning.
                 </p>
               </HoverCardContent>
             </HoverCard>
           </h1>
           <p className="mt-8 max-w-xl font-medium text-muted-foreground text-xl/8 sm:text-2xl/9">
-            For developers who want to think sharper, not just ship faster.
+            For developers who&apos;d rather own the answer than borrow it.
           </p>
           <div className="mt-12 flex flex-col items-start gap-x-8 gap-y-4 sm:flex-row sm:flex-wrap sm:items-center">
             <MarketingButton href="#digest">
-              Get the weekly misconception buster
+              Own what AI gave you, weekly
             </MarketingButton>
             <MetaAside className="sm:max-w-xs">
-              This is the email capture. You knew it was coming.
+              You knew this was coming. We both did.
             </MetaAside>
           </div>
         </div>
@@ -93,8 +96,8 @@ export function Hero() {
             <span aria-hidden="true" className="select-none opacity-70">
               1&nbsp;
             </span>
-            More of what you already are. Which is the good news and the
-            warning.
+            AI doesn&apos;t make you better. It makes you bigger. That&apos;s
+            the good news and the warning.
           </MetaAside>
         </div>
       </Container>

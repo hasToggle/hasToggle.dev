@@ -40,7 +40,7 @@ function PartDivider() {
 export const metadata: Metadata = {
   title: "hasToggle — AI makes you more.",
   description:
-    "For developers who want to think sharper, not just ship faster. Weekly misconception busters about AI and web development.",
+    "For developers who want to grow with the tool, not hide behind it. One misconception about AI and web development, every Monday.",
 };
 
 function MisconceptionDemos() {
@@ -208,25 +208,18 @@ const VALUES: readonly {
 }[] = [
   {
     numeral: "I",
-    heading: "More, not less.",
-    body: "AI is the most powerful tool individual developers have ever had. It handles cognitive load so you can focus on what actually matters — architecture, product decisions, and shipping. You're not being replaced. You're being extended.",
+    heading: "Ask.",
+    body: "Probe what you don't yet know. AI fills the gap before you find it. We make you find it first.",
   },
   {
     numeral: "II",
-    heading: "The easy answer is the trap.",
-    body: "AI is about to be right often enough that checking feels like overhead. That's the moment the skill disappears. The developers who stay sharp are the ones who keep asking \u201Cis this actually right?\u201D even when nothing is forcing them to.",
+    heading: "Collide.",
+    body: "You learn when your idea meets reality. AI lets you skip the meeting. We don't.",
   },
   {
     numeral: "III",
-    heading: "The surface reading is never the whole story.",
-    body: (
-      <>
-        A button is never just a button.* A passing test doesn&apos;t mean
-        correct code. A confident answer isn&apos;t a true answer. The best
-        engineers aren&apos;t the ones who know the most. They&apos;re the ones
-        who assume the least.
-      </>
-    ),
+    heading: "Rediscover.",
+    body: "An answer you received is borrowed. An answer you worked out is yours.",
   },
 ];
 
@@ -234,17 +227,16 @@ function Values() {
   return (
     <Container className="py-24 sm:py-32">
       <div className="mb-20 max-w-2xl">
-        <Subheading>What we believe</Subheading>
+        <Subheading>The mechanism</Subheading>
         <Heading
           as="h2"
           className="mt-3 text-balance text-4xl sm:text-5xl md:text-6xl"
         >
-          Three beliefs we keep coming back to.
+          Three moves.
         </Heading>
         <MetaAside className="mt-6">
-          Most About sections exist so the founder can talk about themselves.
-          This one exists because we thought you&apos;d want to know what
-          you&apos;re getting into.
+          Three moves. Not a framework, not a process. The smallest set of
+          things you have to do for AI collaboration to produce ownership.
         </MetaAside>
       </div>
 
@@ -269,15 +261,20 @@ function Values() {
               <p className="mt-5 text-foreground/75 text-lg leading-8">
                 {value.body}
               </p>
-              {value.numeral === "III" && (
-                <MetaAside className="mt-3" noMarker>
-                  * See Demo 4. We warned you.
-                </MetaAside>
-              )}
             </div>
           </li>
         ))}
       </ol>
+
+      <p className="mt-20 text-balance text-center font-display text-2xl text-foreground sm:mt-24 sm:text-3xl">
+        Run the three moves and you start to speak the language of building
+        software — you navigate the landscape, defend your thinking, and
+        translate it for anyone.
+      </p>
+
+      <p className="mt-12 text-balance text-center font-display text-foreground/75 text-xl italic sm:mt-14 sm:text-2xl">
+        AI produces the artifact. Only you hold the meaning.
+      </p>
     </Container>
   );
 }
