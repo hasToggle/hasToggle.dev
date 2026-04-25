@@ -1,9 +1,11 @@
 {
   "cli_version": "0.5.0",
   "checkpoint_id": "3ef0096852dc",
+  "session_id": "8621aeb7-9d65-4d5d-a888-19661cfd104b",
   "strategy": "manual-commit",
+  "created_at": "2026-04-25T18:25:28.236306Z",
   "branch": "feature/landing-page-rewrite",
-  "checkpoints_count": 12,
+  "checkpoints_count": 5,
   "files_touched": [
     "apps/web/app/[locale]/(demos)/misconception-wrapper.tsx",
     "apps/web/app/[locale]/(demos)/plausibility/grounded-paragraph.tsx",
@@ -19,25 +21,26 @@
     "apps/web/app/[locale]/components/hero.tsx",
     "apps/web/app/[locale]/page.tsx"
   ],
-  "sessions": [
-    {
-      "metadata": "/3e/f0096852dc/0/metadata.json",
-      "transcript": "/3e/f0096852dc/0/full.jsonl",
-      "content_hash": "/3e/f0096852dc/0/content_hash.txt",
-      "prompt": "/3e/f0096852dc/0/prompt.txt"
-    },
-    {
-      "metadata": "/3e/f0096852dc/1/metadata.json",
-      "transcript": "/3e/f0096852dc/1/full.jsonl",
-      "content_hash": "/3e/f0096852dc/1/content_hash.txt",
-      "prompt": "/3e/f0096852dc/1/prompt.txt"
-    }
-  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-7[1m]",
+  "turn_id": "c52dd1f97aae",
   "token_usage": {
-    "input_tokens": 977,
-    "cache_creation_tokens": 2088185,
-    "cache_read_tokens": 37232529,
-    "output_tokens": 350686,
-    "api_call_count": 290
+    "input_tokens": 331,
+    "cache_creation_tokens": 789878,
+    "cache_read_tokens": 21116664,
+    "output_tokens": 139808,
+    "api_call_count": 158
+  },
+  "session_metrics": {
+    "turn_count": 5
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-25T18:25:27.962073Z",
+    "agent_lines": 1244,
+    "human_added": 0,
+    "human_modified": 1,
+    "human_removed": 3,
+    "total_committed": 1245,
+    "agent_percentage": 99.91967871485944
   }
 }

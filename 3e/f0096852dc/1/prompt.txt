@@ -1,0 +1,22 @@
+implement the plan @docs/superpowers/specs/2026-04-25-grammar-without-meaning-demo-design.md
+
+---
+
+good, leave the counter demo unimported in place.
+as for the implementation of the demo, it doesn't feel right. and for the generation step, there's a misbehavior: the tooltips appear very briefly during generation, you almost can't see them and then they're gone.
+the reality has to go below somewhere; it's a consequence of the demo but the visitor hasn't even seen / played the demo yet.
+the paragraph that appears after generation doesn't feel like the right continuation. The button to show what was wrong has the same issue. it's all just appended to the demo as text, as opposed to being part of the demo. i think we can leverage the fact that the product is called hasToggle. let's rebuild these parts to be made available via toggle(s).
+
+Use the init tool to set up Next.js DevTools context and get intelligence on the page as you iterate on it.
+
+---
+
+The ui you used is a switch, not a toggle. I guess it's somewhat interchangeable. Do you think a toggle would fit better? Or is a switch the right choice?
+
+---
+
+Use the init tool to set up Next.js DevTools context in case you haven't already.
+
+---
+
+The substance is all there, but the ui/ux needs the attention of your expertise as a senior design engineer. write a summary of the landing page's copy and the core thesis in the markdown file, with the goal of capturing the design language and apply it to the demo. the final result should be intuitive, coherent, and just badass. apply the changes to the demo.
