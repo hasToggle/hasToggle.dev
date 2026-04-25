@@ -1,8 +1,7 @@
 import { Separator } from "@repo/design-system/components/ui/separator";
 import type { Metadata } from "next";
-import { CounterDesktop } from "./(counter)/counter-desktop";
-import { CounterMobile } from "./(counter)/counter-mobile";
 import { MisconceptionWrapper } from "./(demos)/misconception-wrapper";
+import { Plausibility } from "./(demos)/plausibility";
 import { Container } from "./components/container";
 import { Digest } from "./components/digest";
 import { Expandable } from "./components/expandable";
@@ -40,28 +39,22 @@ function PartDivider() {
 export const metadata: Metadata = {
   title: "hasToggle — AI makes you more.",
   description:
-    "For developers who want to grow with the tool, not hide behind it. One misconception about AI and web development, every Monday.",
+    "For developers who'd rather own the answer than borrow it. Every Monday, one thing built — code, demo, or walkthrough — made with AI, finished by judgment.",
 };
 
 function MisconceptionDemos() {
   return (
     <div>
-      {/* Demo 1: React State */}
+      {/* Demo 1: Plausibility — grammar without meaning */}
       <MisconceptionWrapper
-        hook="AI writes the code so I don't need to understand it."
+        hook="It's grounded in the docs. It has to be right."
         id="misconception-01"
-        meta="86% of developers have shipped code they couldn't explain. We made that number up. But you believed it for a second."
+        meta="What you're about to watch is exactly what AI does every time you ask it anything. We're just slowing it down enough that you can see it."
         number={1}
-        reality="AI helps you type code, but you still need to understand how things work. Watch how React re-runs your function to get updated values."
+        question="Where is the time actually going?"
+        tag="Plausibility"
       >
-        <div className="relative aspect-1216/768">
-          <div className="lg:hidden">
-            <CounterMobile />
-          </div>
-          <div className="hidden lg:block">
-            <CounterDesktop />
-          </div>
-        </div>
+        <Plausibility />
       </MisconceptionWrapper>
 
       <SectionDivider />
@@ -73,7 +66,7 @@ function MisconceptionDemos() {
         meta="And the question you didn't ask is the one that shipped to production."
         number={2}
         reality="AI builds what you ask for. Not what you need. The gap between those is your job."
-        status="essay"
+        tag="Essay"
       >
         <Expandable
           label={
@@ -141,7 +134,7 @@ function MisconceptionDemos() {
         meta="The dev's mental model in five syllables. Confident. Wrong."
         number={3}
         reality="Correct and good are not the same thing. Optimistic updates exist because users trust what they see, not what the server says later."
-        status="sketch"
+        tag="Sketch"
       >
         <div
           className="relative overflow-hidden rounded-2xl border border-gray-400/40 border-dashed px-8 py-14 text-center"
@@ -273,7 +266,7 @@ function Values() {
       </p>
 
       <p className="mt-12 text-balance text-center font-display text-foreground/75 text-xl italic sm:mt-14 sm:text-2xl">
-        AI produces the artifact. Only you hold the meaning.
+        AI produces the artifact. You hold the meaning.
       </p>
     </Container>
   );
@@ -289,20 +282,21 @@ function DigestCTA() {
       <Container>
         <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
           <Subheading className="text-ht-cyan-800/80 dark:text-ht-cyan-300/80">
-            The weekly digest
+            The weekly build
           </Subheading>
           <Heading
             as="h3"
             className="mt-3 text-balance text-4xl sm:text-5xl"
             id="digest-heading"
           >
-            Every Monday, we prove you wrong about something.
+            Every Monday, one thing built. Owned in full.
           </Heading>
           <p className="mt-6 max-w-xl text-balance text-foreground/75 text-lg leading-8">
-            One misconception about AI or web development — what it is, why
-            it&apos;s wrong, and what&apos;s actually true. Short, practical,
-            and designed to leave you sharper than you were before you opened
-            it.
+            Code, demo, or walkthrough — one piece of work each week, made with
+            AI, finished by judgment.
+          </p>
+          <p className="mt-3 max-w-xl text-balance text-base text-foreground/55">
+            The artifact, plus the thinking that put it there.
           </p>
           <div className="mt-10 w-full">
             <Digest />

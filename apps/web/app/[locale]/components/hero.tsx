@@ -30,7 +30,7 @@ export function Hero() {
             <HoverCard closeDelay={100} openDelay={100}>
               <HoverCardTrigger asChild>
                 <sup className="ml-1 inline-block cursor-help align-top font-mono font-normal text-ht-cyan-700/70 text-xl tracking-normal hover:text-ht-cyan-700 sm:text-2xl dark:text-ht-cyan-300/85 dark:hover:text-ht-cyan-200">
-                  1
+                  *
                 </sup>
               </HoverCardTrigger>
               <HoverCardContent
@@ -40,7 +40,7 @@ export function Hero() {
               >
                 <p className="font-mono text-ht-cyan-900/80 text-sm/6 dark:text-ht-cyan-300/90">
                   <span aria-hidden="true" className="select-none opacity-70">
-                    1&nbsp;
+                    *&nbsp;
                   </span>
                   AI doesn&apos;t make you better. It makes you bigger.
                   That&apos;s the good news and the warning.
@@ -94,7 +94,7 @@ export function Hero() {
         <div className="pt-8 pb-16 md:hidden" id="hero-footnote-1">
           <MetaAside noMarker variant="block">
             <span aria-hidden="true" className="select-none opacity-70">
-              1&nbsp;
+              *&nbsp;
             </span>
             AI doesn&apos;t make you better. It makes you bigger. That&apos;s
             the good news and the warning.
