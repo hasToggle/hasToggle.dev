@@ -17,7 +17,7 @@
     "@repo/email": "workspace:*",
     "mongodb": "^7.2.0",
     "react": "^19.2.5",
-    "react-email": "6.0.0",
+    "react-email": "6.0.1",
     "resend": "^6.12.2"
   },
   "devDependencies": {
