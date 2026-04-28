@@ -8,7 +8,7 @@ export interface Claim {
 export const CLAIMS: readonly Claim[] = [
   {
     id: "optimistic",
-    text: "Implemented onDragEnd — items preserved on reorder",
+    text: "Implemented onDragEnd — every drag reorders cleanly",
   },
   { id: "persistence", text: "Wired up PATCH /items/reorder for persistence" },
   { id: "test", text: "Reorder test passing" },

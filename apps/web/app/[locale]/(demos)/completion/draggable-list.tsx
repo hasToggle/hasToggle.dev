@@ -25,8 +25,8 @@ import { reorder } from "./reorder";
 
 interface DraggableListProps {
   onDragPerformed: () => void;
-  onItemVanished: () => void;
   onRefreshRequested: () => void;
+  onReorderFailed: () => void;
   onResetRequested: () => void;
   remountKey: number;
 }
@@ -71,14 +71,14 @@ function SortableRow({ item }: { item: Item }) {
 export function DraggableList({
   remountKey: _remountKey,
   onDragPerformed,
-  onItemVanished,
+  onReorderFailed,
   onResetRequested,
   onRefreshRequested,
 }: DraggableListProps) {
   const [items, setItems] = useState<readonly Item[]>(INITIAL_ITEMS);
-  // Drags-this-session counter. Drag #2+ drops VANISHING_ITEM_ID — that's the
-  // lie the demo surfaces. Refresh remounts the component (parent passes a
-  // key prop), which auto-resets this counter via useRef initialization.
+  // Drags-this-session counter. Drag #1 reorders cleanly; drag #2+ silently
+  // fails (the lie). Refresh remounts the component (parent passes a key
+  // prop), which auto-resets this counter via useRef initialization.
   const dragCountRef = useRef(0);
 
   const sensors = useSensors(
@@ -98,23 +98,22 @@ export function DraggableList({
 
     const fromId = String(active.id);
     const toId = String(over.id);
-    const previousLength = items.length;
 
     dragCountRef.current += 1;
-    const next = reorder({
-      fromId,
-      toId,
-      list: items,
-      dropVanishing: dragCountRef.current >= 2,
-    });
-    setItems(next);
-
     onDragPerformed();
-    if (next.length < previousLength) {
-      onItemVanished();
+
+    if (dragCountRef.current >= 2) {
+      // The lie: agent claimed reorder is implemented for every drag, but a
+      // sticky internal id-mapping silently swallows subsequent drags. The
+      // list snaps back to where it was — visually nothing happened.
+      onReorderFailed();
+      // The PATCH still fires (lying server returns 200 anyway).
+      patchOrder(items).catch(() => undefined);
+      return;
     }
 
-    // Fire the (lying) PATCH. We don't await — render shouldn't block on it.
+    const next = reorder({ fromId, toId, list: items });
+    setItems(next);
     patchOrder(next).catch(() => undefined);
   }
 

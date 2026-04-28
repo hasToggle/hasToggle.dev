@@ -5,7 +5,7 @@ import type { ClaimTracker } from "./use-claim-tracker";
 const NUDGES: readonly { id: ClaimId; text: string }[] = [
   {
     id: "optimistic",
-    text: "Drag any item to a new spot. Then drag another. Watch the count.",
+    text: "Drag an item to a new spot. Then try a second drag.",
   },
   {
     id: "persistence",

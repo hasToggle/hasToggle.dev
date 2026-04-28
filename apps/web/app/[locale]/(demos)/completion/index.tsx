@@ -22,7 +22,7 @@ export function Completion() {
     setHasDragged(true);
   }, []);
 
-  const handleItemVanished = useCallback(() => {
+  const handleReorderFailed = useCallback(() => {
     tracker.markCaught("optimistic");
   }, [tracker]);
 
@@ -49,8 +49,8 @@ export function Completion() {
       <DraggableList
         key={remountKey}
         onDragPerformed={handleDragPerformed}
-        onItemVanished={handleItemVanished}
         onRefreshRequested={handleRefreshRequested}
+        onReorderFailed={handleReorderFailed}
         onResetRequested={handleResetRequested}
         remountKey={remountKey}
       />

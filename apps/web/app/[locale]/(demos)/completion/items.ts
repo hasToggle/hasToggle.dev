@@ -11,5 +11,3 @@ export const INITIAL_ITEMS: readonly Item[] = [
   { id: "verify", label: "Verify completion" },
   { id: "docs", label: "Document the API" },
 ];
-
-export const VANISHING_ITEM_ID = "verify";
