@@ -9,7 +9,7 @@ const NUDGES: readonly { id: ClaimId; text: string }[] = [
   },
   {
     id: "persistence",
-    text: "Reorder once, then click Refresh demo.",
+    text: "Reorder once, then click Refresh demo. Does the order persist?",
   },
   {
     id: "test",
