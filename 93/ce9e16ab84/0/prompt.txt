@@ -1,0 +1,2 @@
+why does an item disappear from the list when draggin twice? i forgot the original intent.
+we should make this simpler regardless. currently, it's weird to see an item get removed when dragging the second time. maybe we can allow dragging once and due to some buggy implementation, any subsequent drags do not work (like due to the same id being passed or something)
