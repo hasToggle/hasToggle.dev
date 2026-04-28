@@ -18,10 +18,10 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { Button } from "@repo/design-system/components/ui/button";
 import { cn } from "@repo/design-system/lib/utils";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { patchOrder } from "./fake-server";
 import { INITIAL_ITEMS, type Item } from "./items";
-import { buggyReorder } from "./stale-closure";
+import { reorder } from "./reorder";
 
 interface DraggableListProps {
   onDragPerformed: () => void;
@@ -76,17 +76,10 @@ export function DraggableList({
   onRefreshRequested,
 }: DraggableListProps) {
   const [items, setItems] = useState<readonly Item[]>(INITIAL_ITEMS);
-  // The deliberate stale snapshot — captured at render, not at update.
-  const staleRef = useRef<readonly Item[]>(items);
-  // Refresh remounts effectively reset to INITIAL_ITEMS via the key prop on
-  // the parent — so we don't need to reload from fake-server here. The fake
-  // server's read returning INITIAL_ITEMS is the demonstrable failure (the
-  // PATCH writes never landed at the read key).
-  useEffect(() => {
-    staleRef.current = items;
-    // We deliberately do NOT update the ref on every state change — only on
-    // commit. That is what makes the snapshot stale during a fast double-drag.
-  });
+  // Drags-this-session counter. Drag #2+ drops VANISHING_ITEM_ID — that's the
+  // lie the demo surfaces. Refresh remounts the component (parent passes a
+  // key prop), which auto-resets this counter via useRef initialization.
+  const dragCountRef = useRef(0);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -107,12 +100,12 @@ export function DraggableList({
     const toId = String(over.id);
     const previousLength = items.length;
 
-    // The buggy reorder uses the stale snapshot if it diverges from current.
-    const next = buggyReorder({
+    dragCountRef.current += 1;
+    const next = reorder({
       fromId,
       toId,
-      current: items,
-      stale: staleRef.current,
+      list: items,
+      dropVanishing: dragCountRef.current >= 2,
     });
     setItems(next);
 
@@ -127,6 +120,7 @@ export function DraggableList({
 
   function handleResetClick() {
     setItems(INITIAL_ITEMS);
+    dragCountRef.current = 0;
     onResetRequested();
   }
 

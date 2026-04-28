@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import { Expandable } from "../../components/expandable";
 import { MetaAside } from "../../components/meta-aside";
 import { DraggableList } from "./draggable-list";
+import { Nudges } from "./nudges";
 import { RalphEssay } from "./ralph-essay";
 import { TestDiff } from "./test-diff";
 import { Transcript } from "./transcript";
@@ -44,6 +45,7 @@ export function Completion() {
   return (
     <div className="space-y-6">
       <Transcript tracker={tracker} />
+      <Nudges tracker={tracker} />
       <DraggableList
         key={remountKey}
         onDragPerformed={handleDragPerformed}
