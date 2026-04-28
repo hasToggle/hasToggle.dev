@@ -9,7 +9,7 @@ interface MisconceptionWrapperProps {
   id?: string;
   meta?: string;
   number: number;
-  question?: string;
+  question?: React.ReactNode;
   reality?: string;
   tag?: string;
 }
