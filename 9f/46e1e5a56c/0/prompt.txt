@@ -1,0 +1,25 @@
+when i click on the what the agent did, there's a client-side error: ## Error Type
+Console Error
+
+## Error Message
+Cannot update a component (`Completion`) while rendering a different component (`TestDiff`). To locate the bad setState() call inside `TestDiff`, follow the stack trace as described in https://react.dev/link/setstate-in-render
+
+
+    at useClaimTracker[markCaught] [as markCaught] (app/[locale]/(demos)/completion/use-claim-tracker.ts:25:5)
+    at Completion[handleTestDiffOpened] (app/[locale]/(demos)/completion/index.tsx:41:12)
+    at TestDiff[handleToggle > setOpen()] (app/[locale]/(demos)/completion/test-diff.tsx:16:9)
+    at TestDiff (app/[locale]/(demos)/completion/test-diff.tsx:11:35)
+    at Completion (app/[locale]/(demos)/completion/index.tsx:55:7)
+    at MisconceptionDemos (app/[locale]/page.tsx:151:9)
+    at MarketingPage (app/[locale]/page.tsx:301:9)
+
+## Code Frame
+  23 |
+  24 |   const markCaught = useCallback((id: ClaimId) => {
+> 25 |     setCaught((prev) => (prev[id] ? prev : { ...prev, [id]: true }));
+     |     ^
+  26 |   }, []);
+  27 |
+  28 |   const isCaught = useCallback((id: ClaimId) => caught[id], [caught]);
+
+Next.js version: 16.1.6 (Turbopack)
