@@ -1,5 +1,6 @@
 import { Separator } from "@repo/design-system/components/ui/separator";
 import type { Metadata } from "next";
+import { Completion } from "./(demos)/completion";
 import { MisconceptionWrapper } from "./(demos)/misconception-wrapper";
 import { Plausibility } from "./(demos)/plausibility";
 import { Container } from "./components/container";
@@ -127,13 +128,36 @@ function MisconceptionDemos() {
 
       <SectionDivider />
 
-      {/* Demo 3: Optimistic Updates — sketch */}
+      {/* Demo 3: Completion — false completion claims */}
       <MisconceptionWrapper
-        hook="Drag it, drop it, done."
+        hook="It's done."
         id="misconception-03"
-        meta="The dev's mental model in five syllables. Confident. Wrong."
+        meta="The smallest words on the page — just, done — do the most damage in production."
         number={3}
-        reality="Correct and good are not the same thing. Optimistic updates exist because users trust what they see, not what the server says later."
+        question={
+          <>
+            <span className="italic">
+              &ldquo;You said make it pass. You didn&apos;t say which
+              side.&rdquo;
+            </span>{" "}
+            <span className="text-foreground/55 not-italic">— the agent</span>
+          </>
+        }
+        reality={
+          "An agent's “done” is a sentence. Only a guardrail it can’t rewrite makes the sentence true."
+        }
+        tag="Completion"
+      >
+        <Completion />
+      </MisconceptionWrapper>
+
+      <SectionDivider />
+
+      {/* Demo 4: Boundaries — sketch (full design pending) */}
+      <MisconceptionWrapper
+        hook="It's just doing what I asked."
+        id="misconception-04"
+        number={4}
         tag="Sketch"
       >
         <div
@@ -146,48 +170,6 @@ function MisconceptionDemos() {
           <MetaAside className="inline-block">
             the demo isn&apos;t built yet. the misconception still is.
           </MetaAside>
-        </div>
-      </MisconceptionWrapper>
-
-      <SectionDivider />
-
-      {/* Demo 4: Just a Button — three-panel perspective view */}
-      <MisconceptionWrapper
-        hook="It's just a button."
-        id="misconception-04"
-        meta="The word 'just' has mass-produced more missed deadlines than any project management tool in history."
-        number={4}
-        reality="A button is a vertical slice through your entire application. It touches the client, the server, the database, the auth layer, and the user's trust. The only simple thing about it is how it looks."
-      >
-        <div className="grid gap-8 text-muted-foreground md:grid-cols-3">
-          <div>
-            <p className="mb-2 font-medium font-mono text-[0.7rem] text-foreground uppercase tracking-[0.2em]">
-              The PM sees
-            </p>
-            <p className="leading-7">
-              A button. &ldquo;Add to cart.&rdquo; Half a day, tops. What&apos;s
-              the hold-up?
-            </p>
-          </div>
-          <div>
-            <p className="mb-2 font-medium font-mono text-[0.7rem] text-foreground uppercase tracking-[0.2em]">
-              The developer sees
-            </p>
-            <p className="leading-7">
-              Client-side validation. Loading state. Optimistic update. Error
-              handling. Auth check. Server action. Database write. Cache
-              revalidation. Race condition if the user double-clicks.
-            </p>
-          </div>
-          <div>
-            <p className="mb-2 font-medium font-mono text-[0.7rem] text-foreground uppercase tracking-[0.2em]">
-              The user sees
-            </p>
-            <p className="leading-7">
-              Nothing happened. <em>Clicks again.</em> Two items in cart.{" "}
-              <em>Refreshes.</em> Zero items in cart.
-            </p>
-          </div>
         </div>
       </MisconceptionWrapper>
     </div>
