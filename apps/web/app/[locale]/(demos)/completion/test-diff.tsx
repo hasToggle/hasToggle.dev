@@ -11,12 +11,10 @@ export function TestDiff({ onOpened }: TestDiffProps) {
   const [open, setOpen] = useState(false);
 
   function handleToggle() {
-    setOpen((prev) => {
-      if (!prev) {
-        onOpened();
-      }
-      return !prev;
-    });
+    if (!open) {
+      onOpened();
+    }
+    setOpen((prev) => !prev);
   }
 
   return (
