@@ -1,0 +1,1 @@
+execute the plan @docs/superpowers/plans/2026-04-28-demo-3-completion.md
