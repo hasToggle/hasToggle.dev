@@ -174,6 +174,32 @@
   }
 }
 
+/* Mirror demo — diff flash on toggle. The differing segments of the agent
+   response wear this class for ~600ms after a toggle. The animation runs on
+   mount, which is when each differing span enters the DOM (its React key
+   changes on every toggle so it remounts; shared spans keep stable keys and
+   are unaffected). prefers-reduced-motion suppresses the animation entirely
+   so the swap is instantaneous. */
+@keyframes mirror-flash {
+  from {
+    background-color: rgb(245 158 11 / 0.15);
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
+.mirror-flash {
+  border-radius: 0.1875rem;
+  animation: mirror-flash 600ms ease-out 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mirror-flash {
+    animation: none;
+  }
+}
+
 .highlighted-line {
   padding: 2px 8px 2px 0;
   border-radius: 12px;
