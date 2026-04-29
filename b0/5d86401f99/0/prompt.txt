@@ -1,0 +1,18 @@
+read @SESSION_CONTEXT.md and the landing-page md and the actual landing page in the web project to get a comprehensive understanding of the identity of hasToggle and the philosophy driving the copy.
+
+I want to iterate on the title of demo 4: It's just doing what I asked.
+We need something that hits harder and is more aligned with the lesson of demo 4. what is the lesson exactly?
+
+---
+
+go with 1.
+anythiing else we need to adjust in that demo?
+
+---
+
+i like the sharpened version of the reveal line. take that.
+the meta could use some adjustment, though. it could address the fact that the dev is seeking agreement, thinking they are consulting the LLM. what do you think?
+
+---
+
+1
