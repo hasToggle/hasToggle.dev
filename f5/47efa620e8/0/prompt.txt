@@ -1,0 +1,35 @@
+let's implement the postponed demo 4. recap what it's about to set us off
+
+---
+
+yes brainstorm
+
+---
+
+C
+
+---
+
+1. the toggle
+
+here's a different question. the original demo 4 was thought to be about boundaries in that the llm can start to cheat when it continuously fails to achieve its goals and then seek out credentials, gain access to systems with sensitive data or infra permissions and it can totally run destructive commands which are irreversible like dropping tables in prod, killing the db entirely, deleting infra, removing the repo on github. this is obviously a different demo than the one we've decided to flesh out now as the new #4. the mirror, the sycophancy, the confidence is a good angle still and i want to continue building the demo. let's write down the boundary demo for later in a separate md file.
+
+---
+
+C. Wider audience, more inclusive. Also shows that it's the dev who has to have a stance in the first place, and enforce it every day.
+
+---
+
+3 with changes: toggling between the responses highlights the differing parts briefly like a subtle flashing with a fitting bg/text color or something.
+
+---
+
+this lands
+
+---
+
+go ahead
+
+---
+
+1.
