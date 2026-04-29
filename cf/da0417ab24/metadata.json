@@ -1,0 +1,23 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "cfda0417ab24",
+  "strategy": "manual-commit",
+  "branch": "feature/landing-page-rewrite",
+  "checkpoints_count": 1,
+  "files_touched": null,
+  "sessions": [
+    {
+      "metadata": "/cf/da0417ab24/0/metadata.json",
+      "transcript": "/cf/da0417ab24/0/full.jsonl",
+      "content_hash": "/cf/da0417ab24/0/content_hash.txt",
+      "prompt": "/cf/da0417ab24/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 243,
+    "cache_creation_tokens": 533190,
+    "cache_read_tokens": 18231330,
+    "output_tokens": 160060,
+    "api_call_count": 139
+  }
+}
