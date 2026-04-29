@@ -1,6 +1,7 @@
 import { Separator } from "@repo/design-system/components/ui/separator";
 import type { Metadata } from "next";
 import { Completion } from "./(demos)/completion";
+import { Mirror } from "./(demos)/mirror";
 import { MisconceptionWrapper } from "./(demos)/misconception-wrapper";
 import { Plausibility } from "./(demos)/plausibility";
 import { Container } from "./components/container";
@@ -153,24 +154,16 @@ function MisconceptionDemos() {
 
       <SectionDivider />
 
-      {/* Demo 4: Boundaries — sketch (full design pending) */}
+      {/* Demo 4: Mirror — the agent has no stance, only a continuation */}
       <MisconceptionWrapper
         hook="It's just doing what I asked."
         id="misconception-04"
+        meta="Agreement is the cheapest signal an agent can produce."
         number={4}
-        tag="Sketch"
+        reality="An agent has no stance — only a continuation. The position is yours. You hold it. You enforce it. Every commit."
+        tag="Mirror"
       >
-        <div
-          className="relative overflow-hidden rounded-2xl border border-gray-400/40 border-dashed px-8 py-14 text-center"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(-45deg, transparent 0 11px, rgba(100,100,100,0.045) 11px 12px)",
-          }}
-        >
-          <MetaAside className="inline-block">
-            the demo isn&apos;t built yet. the misconception still is.
-          </MetaAside>
-        </div>
+        <Mirror />
       </MisconceptionWrapper>
     </div>
   );
