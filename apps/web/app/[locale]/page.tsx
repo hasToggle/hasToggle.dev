@@ -156,9 +156,9 @@ function MisconceptionDemos() {
 
       {/* Demo 4: Mirror — the agent has no stance, only a continuation */}
       <MisconceptionWrapper
-        hook="It's just doing what I asked."
+        hook="It agreed with me."
         id="misconception-04"
-        meta="Agreement is the cheapest signal an agent can produce."
+        meta="You weren't consulting it. You were watching it agree."
         number={4}
         reality="An agent has no stance — only a continuation. The position is yours. You hold it. You enforce it. Every commit."
         tag="Mirror"

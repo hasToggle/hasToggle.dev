@@ -36,7 +36,8 @@ export function Mirror() {
       <Response flashKey={flashKey} framing={framing} />
       {showEmptyMirrorLine && (
         <p className="fade-in animate-in pl-1 text-foreground/55 text-sm italic leading-6 duration-300">
-          It agreed with both. What did its agreement tell you?
+          It agreed with both. That&apos;s all its agreement was ever going to
+          do.
         </p>
       )}
       <Expandable label="Did you know? The duck was honest.">
