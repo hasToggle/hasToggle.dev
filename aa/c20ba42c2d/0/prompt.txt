@@ -1,0 +1,141 @@
+read @SESSION_CONTEXT.md and the landing-page md and the actual landing page in the web project to get a comprehensive understanding of the identity of hasToggle and the philosophy driving the copy. 
+read boundary-demo md as well which is another demo to be added. 
+
+my thinking is to split demo 3 into another one. 3 focuses on premature completion callout and demo focuses on the llm cheating by rewriting the test case. demo 5 becomes the current 4 which is "It agreed with me". And demo 6 is the boundary demo about llms cheating by seeking out credentials, dropping tables, removing repos, and killing cloud infra when they deem it necessary to reach a goal.
+
+here's my overview:
+Are you working on the right question to the problem?
+It's grounded, yes, but it's only answering what you asked for.
+Did you choose the right default behavior?
+It's doing exactly what I said/wanted. Yes, but you have blind spots. Don't inherit them down to the agent.
+Are you certain the agent actually finished the work?
+Do you have a feedback loop in place to have the agent check its progress?
+CI is green. Tests are all passing. Wait, did you rewrite the tests?
+The LLM will cheat. Make sure to guard against it.
+Did I ask for the right thing?
+Tell AI to grill you explicitly.
+"It would never do that." Did I protect against destructive action?
+
+
+let's bring some ubitquitous language into that to flesh out the demos and really make them stand out each on their own. the ideal order would be to go from least severe to extremely destructive. i'm open to a 7th demo if we can come up with one that resonates with pain points of devs working with ai. but let's postpone #7 for now.
+
+---
+
+i like the framing around what to defend. however, here's where you diverge: the three moves are abstract and apply to any one individual demo; they are underlying steps developers go through to reach ownership.
+
+---
+
+go with recommendendations
+
+---
+
+we have iterate on demo 4 to work out the exact demo to show (i don't want to reuse the same one we're splitting off)
+give me your suggestion for a 7th demo first
+
+---
+
+i like the radius, but: ai is good enough for catch red squiggles using a simple typecheck. maybe we can think in terms of local vs. prod env where something works locally but in prod, or something that works at low scale vs. actual scale under usage. what do you think?
+
+---
+
+i'd switch the proof and the lab in their order. if per-replica cache divergence is something that can happen in real prod systems, I'd go with that.
+
+---
+
+leave the lab demo as a placeholder; we'll get back to that and possibly come up with a better one. 
+about demo 5, the proof. how about this:
+a validation rule enforced to coalesce null to a date (defaults to now). when the requirements changed, as features were built on top, the validation rule was not adjusted to reflect these new requirements. null values were no longer allowed to collapse down to a date. here's a written version with more details in German:
+
+Der Vorfall
+Im Januar 2026 wurden Kandidatenprofile unerwartet aus dem System gelöscht – obwohl die
+betroffenen Mitarbeiter ihre Profile ordnungsgemäß verlängert hatten. Die Ursache war ein
+technischer Fehler in der Datenverarbeitung.
+Was technisch passierte: Bei bestimmten Aktualisierungen wurde das Erstellungsdatum nicht
+mitgesendet. Das System hätte das bestehende Datum beibehalten sollen. Stattdessen
+wandelte eine Validierungsregel das fehlende Datum in den 1. Januar 1970 um – ein Datum, das
+mehr als 50 Jahre in der Vergangenheit liegt.
+Das automatische Löschsystem erkannte diese Profile als „älter als 12 Monate" und markierte
+sie zur Löschung. Die betroffenen Profile wurden physisch aus der Datenbank entfernt.
+Der Fehler: Leeres Datum wurde zu 1970
+Eingabe:
+(leer)
+Fehlerhafte
+Umwandlung
+z.coerce.date()
+Ergebnis:
+01.01.1970
+Das System interpretierte Profile als 50+ Jahre alt - Automatische Löschung
+Auswirkung: Kandidatenprofile wurden physisch aus der Datenbank gelöscht.
+Diese Datewiederhergestellt werden.
+ProfileHub - Technischer Vorfallbericht | Seite 3
+Ursachenanalyse
+Wie bereits erwähnt, wurde die Profilverlängerung nachträglich zum System hinzugefügt. Um zu
+verstehen, warum der Fehler entstehen konnte, muss man die ursprüngliche Systemarchitektur
+betrachten.
+Die ursprüngliche Schutzregel:
+In der ersten Version des ProfileHubs wurde jedes Profil genau einmal erstellt und erhielt dabei
+automatisch ein Erstellungsdatum. Dieses Datum durfte niemals leer sein – eine
+Validierungsregel stellte dies sicher. Fehlte das Datum aus irgendeinem Grund, wurde es
+automatisch auf einen Standardwert gesetzt. Diese Regel war sinnvoll, denn ohne
+Erstellungsdatum hätte das automatische Löschsystem nicht funktioniert.
+Warum die Erweiterung das Problem verursachte:
+Mit der Profilverlängerung änderten sich die Anforderungen grundlegend. Bei Aktualisierungen
+wird das Erstellungsdatum bewusst nicht mitgesendet – das System soll das bestehende Datum
+beibehalten. Die alte Validierungsregel inieses „nicht gesendet" jedoch als „leer"
+und setzte den Standardwert: 01.01.1970.
+Warum der Fehler nicht früher erkannt wurde:
+• Es gab keine automatisierten Tests, die das Verhalten der Validierungsregel
+dokumentierten
+• Ohne Tests war nicht erkennbar, dass die Erweiterung bestehende Regeln beeinflusste
+• Die Löschung erfolgte zeitverzögert durch einen Hintergrundprozess – nicht sofort sichtbar
+• Der Zusammenhang zwischen Validierung und Löschung war nicht offensichtlich
+Kernerkenntnis: Automatisierte Tests machen Verhaltensänderungen sichtbar,
+die bei Systemerweiterungen sonst unbemerkt bleiben können.
+Ergriffene Maßnahmen
+1. Sofortmaßnahme: Korrektur der Validierungsregel
+Die problematische Validierungsregel wurde durch eine angepasste Version ersetzt. Das System
+unterscheidet nun zwischen „Datum nicht gesendet" (beibehalten) und „Datum explizit leer"
+(Fehler). Fehlende Werte werden nicht mehr automatisch umgewandelt, sondern das
+bestehende Datum bleibt erhalten.
+ProfileHub - Te Seite 4
+Die Lösung: Korrekte Behandlung leerer Daten
+Eingabe:
+(leer)
+Prüfung:
+Ist Wert leer?
+Ja = Behalte leer
+OK
+2. Langfristige Maßnahme: Test-Infrastruktur
+Um künftige Fehler dieser Art zu verhindern, wurde eine umfassende Test-Infrastruktur mit 263
+automatisierten Tests eingeführt. Diese Tests dokumentieren das erwartete Verhalten aller
+kritischen Funktionen und werden automatisch bei jeder Codeänderung ausgeführt.
+
+do you think this works as a demo?
+
+---
+
+what if my proposed demo about coerce-to-default replaced the 4th demo (the lab) instead? we'd still need a demo for demo 5 of course. your take?
+
+---
+
+i proposed to replace the lab demo because i don't like it, not the demo and not the label. i'm open to reordering the demos of course.
+
+---
+
+we can lock it in. a demo we don't yet have is the rewrite of a test case in order to make it pass instead of actually making the code work. it is currently part of demo 3 (part of it, the test). thoughts?
+
+---
+
+approve
+
+---
+
+draft some (the footer rewards you for paying attention)
+
+---
+
+2. can we use a different term for "noun"?
+
+---
+
+4
