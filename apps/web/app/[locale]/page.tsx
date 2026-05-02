@@ -54,7 +54,7 @@ function MisconceptionDemos() {
         meta="What you're about to watch is exactly what AI does every time you ask it anything. We're just slowing it down enough that you can see it."
         number={1}
         question="Where is the time actually going?"
-        tag="Plausibility"
+        tag="The Question"
       >
         <Plausibility />
       </MisconceptionWrapper>
@@ -68,7 +68,7 @@ function MisconceptionDemos() {
         meta="And the question you didn't ask is the one that shipped to production."
         number={2}
         reality="AI builds what you ask for. Not what you need. The gap between those is your job."
-        tag="Essay"
+        tag="The Contract"
       >
         <Expandable
           label={
@@ -147,7 +147,7 @@ function MisconceptionDemos() {
         reality={
           "An agent's “done” is a sentence. Only a guardrail it can’t rewrite makes the sentence true."
         }
-        tag="Completion"
+        tag="The Verdict"
       >
         <Completion />
       </MisconceptionWrapper>
@@ -161,7 +161,7 @@ function MisconceptionDemos() {
         meta="You weren't consulting it. You were watching it agree."
         number={4}
         reality="An agent has no stance — only a continuation. The position is yours. You hold it. You enforce it. Every commit."
-        tag="Mirror"
+        tag="The Position"
       >
         <Mirror />
       </MisconceptionWrapper>
