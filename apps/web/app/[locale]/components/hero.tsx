@@ -12,8 +12,9 @@ import { Navbar } from "./navbar";
 const CHAPTERS: readonly { href: string; label: string; n: string }[] = [
   { n: "01", label: "Understanding", href: "#misconception-01" },
   { n: "02", label: "Defaults", href: "#misconception-02" },
-  { n: "03", label: "Feel", href: "#misconception-03" },
-  { n: "04", label: "Complexity", href: "#misconception-04" },
+  { n: "03", label: "Stance", href: "#misconception-03" },
+  { n: "04", label: "Closure", href: "#misconception-04" },
+  { n: "05", label: "Compliance", href: "#misconception-05" },
 ];
 
 export function Hero() {

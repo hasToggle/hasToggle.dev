@@ -21,6 +21,11 @@ const faqs: {
       "A short email every Monday. One misconception about AI or web development \u2014 what it is, why it\u2019s wrong, and what\u2019s actually true. Some editions come with interactive demos like the ones on this page. All of them are designed to leave you sharper than you were before you opened them. It\u2019s free, it takes five minutes, and it\u2019s the most useful thing in your inbox that you actually open on purpose.",
   },
   {
+    question: "What do you actually mean by \u201cjudgment\u201d?",
+    answer:
+      "Two things, mostly. Taste \u2014 knowing which answer is the right one when AI gives you four that all compile. And craft \u2014 turning that answer into code that holds up after you\u2019ve moved on. AI can produce both kinds of output. It can\u2019t tell you which one matters here. That\u2019s the work this site sharpens.",
+  },
+  {
     question: "Is this free?",
     answer:
       "The weekly digest is free. Completely, permanently, no-asterisk free. We\u2019re building something bigger \u2014 a live cohort where you build production web apps with AI, guided by the same thinking that runs through everything on this page. That\u2019s coming, and it won\u2019t be free. But the digest stands on its own. You don\u2019t need to buy anything to get value here.",

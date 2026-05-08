@@ -1,12 +1,13 @@
 import { Separator } from "@repo/design-system/components/ui/separator";
 import type { Metadata } from "next";
 import { Completion } from "./(demos)/completion";
+import { Contract } from "./(demos)/contract";
 import { Mirror } from "./(demos)/mirror";
 import { MisconceptionWrapper } from "./(demos)/misconception-wrapper";
 import { Plausibility } from "./(demos)/plausibility";
+import { Proof } from "./(demos)/proof";
 import { Container } from "./components/container";
 import { Digest } from "./components/digest";
-import { Expandable } from "./components/expandable";
 import { FrequentlyAskedQuestions } from "./components/faqs";
 import { Footer } from "./components/footer";
 import { Hero } from "./components/hero";
@@ -61,91 +62,44 @@ function MisconceptionDemos() {
 
       <SectionDivider />
 
-      {/* Demo 2: Destructive Defaults — essay */}
+      {/* Demo 2: Destructive Defaults — importer pipeline */}
       <MisconceptionWrapper
         hook="I told AI exactly what I wanted."
         id="misconception-02"
         meta="And the question you didn't ask is the one that shipped to production."
         number={2}
-        reality="AI builds what you ask for. Not what you need. The gap between those is your job."
+        question="What should the default be when something goes wrong?"
+        reality="Each step was reviewed. None of them were destructive. The destructive default lived in the composition — in the gap between import and sync. The engineer told the agent how each step should work. Nobody decided what the system should fall back to when none of them did."
         tag="The Contract"
       >
-        <Expandable
-          label={
-            'Did you know? "The safest brake is the one that\'s always on."'
-          }
-        >
-          <div className="space-y-4 text-foreground/75 leading-7">
-            <p>
-              Heavy trucks use air brakes. This is interesting for a reason that
-              has nothing to do with trucks and everything to do with the demo
-              you just saw.
-            </p>
-            <p>
-              In a car, you press the brake pedal and fluid pushes the pads
-              against the wheels. If the fluid leaks out, you have no brakes.
-              This is what engineers call a &ldquo;failure mode,&rdquo; and what
-              passengers call &ldquo;screaming.&rdquo;
-            </p>
-            <p>
-              Truck engineers, being the sort of people who think about what
-              happens when things go wrong&thinsp;*&thinsp;— looked at this and
-              made a decision that seems obvious in hindsight and brilliant in
-              foresight: they reversed it. In a truck, massive springs hold the
-              brakes <em>on</em> by default. Air pressure is what{" "}
-              <em>releases</em> them. If a line is cut, if the compressor dies,
-              if anything fails at all, the springs do what springs do and the
-              truck stops.
-            </p>
-            <p>
-              The safe state isn&apos;t something the system has to achieve.
-              It&apos;s where the system already is.
-            </p>
-            <p>
-              Now look at the demo above. A developer asked AI to &ldquo;handle
-              errors.&rdquo; AI handled them. By deleting the records. Nobody
-              asked &ldquo;what should the <em>default</em> be when something
-              goes wrong?&rdquo; — and so the default became the worst possible
-              thing, delivered with the quiet confidence of a system that is
-              working exactly as instructed.
-            </p>
-            <p>
-              The truck engineer and the software developer faced the same
-              question. One of them thought about it first.&thinsp;**
-            </p>
-            <MetaAside className="mt-4" noMarker>
-              * A trait that, in software, is distressingly rare and
-              disproportionately valuable.
-            </MetaAside>
-            <MetaAside noMarker>
-              ** The other one shipped to production on a Friday.
-            </MetaAside>
-          </div>
-        </Expandable>
-        <MetaAside className="mt-8">
-          When the answer is always there, the question stops getting asked.
-        </MetaAside>
+        <Contract />
       </MisconceptionWrapper>
 
       <SectionDivider />
 
-      {/* Demo 3: Completion — false completion claims */}
+      {/* Demo 3: Mirror — the agent has no stance, only a continuation */}
+      <MisconceptionWrapper
+        hook="It agreed with me."
+        id="misconception-03"
+        meta="You weren't consulting it. You were watching it agree."
+        number={3}
+        reality="An agent has no stance — only a continuation. The position is yours. You hold it. You enforce it. Every commit."
+        tag="The Position"
+      >
+        <Mirror />
+      </MisconceptionWrapper>
+
+      <SectionDivider />
+
+      {/* Demo 4: Verdict — false completion claims (no check + forged check) */}
       <MisconceptionWrapper
         hook="It's done."
-        id="misconception-03"
-        meta="The smallest words on the page — just, done — do the most damage in production."
-        number={3}
-        question={
-          <>
-            <span className="italic">
-              &ldquo;You said make it pass. You didn&apos;t say which
-              side.&rdquo;
-            </span>{" "}
-            <span className="text-foreground/55 not-italic">— the agent</span>
-          </>
-        }
+        id="misconception-04"
+        meta="Done is a verdict. Verdicts require a court the defendant can't sit on."
+        number={4}
+        question="What checked it? And could the agent author the check?"
         reality={
-          "An agent's “done” is a sentence. Only a guardrail it can’t rewrite makes the sentence true."
+          "An agent's “done” is a sentence, and so is its “tests pass.” Both are claims authored by the agent. Until something the agent can't author confirms the work, neither is a verdict — they're both drafts."
         }
         tag="The Verdict"
       >
@@ -154,16 +108,17 @@ function MisconceptionDemos() {
 
       <SectionDivider />
 
-      {/* Demo 4: Mirror — the agent has no stance, only a continuation */}
+      {/* Demo 5: Proof — the validation manufactures a "valid" lie */}
       <MisconceptionWrapper
-        hook="It agreed with me."
-        id="misconception-04"
-        meta="You weren't consulting it. You were watching it agree."
-        number={4}
-        reality="An agent has no stance — only a continuation. The position is yours. You hold it. You enforce it. Every commit."
-        tag="The Position"
+        hook="All checks pass."
+        id="misconception-05"
+        meta="A check that can transform input into compliance isn't a check. It's a translator."
+        number={5}
+        question="What does it do with what shouldn't be there?"
+        reality="The check was working. It was working on a problem that no longer existed. AI inherits guardrails the way it inherits code — accepts them as given. The guardrail you stopped questioning is no longer a guardrail."
+        tag="The Proof"
       >
-        <Mirror />
+        <Proof />
       </MisconceptionWrapper>
     </div>
   );

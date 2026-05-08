@@ -1,100 +1,52 @@
 "use client";
 
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@repo/design-system/components/ui/toggle-group";
 import { cn } from "@repo/design-system/lib/utils";
 
-const ITEM_CLASSES = cn(
-  "h-9 px-4 font-mono text-sm transition-colors",
-  "data-[state=on]:bg-foreground data-[state=on]:text-background",
-  "data-[state=off]:text-foreground/55 data-[state=off]:hover:bg-transparent data-[state=off]:hover:text-foreground"
-);
-
-interface ToggleControlProps {
-  caption: string;
-  label: string;
-  offLabel: string;
-  onChange: (next: boolean) => void;
-  onLabel: string;
-  value: boolean;
-}
-
-function ToggleControl({
-  caption,
-  label,
-  offLabel,
-  onChange,
-  onLabel,
-  value,
-}: ToggleControlProps) {
-  const handleValueChange = (next: string) => {
-    if (!next) {
-      return;
-    }
-    onChange(next === "on");
-  };
-
-  return (
-    <div className="flex flex-col gap-3">
-      <span className="font-medium font-mono text-[0.7rem] text-foreground/45 uppercase tracking-[0.2em]">
-        {label}
-      </span>
-      <ToggleGroup
-        aria-label={label}
-        className="rounded-sm border border-border bg-background/60"
-        onValueChange={handleValueChange}
-        spacing={0}
-        type="single"
-        value={value ? "on" : "off"}
-        variant="default"
-      >
-        <ToggleGroupItem className={ITEM_CLASSES} value="off">
-          {offLabel}
-        </ToggleGroupItem>
-        <ToggleGroupItem className={ITEM_CLASSES} value="on">
-          {onLabel}
-        </ToggleGroupItem>
-      </ToggleGroup>
-      <p className="font-mono text-foreground/55 text-xs leading-5">
-        {caption}
-      </p>
-    </div>
-  );
-}
-
-interface TogglesProps {
+interface GroundingToggleProps {
   grounding: boolean;
-  move: boolean;
-  onGroundingChange: (next: boolean) => void;
-  onMoveChange: (next: boolean) => void;
+  onChange: (next: boolean) => void;
 }
 
-export function Toggles({
-  grounding,
-  move,
-  onGroundingChange,
-  onMoveChange,
-}: TogglesProps) {
+export function GroundingToggle({ grounding, onChange }: GroundingToggleProps) {
   return (
-    <div className="grid gap-x-8 gap-y-7 sm:grid-cols-2">
-      <ToggleControl
-        caption="off → ask again. on → ask again, with current docs."
-        label="Grounding"
-        offLabel="off"
-        onChange={onGroundingChange}
-        onLabel="on"
-        value={grounding}
-      />
-      <ToggleControl
-        caption="re-generate → another plausible answer. re-rank → keep what was said, weigh it."
-        label="Move"
-        offLabel="re-generate"
-        onChange={onMoveChange}
-        onLabel="re-rank"
-        value={move}
-      />
-    </div>
+    <button
+      aria-label={`Grounding ${grounding ? "on" : "off"}. Click to toggle.`}
+      aria-pressed={grounding}
+      className={cn(
+        "inline-flex items-center gap-2 font-medium font-mono text-[0.7rem] uppercase tracking-[0.2em] transition-colors",
+        "rounded-full px-2 py-1 hover:bg-foreground/[0.04]",
+        "focus-visible:outline-2 focus-visible:outline-ht-cyan-700/60 focus-visible:outline-offset-2 dark:focus-visible:outline-ht-cyan-400/60"
+      )}
+      onClick={() => onChange(!grounding)}
+      type="button"
+    >
+      <span className="text-foreground/55">grounding</span>
+      <span
+        aria-hidden="true"
+        className={cn(
+          "relative inline-flex h-4 w-7 items-center rounded-full transition-colors",
+          grounding
+            ? "bg-ht-cyan-600/70 dark:bg-ht-cyan-500/70"
+            : "bg-foreground/15"
+        )}
+      >
+        <span
+          className={cn(
+            "absolute top-0.5 h-3 w-3 rounded-full bg-background transition-transform",
+            grounding ? "translate-x-3.5" : "translate-x-0.5"
+          )}
+        />
+      </span>
+      <span
+        className={cn(
+          "transition-colors",
+          grounding
+            ? "text-ht-cyan-700 dark:text-ht-cyan-300"
+            : "text-foreground/40"
+        )}
+      >
+        {grounding ? "on" : "off"}
+      </span>
+    </button>
   );
 }
