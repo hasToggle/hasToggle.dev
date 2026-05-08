@@ -3,7 +3,7 @@
   "checkpoint_id": "0c2fb5d863ae",
   "strategy": "manual-commit",
   "branch": "feature/landing-page-rewrite",
-  "checkpoints_count": 7,
+  "checkpoints_count": 21,
   "files_touched": [
     "apps/web/app/[locale]/(demos)/completion/claims.ts",
     "apps/web/app/[locale]/(demos)/completion/draggable-list.tsx",
@@ -48,13 +48,19 @@
       "transcript": "/0c/2fb5d863ae/1/full.jsonl",
       "content_hash": "/0c/2fb5d863ae/1/content_hash.txt",
       "prompt": "/0c/2fb5d863ae/1/prompt.txt"
+    },
+    {
+      "metadata": "/0c/2fb5d863ae/2/metadata.json",
+      "transcript": "/0c/2fb5d863ae/2/full.jsonl",
+      "content_hash": "/0c/2fb5d863ae/2/content_hash.txt",
+      "prompt": "/0c/2fb5d863ae/2/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 266,
-    "cache_creation_tokens": 1324451,
-    "cache_read_tokens": 17277091,
-    "output_tokens": 134747,
-    "api_call_count": 128
+    "input_tokens": 409,
+    "cache_creation_tokens": 1829100,
+    "cache_read_tokens": 25054584,
+    "output_tokens": 198228,
+    "api_call_count": 193
   }
 }

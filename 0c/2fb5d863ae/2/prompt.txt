@@ -1,0 +1,59 @@
+read @SESSION_CONTEXT.md and @docs/superpowers/specs/2026-04-01-landing-page-positioning-design.md and the actual landing page in the web project.
+
+i want to iterate on the five demos with you. the goal is make them simpler. they are now in a state that reflects actual uses cases or incidents (except demo 2 which still needs some kind of visual or interaction). i want to distill these demos down to their essence. the interactive demos should become less so, and really get to the point. the visitor should understand what each demo is about at a glance. the hooks should (and I think they already do) catch people, draw them in, and really hit a pain point they've experienced, or otherwise make them aware that it exists.
+
+and i'd like to add the words "craft" and "taste" to the copy somewhere. possible to the values section. collaborating with ai is the initial product of hasToggle. for that collaboration, developers need taste and apply their craft.
+
+---
+
+ok
+
+---
+
+C
+
+---
+
+'/var/folders/g3/1tf5thfs5zzfftd3xmnhjr_00000gn/T/TemporaryItems/NSIRD_screencaptureui_Z8iJ2x/Screenshot 2026-05-05 at 22.01.27.png'
+for the first demo i would like to keep the terminal-like ui and make the "grounding=on" a toggle (not switch). the move goes away. using the toggle is the beat and should reveal the underlying issue of grounding never having been the root issue.
+as for demo 4 and 5, i'm open to suggestions on the basis of A.
+
+---
+
+no process running on that port
+
+---
+
+agree
+
+---
+
+A. But: the example is too simple and misses the actual point. i observed that an engineer built a system that imports data into the db. that system only has 1 job - import data. the importer had several steps, and each step had failure modes which by themselves did not look destructive. they simply returned an empty list. but if that empty list made it to the end of all steps, the db would, instead of saving nothing, delete everything. that was never the job of the importer, to delete data. but the engineer didn't think about the default behavior of the system, and only thought about individual steps. he instructed the llm to do what he had in mind and the llm delivered - a system built on destructive defaults.
+
+---
+
+restart the mockup server, it's no longer running
+
+---
+
+generic
+
+---
+
+demo 1 is good. demo 3 keep as is and keep the duck story.
+
+---
+
+still seeing the demo 1 and 3 instead of your newly pushed options for craft and taste
+
+---
+
+i don't like option E either. let's see if we can put that into the faq section instead.
+
+---
+
+A.
+
+---
+
+all good. continue. when you remove code, make sure to remove any then-unused packages (like drag and drop if it's no longer used anywhere)
