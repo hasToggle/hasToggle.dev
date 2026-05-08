@@ -1,9 +1,11 @@
 {
   "cli_version": "0.5.0",
   "checkpoint_id": "0c2fb5d863ae",
+  "session_id": "dc7604aa-d827-4c7e-92df-168c243f5970",
   "strategy": "manual-commit",
+  "created_at": "2026-05-08T20:04:15.316125Z",
   "branch": "feature/landing-page-rewrite",
-  "checkpoints_count": 7,
+  "checkpoints_count": 1,
   "files_touched": [
     "apps/web/app/[locale]/(demos)/completion/claims.ts",
     "apps/web/app/[locale]/(demos)/completion/draggable-list.tsx",
@@ -27,7 +29,6 @@
     "apps/web/app/[locale]/(demos)/plausibility/toggles.tsx",
     "apps/web/app/[locale]/(demos)/plausibility/ungrounded-paragraph.tsx",
     "apps/web/app/[locale]/(demos)/plausibility/use-streaming.ts",
-    "apps/web/app/[locale]/(demos)/proof/incident-essay.tsx",
     "apps/web/app/[locale]/(demos)/proof/index.tsx",
     "apps/web/app/[locale]/components/faqs.tsx",
     "apps/web/app/[locale]/components/hero.tsx",
@@ -36,25 +37,26 @@
     "bun.lock",
     "docs/superpowers/specs/2026-04-25-grammar-without-meaning-demo-design.md"
   ],
-  "sessions": [
-    {
-      "metadata": "/0c/2fb5d863ae/0/metadata.json",
-      "transcript": "/0c/2fb5d863ae/0/full.jsonl",
-      "content_hash": "/0c/2fb5d863ae/0/content_hash.txt",
-      "prompt": "/0c/2fb5d863ae/0/prompt.txt"
-    },
-    {
-      "metadata": "/0c/2fb5d863ae/1/metadata.json",
-      "transcript": "/0c/2fb5d863ae/1/full.jsonl",
-      "content_hash": "/0c/2fb5d863ae/1/content_hash.txt",
-      "prompt": "/0c/2fb5d863ae/1/prompt.txt"
-    }
-  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-7[1m]",
+  "turn_id": "e34e2b44bbea",
   "token_usage": {
-    "input_tokens": 266,
-    "cache_creation_tokens": 1324451,
-    "cache_read_tokens": 17277091,
-    "output_tokens": 134747,
-    "api_call_count": 128
+    "input_tokens": 77,
+    "cache_creation_tokens": 316974,
+    "cache_read_tokens": 4932996,
+    "output_tokens": 44737,
+    "api_call_count": 43
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-08T20:04:15.198003Z",
+    "agent_lines": 575,
+    "human_added": 57,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 632,
+    "agent_percentage": 90.98101265822784
   }
 }
