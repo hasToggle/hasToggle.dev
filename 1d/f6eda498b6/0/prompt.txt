@@ -1,0 +1,11 @@
+let's continue with what you said last: apps/storybook TS2883 errors. Fix is per-story Meta<typeof X> annotations or a tsconfig adjustment to handle bun's hoist paths.
+
+research how to fix this, ground yourself before applying any changes.
+
+---
+
+which errors still exist?
+
+---
+
+yes
