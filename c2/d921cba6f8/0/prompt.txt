@@ -1,0 +1,5 @@
+the last merge added, among other things, write permissions for claude's review of PRs. get the PR #168 and inspect the reason why the claude code review didn't run. this is the first PR that couldn't be merged into main because the claude workflow didn't run.
+
+your task is to either confirm or find the root cause. then, read all other open PRs and tell me why there are so many. I expect renovate to open PRs and group changes, but there are dependabot PRs as well. in case they're trying to up packages that are already covered by the grouped renovate PR, we don't need them.
+
+the end goal is a working workflow and all PRs merged and the app still working (major versions could introduce breaking changes requiring code migration).

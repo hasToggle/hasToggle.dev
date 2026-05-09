@@ -1,0 +1,30 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "c2d921cba6f8",
+  "session_id": "551d1e3d-2f8b-4097-a724-60c0ca5c2c76",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-09T21:10:17.284496Z",
+  "branch": "chore/remove-dependabot",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".github/dependabot.yml"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "86e52f0b7cb8",
+  "token_usage": {
+    "input_tokens": 33,
+    "cache_creation_tokens": 152867,
+    "cache_read_tokens": 1561511,
+    "output_tokens": 13720,
+    "api_call_count": 23
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-09T21:10:17.223555Z",
+    "agent_lines": 0,
+    "human_added": 2819,
+    "human_modified": 16,
+    "human_removed": 0,
+    "total_committed": 2819,
+    "agent_percentage": 0
+  }
+}

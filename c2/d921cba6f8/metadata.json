@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "c2d921cba6f8",
+  "strategy": "manual-commit",
+  "branch": "chore/remove-dependabot",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".github/dependabot.yml"
+  ],
+  "sessions": [
+    {
+      "metadata": "/c2/d921cba6f8/0/metadata.json",
+      "transcript": "/c2/d921cba6f8/0/full.jsonl",
+      "content_hash": "/c2/d921cba6f8/0/content_hash.txt",
+      "prompt": "/c2/d921cba6f8/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 33,
+    "cache_creation_tokens": 152867,
+    "cache_read_tokens": 1561511,
+    "output_tokens": 13720,
+    "api_call_count": 23
+  }
+}
