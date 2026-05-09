@@ -10,12 +10,13 @@ import {
   Tailwind,
   Text,
 } from "@react-email/components";
+import type { ReactElement } from "react";
 
 const baseUrl = process.env.NEXT_PUBLIC_APEX_URL
   ? `https://${process.env.NEXT_PUBLIC_APEX_URL}`
   : "";
 
-export const WelcomeEmail = () => (
+export const WelcomeEmail = (): ReactElement => (
   <Html>
     <Head />
     <Preview>
