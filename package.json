@@ -23,15 +23,15 @@
   },
   "devDependencies": {
     "@auto-it/first-time-contributor": "^11.3.0",
-    "@biomejs/biome": "2.4.13",
+    "@biomejs/biome": "2.4.15",
     "@repo/typescript-config": "workspace:*",
     "bun-types": "latest",
     "@turbo/gen": "^2.8.9",
     "@types/node": "^25.0.0",
     "tsup": "^8.5.0",
-    "turbo": "2.9.6",
+    "turbo": "2.9.12",
     "typescript": "^6.0.0",
-    "ultracite": "7.6.2"
+    "ultracite": "7.6.5"
   },
   "engines": {
     "node": ">=20.19.0"
