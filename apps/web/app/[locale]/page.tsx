@@ -1,139 +1,243 @@
+import { Separator } from "@repo/design-system/components/ui/separator";
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
-import { CounterDesktop } from "./(counter)/counter-desktop";
-import { CounterMobile } from "./(counter)/counter-mobile";
-import { BentoCardWithState } from "./(curriculum-preview)/bento-card-with-state";
-import LocalUnicorn from "./(storage)/local-unicorn";
-import { AnimatedEmojiTextBackground } from "./components/animated-text-background";
-import { BentoCard } from "./components/bento-card";
-import { BentoSection } from "./components/bento-section";
-import { ColorfulLogs } from "./components/colorful-logs";
-
-const Confetti = dynamic(() =>
-  import("./components/confetti").then((mod) => mod.Confetti)
-);
-
+import { Completion } from "./(demos)/completion";
+import { Contract } from "./(demos)/contract";
+import { Mirror } from "./(demos)/mirror";
+import { MisconceptionWrapper } from "./(demos)/misconception-wrapper";
+import { Plausibility } from "./(demos)/plausibility";
+import { Proof } from "./(demos)/proof";
 import { Container } from "./components/container";
+import { Digest } from "./components/digest";
 import { FrequentlyAskedQuestions } from "./components/faqs";
 import { Footer } from "./components/footer";
-import { Gradient } from "./components/gradient";
-import { Testimonial } from "./components/hazel-testimonial";
-import {
-  InsiderJokeDesktop,
-  InsiderJokeMobile,
-} from "./components/insider-joke";
-import { LinkedAvatars } from "./components/linked-avatars";
-import { LogoTimeline } from "./components/logo-timeline";
-import { MarketingButton } from "./components/marketing-button";
-import { Navbar } from "./components/navbar";
-import { Testimonials } from "./components/testimonials";
+import { Hero } from "./components/hero";
+import { MetaAside } from "./components/meta-aside";
 import { Heading, Subheading } from "./components/text";
 
+function SectionDivider() {
+  return (
+    <Container>
+      <Separator className="bg-foreground/10" />
+    </Container>
+  );
+}
+
+function PartDivider() {
+  return (
+    <Container className="py-12 sm:py-16">
+      <div className="flex items-center justify-center gap-6">
+        <Separator className="flex-1 bg-foreground/10" />
+        <span
+          aria-hidden="true"
+          className="select-none font-mono text-muted-foreground/60 text-sm tracking-[0.25em]"
+        >
+          §
+        </span>
+        <Separator className="flex-1 bg-foreground/10" />
+      </div>
+    </Container>
+  );
+}
+
 export const metadata: Metadata = {
-  title: "hasToggle - It's time to switch on your coding skills!",
+  title: "hasToggle — AI makes you more.",
   description:
-    "Level up your coding skills by learning modern web development.",
+    "For developers who'd rather own the answer than borrow it. Every Monday, one thing built — code, demo, or walkthrough — made with AI, finished by judgment.",
 };
 
-function Hero() {
+function MisconceptionDemos() {
   return (
-    <div className="relative">
-      <Gradient className="absolute inset-2 inset-ring inset-ring-black/5 bottom-0 rounded-4xl" />
-      <ColorfulLogs />
-      <Container className="relative">
-        <Navbar variant="dark" />
-        <div className="pt-16 pb-24 sm:pt-24 sm:pb-32 md:pt-32 md:pb-48">
-          <h1 className="max-w-64 font-display font-medium text-6xl/[0.9] text-ht-blue-200 tracking-tight sm:max-w-sm sm:text-8xl/[0.8] md:max-w-md md:text-9xl/[0.8] lg:max-w-full">
-            <span className="inline-flex flex-wrap items-baseline gap-x-2">
-              <span className="mr-3 whitespace-nowrap">It&apos;s time</span>
-              <span className="flex items-baseline whitespace-nowrap">
-                to <AnimatedEmojiTextBackground />
-              </span>
-            </span>
-          </h1>
-          <p className="mt-8 max-w-lg font-medium text-gray-50/90 text-xl/7 sm:text-2xl/8">
-            Become a junior web developer and build your skills, from the first
-            line of code to crafting pro-level web apps with Next.js.
-          </p>
-          <div className="mt-12 flex flex-col gap-x-6 gap-y-4 sm:flex-row">
-            <MarketingButton href="#digest">
-              Get coding tips every Monday
-            </MarketingButton>
-          </div>
-        </div>
-      </Container>
+    <div>
+      {/* Demo 1: Plausibility — grammar without meaning */}
+      <MisconceptionWrapper
+        hook="It's grounded in the docs. It has to be right."
+        id="misconception-01"
+        meta="What you're about to watch is exactly what AI does every time you ask it anything. We're just slowing it down enough that you can see it."
+        number={1}
+        question="Where is the time actually going?"
+        tag="The Question"
+      >
+        <Plausibility />
+      </MisconceptionWrapper>
+
+      <SectionDivider />
+
+      {/* Demo 2: Destructive Defaults — importer pipeline */}
+      <MisconceptionWrapper
+        hook="I told AI exactly what I wanted."
+        id="misconception-02"
+        meta="And the question you didn't ask is the one that shipped to production."
+        number={2}
+        question="What should the default be when something goes wrong?"
+        reality="Each step was reviewed. None of them were destructive. The destructive default lived in the composition — in the gap between import and sync. The engineer told the agent how each step should work. Nobody decided what the system should fall back to when none of them did."
+        tag="The Contract"
+      >
+        <Contract />
+      </MisconceptionWrapper>
+
+      <SectionDivider />
+
+      {/* Demo 3: Mirror — the agent has no stance, only a continuation */}
+      <MisconceptionWrapper
+        hook="It agreed with me."
+        id="misconception-03"
+        meta="You weren't consulting it. You were watching it agree."
+        number={3}
+        reality="An agent has no stance — only a continuation. The position is yours. You hold it. You enforce it. Every commit."
+        tag="The Position"
+      >
+        <Mirror />
+      </MisconceptionWrapper>
+
+      <SectionDivider />
+
+      {/* Demo 4: Verdict — false completion claims (no check + forged check) */}
+      <MisconceptionWrapper
+        hook="It's done."
+        id="misconception-04"
+        meta="Done is a verdict. Verdicts require a court the defendant can't sit on."
+        number={4}
+        question="What checked it? And could the agent author the check?"
+        reality={
+          "An agent's “done” is a sentence, and so is its “tests pass.” Both are claims authored by the agent. Until something the agent can't author confirms the work, neither is a verdict — they're both drafts."
+        }
+        tag="The Verdict"
+      >
+        <Completion />
+      </MisconceptionWrapper>
+
+      <SectionDivider />
+
+      {/* Demo 5: Proof — the validation manufactures a "valid" lie */}
+      <MisconceptionWrapper
+        hook="All checks pass."
+        id="misconception-05"
+        meta="A check that can transform input into compliance isn't a check. It's a translator."
+        number={5}
+        question="What does it do with what shouldn't be there?"
+        reality="The check was working. It was working on a problem that no longer existed. AI inherits guardrails the way it inherits code — accepts them as given. The guardrail you stopped questioning is no longer a guardrail."
+        tag="The Proof"
+      >
+        <Proof />
+      </MisconceptionWrapper>
     </div>
   );
 }
 
-function FeatureSection() {
+const VALUES: readonly {
+  body: React.ReactNode;
+  heading: string;
+  numeral: string;
+}[] = [
+  {
+    numeral: "I",
+    heading: "Ask.",
+    body: "Probe what you don't yet know. AI fills the gap before you find it. We make you find it first.",
+  },
+  {
+    numeral: "II",
+    heading: "Collide.",
+    body: "You learn when your idea meets reality. AI lets you skip the meeting. We don't.",
+  },
+  {
+    numeral: "III",
+    heading: "Rediscover.",
+    body: "An answer you received is borrowed. An answer you worked out is yours.",
+  },
+];
+
+function Values() {
   return (
-    <div className="overflow-hidden">
-      <Container className="pb-24">
-        <Heading as="h2" className="max-w-3xl">
-          For beginners, squirrels, and everything in between 🐿️
-        </Heading>
-        <div
-          className="relative mt-10 aspect-1216/768 [--radius:0.75rem] sm:mt-16"
-          style={{ "--width": 1216, "--height": 768 } as React.CSSProperties}
+    <Container className="py-24 sm:py-32">
+      <div className="mb-20 max-w-2xl">
+        <Subheading>The mechanism</Subheading>
+        <Heading
+          as="h2"
+          className="mt-3 text-balance text-4xl sm:text-5xl md:text-6xl"
         >
-          <div className="absolute -inset-(--padding) rounded-[calc(var(--radius)+var(--padding))] shadow-sm ring-1 ring-black/5 [--padding:0.5rem]" />
-          <div className="lg:hidden">
-            <CounterMobile />
-          </div>
-          <div className="hidden lg:block">
-            <CounterDesktop />
-          </div>
-        </div>
-      </Container>
-    </div>
+          Three moves.
+        </Heading>
+        <MetaAside className="mt-6">
+          Three moves. Not a framework, not a process. The smallest set of
+          things you have to do for AI collaboration to produce ownership.
+        </MetaAside>
+      </div>
+
+      <ol className="space-y-16 sm:space-y-20">
+        {VALUES.map((value) => (
+          <li
+            className="grid gap-x-12 gap-y-6 lg:grid-cols-[7rem_minmax(0,1fr)]"
+            key={value.numeral}
+          >
+            <div>
+              <span className="font-mono text-muted-foreground/60 text-sm tracking-[0.25em] lg:block lg:text-right">
+                {value.numeral}
+              </span>
+            </div>
+            <div className="max-w-2xl">
+              <Heading
+                as="h3"
+                className="text-balance text-3xl/[1.1] sm:text-4xl/[1.1]"
+              >
+                {value.heading}
+              </Heading>
+              <p className="mt-5 text-foreground/75 text-lg leading-8">
+                {value.body}
+              </p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <p className="mt-20 text-balance text-center font-display text-2xl text-foreground sm:mt-24 sm:text-3xl">
+        Run the three moves and you start to speak the language of building
+        software — you navigate the landscape, defend your thinking, and
+        translate it for anyone.
+      </p>
+
+      <p className="mt-12 text-balance text-center font-display text-foreground/75 text-xl italic sm:mt-14 sm:text-2xl">
+        AI produces the artifact. You hold the meaning.
+      </p>
+    </Container>
   );
 }
 
-function DarkBentoSection() {
+function DigestCTA() {
   return (
-    <div className="mx-2 mt-2 rounded-4xl bg-gray-900 py-32">
+    <section
+      aria-labelledby="digest-heading"
+      className="relative bg-ht-cyan-50/80 py-24 sm:py-32 dark:bg-ht-cyan-950/30"
+      id="digest"
+    >
       <Container>
-        <Subheading dark>Curriculum</Subheading>
-        <Heading as="h3" className="mt-2 max-w-3xl" dark>
-          A curriculum that fuels curiosity and builds skills.
-        </Heading>
-
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-16 lg:grid-cols-6 lg:grid-rows-2">
-          <BentoCard
-            className="max-lg:rounded-t-4xl lg:col-span-4 lg:rounded-tl-4xl"
-            dark
-            description="Horses, unicorns, or just a simple list of numbers - learn about SQL and NoSQL databases and store anything you want."
-            eyebrow="Storage"
-            graphic={<LocalUnicorn />}
-            title="Learn to read and write data"
-          />
-          <BentoCard
-            className="overflow-visible! z-10 lg:col-span-2 lg:rounded-tr-4xl"
-            dark
-            description="Follow a clear path to master the tools and skills for your web development journey."
-            eyebrow="Developer Journey"
-            graphic={<LogoTimeline />}
-            title="Explore web technologies"
-          />
-          <BentoCard
-            className="lg:col-span-2 lg:rounded-bl-4xl"
-            dark
-            description="Discover the power of TailwindCSS to craft stunning, responsive designs effortlessly."
-            eyebrow="Styling Reinvented"
-            graphic={<LinkedAvatars />}
-            title="Master TailwindCSS"
-          />
-          <BentoCardWithState
-            className="max-lg:rounded-b-4xl lg:col-span-4 lg:rounded-br-4xl"
-            dark
-            description="At the heart of modern web development is JavaScript. It powers everything from the most basic web pages to the most complex web applications."
-            eyebrow="Language"
-            title="JavaScript"
-          />
+        <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
+          <Subheading className="text-ht-cyan-800/80 dark:text-ht-cyan-300/80">
+            The weekly build
+          </Subheading>
+          <Heading
+            as="h3"
+            className="mt-3 text-balance text-4xl sm:text-5xl"
+            id="digest-heading"
+          >
+            Every Monday, one thing built. Owned in full.
+          </Heading>
+          <p className="mt-6 max-w-xl text-balance text-foreground/75 text-lg leading-8">
+            Code, demo, or walkthrough — one piece of work each week, made with
+            AI, finished by judgment.
+          </p>
+          <p className="mt-3 max-w-xl text-balance text-base text-foreground/55">
+            The artifact, plus the thinking that put it there.
+          </p>
+          <div className="mt-10 w-full">
+            <Digest />
+          </div>
+          <MetaAside className="mt-6">
+            The fact that you&apos;re reading the fine print under an email form
+            says something about you. Something good.
+          </MetaAside>
         </div>
       </Container>
-    </div>
+    </section>
   );
 }
 
@@ -142,37 +246,13 @@ export default function MarketingPage() {
     <div className="overflow-hidden">
       <Hero />
       <main>
-        <div className="bg-linear-to-b from-50% from-white to-gray-100 py-32">
-          <FeatureSection />
-          <BentoSection />
-        </div>
-        <DarkBentoSection />
-        <Testimonial />
-        <div className="mx-2 mt-2 rounded-4xl bg-gray-900 py-32">
-          <Container>
-            <Subheading dark>Be part of the conversation</Subheading>
-            <Heading as="h3" className="mt-2 max-w-3xl" dark>
-              Get insider jokes.
-            </Heading>
-            <p className="mt-4 text-gray-400 text-lg">
-              Ever tried explaining web development at a party? It's like
-              describing a circus where HTML is the ringmaster, CSS is the
-              makeup artist, and JavaScript is that one clown who won't stop
-              poking everything.
-            </p>
-            <div className="lg:hidden">
-              <InsiderJokeMobile />
-            </div>
-            <div className="hidden lg:block">
-              <InsiderJokeDesktop />
-            </div>
-          </Container>
-        </div>
+        <MisconceptionDemos />
+        <PartDivider />
+        <Values />
+        <DigestCTA />
+        <FrequentlyAskedQuestions />
       </main>
-      <Testimonials />
-      <FrequentlyAskedQuestions />
       <Footer />
-      <Confetti />
     </div>
   );
 }

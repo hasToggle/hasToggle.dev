@@ -43,7 +43,7 @@ export function CounterDesktop() {
   const codeSnippets = getCodeSnippets(state.internalCount);
 
   return (
-    <div className="h-full rounded-lg bg-zinc-50 px-4 py-6 shadow-2xl ring-1 ring-black/10 sm:px-6">
+    <div className="h-full rounded-lg bg-card px-4 py-6 shadow-2xl ring-1 ring-border sm:px-6">
       <Boundary
         animateRerendering={false}
         color="default"
@@ -53,16 +53,16 @@ export function CounterDesktop() {
         {/* Header section */}
         <div
           className={cn(
-            "mt-6 mb-7 rounded-md border border-transparent bg-zinc-100 px-4 py-5 sm:px-6",
-            { "border-zinc-300 bg-zinc-200": !state.disabled }
+            "mt-6 mb-7 rounded-md border border-transparent bg-muted px-4 py-5 sm:px-6",
+            { "border-border bg-accent": !state.disabled }
           )}
         >
           <div className="-ml-4 flex flex-wrap items-center justify-between sm:flex-nowrap">
             <div className="mt-2 ml-4">
-              <h3 className="font-semibold text-base text-gray-900">
+              <h3 className="font-semibold text-base text-foreground">
                 {state.title}
               </h3>
-              <p className="text-gray-700 text-sm">{state.aside}</p>
+              <p className="text-muted-foreground text-sm">{state.aside}</p>
             </div>
             <div className="mt-2 ml-4 shrink-0">
               <span className="relative inline-flex">
@@ -86,7 +86,7 @@ export function CounterDesktop() {
           </div>
         </div>
 
-        <div className="mx-auto my-10 max-w-sm border-zinc-200 border-b" />
+        <div className="mx-auto my-10 max-w-sm border-border border-b" />
 
         {/* Main section */}
         <Boundary
@@ -145,15 +145,15 @@ interface CounterContentProps {
 function CounterContent({ state, dispatch }: CounterContentProps) {
   return (
     <>
-      <div className="flex h-full w-[600px] flex-col items-center justify-center gap-y-6 self-center p-4 font-medium text-black">
+      <div className="flex h-full w-[600px] flex-col items-center justify-center gap-y-6 self-center p-4 font-medium text-foreground">
         <div>
           You collected{" "}
           <span
             className={cn(
-              "inset-ring inset-ring-zinc-300 mx-1 rounded-md px-3.5 py-1.5 font-semibold text-gray-900 text-lg shadow-sm",
+              "inset-ring inset-ring-border mx-1 rounded-md px-3.5 py-1.5 font-semibold text-foreground text-lg shadow-sm",
               {
                 "animate-[highlight_1s_ease-in-out_1]": state.disabled,
-                "bg-zinc-100": !state.disabled,
+                "bg-muted": !state.disabled,
               }
             )}
           >
