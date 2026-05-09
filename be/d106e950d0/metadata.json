@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "bed106e950d0",
+  "strategy": "manual-commit",
+  "branch": "renovate/react-day-picker-10.x",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "packages/design-system/components/ui/calendar.tsx"
+  ],
+  "sessions": [
+    {
+      "metadata": "/be/d106e950d0/0/metadata.json",
+      "transcript": "/be/d106e950d0/0/full.jsonl",
+      "content_hash": "/be/d106e950d0/0/content_hash.txt",
+      "prompt": ""
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 129,
+    "cache_creation_tokens": 97709,
+    "cache_read_tokens": 15822610,
+    "output_tokens": 40475,
+    "api_call_count": 115
+  }
+}
