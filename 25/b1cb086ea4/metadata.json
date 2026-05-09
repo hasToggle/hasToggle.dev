@@ -1,0 +1,23 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "25b1cb086ea4",
+  "strategy": "manual-commit",
+  "branch": "chore/stripe-api-version",
+  "checkpoints_count": 1,
+  "files_touched": null,
+  "sessions": [
+    {
+      "metadata": "/25/b1cb086ea4/0/metadata.json",
+      "transcript": "/25/b1cb086ea4/0/full.jsonl",
+      "content_hash": "/25/b1cb086ea4/0/content_hash.txt",
+      "prompt": ""
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 225,
+    "cache_creation_tokens": 299467,
+    "cache_read_tokens": 29693400,
+    "output_tokens": 75051,
+    "api_call_count": 196
+  }
+}
