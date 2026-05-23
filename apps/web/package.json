@@ -27,7 +27,7 @@
     "@rescale/nemo": "^2.2.0",
     "@sentry/nextjs": "^10.53.1",
     "@t3-oss/env-nextjs": "^0.13.11",
-    "date-fns": "^4.2.1",
+    "date-fns": "^4.3.0",
     "disposable-email-domains": "^1.0.62",
     "lucide-react": "^1.16.0",
     "motion": "^12.40.0",
