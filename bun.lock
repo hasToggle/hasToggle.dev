@@ -232,8 +232,8 @@
         "@next/third-parties": "^16.2.6",
         "@t3-oss/env-nextjs": "^0.13.11",
         "@vercel/analytics": "^2.0.1",
-        "posthog-js": "^1.376.0",
-        "posthog-node": "^5.35.2",
+        "posthog-js": "^1.376.1",
+        "posthog-node": "^5.35.3",
         "react": "^19.2.6",
         "server-only": "^0.0.1",
         "zod": "^4.4.3",
@@ -1332,9 +1332,9 @@
 
     "@popperjs/core": ["@popperjs/core@2.11.8", "", {}, "sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A=="],
 
-    "@posthog/core": ["@posthog/core@1.29.9", "", { "dependencies": { "@posthog/types": "1.376.0" } }, "sha512-DjvuIyBZ2Z/gBhtZlITlM2D8PlnMsHSQ1D78dbUYoVsgGguvanpJTobZObjLlFkybyvfZFYkpoJkFNI/2Pw4IQ=="],
+    "@posthog/core": ["@posthog/core@1.29.10", "", { "dependencies": { "@posthog/types": "1.376.1" } }, "sha512-j4wa+E8z3dNM7tEb/tvUjEw7hHQQzHy4K/WRwwBwWdsOfOYRsLmnz15r4Men6ZQNIKyMUkK2RanWwptdGT4oIg=="],
 
-    "@posthog/types": ["@posthog/types@1.376.0", "", {}, "sha512-gbFfxCuZDs/D4QZMwdE+smD1jsuqgGpS6yKGHZZ19foxMy8RYHsU1E47iG1b88n/uN02fAabLibVwuxLtq8juw=="],
+    "@posthog/types": ["@posthog/types@1.376.1", "", {}, "sha512-aat3Fvb7sbBpA6DSaNp7Vy3IAL2j28wkg/AVgYSwxX9Fae0K2W42DWQpNpUS4HSFcJb7RpC5XJboKddpVDXfQw=="],
 
     "@prisma/config": ["@prisma/config@7.8.0", "", { "dependencies": { "c12": "3.3.4", "deepmerge-ts": "7.1.5", "effect": "3.20.0", "empathic": "2.0.0" } }, "sha512-HFESzd9rx2ZQxlK+TL7tu1HPvCqrHiL6LCxYykI2c34mvaUuIVVl3lYuicJD/MNnzgPnyeBEMlK4WTomJCV5jw=="],
 
@@ -3518,9 +3518,9 @@
 
     "postgres-interval": ["postgres-interval@1.2.0", "", { "dependencies": { "xtend": "^4.0.0" } }, "sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ=="],
 
-    "posthog-js": ["posthog-js@1.376.0", "", { "dependencies": { "@opentelemetry/api": "^1.9.0", "@opentelemetry/api-logs": "^0.208.0", "@opentelemetry/exporter-logs-otlp-http": "^0.208.0", "@opentelemetry/resources": "^2.2.0", "@opentelemetry/sdk-logs": "^0.208.0", "@posthog/core": "1.29.9", "@posthog/types": "1.376.0", "core-js": "^3.38.1", "dompurify": "^3.3.2", "fflate": "^0.4.8", "preact": "^10.28.2", "query-selector-shadow-dom": "^1.0.1", "web-vitals": "^5.1.0" } }, "sha512-YGfQ6gSmqmEh287PHjXRDJ9zML3Su1UIt1+xjRy7Yk6yW43Sc7sFK3CpCkLchCGhIA4x6VaqK+LaqB+7+MCo7A=="],
+    "posthog-js": ["posthog-js@1.376.1", "", { "dependencies": { "@opentelemetry/api": "^1.9.0", "@opentelemetry/api-logs": "^0.208.0", "@opentelemetry/exporter-logs-otlp-http": "^0.208.0", "@opentelemetry/resources": "^2.2.0", "@opentelemetry/sdk-logs": "^0.208.0", "@posthog/core": "1.29.10", "@posthog/types": "1.376.1", "core-js": "^3.38.1", "dompurify": "^3.3.2", "fflate": "^0.4.8", "preact": "^10.28.2", "query-selector-shadow-dom": "^1.0.1", "web-vitals": "^5.1.0" } }, "sha512-JKVcC9ql2YzyfLLjqwxoxl5aDiUZkU2FG5ZToagMPFZrCIok+38GunWTIdXqkwN8fv59NDZsoJEvaY6OzetQ+A=="],
 
-    "posthog-node": ["posthog-node@5.35.2", "", { "dependencies": { "@posthog/core": "1.29.9" }, "peerDependencies": { "rxjs": "^7.0.0" }, "optionalPeers": ["rxjs"] }, "sha512-YwzkogTUrsFeUnJJH17p3zoZBFaHIh6swYoLV4Ic5pmd8fIVTz8w7NsHR7eWmJlqYe/+Hqo1acGN1jclNUbz3A=="],
+    "posthog-node": ["posthog-node@5.35.3", "", { "dependencies": { "@posthog/core": "1.29.10" }, "peerDependencies": { "rxjs": "^7.0.0" }, "optionalPeers": ["rxjs"] }, "sha512-qQ76Rbmfzd7TBEFZtULEkg5pebUegwYJUun6zmXkK+6N64V/g39r18O5suHlQrZH83wKcBfSgAbaI3Sf/ya1Ew=="],
 
     "preact": ["preact@10.29.1", "", {}, "sha512-gQCLc/vWroE8lIpleXtdJhTFDogTdZG9AjMUpVkDf2iTCNwYNWA+u16dL41TqUDJO4gm2IgrcMv3uTpjd4Pwmg=="],
 
