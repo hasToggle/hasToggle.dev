@@ -39,7 +39,7 @@
   "packageManager": "bun@1.1.43",
   "dependencies": {
     "@clack/prompts": "^1.0.0",
-    "commander": "^14.0.2"
+    "commander": "^15.0.0"
   },
   "type": "module",
   "overrides": {
