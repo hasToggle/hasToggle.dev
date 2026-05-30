@@ -1,10 +1,6 @@
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@repo/design-system/components/ui/hover-card";
 import { Separator } from "@repo/design-system/components/ui/separator";
 import { Container } from "./container";
+import { HeroAsterisk } from "./hero-asterisk";
 import { MarketingButton } from "./marketing-button";
 import { MetaAside } from "./meta-aside";
 import { Navbar } from "./navbar";
@@ -28,26 +24,7 @@ export function Hero() {
           </p>
           <h1 className="max-w-4xl font-display font-medium text-6xl/[0.95] text-foreground tracking-tight sm:text-7xl/[0.95] md:text-8xl/[0.95]">
             AI makes you more.
-            <HoverCard closeDelay={100} openDelay={100}>
-              <HoverCardTrigger asChild>
-                <sup className="ml-1 inline-block cursor-help align-top font-mono font-normal text-ht-cyan-700/70 text-xl tracking-normal hover:text-ht-cyan-700 sm:text-2xl dark:text-ht-cyan-300/85 dark:hover:text-ht-cyan-200">
-                  *
-                </sup>
-              </HoverCardTrigger>
-              <HoverCardContent
-                align="start"
-                className="w-80 border-ht-cyan-700/20 dark:border-ht-cyan-500/30"
-                side="bottom"
-              >
-                <p className="font-mono text-ht-cyan-900/80 text-sm/6 dark:text-ht-cyan-300/90">
-                  <span aria-hidden="true" className="select-none opacity-70">
-                    *&nbsp;
-                  </span>
-                  AI doesn&apos;t make you better. It makes you bigger.
-                  That&apos;s the good news and the warning.
-                </p>
-              </HoverCardContent>
-            </HoverCard>
+            <HeroAsterisk />
           </h1>
           <p className="mt-8 max-w-xl font-medium text-muted-foreground text-xl/8 sm:text-2xl/9">
             For developers who&apos;d rather own the answer than borrow it.
@@ -97,8 +74,9 @@ export function Hero() {
             <span aria-hidden="true" className="select-none opacity-70">
               *&nbsp;
             </span>
-            AI doesn&apos;t make you better. It makes you bigger. That&apos;s
-            the good news and the warning.
+            AI doesn&apos;t make you better. It makes you bigger. It&apos;s an
+            amplifier, not a compass — it has no opinion on whether you&apos;re
+            pointed the right way.
           </MetaAside>
         </div>
       </Container>
