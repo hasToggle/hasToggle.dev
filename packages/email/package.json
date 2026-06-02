@@ -9,16 +9,16 @@
   "dependencies": {
     "@react-email/components": "1.0.12",
     "@t3-oss/env-nextjs": "^0.13.11",
-    "next": "^16.2.6",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6",
+    "next": "^16.2.7",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "resend": "^6.12.4",
     "zod": "^4.4.3"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "@types/node": "25.9.1",
-    "@types/react": "^19.2.15",
+    "@types/react": "^19.2.16",
     "@types/react-dom": "19.2.3",
     "typescript": "^6.0.3"
   }
