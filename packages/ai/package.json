@@ -8,9 +8,9 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.67",
-    "@ai-sdk/react": "^3.0.197",
+    "@ai-sdk/react": "^3.0.198",
     "@t3-oss/env-nextjs": "^0.13.11",
-    "ai": "^6.0.195",
+    "ai": "^6.0.196",
     "next": "^16.2.7",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
