@@ -15,9 +15,9 @@
     "@react-email/preview-server": "^5.2.10",
     "@react-email/render": "^2.0.8",
     "@repo/email": "workspace:*",
-    "mongodb": "^7.2.0",
+    "mongodb": "^7.3.0",
     "react": "^19.2.7",
-    "react-email": "6.5.0",
+    "react-email": "6.6.0",
     "resend": "^6.12.4"
   },
   "devDependencies": {
