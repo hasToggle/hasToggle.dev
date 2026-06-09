@@ -232,8 +232,8 @@
         "@next/third-parties": "^16.2.7",
         "@t3-oss/env-nextjs": "^0.13.11",
         "@vercel/analytics": "^2.0.1",
-        "posthog-js": "^1.383.1",
-        "posthog-node": "^5.36.6",
+        "posthog-js": "^1.383.2",
+        "posthog-node": "^5.36.7",
         "react": "^19.2.7",
         "server-only": "^0.0.1",
         "zod": "^4.4.3",
@@ -1282,9 +1282,9 @@
 
     "@popperjs/core": ["@popperjs/core@2.11.8", "", {}, "sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A=="],
 
-    "@posthog/core": ["@posthog/core@1.30.12", "", { "dependencies": { "@posthog/types": "1.383.1" } }, "sha512-XKkiK5H8ww3RHmL+TzHHnWCdcmZzfTy5RuiIs8yx9ABzG5Gdn+FgK/cH9XSvh5xU6Avkk1b6zLG/hZfF2nZAyQ=="],
+    "@posthog/core": ["@posthog/core@1.30.13", "", { "dependencies": { "@posthog/types": "1.383.2" } }, "sha512-d+4r6spHsllDUNc9LLJ3bT7GCiN9aurTMv1XKweyvOcujYq/w+PcjqxfZeOQZ2x9recdp+o9Z+hWgnuA2Sk4lw=="],
 
-    "@posthog/types": ["@posthog/types@1.383.1", "", {}, "sha512-1gdoBJLAbj9MjPnFV+WH+KWOktJIiWNvg8KO68cX3nbXlCCMx6p+d0e6ORmHshe1++UoRRIbSjfJE2aBOUVpRQ=="],
+    "@posthog/types": ["@posthog/types@1.383.2", "", {}, "sha512-rci/AXDgu3s+5H32bIDipXlIiM++Z5A4VB7LKs6IX0jW1JrcJ8zA3hX1HcKKQWkA4MqoEt8gWphrZt4HgMSrrg=="],
 
     "@prisma/config": ["@prisma/config@7.8.0", "", { "dependencies": { "c12": "3.3.4", "deepmerge-ts": "7.1.5", "effect": "3.20.0", "empathic": "2.0.0" } }, "sha512-HFESzd9rx2ZQxlK+TL7tu1HPvCqrHiL6LCxYykI2c34mvaUuIVVl3lYuicJD/MNnzgPnyeBEMlK4WTomJCV5jw=="],
 
@@ -3424,9 +3424,9 @@
 
     "postgres": ["postgres@3.4.7", "", {}, "sha512-Jtc2612XINuBjIl/QTWsV5UvE8UHuNblcO3vVADSrKsrc6RqGX6lOW1cEo3CM2v0XG4Nat8nI+YM7/f26VxXLw=="],
 
-    "posthog-js": ["posthog-js@1.383.1", "", { "dependencies": { "@posthog/core": "1.30.12", "@posthog/types": "1.383.1", "core-js": "^3.38.1", "dompurify": "^3.3.2", "fflate": "^0.4.8", "preact": "^10.28.2", "query-selector-shadow-dom": "^1.0.1", "web-vitals": "^5.1.0" } }, "sha512-og2XbBCv2KkbDHgeu4Km8ivKdQRtb9HsUUORIwykRFMuBvZPoAFbmCvArnifm/4t2PAvWfn1bMmOr5bkHirNGg=="],
+    "posthog-js": ["posthog-js@1.383.2", "", { "dependencies": { "@posthog/core": "1.30.13", "@posthog/types": "1.383.2", "core-js": "^3.38.1", "dompurify": "^3.3.2", "fflate": "^0.4.8", "preact": "^10.28.2", "query-selector-shadow-dom": "^1.0.1", "web-vitals": "^5.1.0" } }, "sha512-Ze9KV7//2a0Fmq4k/dhcVBtEmfSaH16RtoBg7K/YsIrwiFBsSkzwHhg/VrEqmbbvY4+CtCIDPHFoS5j/4jTp3w=="],
 
-    "posthog-node": ["posthog-node@5.36.6", "", { "dependencies": { "@posthog/core": "1.30.12" }, "peerDependencies": { "rxjs": "^7.0.0" }, "optionalPeers": ["rxjs"] }, "sha512-r6atowCAjicv9N96yWFkhA8uhn8+UiWbVNYSf+7pHjfAfQfTPPTHPFZJYUrbgFjN6nkIMM1qXOO0E3gACiksIg=="],
+    "posthog-node": ["posthog-node@5.36.7", "", { "dependencies": { "@posthog/core": "1.30.13" }, "peerDependencies": { "rxjs": "^7.0.0" }, "optionalPeers": ["rxjs"] }, "sha512-NZJHYJZj/MGAEnDij4ksO38pI7mDmYHtp0/MkjN593x4WKL/GVAAg9PAe5X61tbDq4a02R6E/wlqXWV5vE++QQ=="],
 
     "preact": ["preact@10.29.1", "", {}, "sha512-gQCLc/vWroE8lIpleXtdJhTFDogTdZG9AjMUpVkDf2iTCNwYNWA+u16dL41TqUDJO4gm2IgrcMv3uTpjd4Pwmg=="],
 
