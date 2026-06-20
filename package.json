@@ -27,7 +27,7 @@
     "@repo/typescript-config": "workspace:*",
     "bun-types": "latest",
     "@turbo/gen": "^2.8.9",
-    "@types/node": "^25.0.0",
+    "@types/node": "^26.0.0",
     "tsup": "^8.5.0",
     "turbo": "2.9.18",
     "typescript": "^6.0.0",
