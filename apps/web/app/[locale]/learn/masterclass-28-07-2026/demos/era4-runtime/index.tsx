@@ -24,7 +24,7 @@ export function Era4Runtime() {
     }
     const { spec: result } = generateDashboard(q);
     const json = JSON.stringify(result, null, 2);
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduce = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setSpec(result);
     if (reduce) {
       setSpecText(json);

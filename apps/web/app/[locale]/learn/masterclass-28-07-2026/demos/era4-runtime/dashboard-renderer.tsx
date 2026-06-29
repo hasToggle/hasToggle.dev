@@ -139,7 +139,7 @@ export function DashboardRenderer({ spec }: { spec: RenderSpec }) {
               className="rounded-lg border border-foreground/10 p-4"
               key={key}
             >
-              {"title" in w && (
+              {"title" in w && w.title && (
                 <div className="mb-3 text-muted-foreground text-sm">
                   {w.title}
                 </div>
