@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { CompanyBrain } from "./company-brain";
 import { DashboardRenderer } from "./dashboard-renderer";
 import { generateDashboard } from "./generate-dashboard";
@@ -45,6 +45,14 @@ export function Era4Runtime() {
         setView("rendered");
       }
     }, CHAR_MS);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (timer.current) {
+        clearInterval(timer.current);
+      }
+    };
   }, []);
 
   return (

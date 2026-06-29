@@ -3,7 +3,7 @@ import type { IntentId } from "./match";
 
 export const DASHBOARD_CACHE: Record<IntentId, RenderSpec> = {
   "ai-skills": {
-    title: "Most-wanted AI-engineering skills",
+    title: "Most-wanted AI-engineering skills (illustrative)",
     widgets: [
       { kind: "kpi", label: "AI-eng postings YoY", value: "+240%", delta: "▲" },
       {
