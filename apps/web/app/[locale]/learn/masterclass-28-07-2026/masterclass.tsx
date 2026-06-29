@@ -10,6 +10,7 @@ import { EraPanel } from "./era-panel";
 import { Era1Playground } from "./demos/era1-playground";
 import { Era2Companion } from "./demos/era2-companion";
 import { Era3Harness } from "./demos/era3-harness";
+import { Era4Runtime } from "./demos/era4-runtime";
 
 const STEP_IDS = STEPS.map((s) => s.id);
 
@@ -89,7 +90,27 @@ export function Masterclass() {
             <Era3Harness />
           </EraPanel>
         )}
-				{step === "era-4" && <Era4Placeholder />}
+				{step === "era-4" && (
+          <EraPanel
+            deepCut={
+              <p>
+                The dashboard you just watched assemble is json-render under the
+                hood — a spec the model emits and the page compiles at runtime.
+                The same engine lets an end user build their own UI without a
+                developer in the loop. Code stops being a permanent artifact and
+                becomes a byproduct of intent.
+              </p>
+            }
+            era="Era IV"
+            expandLabel="Did you know? That dashboard didn't exist a second ago."
+            name="The runtime-driven, AI-native horizon"
+            reality="The model moves past the build phase into the runtime boundary. Ask a question and the interface is compiled on the fly — code as an ephemeral, just-in-time byproduct of what you wanted to see."
+            vibe="architectural liberation"
+            years="2026 →"
+          >
+            <Era4Runtime />
+          </EraPanel>
+        )}
 				{step === "synthesis" && <Synthesis />}
 			</main>
 			<footer className="mx-auto flex w-full max-w-5xl items-center justify-between px-4 py-8">
@@ -111,8 +132,4 @@ export function Masterclass() {
 			</footer>
 		</div>
 	);
-}
-
-function Era4Placeholder() {
-  return <p className="font-mono text-muted-foreground text-sm">Era 4 demo</p>;
 }
