@@ -9,6 +9,7 @@ import { Synthesis } from "./synthesis";
 import { EraPanel } from "./era-panel";
 import { Era1Playground } from "./demos/era1-playground";
 import { Era2Companion } from "./demos/era2-companion";
+import { Era3Harness } from "./demos/era3-harness";
 
 const STEP_IDS = STEPS.map((s) => s.id);
 
@@ -67,7 +68,27 @@ export function Masterclass() {
             <Era2Companion />
           </EraPanel>
         )}
-				{step === "era-3" && <Era3Placeholder />}
+				{step === "era-3" && (
+          <EraPanel
+            deepCut={
+              <p>
+                Here&apos;s the part that should reframe everything: I
+                didn&apos;t build the harness myself. The agent built its own
+                auditor; I set its rules. A page that used to take hours of
+                manual diffing came in at 2–3 hours of the agent working a list
+                I never had to touch — about a week of work I didn&apos;t do.
+              </p>
+            }
+            era="Era III"
+            expandLabel="Did you know? I didn't build the harness either."
+            name="Systems-driven agentic engineering"
+            reality="You stop writing syntax and start writing the rules. The agent reads the repo, runs the loop, audits itself against your spec, and self-corrects. You realize you're the bottleneck — and you learn to get out of the way."
+            vibe="the trust pivot"
+            years="2024–2025"
+          >
+            <Era3Harness />
+          </EraPanel>
+        )}
 				{step === "era-4" && <Era4Placeholder />}
 				{step === "synthesis" && <Synthesis />}
 			</main>
@@ -92,9 +113,6 @@ export function Masterclass() {
 	);
 }
 
-function Era3Placeholder() {
-  return <p className="font-mono text-muted-foreground text-sm">Era 3 demo</p>;
-}
 function Era4Placeholder() {
   return <p className="font-mono text-muted-foreground text-sm">Era 4 demo</p>;
 }
