@@ -8,6 +8,7 @@ import { Intro } from "./intro";
 import { Synthesis } from "./synthesis";
 import { EraPanel } from "./era-panel";
 import { Era1Playground } from "./demos/era1-playground";
+import { Era2Companion } from "./demos/era2-companion";
 
 const STEP_IDS = STEPS.map((s) => s.id);
 
@@ -47,7 +48,25 @@ export function Masterclass() {
             <Era1Playground />
           </EraPanel>
         )}
-				{step === "era-2" && <Era2Placeholder />}
+				{step === "era-2" && (
+          <EraPanel
+            deepCut={
+              <p>
+                The speed was real, and so was the ceiling: the model saw one
+                file, one selection. You held absolute, manual control — and
+                paid for it in copy-paste and context you carried in your head.
+              </p>
+            }
+            era="Era II"
+            expandLabel="Did you know? You were the bus."
+            name="Conversational companions"
+            reality="It can talk now — but it's localized. It sees one file, has no repo awareness, and nothing reaches your code until you move it. You are the integration layer."
+            vibe="guarded fascination"
+            years="2021–2023"
+          >
+            <Era2Companion />
+          </EraPanel>
+        )}
 				{step === "era-3" && <Era3Placeholder />}
 				{step === "era-4" && <Era4Placeholder />}
 				{step === "synthesis" && <Synthesis />}
@@ -73,9 +92,6 @@ export function Masterclass() {
 	);
 }
 
-function Era2Placeholder() {
-  return <p className="font-mono text-muted-foreground text-sm">Era 2 demo</p>;
-}
 function Era3Placeholder() {
   return <p className="font-mono text-muted-foreground text-sm">Era 3 demo</p>;
 }
