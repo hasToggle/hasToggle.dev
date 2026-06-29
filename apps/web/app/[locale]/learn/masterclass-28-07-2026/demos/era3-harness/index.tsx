@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@repo/design-system/lib/utils";
-import { useEffect, useReducer, useRef } from "react";
+import { useEffect, useReducer } from "react";
 import {
   harnessReducer,
   initialHarnessState,
@@ -13,18 +13,13 @@ const TICK_MS = 650;
 
 export function Era3Harness() {
   const [state, dispatch] = useReducer(harnessReducer, undefined, initialHarnessState);
-  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     if (!state.running) {
       return;
     }
-    timer.current = setInterval(() => dispatch({ type: "tick" }), TICK_MS);
-    return () => {
-      if (timer.current) {
-        clearInterval(timer.current);
-      }
-    };
+    const id = setInterval(() => dispatch({ type: "tick" }), TICK_MS);
+    return () => clearInterval(id);
   }, [state.running]);
 
   const resolved = (id: string) =>
@@ -134,7 +129,7 @@ function Mock({
       <div className="rounded-lg border border-foreground/10 bg-background p-4">
         <div
           className={cn(
-            "h-2.5 w-3/5 rounded bg-foreground transition-all",
+            "h-2.5 w-3/5 rounded bg-foreground motion-safe:transition-all",
             tight ? "mb-2" : "mb-3"
           )}
         />
