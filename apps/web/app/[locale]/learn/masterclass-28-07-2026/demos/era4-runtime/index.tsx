@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
+import { CompanyBrain } from "./company-brain";
 import { DashboardRenderer } from "./dashboard-renderer";
 import { generateDashboard } from "./generate-dashboard";
 import { INTENTS } from "./match";
@@ -47,62 +48,65 @@ export function Era4Runtime() {
   }, []);
 
   return (
-    <div className="rounded-xl border border-foreground/10 p-4 sm:p-6">
-      <form
-        className="flex gap-2"
-        onSubmit={(e) => {
-          e.preventDefault();
-          ask(question);
-        }}
-      >
-        <input
-          className="flex-1 rounded-md border border-foreground/15 bg-background px-3 py-2 text-sm"
-          onChange={(e) => setQuestion(e.target.value)}
-          value={question}
-        />
-        <button
-          className="rounded-md bg-foreground px-4 py-2 text-background text-sm"
-          type="submit"
+    <>
+      <div className="rounded-xl border border-foreground/10 p-4 sm:p-6">
+        <form
+          className="flex gap-2"
+          onSubmit={(e) => {
+            e.preventDefault();
+            ask(question);
+          }}
         >
-          Ask
-        </button>
-      </form>
-
-      <div className="mt-3 flex flex-wrap gap-2">
-        {INTENTS.map((intent) => (
+          <input
+            className="flex-1 rounded-md border border-foreground/15 bg-background px-3 py-2 text-sm"
+            onChange={(e) => setQuestion(e.target.value)}
+            value={question}
+          />
           <button
-            className="rounded-full border border-foreground/15 px-3 py-1 text-muted-foreground text-xs hover:text-foreground"
-            key={intent.id}
-            onClick={() => {
-              setQuestion(intent.question);
-              ask(intent.question);
-            }}
-            type="button"
+            className="rounded-md bg-foreground px-4 py-2 text-background text-sm"
+            type="submit"
           >
-            {intent.label}
+            Ask
           </button>
-        ))}
-      </div>
+        </form>
 
-      {view === "compiling" && (
-        <pre className="mt-5 max-h-64 overflow-auto rounded-lg border border-foreground/10 bg-muted/40 p-4 font-mono text-xs">
-          {specText}
-          <span className="animate-pulse">▋</span>
-        </pre>
-      )}
-
-      {view === "rendered" && spec && (
-        <div className="mt-5 fade-in animate-in duration-300">
-          <DashboardRenderer spec={spec} />
+        <div className="mt-3 flex flex-wrap gap-2">
+          {INTENTS.map((intent) => (
+            <button
+              className="rounded-full border border-foreground/15 px-3 py-1 text-muted-foreground text-xs hover:text-foreground"
+              key={intent.id}
+              onClick={() => {
+                setQuestion(intent.question);
+                ask(intent.question);
+              }}
+              type="button"
+            >
+              {intent.label}
+            </button>
+          ))}
         </div>
-      )}
 
-      {view === "idle" && (
-        <p className="mt-5 text-muted-foreground text-sm">
-          Ask a question — there is no pre-built dashboard. The UI is compiled
-          from your question.
-        </p>
-      )}
-    </div>
+        {view === "compiling" && (
+          <pre className="mt-5 max-h-64 overflow-auto rounded-lg border border-foreground/10 bg-muted/40 p-4 font-mono text-xs">
+            {specText}
+            <span className="animate-pulse">▋</span>
+          </pre>
+        )}
+
+        {view === "rendered" && spec && (
+          <div className="mt-5 fade-in animate-in duration-300">
+            <DashboardRenderer spec={spec} />
+          </div>
+        )}
+
+        {view === "idle" && (
+          <p className="mt-5 text-muted-foreground text-sm">
+            Ask a question — there is no pre-built dashboard. The UI is compiled
+            from your question.
+          </p>
+        )}
+      </div>
+      <CompanyBrain />
+    </>
   );
 }
