@@ -29,7 +29,7 @@
     "@turbo/gen": "^2.8.9",
     "@types/node": "^26.0.0",
     "tsup": "^8.5.0",
-    "turbo": "2.10.0",
+    "turbo": "2.10.1",
     "typescript": "^6.0.0",
     "ultracite": "7.8.3"
   },
