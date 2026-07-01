@@ -17,7 +17,7 @@
     "zod": "^4.4.3"
   },
   "peerDependencies": {
-    "next": "^16.2.9"
+    "next": "^16.2.10"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
