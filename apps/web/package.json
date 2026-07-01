@@ -30,7 +30,7 @@
     "date-fns": "^4.4.0",
     "disposable-email-domains": "^1.0.62",
     "lucide-react": "^1.22.0",
-    "motion": "^12.42.0",
+    "motion": "^12.42.2",
     "next": "16.2.9",
     "nuqs": "^2.8.9",
     "react": "^19.2.7",
