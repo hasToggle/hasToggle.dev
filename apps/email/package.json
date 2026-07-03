@@ -13,11 +13,11 @@
   "dependencies": {
     "@react-email/components": "1.0.12",
     "@react-email/preview-server": "^5.2.10",
-    "@react-email/render": "^2.0.9",
+    "@react-email/render": "^2.0.10",
     "@repo/email": "workspace:*",
     "mongodb": "^7.4.0",
     "react": "^19.2.7",
-    "react-email": "6.6.5",
+    "react-email": "6.6.6",
     "resend": "^6.16.0"
   },
   "devDependencies": {
