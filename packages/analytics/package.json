@@ -10,7 +10,7 @@
     "@next/third-parties": "^16.2.10",
     "@t3-oss/env-nextjs": "^0.13.11",
     "@vercel/analytics": "^2.0.1",
-    "posthog-js": "^1.396.5",
+    "posthog-js": "^1.396.6",
     "posthog-node": "^5.39.4",
     "react": "^19.2.7",
     "server-only": "^0.0.1",
