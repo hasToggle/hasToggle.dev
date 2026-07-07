@@ -29,9 +29,9 @@
     "@turbo/gen": "^2.8.9",
     "@types/node": "^26.0.0",
     "tsup": "^8.5.0",
-    "turbo": "2.10.3",
+    "turbo": "2.10.4",
     "typescript": "^6.0.0",
-    "ultracite": "7.9.0"
+    "ultracite": "7.9.2"
   },
   "engines": {
     "node": ">=20.19.0"
