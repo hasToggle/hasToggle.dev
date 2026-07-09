@@ -29,7 +29,7 @@
     "@t3-oss/env-nextjs": "^0.13.11",
     "date-fns": "^4.4.0",
     "disposable-email-domains": "^1.0.62",
-    "lucide-react": "^1.23.0",
+    "lucide-react": "^1.24.0",
     "motion": "^12.42.2",
     "next": "16.2.10",
     "nuqs": "^2.9.0",
