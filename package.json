@@ -30,7 +30,7 @@
     "@types/node": "^26.0.0",
     "tsup": "^8.5.0",
     "turbo": "2.10.4",
-    "typescript": "^6.0.0",
+    "typescript": "^7.0.0",
     "ultracite": "7.9.3"
   },
   "engines": {
