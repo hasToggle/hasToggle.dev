@@ -5,6 +5,8 @@ export default defineConfig({
   outDir: "dist",
   sourcemap: false,
   minify: true,
-  dts: true,
+  // TypeScript 7 (native) removed the JS compiler API that rollup-plugin-dts
+  // needs; only dist/index.js ships (see "files"), so no consumer loses types.
+  dts: false,
   format: ["cjs", "esm"],
 });
