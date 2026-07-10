@@ -5,6 +5,11 @@
   "automergeType": "pr",
   "packageRules": [
     {
+      "description": "Marker package only — Next.js 16 stable checks for its presence to skip the legacy (TS-JS-API) build-time type check under typescript@7; it is never executed, and its near-daily dev builds would otherwise churn PRs. Remove together with the package once Next.js supports typescript@7 natively.",
+      "matchPackageNames": ["@typescript/native-preview"],
+      "enabled": false
+    },
+    {
       "matchFileNames": ["apps/**/package.json", "packages/**/package.json"],
       "rangeStrategy": "bump"
     },
