@@ -431,6 +431,21 @@
         "next": "^16.2.10",
       },
     },
+    "packages/knowledge": {
+      "name": "@repo/knowledge",
+      "version": "0.0.0",
+      "dependencies": {
+        "@t3-oss/env-nextjs": "^0.13.11",
+        "mongodb": "^7.5.0",
+        "server-only": "^0.0.1",
+        "zod": "^4.4.3",
+      },
+      "devDependencies": {
+        "@repo/typescript-config": "workspace:*",
+        "@types/node": "26.1.1",
+        "typescript": "^7.0.2",
+      },
+    },
     "packages/next-config": {
       "name": "@repo/next-config",
       "version": "0.0.0",
@@ -1532,6 +1547,8 @@
     "@repo/feature-flags": ["@repo/feature-flags@workspace:packages/feature-flags"],
 
     "@repo/internationalization": ["@repo/internationalization@workspace:packages/internationalization"],
+
+    "@repo/knowledge": ["@repo/knowledge@workspace:packages/knowledge"],
 
     "@repo/next-config": ["@repo/next-config@workspace:packages/next-config"],
 
@@ -4566,6 +4583,8 @@
     "@repo/feature-flags/@types/node": ["@types/node@26.1.1", "", { "dependencies": { "undici-types": "~8.3.0" } }, "sha512-nxAkRSVkN1Y0JC1W8ky/fTfkGsMmcrRsbx+3XoZE+rMOX71kLYTV7fLXpqud1GpbpP5TuffXFqfX7fH2GgZREw=="],
 
     "@repo/internationalization/@types/node": ["@types/node@26.1.1", "", { "dependencies": { "undici-types": "~8.3.0" } }, "sha512-nxAkRSVkN1Y0JC1W8ky/fTfkGsMmcrRsbx+3XoZE+rMOX71kLYTV7fLXpqud1GpbpP5TuffXFqfX7fH2GgZREw=="],
+
+    "@repo/knowledge/@types/node": ["@types/node@26.1.1", "", { "dependencies": { "undici-types": "~8.3.0" } }, "sha512-nxAkRSVkN1Y0JC1W8ky/fTfkGsMmcrRsbx+3XoZE+rMOX71kLYTV7fLXpqud1GpbpP5TuffXFqfX7fH2GgZREw=="],
 
     "@repo/notifications/@types/node": ["@types/node@26.1.1", "", { "dependencies": { "undici-types": "~8.3.0" } }, "sha512-nxAkRSVkN1Y0JC1W8ky/fTfkGsMmcrRsbx+3XoZE+rMOX71kLYTV7fLXpqud1GpbpP5TuffXFqfX7fH2GgZREw=="],
 
