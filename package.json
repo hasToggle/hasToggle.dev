@@ -28,9 +28,10 @@
     "bun-types": "latest",
     "@turbo/gen": "^2.8.9",
     "@types/node": "^26.0.0",
+    "@typescript/native-preview": "7.0.0-dev.20260707.2",
     "tsup": "^8.5.0",
     "turbo": "2.10.4",
-    "typescript": "^6.0.0",
+    "typescript": "^7.0.0",
     "ultracite": "7.9.3"
   },
   "engines": {
