@@ -11,6 +11,7 @@ import {
   Section,
   Text,
 } from "@react-email/components";
+import type { ReactElement } from "react";
 
 interface DigestEmailProps {
   archiveUrl?: string;
@@ -31,7 +32,7 @@ export function DigestEmail({
   content,
   series,
   archiveUrl,
-}: DigestEmailProps) {
+}: DigestEmailProps): ReactElement {
   return (
     <Html>
       <Head />

@@ -8,10 +8,10 @@
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.13.11",
-    "@liveblocks/client": "^3.20.0",
-    "@liveblocks/node": "^3.20.0",
-    "@liveblocks/react": "^3.20.0",
-    "next": "^16.2.9",
+    "@liveblocks/client": "^3.22.0",
+    "@liveblocks/node": "^3.22.0",
+    "@liveblocks/react": "^3.22.0",
+    "next": "^16.2.10",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "server-only": "^0.0.1",
@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
-    "@types/node": "26.0.0",
+    "@types/node": "26.1.1",
     "@types/react": "^19.2.17",
     "@types/react-dom": "19.2.3"
   }
