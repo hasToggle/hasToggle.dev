@@ -6,6 +6,7 @@
   "types": "./index.ts",
   "scripts": {
     "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "setup-indexes": "bun scripts/setup-indexes.ts",
     "test": "bun test",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
