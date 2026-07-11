@@ -48,7 +48,7 @@ export const ensureIndexes = async (db: Db): Promise<void> => {
       {
         key: { tenantId: 1, "email.gmailMessageId": 1 },
         name: "tenant_gmail_message",
-        sparse: true,
+        partialFilterExpression: { "email.gmailMessageId": { $exists: true } },
         unique: true,
       },
     ]),

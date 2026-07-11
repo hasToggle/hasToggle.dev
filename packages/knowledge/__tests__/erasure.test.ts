@@ -133,6 +133,7 @@ describe.skipIf(!uri)("erasePerson", () => {
     expect(report.personDeleted).toBe(true);
     expect(report.factsDeleted).toBe(2);
     expect(report.sourcesRedacted).toBe(2);
+    expect(report.redactionSkipped).toBe(false);
     expect(report.orphanedAudioBlobUrls).toEqual([
       "https://blob.example/voice1.m4a",
     ]);
@@ -160,6 +161,7 @@ describe.skipIf(!uri)("erasePerson", () => {
     const report = await erasePerson(db, TENANT, new ObjectId());
     expect(report.personDeleted).toBe(false);
     expect(report.factsDeleted).toBe(0);
+    expect(report.redactionSkipped).toBe(false);
   });
 
   test("skips redaction when the person has no usable identifiers", async () => {
@@ -177,6 +179,7 @@ describe.skipIf(!uri)("erasePerson", () => {
     const report = await erasePerson(db, TENANT, shortPersonId);
     expect(report.personDeleted).toBe(true);
     expect(report.sourcesRedacted).toBe(0);
+    expect(report.redactionSkipped).toBe(true);
 
     const after = await sources.findOne({ _id: mixedSourceId });
     expect(after?.content).toBe(before?.content);

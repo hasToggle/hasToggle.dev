@@ -8,6 +8,7 @@ export interface ErasureReport {
   factsDeleted: number;
   orphanedAudioBlobUrls: string[];
   personDeleted: boolean;
+  redactionSkipped: boolean;
   sourcesRedacted: number;
 }
 
@@ -27,6 +28,7 @@ export const erasePerson = async (
       factsDeleted: 0,
       orphanedAudioBlobUrls: [],
       personDeleted: false,
+      redactionSkipped: false,
       sourcesRedacted: 0,
     };
   }
@@ -67,6 +69,10 @@ export const erasePerson = async (
       .toArray();
 
     for (const source of mentioningSources) {
+      // Reset stateful regex state before the `.test` call below: `pattern`
+      // is a shared `g`-flagged RegExp, and `.test` advances `lastIndex` on
+      // match, which would otherwise skip alternating matches across sources.
+      pattern.lastIndex = 0;
       // biome-ignore lint/performance/noAwaitInLoops: sequential redaction is deliberate — erasure is a rare admin operation over a small set of sources
       await sources.updateOne(
         { _id: source._id, tenantId },
@@ -116,6 +122,7 @@ export const erasePerson = async (
     factsDeleted,
     orphanedAudioBlobUrls,
     personDeleted: true,
+    redactionSkipped: identifiers.length === 0,
     sourcesRedacted: mentioningSources.length,
   };
 };
