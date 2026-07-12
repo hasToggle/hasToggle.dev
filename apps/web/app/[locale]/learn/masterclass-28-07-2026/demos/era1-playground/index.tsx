@@ -47,6 +47,11 @@ export function Era1Playground() {
 
   return (
     <div className="rounded-xl border border-foreground/10 bg-background p-4 sm:p-6">
+      <p className="mb-4 max-w-2xl text-foreground/55 text-sm italic">
+        Most of the world met these models believing they&apos;re a search
+        engine with better manners. Try it — ask it a question.
+      </p>
+
       <div className="mb-4 flex flex-wrap gap-2">
         {PROMPTS.map((p) => (
           <button
@@ -101,6 +106,13 @@ export function Era1Playground() {
         <p className="mt-4 text-foreground/55 text-sm italic">
           You asked a question. It didn&apos;t answer — it just kept going.
           There&apos;s no one in there to ask.
+        </p>
+      )}
+
+      {!prompt.isQuestion && shown.length > 0 && !streaming && (
+        <p className="mt-4 text-foreground/55 text-sm italic">
+          It isn&apos;t looking anything up. It&apos;s continuing your pattern —
+          that&apos;s all it ever does.
         </p>
       )}
     </div>

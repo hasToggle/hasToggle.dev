@@ -60,6 +60,11 @@ export function Masterclass() {
 								years="2019–2021"
 							>
 								<Era1Playground />
+								<FieldNote date="2019–2021">
+									No notes survive from this era, because I have none: I was
+									teaching juniors to write these functions by hand while a
+									model autocompleted them badly. We hadn&apos;t met yet.
+								</FieldNote>
 							</EraPanel>
 						)}
 						{step === "era-2" && (
