@@ -151,6 +151,11 @@ export function DashboardRenderer({ spec }: { spec: RenderSpec }) {
           );
         })}
       </div>
+      {spec.source && (
+        <p className="font-mono text-muted-foreground text-xs">
+          source: {spec.source}
+        </p>
+      )}
     </div>
   );
 }

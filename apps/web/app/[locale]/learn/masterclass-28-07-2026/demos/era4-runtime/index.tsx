@@ -12,7 +12,7 @@ const CHAR_MS = 6;
 
 export function Era4Runtime() {
   const [question, setQuestion] = useState(
-    "What skills land junior full-stack & AI engineering roles right now?"
+    "Is AI taking junior developer jobs?"
   );
   const [view, setView] = useState<View>("idle");
   const [specText, setSpecText] = useState("");

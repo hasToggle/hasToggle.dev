@@ -1,95 +1,122 @@
 import type { RenderSpec } from "./render-spec";
 import type { IntentId } from "./match";
 
+/**
+ * Real, published numbers only — every spec cites its source. If a figure
+ * can't be cited, it doesn't ship.
+ */
 export const DASHBOARD_CACHE: Record<IntentId, RenderSpec> = {
-  "ai-skills": {
-    title: "Most-wanted AI-engineering skills (illustrative)",
+  juniors: {
+    title: "AI and the junior developer market",
+    source:
+      "Stanford Digital Economy Lab (Brynjolfsson et al.), ADP payroll records — August 2025",
     widgets: [
-      { kind: "kpi", label: "AI-eng postings YoY", value: "+240%", delta: "▲" },
+      {
+        kind: "kpi",
+        label: "Employment, software devs aged 22–25, since late 2022",
+        value: "−20%",
+        delta: "▼",
+      },
+      {
+        kind: "kpi",
+        label: "Experienced devs, same firms, same period",
+        value: "+6–12%",
+        delta: "▲",
+      },
       {
         kind: "bar",
-        title: "Share of AI-eng job posts mentioning…",
+        title: "Workers aged 22–25 — employment change since 2022",
         unit: "%",
         data: [
-          { label: "RAG / retrieval", value: 71 },
-          { label: "Agent orchestration", value: 64 },
-          { label: "Vector DBs", value: 58 },
-          { label: "Evals", value: 49 },
-          { label: "Prompt design", value: 41 },
-          { label: "Model serving", value: 33 },
+          { label: "Software developers", value: -20 },
+          { label: "All AI-exposed occupations", value: -13 },
         ],
+      },
+    ],
+  },
+  "ai-skills": {
+    title: "The fastest-growing U.S. roles — four of the top five are AI",
+    source: "LinkedIn Jobs on the Rise, U.S. edition — January 2026",
+    widgets: [
+      {
+        kind: "kpi",
+        label: "AI-engineer job postings, 2025",
+        value: "+143%",
+        delta: "▲",
+      },
+      {
+        kind: "table",
+        title: "The top five, with median prior experience",
+        columns: ["#", "Role", "Median yrs experience"],
+        sortableColumn: 2,
+        rows: [
+          [1, "AI engineer", 3.7],
+          [2, "AI consultant / strategist", 8.2],
+          [3, "New-home sales specialist", 6.5],
+          [4, "Data annotator", 3.5],
+          [5, "AI / ML researcher", 3.0],
+        ],
+      },
+      {
+        kind: "kpi",
+        label: "Most-asked skills for the #1 role",
+        value: "LangChain · RAG · PyTorch",
       },
     ],
   },
   pay: {
-    title: "Full-stack vs AI-engineering pay (junior → mid, illustrative)",
+    title: "What AI skills add to a paycheck",
+    source: "PwC Global AI Jobs Barometer — 2024, 2025 and 2026 editions",
     widgets: [
-      { kind: "kpi", label: "AI-eng junior premium", value: "+18%" },
       {
         kind: "line",
-        title: "Median base by level (indexed)",
+        title: "Average wage premium vs the same role without AI skills (%)",
         series: [
           {
-            name: "Full-stack",
+            name: "AI wage premium",
             points: [
-              { x: "Junior", y: 100 },
-              { x: "Mid", y: 135 },
-              { x: "Senior", y: 175 },
-            ],
-          },
-          {
-            name: "AI engineering",
-            points: [
-              { x: "Junior", y: 118 },
-              { x: "Mid", y: 160 },
-              { x: "Senior", y: 205 },
+              { x: "2024", y: 25 },
+              { x: "2025", y: 56 },
+              { x: "2026", y: 62 },
             ],
           },
         ],
       },
-    ],
-  },
-  stacks: {
-    title: "Junior-friendly stacks",
-    widgets: [
       {
-        kind: "table",
-        title: "Demand vs junior-openness (illustrative)",
-        columns: ["Stack", "Demand", "Junior-openness"],
-        sortableColumn: 1,
-        rows: [
-          ["Next.js + Postgres + Prisma", 82, 74],
-          ["Python + FastAPI + pgvector", 76, 68],
-          ["TS + tRPC + Drizzle", 61, 71],
-          ["Rails + Postgres", 44, 80],
-        ],
+        kind: "kpi",
+        label: "Growth of AI-skill postings vs the overall job market",
+        value: "8× faster",
       },
     ],
   },
-  rising: {
-    title: "What's rising, 2024 → 2026 (illustrative)",
+  trust: {
+    title: "Developers use AI more — and trust it less",
+    source: "Stack Overflow Developer Survey 2025",
     widgets: [
       {
         kind: "line",
-        title: "Mentions in job posts (indexed to 2024)",
+        title: "Share of developers (%)",
         series: [
           {
-            name: "AI-eng skills",
+            name: "Using or planning to use AI tools",
             points: [
-              { x: "2024", y: 100 },
-              { x: "2025", y: 190 },
-              { x: "2026", y: 295 },
+              { x: "2024", y: 76 },
+              { x: "2025", y: 84 },
             ],
           },
           {
-            name: "Full-stack staples",
+            name: "Trusting the output",
             points: [
-              { x: "2024", y: 100 },
-              { x: "2025", y: 104 },
-              { x: "2026", y: 107 },
+              { x: "2024", y: 40 },
+              { x: "2025", y: 29 },
             ],
           },
         ],
+      },
+      {
+        kind: "kpi",
+        label: "Top frustration: solutions “almost right, but not quite”",
+        value: "45%",
       },
     ],
   },

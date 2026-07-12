@@ -25,5 +25,7 @@ export interface TableWidget {
 export type Widget = KpiWidget | BarWidget | LineWidget | TableWidget;
 export interface RenderSpec {
   title: string;
+  /** provenance line, rendered under the dashboard — real data only */
+  source?: string;
   widgets: Widget[];
 }

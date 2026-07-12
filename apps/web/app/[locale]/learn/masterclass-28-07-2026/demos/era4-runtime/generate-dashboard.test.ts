@@ -10,6 +10,8 @@ describe("generateDashboard", () => {
       expect(r.matched).toBe(true);
       expect(r.spec.widgets.length).toBeGreaterThan(0);
       expect(r.spec.title.length).toBeGreaterThan(0);
+      // Real data only: every dashboard must cite its source.
+      expect((r.spec.source ?? "").length).toBeGreaterThan(0);
     }
   });
 

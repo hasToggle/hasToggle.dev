@@ -1,4 +1,4 @@
-export type IntentId = "ai-skills" | "pay" | "stacks" | "rising";
+export type IntentId = "juniors" | "ai-skills" | "pay" | "trust";
 
 export const INTENTS: readonly {
   id: IntentId;
@@ -7,28 +7,28 @@ export const INTENTS: readonly {
   keywords: string[];
 }[] = [
   {
+    id: "juniors",
+    label: "Is AI taking junior dev jobs?",
+    question: "Is AI taking junior developer jobs?",
+    keywords: ["junior", "entry", "young", "taking", "jobs", "grads"],
+  },
+  {
     id: "ai-skills",
-    label: "Most-wanted AI-eng skills",
-    question: "What AI-engineering skills are most in demand?",
-    keywords: ["skill", "demand", "wanted", "ai", "rag", "agent"],
+    label: "Fastest-growing roles",
+    question: "Which roles are growing fastest right now?",
+    keywords: ["role", "grow", "fastest", "career", "hiring"],
   },
   {
     id: "pay",
-    label: "Full-stack vs AI-eng pay",
-    question: "How does full-stack pay compare to AI-engineering pay?",
-    keywords: ["pay", "salary", "compensation", "money", "compare"],
+    label: "Does AI skill pay?",
+    question: "What's the AI wage premium?",
+    keywords: ["pay", "salary", "wage", "premium", "money", "earn"],
   },
   {
-    id: "stacks",
-    label: "Junior-friendly stacks",
-    question: "Which stacks are most junior-friendly?",
-    keywords: ["stack", "learn", "framework", "tech", "junior-friendly"],
-  },
-  {
-    id: "rising",
-    label: "What's rising, 2024 → 2026",
-    question: "What is rising from 2024 to 2026?",
-    keywords: ["rising", "trend", "growing", "2024", "2025", "2026", "future"],
+    id: "trust",
+    label: "Do devs even trust AI?",
+    question: "Do developers actually trust AI?",
+    keywords: ["trust", "adoption", "reliable", "distrust", "frustrat"],
   },
 ] as const;
 
