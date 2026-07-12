@@ -104,6 +104,11 @@ export function Era4Runtime() {
         {view === "rendered" && spec && (
           <div className="mt-5 fade-in animate-in duration-300">
             <DashboardRenderer spec={spec} />
+            <p className="mt-4 text-foreground/55 text-sm italic">
+              That interface didn&apos;t exist until you asked. Nothing here was
+              pre-built — the question compiled it, and the next question will
+              throw it away.
+            </p>
           </div>
         )}
 
