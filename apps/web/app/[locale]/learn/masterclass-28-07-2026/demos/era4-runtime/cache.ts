@@ -2,78 +2,94 @@ import type { RenderSpec } from "./render-spec";
 import type { IntentId } from "./match";
 
 /**
- * Real, published numbers only — every spec cites its source. If a figure
- * can't be cited, it doesn't ship.
+ * Real, published numbers only — Germany first, EU/global where no German
+ * cut exists. Every spec cites its source. If a figure can't be cited, it
+ * doesn't ship.
  */
 export const DASHBOARD_CACHE: Record<IntentId, RenderSpec> = {
   juniors: {
-    title: "AI and the junior developer market",
-    source:
-      "Stanford Digital Economy Lab (Brynjolfsson et al.), ADP payroll records — August 2025",
+    title: "AI and the junior developer market — Germany",
+    source: "Indeed Deutschland analysis, 2025 · Bitkom, 2024",
     widgets: [
       {
         kind: "kpi",
-        label: "Employment, software devs aged 22–25, since late 2022",
-        value: "−20%",
+        label: "Junior software-developer postings vs 2020",
+        value: "−54%",
         delta: "▼",
       },
       {
         kind: "kpi",
-        label: "Experienced devs, same firms, same period",
-        value: "+6–12%",
-        delta: "▲",
+        label: "Unfilled IT positions in Germany, at the same time",
+        value: "109,000",
       },
       {
         kind: "bar",
-        title: "Workers aged 22–25 — employment change since 2022",
+        title: "German job postings vs 2020 (%)",
         unit: "%",
         data: [
-          { label: "Software developers", value: -20 },
-          { label: "All AI-exposed occupations", value: -13 },
+          { label: "Junior software devs", value: -54 },
+          { label: "Senior software devs", value: -15 },
+          { label: "Junior IT infrastructure", value: -40 },
+          { label: "Senior IT infrastructure", value: 27 },
         ],
       },
     ],
   },
   "ai-skills": {
-    title: "The fastest-growing U.S. roles — four of the top five are AI",
-    source: "LinkedIn Jobs on the Rise, U.S. edition — January 2026",
+    title: "Germany's fastest-growing roles, 2026",
+    source: "LinkedIn Jobs on the Rise 2026, Germany · PwC AI Jobs Barometer 2026",
     widgets: [
       {
-        kind: "kpi",
-        label: "AI-engineer job postings, 2025",
-        value: "+143%",
-        delta: "▲",
-      },
-      {
         kind: "table",
-        title: "The top five, with median prior experience",
+        title: "The German top three, with median prior experience",
         columns: ["#", "Role", "Median yrs experience"],
         sortableColumn: 2,
         rows: [
-          [1, "AI engineer", 3.7],
-          [2, "AI consultant / strategist", 8.2],
-          [3, "New-home sales specialist", 6.5],
-          [4, "Data annotator", 3.5],
-          [5, "AI / ML researcher", 3.0],
+          [1, "Head of AI", 4.8],
+          [2, "AI engineer", 3.0],
+          [3, "Health, safety & environment officer", 4.2],
         ],
       },
       {
         kind: "kpi",
-        label: "Most-asked skills for the #1 role",
-        value: "LangChain · RAG · PyTorch",
+        label: "Most-asked skills across the top two roles",
+        value: "LLMs · RAG · MLOps · PyTorch",
+      },
+      {
+        kind: "kpi",
+        label: "AI-user roles vs AI-developer roles in German postings",
+        value: "8 : 1",
       },
     ],
   },
   pay: {
-    title: "What AI skills add to a paycheck",
-    source: "PwC Global AI Jobs Barometer — 2024, 2025 and 2026 editions",
+    title: "What AI skills add to a paycheck — Germany",
+    source: "PwC Global AI Jobs Barometer 2026, German edition",
     widgets: [
       {
+        kind: "kpi",
+        label: "Premium in most German sectors",
+        value: ">20%",
+        delta: "▲",
+      },
+      {
+        kind: "kpi",
+        label: "Energy, utilities & raw materials",
+        value: "+39%",
+        delta: "▲",
+      },
+      {
+        kind: "kpi",
+        label: "Finance — where AI skill is already table stakes",
+        value: "−9%",
+        delta: "▼",
+      },
+      {
         kind: "line",
-        title: "Average wage premium vs the same role without AI skills (%)",
+        title: "Global average premium for context, by report year (%)",
         series: [
           {
-            name: "AI wage premium",
+            name: "AI wage premium, global",
             points: [
               { x: "2024", y: 25 },
               { x: "2025", y: 56 },
@@ -82,20 +98,15 @@ export const DASHBOARD_CACHE: Record<IntentId, RenderSpec> = {
           },
         ],
       },
-      {
-        kind: "kpi",
-        label: "Growth of AI-skill postings vs the overall job market",
-        value: "8× faster",
-      },
     ],
   },
   trust: {
     title: "Developers use AI more — and trust it less",
-    source: "Stack Overflow Developer Survey 2025",
+    source: "Stack Overflow Developer Survey 2025 — 49,000+ developers, 177 countries",
     widgets: [
       {
         kind: "line",
-        title: "Share of developers (%)",
+        title: "Share of developers, global (%)",
         series: [
           {
             name: "Using or planning to use AI tools",
@@ -112,6 +123,11 @@ export const DASHBOARD_CACHE: Record<IntentId, RenderSpec> = {
             ],
           },
         ],
+      },
+      {
+        kind: "kpi",
+        label: "German devs trusting AI output — last of the top ten countries",
+        value: "22%",
       },
       {
         kind: "kpi",
