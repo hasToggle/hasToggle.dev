@@ -11,6 +11,7 @@ import { EraPanel } from "./era-panel";
 import { Era1Playground } from "./demos/era1-playground";
 import { Era2Companion } from "./demos/era2-companion";
 import { Era3Harness } from "./demos/era3-harness";
+import { Era3Ladder } from "./demos/era3-ladder";
 import { Era4Runtime } from "./demos/era4-runtime";
 
 const STEP_IDS = STEPS.map((s) => s.id);
@@ -97,6 +98,7 @@ export function Masterclass() {
 								years="2024–2025"
 							>
 								<Era3Harness />
+								<Era3Ladder />
 							</EraPanel>
 						)}
 						{step === "era-4" && (
