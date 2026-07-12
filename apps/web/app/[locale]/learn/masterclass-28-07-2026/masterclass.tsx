@@ -12,7 +12,9 @@ import { Era1Playground } from "./demos/era1-playground";
 import { Era2Companion } from "./demos/era2-companion";
 import { Era3Harness } from "./demos/era3-harness";
 import { Era3Ladder } from "./demos/era3-ladder";
+import { Era3Pipeline } from "./demos/era3-pipeline";
 import { Era4Runtime } from "./demos/era4-runtime";
+import { FieldNote } from "./field-note";
 
 const STEP_IDS = STEPS.map((s) => s.id);
 
@@ -99,6 +101,13 @@ export function Masterclass() {
 							>
 								<Era3Harness />
 								<Era3Ladder />
+								<Era3Pipeline />
+								<FieldNote date="2026-07">
+									I say hi to the agent at seven sharp. Not to be polite — the
+									five-hour meter starts when I do. Some days the window burns
+									out by ten, and I spend two hours waiting for my own tools to
+									let me back in.
+								</FieldNote>
 							</EraPanel>
 						)}
 						{step === "era-4" && (
