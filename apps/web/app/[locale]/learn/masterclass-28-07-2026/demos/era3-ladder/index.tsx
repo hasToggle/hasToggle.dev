@@ -46,7 +46,7 @@ export function Era3Ladder() {
 
       <div className="mt-4 rounded-lg border border-foreground/10 bg-muted/40 p-4">
         {stage.artifact === "diff" && (
-          <pre className="max-h-44 overflow-y-auto font-mono text-xs leading-5">
+          <div className="max-h-44 overflow-y-auto font-mono text-xs leading-5">
             {stage.body.map((l, i) => (
               <div
                 className={
@@ -61,7 +61,7 @@ export function Era3Ladder() {
                 {l}
               </div>
             ))}
-          </pre>
+          </div>
         )}
         {stage.artifact === "plan" && (
           <ol className="list-decimal space-y-1 pl-5 font-mono text-xs leading-6">
@@ -99,13 +99,7 @@ function TestRunner() {
       return;
     }
     const id = setInterval(() => {
-      setPassed((p) => {
-        if (p >= RUNNER_TESTS.length) {
-          clearInterval(id);
-          return p;
-        }
-        return p + 1;
-      });
+      setPassed((p) => Math.min(p + 1, RUNNER_TESTS.length));
     }, RUNNER_MS);
     return () => clearInterval(id);
   }, []);

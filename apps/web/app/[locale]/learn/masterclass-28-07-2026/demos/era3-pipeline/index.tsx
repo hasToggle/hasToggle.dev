@@ -165,7 +165,10 @@ function PhaseCell({
       className={cn(
         "rounded-md border px-2 py-2 text-center font-mono text-[11px]",
         isDone && "border-foreground/10 text-muted-foreground",
-        isActive && !isRagGate && !isDepsGate &&
+        isActive &&
+          laneState.phase !== "done" &&
+          !isRagGate &&
+          !isDepsGate &&
           "animate-pulse border-ht-cyan-500/50 text-foreground",
         !reached && "border-foreground/5 text-muted-foreground/40 opacity-50",
         isTargeted && "ring-2 ring-ht-cyan-500"
