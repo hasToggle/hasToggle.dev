@@ -11,7 +11,9 @@ export function CompanyBrain() {
 
   return (
     <div className="mt-10 rounded-xl border border-foreground/10 p-4 sm:p-6">
-      <p className="mb-1 font-medium text-sm">The other half: ambient context</p>
+      <p className="mb-1 font-medium text-sm">
+        The other half: ambient context
+      </p>
       <p className="mb-6 max-w-2xl text-muted-foreground text-sm">
         Era 2 made you carry context by hand — paste it in, copy the answer back
         out. Era 4 dissolves that: the org&apos;s communication flows into one
@@ -29,9 +31,9 @@ export function CompanyBrain() {
               className="rounded-md border border-foreground/10 bg-muted/40 px-3 py-1.5 text-sm"
               key={s}
               transition={{
+                delay: i * 0.3,
                 duration: 2.4,
                 repeat: Number.POSITIVE_INFINITY,
-                delay: i * 0.3,
               }}
             >
               {s}

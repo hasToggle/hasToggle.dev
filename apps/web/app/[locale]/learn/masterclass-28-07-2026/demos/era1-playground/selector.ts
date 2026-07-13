@@ -2,8 +2,8 @@ import { PROMPTS, type PromptSeed } from "./completions";
 
 export type Band = "low" | "mid" | "high";
 
-export { PROMPTS };
 export type { PromptSeed };
+export { PROMPTS };
 
 export function bandFor(temp: number): Band {
   if (temp < 0.4) {

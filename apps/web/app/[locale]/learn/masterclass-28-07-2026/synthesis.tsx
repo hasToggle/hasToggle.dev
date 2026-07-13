@@ -26,7 +26,9 @@ export function Synthesis() {
             documents are real, and dated:
           </p>
           <ul className="mt-4 space-y-1 font-mono text-muted-foreground text-xs">
-            <li>docs/superpowers/specs/2026-06-29-masterclass-four-eras-design.md</li>
+            <li>
+              docs/superpowers/specs/2026-06-29-masterclass-four-eras-design.md
+            </li>
             <li>docs/superpowers/plans/2026-06-29-masterclass-four-eras.md</li>
             <li>apps/web/…/masterclass-28-07-2026/demos/**/*.test.ts</li>
           </ul>

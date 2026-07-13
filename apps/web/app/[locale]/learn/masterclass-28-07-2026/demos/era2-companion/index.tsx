@@ -37,7 +37,8 @@ export function Era2Companion() {
         <div className="bg-[#1e1e1e] p-4 font-mono text-[#d4d4d4] text-xs leading-6">
           <div className="mb-2 text-[#858585]">checkout.js</div>
           {file.lines.map((line, i) => {
-            const bad = phase === "applied" && line.includes(SUGGESTION.missingRef);
+            const bad =
+              phase === "applied" && line.includes(SUGGESTION.missingRef);
             return (
               <div
                 className={bad ? "bg-[#5a1d1d]" : undefined}
@@ -62,7 +63,9 @@ export function Era2Companion() {
 
         {/* chat panel */}
         <div className="bg-[#252526] p-4 text-[#ccc] text-xs">
-          <div className="mb-2 text-[#858585] uppercase tracking-wide">Chat</div>
+          <div className="mb-2 text-[#858585] uppercase tracking-wide">
+            Chat
+          </div>
           <div className="mb-2 rounded bg-[#2d2d30] px-2 py-1.5">
             add validation so an unknown code doesn&apos;t crash
           </div>

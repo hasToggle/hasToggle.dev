@@ -1,12 +1,12 @@
 import {
   type FileModel,
   INITIAL_FILE,
-  type Suggestion,
   SUGGESTION,
+  type Suggestion,
 } from "./suggestions";
 
-export { INITIAL_FILE, SUGGESTION };
 export type { FileModel, Suggestion };
+export { INITIAL_FILE, SUGGESTION };
 
 export function applySuggestion(
   file: FileModel,

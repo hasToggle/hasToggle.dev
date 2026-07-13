@@ -10,24 +10,24 @@ export interface LaneMeta {
 
 export const LANES: readonly LaneMeta[] = [
   {
-    id: "rag",
-    plain: "A fairer job search — same query, same results, whoever's asking",
-    mono: "rag-retrieval · bias-evals",
     court: "evals",
+    id: "rag",
+    mono: "rag-retrieval · bias-evals",
+    plain: "A fairer job search — same query, same results, whoever's asking",
     tense: "present — you plan this one",
   },
   {
-    id: "wp",
-    plain: "Rebuilding a site, pixel for pixel — the demo above",
-    mono: "wp-next · parity-harness",
     court: "parity harness",
+    id: "wp",
+    mono: "wp-next · parity-harness",
+    plain: "Rebuilding a site, pixel for pixel — the demo above",
     tense: "past — you already planned it",
   },
   {
-    id: "deps",
-    plain: "Every library kept current, on a schedule",
-    mono: "deps · eve agent",
     court: "CI + your signature",
+    id: "deps",
+    mono: "deps · eve agent",
+    plain: "Every library kept current, on a schedule",
     tense: "permanent — planned once, runs weekly",
   },
 ];

@@ -8,27 +8,27 @@ export const INTENTS: readonly {
 }[] = [
   {
     id: "juniors",
+    keywords: ["junior", "entry", "young", "taking", "jobs", "grads"],
     label: "Is AI taking junior dev jobs?",
     question: "Is AI taking junior developer jobs?",
-    keywords: ["junior", "entry", "young", "taking", "jobs", "grads"],
   },
   {
     id: "ai-skills",
+    keywords: ["role", "grow", "fastest", "career", "hiring"],
     label: "Fastest-growing roles",
     question: "Which roles are growing fastest right now?",
-    keywords: ["role", "grow", "fastest", "career", "hiring"],
   },
   {
     id: "pay",
+    keywords: ["pay", "salary", "wage", "premium", "money", "earn"],
     label: "Does AI skill pay?",
     question: "What's the AI wage premium?",
-    keywords: ["pay", "salary", "wage", "premium", "money", "earn"],
   },
   {
     id: "trust",
+    keywords: ["trust", "adoption", "reliable", "distrust", "frustrat"],
     label: "Do devs even trust AI?",
     question: "Do developers actually trust AI?",
-    keywords: ["trust", "adoption", "reliable", "distrust", "frustrat"],
   },
 ] as const;
 

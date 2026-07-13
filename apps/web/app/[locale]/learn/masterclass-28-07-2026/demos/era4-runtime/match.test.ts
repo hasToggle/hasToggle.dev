@@ -6,9 +6,7 @@ describe("era4 matchIntent", () => {
     expect(matchIntent("Is AI taking junior developer jobs?").id).toBe(
       "juniors"
     );
-    expect(matchIntent("are entry-level jobs disappearing").id).toBe(
-      "juniors"
-    );
+    expect(matchIntent("are entry-level jobs disappearing").id).toBe("juniors");
   });
   test("routes roles/growth phrasing to ai-skills", () => {
     expect(matchIntent("Which roles are growing fastest right now?").id).toBe(

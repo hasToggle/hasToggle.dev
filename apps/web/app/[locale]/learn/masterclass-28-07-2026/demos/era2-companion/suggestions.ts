@@ -4,9 +4,9 @@ export interface FileModel {
 
 export interface Suggestion {
   code: string[];
+  fixLine: string;
   insertAfterLine: number;
   missingRef: string;
-  fixLine: string;
 }
 
 export const INITIAL_FILE: FileModel = {
@@ -21,13 +21,13 @@ export const INITIAL_FILE: FileModel = {
 // The assistant only saw the selection — it invents `logEvent`, which this
 // file never imports or defines. Applying compiles a reference to nothing.
 export const SUGGESTION: Suggestion = {
-  insertAfterLine: 1,
-  missingRef: "logEvent",
-  fixLine: 'import { logEvent } from "./analytics";',
   code: [
     "  if (!(code in DISCOUNTS)) {",
     '    logEvent("bad_discount_code", { code });',
     '    throw new Error("Unknown discount code");',
     "  }",
   ],
+  fixLine: 'import { logEvent } from "./analytics";',
+  insertAfterLine: 1,
+  missingRef: "logEvent",
 };

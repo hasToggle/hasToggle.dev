@@ -9,10 +9,7 @@ export interface LadderStage {
 
 export const LADDER_STAGES: readonly LadderStage[] = [
   {
-    year: "2024",
     artifact: "diff",
-    read: "I read the code.",
-    line: "Plan mode, then a wall of diffs. I read every generated line like a literature student. I have a literature degree. I did not expect to use it on diffs.",
     body: [
       "+ import { validateDiscount } from './validation';",
       "+",
@@ -43,12 +40,12 @@ export const LADDER_STAGES: readonly LadderStage[] = [
       "+ });",
       "  // …214 more lines",
     ],
+    line: "Plan mode, then a wall of diffs. I read every generated line like a literature student. I have a literature degree. I did not expect to use it on diffs.",
+    read: "I read the code.",
+    year: "2024",
   },
   {
-    year: "2025",
     artifact: "plan",
-    read: "I read the plan.",
-    line: "The design was mine; Claude wrote the implementation plan. I reviewed intentions, not artifacts.",
     body: [
       "1. Extract validation into validateDiscount(code)",
       "2. Unknown / empty codes fail soft — cart survives, warning attached",
@@ -56,16 +53,19 @@ export const LADDER_STAGES: readonly LadderStage[] = [
       "4. Tests first: unknown, empty, known, case-insensitive",
       "5. Migrate call sites; delete the naked DISCOUNTS lookup",
     ],
+    line: "The design was mine; Claude wrote the implementation plan. I reviewed intentions, not artifacts.",
+    read: "I read the plan.",
+    year: "2025",
   },
   {
-    year: "2026",
     artifact: "design",
-    read: "I read the design. Tests read the code.",
-    line: "I plan the design. Claude writes the implementation plan. TDD runs the execution — tests read the code, I don't.",
     body: [
       "Design: a discount code a customer mistypes must never",
       "break checkout. Validation owns that guarantee; tests own",
       "the proof.",
     ],
+    line: "I plan the design. Claude writes the implementation plan. TDD runs the execution — tests read the code, I don't.",
+    read: "I read the design. Tests read the code.",
+    year: "2026",
   },
 ];

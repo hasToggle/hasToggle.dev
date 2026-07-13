@@ -26,7 +26,9 @@ export function Era1Playground() {
   const run = useCallback(() => {
     stop();
     const full = selectCompletion(promptId, temp);
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
     if (reduce) {
       setShown(full);
       return;

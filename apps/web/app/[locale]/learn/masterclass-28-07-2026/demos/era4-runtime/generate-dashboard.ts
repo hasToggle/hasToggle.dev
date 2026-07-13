@@ -13,5 +13,5 @@ export function generateDashboard(question: string): {
   matched: boolean;
 } {
   const { id, matched } = matchIntent(question);
-  return { intent: id, spec: DASHBOARD_CACHE[id], matched };
+  return { intent: id, matched, spec: DASHBOARD_CACHE[id] };
 }

@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@repo/design-system/components/ui/button";
-import { Heading, Subheading } from "../../components/text";
 import { MetaAside } from "../../components/meta-aside";
+import { Heading, Subheading } from "../../components/text";
 import { RhythmFigure } from "./rhythm-figure";
 
 const HOW_TO_WATCH = [
@@ -29,12 +29,12 @@ export function Intro({ onBegin }: { onBegin: () => void }) {
         you the altitude and speed this report was written at.
       </p>
 
-      <p className="mt-4 max-w-2xl text-foreground/55 text-base leading-7">
+      <p className="mt-4 max-w-2xl text-base text-foreground/55 leading-7">
         Your role is shifting — from writing code syntax to architecting
         AI-native ecosystems. We&apos;ll walk four eras of how that happened.
         Skepticism → guarded fascination → the trust pivot → architectural
-        liberation. The model kept changing. The thing that makes the work
-        yours didn&apos;t.
+        liberation. The model kept changing. The thing that makes the work yours
+        didn&apos;t.
       </p>
 
       <RhythmFigure />

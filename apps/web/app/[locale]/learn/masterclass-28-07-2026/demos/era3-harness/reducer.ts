@@ -5,9 +5,9 @@ export { INITIAL_DIFFS };
 
 export interface HarnessState {
   diffs: DiffItem[];
+  log: string[];
   running: boolean;
   validated: boolean;
-  log: string[];
 }
 
 export type HarnessAction =
@@ -19,9 +19,9 @@ export type HarnessAction =
 export function initialHarnessState(): HarnessState {
   return {
     diffs: INITIAL_DIFFS.map((d) => ({ ...d })),
+    log: [],
     running: false,
     validated: false,
-    log: [],
   };
 }
 
@@ -41,8 +41,8 @@ export function harnessReducer(
     case "run":
       return {
         ...state,
-        running: true,
         log: ["screenshot captured", "computed styles diffed"],
+        running: true,
       };
     case "tick": {
       const idx = state.diffs.findIndex((d) => d.status === "pending");

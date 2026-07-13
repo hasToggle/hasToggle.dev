@@ -15,8 +15,7 @@ const RUNNER_MS = 450;
 
 export function Era3Ladder() {
   const [year, setYear] = useState<LadderStage["year"]>("2024");
-  const stage =
-    LADDER_STAGES.find((s) => s.year === year) ?? LADDER_STAGES[0];
+  const stage = LADDER_STAGES.find((s) => s.year === year) ?? LADDER_STAGES[0];
 
   return (
     <div className="mt-10 rounded-xl border border-foreground/10 p-4 sm:p-6">

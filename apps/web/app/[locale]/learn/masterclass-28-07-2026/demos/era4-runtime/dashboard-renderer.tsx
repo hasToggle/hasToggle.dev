@@ -25,12 +25,7 @@ function BarBlock({ widget }: { widget: Extract<Widget, { kind: "bar" }> }) {
       <BarChart data={widget.data} layout="vertical" margin={{ left: 24 }}>
         <CartesianGrid horizontal={false} />
         <XAxis hide type="number" />
-        <YAxis
-          dataKey="label"
-          tickLine={false}
-          type="category"
-          width={140}
-        />
+        <YAxis dataKey="label" tickLine={false} type="category" width={140} />
         <ChartTooltip content={<ChartTooltipContent />} />
         <Bar dataKey="value" fill={SERIES_COLORS[0]} radius={4} />
       </BarChart>

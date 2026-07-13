@@ -31,9 +31,9 @@ const LANE_IDS: readonly LaneId[] = ["rag", "wp", "deps"];
 export function initialBoardState(): BoardState {
   return {
     lanes: {
+      deps: { phase: "execute", ticksInPhase: 0 },
       rag: { phase: "plan", ticksInPhase: 0 },
       wp: { phase: "execute", ticksInPhase: 0 },
-      deps: { phase: "execute", ticksInPhase: 0 },
     },
   };
 }
@@ -64,9 +64,9 @@ function tickLane(id: LaneId, lane: LaneState): LaneState {
 function tickBoard(state: BoardState): BoardState {
   return {
     lanes: {
+      deps: tickLane("deps", state.lanes.deps),
       rag: tickLane("rag", state.lanes.rag),
       wp: tickLane("wp", state.lanes.wp),
-      deps: tickLane("deps", state.lanes.deps),
     },
   };
 }

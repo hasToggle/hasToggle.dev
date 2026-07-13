@@ -2,14 +2,14 @@ import { Expandable } from "../../components/expandable";
 import { Heading, Subheading } from "../../components/text";
 
 interface EraPanelProps {
+  children: React.ReactNode;
+  deepCut: React.ReactNode;
   era: string;
-  years: string;
+  expandLabel: string;
   name: string;
   reality: string;
   vibe: string;
-  expandLabel: string;
-  deepCut: React.ReactNode;
-  children: React.ReactNode;
+  years: string;
 }
 
 export function EraPanel({

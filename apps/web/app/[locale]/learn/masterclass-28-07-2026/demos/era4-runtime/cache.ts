@@ -1,5 +1,5 @@
-import type { RenderSpec } from "./render-spec";
 import type { IntentId } from "./match";
+import type { RenderSpec } from "./render-spec";
 
 /**
  * Real, published numbers only — Germany first, EU/global where no German
@@ -7,48 +7,21 @@ import type { IntentId } from "./match";
  * doesn't ship.
  */
 export const DASHBOARD_CACHE: Record<IntentId, RenderSpec> = {
-  juniors: {
-    title: "AI and the junior developer market — Germany",
-    source: "Indeed Deutschland analysis, 2025 · Bitkom, 2024",
-    widgets: [
-      {
-        kind: "kpi",
-        label: "Junior software-developer postings vs 2020",
-        value: "−54%",
-        delta: "▼",
-      },
-      {
-        kind: "kpi",
-        label: "Unfilled IT positions in Germany, at the same time",
-        value: "109,000",
-      },
-      {
-        kind: "bar",
-        title: "German job postings vs 2020 (%)",
-        unit: "%",
-        data: [
-          { label: "Junior software devs", value: -54 },
-          { label: "Senior software devs", value: -15 },
-          { label: "Junior IT infrastructure", value: -40 },
-          { label: "Senior IT infrastructure", value: 27 },
-        ],
-      },
-    ],
-  },
   "ai-skills": {
+    source:
+      "LinkedIn Jobs on the Rise 2026, Germany · PwC AI Jobs Barometer 2026",
     title: "Germany's fastest-growing roles, 2026",
-    source: "LinkedIn Jobs on the Rise 2026, Germany · PwC AI Jobs Barometer 2026",
     widgets: [
       {
-        kind: "table",
-        title: "The German top three, with median prior experience",
         columns: ["#", "Role", "Median yrs experience"],
-        sortableColumn: 2,
+        kind: "table",
         rows: [
           [1, "Head of AI", 4.8],
           [2, "AI engineer", 3.0],
           [3, "Health, safety & environment officer", 4.2],
         ],
+        sortableColumn: 2,
+        title: "The German top three, with median prior experience",
       },
       {
         kind: "kpi",
@@ -62,31 +35,58 @@ export const DASHBOARD_CACHE: Record<IntentId, RenderSpec> = {
       },
     ],
   },
-  pay: {
-    title: "What AI skills add to a paycheck — Germany",
-    source: "PwC Global AI Jobs Barometer 2026, German edition",
+  juniors: {
+    source: "Indeed Deutschland analysis, 2025 · Bitkom, 2024",
+    title: "AI and the junior developer market — Germany",
     widgets: [
       {
+        delta: "▼",
+        kind: "kpi",
+        label: "Junior software-developer postings vs 2020",
+        value: "−54%",
+      },
+      {
+        kind: "kpi",
+        label: "Unfilled IT positions in Germany, at the same time",
+        value: "109,000",
+      },
+      {
+        data: [
+          { label: "Junior software devs", value: -54 },
+          { label: "Senior software devs", value: -15 },
+          { label: "Junior IT infrastructure", value: -40 },
+          { label: "Senior IT infrastructure", value: 27 },
+        ],
+        kind: "bar",
+        title: "German job postings vs 2020 (%)",
+        unit: "%",
+      },
+    ],
+  },
+  pay: {
+    source: "PwC Global AI Jobs Barometer 2026, German edition",
+    title: "What AI skills add to a paycheck — Germany",
+    widgets: [
+      {
+        delta: "▲",
         kind: "kpi",
         label: "Premium in most German sectors",
         value: ">20%",
-        delta: "▲",
       },
       {
+        delta: "▲",
         kind: "kpi",
         label: "Energy, utilities & raw materials",
         value: "+39%",
-        delta: "▲",
       },
       {
+        delta: "▼",
         kind: "kpi",
         label: "Finance — where AI skill is already table stakes",
         value: "−9%",
-        delta: "▼",
       },
       {
         kind: "line",
-        title: "Global average premium for context, by report year (%)",
         series: [
           {
             name: "AI wage premium, global",
@@ -97,16 +97,17 @@ export const DASHBOARD_CACHE: Record<IntentId, RenderSpec> = {
             ],
           },
         ],
+        title: "Global average premium for context, by report year (%)",
       },
     ],
   },
   trust: {
+    source:
+      "Stack Overflow Developer Survey 2025 — 49,000+ developers, 177 countries",
     title: "Developers use AI more — and trust it less",
-    source: "Stack Overflow Developer Survey 2025 — 49,000+ developers, 177 countries",
     widgets: [
       {
         kind: "line",
-        title: "Share of developers, global (%)",
         series: [
           {
             name: "Using or planning to use AI tools",
@@ -123,6 +124,7 @@ export const DASHBOARD_CACHE: Record<IntentId, RenderSpec> = {
             ],
           },
         ],
+        title: "Share of developers, global (%)",
       },
       {
         kind: "kpi",

@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test";
 import {
   attentionTarget,
-  boardReducer,
   type BoardState,
+  boardReducer,
   EXECUTE_TICKS,
   initialBoardState,
   isBoardDone,

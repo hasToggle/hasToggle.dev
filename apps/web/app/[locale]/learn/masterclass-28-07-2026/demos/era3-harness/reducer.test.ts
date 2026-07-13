@@ -42,7 +42,9 @@ describe("era3 harness reducer", () => {
 
   test("validate only succeeds when clear", () => {
     const notClear = run();
-    expect(harnessReducer(notClear, { type: "validate" }).validated).toBe(false);
+    expect(harnessReducer(notClear, { type: "validate" }).validated).toBe(
+      false
+    );
     let s = run();
     while (remainingCount(s) > 0) {
       s = harnessReducer(s, { type: "tick" });

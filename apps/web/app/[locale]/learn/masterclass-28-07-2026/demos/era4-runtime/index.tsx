@@ -25,7 +25,9 @@ export function Era4Runtime() {
     }
     const { spec: result } = generateDashboard(q);
     const json = JSON.stringify(result, null, 2);
-    const reduce = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduce =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setSpec(result);
     if (reduce) {
       setSpecText(json);
@@ -47,13 +49,14 @@ export function Era4Runtime() {
     }, CHAR_MS);
   }, []);
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       if (timer.current) {
         clearInterval(timer.current);
       }
-    };
-  }, []);
+    },
+    []
+  );
 
   return (
     <>
@@ -102,7 +105,7 @@ export function Era4Runtime() {
         )}
 
         {view === "rendered" && spec && (
-          <div className="mt-5 fade-in animate-in duration-300">
+          <div className="fade-in mt-5 animate-in duration-300">
             <DashboardRenderer spec={spec} />
             <p className="mt-4 text-foreground/55 text-sm italic">
               That interface didn&apos;t exist until you asked. Nothing here was
