@@ -146,10 +146,7 @@ function PhaseCell({
   target: ReturnType<typeof attentionTarget>;
 }) {
   const isActive = PHASE_COLUMN[laneState.phase] === column;
-  const isDone =
-    laneState.phase === "done"
-      ? reached
-      : reached && !isActive;
+  const isDone = laneState.phase === "done" ? reached : reached && !isActive;
   const isRagGate =
     lane.id === "rag" && column === "plan" && laneState.phase === "plan";
   const isDepsGate =

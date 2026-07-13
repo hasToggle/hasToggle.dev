@@ -12,7 +12,11 @@ import {
 const TICK_MS = 650;
 
 export function Era3Harness() {
-  const [state, dispatch] = useReducer(harnessReducer, undefined, initialHarnessState);
+  const [state, dispatch] = useReducer(
+    harnessReducer,
+    undefined,
+    initialHarnessState
+  );
 
   useEffect(() => {
     if (!state.running) {
@@ -45,13 +49,20 @@ export function Era3Harness() {
             <li
               className={cn(
                 "border-foreground/5 border-b px-3 py-2 last:border-0",
-                d.status === "resolved" && "text-emerald-600 line-through opacity-60",
-                d.status === "pending" && "bg-red-50 text-red-700 dark:bg-red-950/30",
-                d.status === "excepted" && "bg-amber-50 text-amber-700 dark:bg-amber-950/30"
+                d.status === "resolved" &&
+                  "text-emerald-600 line-through opacity-60",
+                d.status === "pending" &&
+                  "bg-red-50 text-red-700 dark:bg-red-950/30",
+                d.status === "excepted" &&
+                  "bg-amber-50 text-amber-700 dark:bg-amber-950/30"
               )}
               key={d.id}
             >
-              {d.status === "resolved" ? "✓ " : d.status === "excepted" ? "⚠ " : "● "}
+              {d.status === "resolved"
+                ? "✓ "
+                : d.status === "excepted"
+                  ? "⚠ "
+                  : "● "}
               {d.label}
             </li>
           ))}
@@ -65,7 +76,9 @@ export function Era3Harness() {
           ))}
           <div className="mt-2">
             diff count:{" "}
-            <span className={isClear(state) ? "text-[#3fb950]" : "text-[#e5707e]"}>
+            <span
+              className={isClear(state) ? "text-[#3fb950]" : "text-[#e5707e]"}
+            >
               {remainingCount(state)}
             </span>
           </div>
