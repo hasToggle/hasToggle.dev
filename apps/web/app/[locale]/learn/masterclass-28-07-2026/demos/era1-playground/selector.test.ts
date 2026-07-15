@@ -27,4 +27,21 @@ describe("era1 selector", () => {
   test("unknown id falls back to an empty string (never throws)", () => {
     expect(selectCompletion("nope", 0.5)).toBe("");
   });
+
+  test("instruct mode answers instead of continuing", () => {
+    const answer = selectCompletion("how-do-i", 0.7, "instruct");
+    expect(answer).not.toContain("how do I");
+    expect(answer).toContain("reverse()");
+  });
+
+  test("instruct output is stable across temperature", () => {
+    expect(selectCompletion("reverse-fn", 0.1, "instruct")).toBe(
+      selectCompletion("reverse-fn", 1.3, "instruct")
+    );
+  });
+
+  test("mode defaults to base", () => {
+    const fn = PROMPTS.find((p) => p.id === "reverse-fn");
+    expect(selectCompletion("reverse-fn", 0.1)).toBe(fn?.continuations.low);
+  });
 });
