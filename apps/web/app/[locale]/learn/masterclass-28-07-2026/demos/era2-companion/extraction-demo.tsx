@@ -68,7 +68,7 @@ export function Era2Extraction() {
           </span>
         </div>
         {phase === "pasted" ? (
-          THREAD_ANSWER.map((l) => <div key={l}>{l}</div>)
+          THREAD_ANSWER.map((l, i) => <div key={`${i}-${l}`}>{l}</div>)
         ) : (
           <div className="text-[#858585] italic">
             {phase === "copied"

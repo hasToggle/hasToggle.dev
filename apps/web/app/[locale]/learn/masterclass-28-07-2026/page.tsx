@@ -3,9 +3,9 @@ import { Masterclass } from "./masterclass";
 
 export const metadata: Metadata = {
   description:
-    "An interactive walk through how developer–AI interaction evolved — and how the developer's role transformed with it.",
+    "Agentic engineering, recounted as lived experience — against the history of how the models grew up and how engineers' minds had to move.",
   robots: { follow: false, index: false },
-  title: "The Four Eras of Developer–AI Interaction — Masterclass",
+  title: "Agentic Engineering — a Masterclass",
 };
 
 export default function MasterclassPage() {

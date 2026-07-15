@@ -70,6 +70,7 @@ export function Era1Playground() {
             }`}
             key={m}
             onClick={() => {
+              stop();
               setMode(m);
               setShown("");
             }}
@@ -90,6 +91,7 @@ export function Era1Playground() {
             }`}
             key={p.id}
             onClick={() => {
+              stop();
               setPromptId(p.id);
               setShown("");
             }}
