@@ -8,6 +8,8 @@ import { Era2Companion } from "./demos/era2-companion";
 import { Era2Extraction } from "./demos/era2-companion/extraction-demo";
 import { Era3Harness } from "./demos/era3-harness";
 import { Era3Ladder } from "./demos/era3-ladder";
+import { Era3Loop } from "./demos/era3-loop";
+import { Era3Meter } from "./demos/era3-meter";
 import { Era3Pipeline } from "./demos/era3-pipeline";
 import { Era4Runtime } from "./demos/era4-runtime";
 import { EraPanel } from "./era-panel";
@@ -111,20 +113,16 @@ export function Masterclass() {
                 }
                 era="Era III"
                 expandLabel="Did you know? I didn't build the harness either."
-                name="Systems-driven agentic engineering"
-                reality="You stop writing syntax and start writing the rules. The agent reads the repo, runs the loop, audits itself against your spec, and self-corrects. You realize you're the bottleneck — and you learn to get out of the way."
+                name="Agentic engineering"
+                reality="Strip the debate away: an agent is an LLM with tools, trapped in a loop. Claude Code put that loop in a terminal — barely useful at first, even on the strongest coding models. Then the loop learned to run longer; minutes became hours. You stop writing syntax and start writing the rules the loop must satisfy."
                 vibe="the trust pivot"
-                years="2024–2025"
+                years="2024 → now"
               >
+                <Era3Loop />
                 <Era3Harness />
                 <Era3Ladder />
                 <Era3Pipeline />
-                <FieldNote date="2026-07">
-                  I say hi to the agent at seven sharp. Not to be polite — the
-                  five-hour meter starts when I do. Some days the window burns
-                  out by ten, and I spend two hours waiting for my own tools to
-                  let me back in.
-                </FieldNote>
+                <Era3Meter />
               </EraPanel>
             )}
             {step === "era-4" && (
