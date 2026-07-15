@@ -133,29 +133,41 @@ export function Era1Playground() {
         </button>
       </div>
 
-      {prompt.isQuestion && shown.length > 0 && !streaming && mode === "base" && (
-        <p className="mt-4 text-foreground/55 text-sm italic">
-          You asked a question. It didn&apos;t answer — it just kept going.
-          There&apos;s no one in there to ask.
-        </p>
-      )}
-      {prompt.isQuestion && shown.length > 0 && !streaming && mode === "instruct" && (
-        <p className="mt-4 text-foreground/55 text-sm italic">
-          Now it answers. Not because it became something else — because humans
-          taught it the format. That flip is the ChatGPT moment.
-        </p>
-      )}
-      {!prompt.isQuestion && shown.length > 0 && !streaming && mode === "base" && (
-        <p className="mt-4 text-foreground/55 text-sm italic">
-          It isn&apos;t looking anything up. It&apos;s continuing your pattern —
-          that&apos;s all it ever does.
-        </p>
-      )}
-      {!prompt.isQuestion && shown.length > 0 && !streaming && mode === "instruct" && (
-        <p className="mt-4 text-foreground/55 text-sm italic">
-          One clean completion, every time. Same machine — new manners.
-        </p>
-      )}
+      {prompt.isQuestion &&
+        shown.length > 0 &&
+        !streaming &&
+        mode === "base" && (
+          <p className="mt-4 text-foreground/55 text-sm italic">
+            You asked a question. It didn&apos;t answer — it just kept going.
+            There&apos;s no one in there to ask.
+          </p>
+        )}
+      {prompt.isQuestion &&
+        shown.length > 0 &&
+        !streaming &&
+        mode === "instruct" && (
+          <p className="mt-4 text-foreground/55 text-sm italic">
+            Now it answers. Not because it became something else — because
+            humans taught it the format. That flip is the ChatGPT moment.
+          </p>
+        )}
+      {!prompt.isQuestion &&
+        shown.length > 0 &&
+        !streaming &&
+        mode === "base" && (
+          <p className="mt-4 text-foreground/55 text-sm italic">
+            It isn&apos;t looking anything up. It&apos;s continuing your pattern
+            — that&apos;s all it ever does.
+          </p>
+        )}
+      {!prompt.isQuestion &&
+        shown.length > 0 &&
+        !streaming &&
+        mode === "instruct" && (
+          <p className="mt-4 text-foreground/55 text-sm italic">
+            One clean completion, every time. Same machine — new manners.
+          </p>
+        )}
     </div>
   );
 }

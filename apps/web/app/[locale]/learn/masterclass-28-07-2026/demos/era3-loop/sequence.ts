@@ -6,7 +6,10 @@ export interface LoopStep {
 }
 
 export const LOOP_STEPS: readonly LoopStep[] = [
-  { kind: "message", label: "\"unknown discount codes crash checkout — fix it\"" },
+  {
+    kind: "message",
+    label: '"unknown discount codes crash checkout — fix it"',
+  },
   { kind: "think", label: "thinking" },
   { kind: "tool", label: "Read(checkout.js)" },
   { kind: "think", label: "the guard throws — it should fail soft" },

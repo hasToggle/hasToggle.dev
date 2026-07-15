@@ -29,13 +29,12 @@ export function Intro({ onBegin }: { onBegin: () => void }) {
         you the altitude and speed this report was written at.
       </p>
 
-      <p className="mt-4 max-w-2xl text-foreground/55 text-base leading-7">
-        Agentic engineering is something we arrived at — it wasn&apos;t
-        possible four years ago, and nobody was asking for it. This masterclass
-        recounts how we got here: lived experience, against the history of how
-        the models grew up and how engineers&apos; minds had to move. Every
-        step was shaped by what the model could barely do — and by how people
-        learned to use it.
+      <p className="mt-4 max-w-2xl text-base text-foreground/55 leading-7">
+        Agentic engineering is something we arrived at — it wasn&apos;t possible
+        four years ago, and nobody was asking for it. This masterclass recounts
+        how we got here: lived experience, against the history of how the models
+        grew up and how engineers&apos; minds had to move. Every step was shaped
+        by what the model could barely do — and by how people learned to use it.
       </p>
 
       <RhythmFigure />

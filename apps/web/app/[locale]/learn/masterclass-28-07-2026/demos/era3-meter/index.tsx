@@ -16,30 +16,30 @@ function widthPct(from: number, to: number): string {
 }
 
 const COLD_START: readonly Segment[] = [
-  { className: "bg-muted/40", from: 7, to: 9, label: "asleep" },
+  { className: "bg-muted/40", from: 7, label: "asleep", to: 9 },
   {
     className: "bg-ht-cyan-500/30",
     from: 9,
-    to: 12,
     label: "coding — quota gone by 12:00",
+    to: 12,
   },
-  { className: "bg-red-500/20", from: 12, to: 14, label: "locked out" },
-  { className: "bg-ht-cyan-500/30", from: 14, to: 17, label: "coding again" },
+  { className: "bg-red-500/20", from: 12, label: "locked out", to: 14 },
+  { className: "bg-ht-cyan-500/30", from: 14, label: "coding again", to: 17 },
 ] as const;
 
 const GREETED: readonly Segment[] = [
   {
     className: "bg-muted/40",
     from: 7,
-    to: 10,
     label: "window open, untouched",
+    to: 10,
   },
-  { className: "bg-ht-cyan-500/30", from: 10, to: 12, label: "coding" },
+  { className: "bg-ht-cyan-500/30", from: 10, label: "coding", to: 12 },
   {
     className: "bg-ht-cyan-500/30",
     from: 12,
-    to: 17,
     label: "fresh window — no waiting",
+    to: 17,
   },
 ] as const;
 

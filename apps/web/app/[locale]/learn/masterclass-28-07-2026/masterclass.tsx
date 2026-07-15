@@ -49,13 +49,14 @@ export function Masterclass() {
               <EraPanel
                 deepCut={
                   <p>
-                    There was no intent model here — only continuation. OpenAI&apos;s
-                    fix was post-training: humans wrote answers, the model was tuned
-                    on them, then ranked by preference (InstructGPT, 2022). The
-                    canonical failure in the literature is this very demo — asked for
-                    the capital of France, a base model offers the capital of Germany,
-                    as a question. Post-trained answers were preferred roughly 85% of
-                    the time over the base model&apos;s; ChatGPT shipped on that flip
+                    There was no intent model here — only continuation.
+                    OpenAI&apos;s fix was post-training: humans wrote answers,
+                    the model was tuned on them, then ranked by preference
+                    (InstructGPT, 2022). The canonical failure in the literature
+                    is this very demo — asked for the capital of France, a base
+                    model offers the capital of Germany, as a question.
+                    Post-trained answers were preferred roughly 85% of the time
+                    over the base model&apos;s; ChatGPT shipped on that flip
                     nine months later.
                   </p>
                 }
@@ -78,14 +79,15 @@ export function Masterclass() {
               <EraPanel
                 deepCut={
                   <p>
-                    The speed was real, and so was the ceiling: the model saw one
-                    file, one selection. Cursor had to fork VS Code to raise it —
-                    the extension API allows a sidebar, not an editor that thinks;
-                    indexing a codebase and editing across files needs the core.
-                    That&apos;s why Copilot rode along as a plugin while Cursor
-                    rebuilt the vehicle. The door out of this room opened late in
-                    2024, when models learned to reason — multi-step thinking, the
-                    ingredient the next room was waiting for.
+                    The speed was real, and so was the ceiling: the model saw
+                    one file, one selection. Cursor had to fork VS Code to raise
+                    it — the extension API allows a sidebar, not an editor that
+                    thinks; indexing a codebase and editing across files needs
+                    the core. That&apos;s why Copilot rode along as a plugin
+                    while Cursor rebuilt the vehicle. The door out of this room
+                    opened late in 2024, when models learned to reason —
+                    multi-step thinking, the ingredient the next room was
+                    waiting for.
                   </p>
                 }
                 era="Era II"

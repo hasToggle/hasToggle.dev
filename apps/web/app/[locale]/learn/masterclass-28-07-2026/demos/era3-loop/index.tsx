@@ -8,9 +8,9 @@ const STEP_MS = 900;
 
 const KIND_GLYPH: Record<string, string> = {
   message: "›",
+  respond: "✓",
   think: "∴",
   tool: "⚙",
-  respond: "✓",
 };
 
 export function Era3Loop() {
@@ -60,8 +60,8 @@ export function Era3Loop() {
         ↺ and again, until the rules are satisfied
       </p>
       <p className="mt-3 max-w-2xl text-foreground/55 text-sm italic">
-        That&apos;s the whole mechanism — a model, tools, and a loop.
-        Everything since is scale.
+        That&apos;s the whole mechanism — a model, tools, and a loop. Everything
+        since is scale.
       </p>
     </div>
   );
