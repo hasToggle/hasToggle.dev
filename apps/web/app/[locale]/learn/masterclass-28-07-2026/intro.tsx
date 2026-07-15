@@ -6,20 +6,20 @@ import { Heading, Subheading } from "../../components/text";
 import { RhythmFigure } from "./rhythm-figure";
 
 const HOW_TO_WATCH = [
-  "You'll walk four rooms, one era each. Everything is playable, and nothing breaks.",
+  "Three rooms of history, one workshop, one horizon — walk them in order.",
+  "Everything is playable, and nothing breaks.",
   "The tech changes in every room. The vibe changes more — that arc is the real story.",
-  "Go at your own pace. The page works with me on stage or without me.",
 ] as const;
 
 export function Intro({ onBegin }: { onBegin: () => void }) {
   return (
     <section className="fade-in animate-in py-10 duration-300 sm:py-16">
-      <Subheading>A field report · 2026-07-28</Subheading>
+      <Subheading>Masterclass on agentic engineering · 2026-07-28</Subheading>
       <Heading
         as="h1"
         className="mt-4 text-balance text-5xl sm:text-6xl md:text-7xl"
       >
-        The Four Eras of Developer–AI Interaction
+        Agentic Engineering
       </Heading>
 
       <p className="mt-8 max-w-2xl text-balance text-foreground/75 text-xl leading-9">
@@ -29,12 +29,13 @@ export function Intro({ onBegin }: { onBegin: () => void }) {
         you the altitude and speed this report was written at.
       </p>
 
-      <p className="mt-4 max-w-2xl text-base text-foreground/55 leading-7">
-        Your role is shifting — from writing code syntax to architecting
-        AI-native ecosystems. We&apos;ll walk four eras of how that happened.
-        Skepticism → guarded fascination → the trust pivot → architectural
-        liberation. The model kept changing. The thing that makes the work yours
-        didn&apos;t.
+      <p className="mt-4 max-w-2xl text-foreground/55 text-base leading-7">
+        Agentic engineering is something we arrived at — it wasn&apos;t
+        possible four years ago, and nobody was asking for it. This masterclass
+        recounts how we got here: lived experience, against the history of how
+        the models grew up and how engineers&apos; minds had to move. Every
+        step was shaped by what the model could barely do — and by how people
+        learned to use it.
       </p>
 
       <RhythmFigure />

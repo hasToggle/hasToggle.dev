@@ -136,11 +136,11 @@ export function Masterclass() {
                     permanent artifact and becomes a byproduct of intent.
                   </p>
                 }
-                era="Era IV"
+                era="Outlook"
                 expandLabel="Did you know? That dashboard didn't exist a second ago."
-                name="The runtime-driven, AI-native horizon"
-                reality="The model moves past the build phase into the runtime boundary. Ask a question and the interface is compiled on the fly — code as an ephemeral, just-in-time byproduct of what you wanted to see."
-                vibe="architectural liberation"
+                name="The runtime frontier"
+                reality="An honest label: this is not a room the story's hero lives in. Everything so far was about empowering one engineer. This is the model crossing out of the build phase into the runtime itself — interfaces compiled from questions, code as a just-in-time byproduct. Not our era. The next frontier."
+                vibe="the next frontier"
                 years="2026 →"
               >
                 <Era4Runtime />

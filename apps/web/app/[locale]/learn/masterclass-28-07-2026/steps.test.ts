@@ -13,13 +13,13 @@ describe("masterclass steps", () => {
     ]);
   });
 
-  test("the four eras carry their verbatim vibe words", () => {
+  test("the eras carry their verbatim vibe words", () => {
     const vibes = STEPS.filter((s) => s.vibe).map((s) => s.vibe);
     expect(vibes).toEqual([
       "skepticism",
       "guarded fascination",
       "the trust pivot",
-      "architectural liberation",
+      "the next frontier",
     ]);
   });
 

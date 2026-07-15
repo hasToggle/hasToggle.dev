@@ -19,20 +19,20 @@ export const STEPS: readonly Step[] = [
   {
     era: "Era II",
     id: "era-2",
-    label: "II · Companion",
+    label: "II · Integration",
     vibe: "guarded fascination",
   },
   {
     era: "Era III",
     id: "era-3",
-    label: "III · Agent",
+    label: "III · Agentic engineering",
     vibe: "the trust pivot",
   },
   {
-    era: "Era IV",
+    era: "Outlook",
     id: "era-4",
-    label: "IV · Runtime",
-    vibe: "architectural liberation",
+    label: "Outlook",
+    vibe: "the next frontier",
   },
   { id: "synthesis", label: "Synthesis" },
 ] as const;
