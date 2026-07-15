@@ -46,18 +46,22 @@ export function Masterclass() {
               <EraPanel
                 deepCut={
                   <p>
-                    There was no intent model here — only continuation. You
-                    weren&apos;t asking; you were seeding a pattern and hoping.
-                    That unpredictability is exactly why it read as a neat
-                    trick, not a tool.
+                    There was no intent model here — only continuation. OpenAI&apos;s
+                    fix was post-training: humans wrote answers, the model was tuned
+                    on them, then ranked by preference (InstructGPT, 2022). The
+                    canonical failure in the literature is this very demo — asked for
+                    the capital of France, a base model offers the capital of Germany,
+                    as a question. Post-trained answers were preferred roughly 85% of
+                    the time over the base model&apos;s; ChatGPT shipped on that flip
+                    nine months later.
                   </p>
                 }
                 era="Era I"
                 expandLabel="Did you know? It was never listening."
-                name="Raw pattern matching"
-                reality="You can't ask it anything. You feed it the start of a pattern and it continues — unaware of what you meant, and rarely twice the same way."
+                name="The completion machine"
+                reality="Nobody engineered with this. It matters because everything that follows is still this machine underneath: you feed it the start of a pattern and it continues — unaware of what you meant. Extracting knowledge took prompt craft, until OpenAI taught it a format."
                 vibe="skepticism"
-                years="2019–2021"
+                years="2019–2022"
               >
                 <Era1Playground />
                 <FieldNote date="2019–2021">

@@ -2,13 +2,14 @@
 
 import { Slider } from "@repo/design-system/components/ui/slider";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { bandFor, PROMPTS, selectCompletion } from "./selector";
+import { bandFor, type Mode, PROMPTS, selectCompletion } from "./selector";
 
 const STREAM_MS = 18;
 
 export function Era1Playground() {
   const [promptId, setPromptId] = useState(PROMPTS[0].id);
   const [temp, setTemp] = useState(0.7);
+  const [mode, setMode] = useState<Mode>("base");
   const [shown, setShown] = useState("");
   const [streaming, setStreaming] = useState(false);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -25,7 +26,7 @@ export function Era1Playground() {
 
   const run = useCallback(() => {
     stop();
-    const full = selectCompletion(promptId, temp);
+    const full = selectCompletion(promptId, temp, mode);
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
@@ -43,7 +44,7 @@ export function Era1Playground() {
         stop();
       }
     }, STREAM_MS);
-  }, [promptId, temp, stop]);
+  }, [promptId, temp, mode, stop]);
 
   useEffect(() => stop, [stop]);
 
@@ -53,6 +54,31 @@ export function Era1Playground() {
         Most of the world met these models believing they&apos;re a search
         engine with better manners. Try it — ask it a question.
       </p>
+
+      <div className="mb-4 flex items-center gap-2">
+        {(
+          [
+            ["base", "base (davinci)"],
+            ["instruct", "post-trained (instruct)"],
+          ] as const
+        ).map(([m, label]) => (
+          <button
+            className={`rounded-md border px-3 py-1 font-mono text-xs ${
+              mode === m
+                ? "border-ht-cyan-500 text-foreground"
+                : "border-foreground/15 text-muted-foreground hover:text-foreground"
+            }`}
+            key={m}
+            onClick={() => {
+              setMode(m);
+              setShown("");
+            }}
+            type="button"
+          >
+            {label}
+          </button>
+        ))}
+      </div>
 
       <div className="mb-4 flex flex-wrap gap-2">
         {PROMPTS.map((p) => (
@@ -86,6 +112,7 @@ export function Era1Playground() {
         </span>
         <Slider
           className="max-w-xs flex-1"
+          disabled={mode === "instruct"}
           max={1.5}
           min={0}
           onValueChange={([v]) => setTemp(v)}
@@ -93,7 +120,9 @@ export function Era1Playground() {
           value={[temp]}
         />
         <span className="font-mono text-muted-foreground text-xs">
-          {temp.toFixed(1)} · {bandFor(temp)}
+          {mode === "instruct"
+            ? "post-training flattened the dice"
+            : `${temp.toFixed(1)} · ${bandFor(temp)}`}
         </span>
         <button
           className="ml-auto rounded-md bg-foreground px-4 py-1.5 text-background text-sm"
@@ -104,17 +133,27 @@ export function Era1Playground() {
         </button>
       </div>
 
-      {prompt.isQuestion && shown.length > 0 && !streaming && (
+      {prompt.isQuestion && shown.length > 0 && !streaming && mode === "base" && (
         <p className="mt-4 text-foreground/55 text-sm italic">
           You asked a question. It didn&apos;t answer — it just kept going.
           There&apos;s no one in there to ask.
         </p>
       )}
-
-      {!prompt.isQuestion && shown.length > 0 && !streaming && (
+      {prompt.isQuestion && shown.length > 0 && !streaming && mode === "instruct" && (
+        <p className="mt-4 text-foreground/55 text-sm italic">
+          Now it answers. Not because it became something else — because humans
+          taught it the format. That flip is the ChatGPT moment.
+        </p>
+      )}
+      {!prompt.isQuestion && shown.length > 0 && !streaming && mode === "base" && (
         <p className="mt-4 text-foreground/55 text-sm italic">
           It isn&apos;t looking anything up. It&apos;s continuing your pattern —
           that&apos;s all it ever does.
+        </p>
+      )}
+      {!prompt.isQuestion && shown.length > 0 && !streaming && mode === "instruct" && (
+        <p className="mt-4 text-foreground/55 text-sm italic">
+          One clean completion, every time. Same machine — new manners.
         </p>
       )}
     </div>
