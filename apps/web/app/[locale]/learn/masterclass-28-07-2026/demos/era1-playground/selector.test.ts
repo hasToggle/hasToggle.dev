@@ -42,6 +42,7 @@ describe("era1 selector", () => {
 
   test("mode defaults to base", () => {
     const fn = PROMPTS.find((p) => p.id === "reverse-fn");
-    expect(selectCompletion("reverse-fn", 0.1)).toBe(fn?.continuations.low);
+    expect(fn).toBeDefined();
+    expect(selectCompletion("reverse-fn", 0.1)).toBe(fn!.continuations.low);
   });
 });
