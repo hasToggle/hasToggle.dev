@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { parseAsStringLiteral, useQueryState } from "nuqs";
 import { Era1Playground } from "./demos/era1-playground";
 import { Era2Companion } from "./demos/era2-companion";
+import { Era2Extraction } from "./demos/era2-companion/extraction-demo";
 import { Era3Harness } from "./demos/era3-harness";
 import { Era3Ladder } from "./demos/era3-ladder";
 import { Era3Pipeline } from "./demos/era3-pipeline";
@@ -75,19 +76,24 @@ export function Masterclass() {
               <EraPanel
                 deepCut={
                   <p>
-                    The speed was real, and so was the ceiling: the model saw
-                    one file, one selection. You held absolute, manual control —
-                    and paid for it in copy-paste and context you carried in
-                    your head.
+                    The speed was real, and so was the ceiling: the model saw one
+                    file, one selection. Cursor had to fork VS Code to raise it —
+                    the extension API allows a sidebar, not an editor that thinks;
+                    indexing a codebase and editing across files needs the core.
+                    That&apos;s why Copilot rode along as a plugin while Cursor
+                    rebuilt the vehicle. The door out of this room opened late in
+                    2024, when models learned to reason — multi-step thinking, the
+                    ingredient the next room was waiting for.
                   </p>
                 }
                 era="Era II"
                 expandLabel="Did you know? You were the bus."
-                name="Conversational companions"
-                reality="It can talk now — but it's localized. It sees one file, has no repo awareness, and nothing reaches your code until you move it. You are the integration layer."
+                name="Extraction → Integration"
+                reality="It answers now — in a browser tab, a world away from your code. You ferry context in and answers out by hand, until the chat moves into the editor and your selection becomes its context. Either way the verdict held: a senior engineer was faster. The model missed the file next door and the framework's basics, and correcting it cost more than writing it."
                 vibe="guarded fascination"
-                years="2021–2023"
+                years="2022–2024"
               >
+                <Era2Extraction />
                 <Era2Companion />
               </EraPanel>
             )}
