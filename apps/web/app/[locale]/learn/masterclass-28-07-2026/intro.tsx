@@ -6,8 +6,8 @@ import { Heading, Subheading } from "../../components/text";
 import { RhythmFigure } from "./rhythm-figure";
 
 const HOW_TO_WATCH = [
-  "No coding background required. This is built so that someone who has never wondered how software gets made can follow the whole story.",
-  "You're not asked to believe any of it. Claims are demonstrated live, and every number names its source.",
+  "No coding background required. The whole story works without it.",
+  "You'll leave knowing what engineers do all day now that machines write the code — and which part of the job never changed.",
   "It begins in 2019 with a machine that could only continue your sentence, turns in 2024, and ends with an honest look at what this means for the people who build software.",
 ] as const;
 
@@ -33,9 +33,9 @@ export function Intro({ onBegin }: { onBegin: () => void }) {
         AI model couldn&apos;t reliably answer a question. Today, engineers hand
         entire features to agents that write, test, and check the code on their
         own — while the engineer plans the next thing. The practice has a name:
-        agentic engineering. Nobody designed the road that led here. This is
-        the story of how we arrived — told as it happened, one barely useful
-        model at a time.
+        agentic engineering. Nobody designed the road that led here. This is the
+        story of how we arrived — told as it happened, one barely useful model
+        at a time.
       </p>
 
       <RhythmFigure />
