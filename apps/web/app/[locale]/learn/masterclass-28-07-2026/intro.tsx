@@ -6,8 +6,8 @@ import { Heading, Subheading } from "../../components/text";
 import { RhythmFigure } from "./rhythm-figure";
 
 const HOW_TO_WATCH = [
-  "Every claim is demonstrated, every demo is playable, every statistic has a source. Click anything — nothing breaks.",
   "No coding background required. This is built so that someone who has never wondered how software gets made can follow the whole story.",
+  "You're not asked to believe any of it. Claims are demonstrated live, and every number names its source.",
   "It begins in 2019 with a machine that could only continue your sentence, turns in 2024, and ends with an honest look at what this means for the people who build software.",
 ] as const;
 
@@ -30,12 +30,12 @@ export function Intro({ onBegin }: { onBegin: () => void }) {
 
       <p className="mt-4 max-w-2xl text-base text-foreground/55 leading-7">
         Software isn&apos;t written the way it was three years ago. In 2022, an
-        AI model couldn&apos;t reliably answer a question. Today, engineers
-        hand entire features to agents that write, test, and check the code on
-        their own — while the engineer plans the next thing. The practice has a
-        name: agentic engineering. Nobody designed the road that led here. This
-        is the story of how we arrived — told as it happened, and checked
-        against real data.
+        AI model couldn&apos;t reliably answer a question. Today, engineers hand
+        entire features to agents that write, test, and check the code on their
+        own — while the engineer plans the next thing. The practice has a name:
+        agentic engineering. Nobody designed the road that led here. This is
+        the story of how we arrived — told as it happened, one barely useful
+        model at a time.
       </p>
 
       <RhythmFigure />
