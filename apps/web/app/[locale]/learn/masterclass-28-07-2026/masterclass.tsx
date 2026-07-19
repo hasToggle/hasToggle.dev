@@ -60,7 +60,6 @@ export function Masterclass() {
                     nine months later.
                   </p>
                 }
-                era="Era I"
                 expandLabel="Did you know? It was never listening."
                 name="The completion machine"
                 reality="Nobody was shipping software with this. It's here because everything that follows is still this machine underneath: you feed it the start of a pattern and it continues — unaware of what you meant. Getting knowledge out took craft, until OpenAI taught it a format."
@@ -89,7 +88,6 @@ export function Masterclass() {
                     multi-step thinking, the ingredient agents were waiting for.
                   </p>
                 }
-                era="Era II"
                 expandLabel="Did you know? You were the bus."
                 name="Extraction → Integration"
                 reality="It answers now — in a browser tab, a world away from your code. You ferry context in and answers out by hand, until the chat moves into the editor and your selection becomes its context. Either way the verdict held: a senior engineer was faster. The model missed the file next door and the framework's basics, and correcting it cost more than writing it."
@@ -116,7 +114,6 @@ export function Masterclass() {
                     of work I didn&apos;t do.
                   </p>
                 }
-                era="Era III"
                 expandLabel="Did you know? I didn't build the harness either."
                 name="Agentic engineering"
                 reality="Strip the debate away: an agent is an LLM with tools, trapped in a loop. Claude Code put that loop in a terminal — barely useful at first, even on the strongest coding models. Then the loop learned to run longer; minutes became hours. You stop writing syntax and start writing the rules the loop must satisfy."
@@ -146,11 +143,9 @@ export function Masterclass() {
                     permanent artifact and becomes a byproduct of intent.
                   </p>
                 }
-                era="Outlook"
                 expandLabel="Did you know? That dashboard didn't exist a second ago."
                 name="The runtime frontier"
                 reality="An honest label: this isn't lived experience yet — nobody works here daily. It's the model crossing out of the build phase into the running software itself: ask a question, and the interface is compiled on the spot. Try it on the questions that matter — the data behind it is real, German, and cited."
-                vibe="the next frontier"
                 years="2026 →"
               >
                 <Era4Runtime />

@@ -15,23 +15,23 @@ export interface Step {
 
 export const STEPS: readonly Step[] = [
   { id: "intro", label: "Intro" },
-  { era: "Era I", id: "era-1", label: "I · Completion", vibe: "skepticism" },
+  { era: "Era I", id: "era-1", label: "2019–2022", vibe: "skepticism" },
   {
     era: "Era II",
     id: "era-2",
-    label: "II · Integration",
+    label: "2022–2024",
     vibe: "guarded fascination",
   },
   {
     era: "Era III",
     id: "era-3",
-    label: "III · Agentic engineering",
+    label: "2024 → now",
     vibe: "the trust pivot",
   },
   {
     era: "Outlook",
     id: "era-4",
-    label: "Outlook",
+    label: "2026 →",
     vibe: "the next frontier",
   },
   { id: "synthesis", label: "Synthesis" },
