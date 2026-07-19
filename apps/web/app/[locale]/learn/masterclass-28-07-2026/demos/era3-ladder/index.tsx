@@ -21,8 +21,8 @@ export function Era3Ladder() {
     <div className="mt-10 rounded-xl border border-foreground/10 p-4 sm:p-6">
       <p className="font-medium text-sm">Where did the reading go?</p>
       <p className="mt-1 max-w-2xl text-muted-foreground text-sm">
-        The same feature — the discount validation you fixed by hand one room
-        ago — reviewed at three altitudes.
+        The same feature — the discount validation you fixed by hand earlier —
+        reviewed at three altitudes.
       </p>
 
       <div className="mt-4 flex gap-2">

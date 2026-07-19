@@ -9,14 +9,14 @@ export function Synthesis() {
       </Heading>
       <div className="mt-8 max-w-2xl space-y-5 text-foreground/75 text-lg leading-8">
         <p>
-          Three rooms of history. A machine that could only continue, taught to
+          Seven years, three machines. One that could only continue, taught to
           answer. An answerer in a browser tab, moved into the editor. A model
           with tools, trapped in a loop — until the loop could carry real work.
           Every step was shaped by what the model could barely do, and by how
           people learned to use it.
         </p>
         <p>
-          Across every room, the thing that made the work <em>yours</em> was
+          Through all of it, the thing that made the work <em>yours</em> was
           never the syntax. It was the judgment: what to ask, what to trust,
           where to draw the boundary, what counts as done.
         </p>

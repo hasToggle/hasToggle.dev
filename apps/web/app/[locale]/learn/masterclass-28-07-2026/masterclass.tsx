@@ -63,13 +63,13 @@ export function Masterclass() {
                 era="Era I"
                 expandLabel="Did you know? It was never listening."
                 name="The completion machine"
-                reality="Nobody engineered with this. It matters because everything that follows is still this machine underneath: you feed it the start of a pattern and it continues — unaware of what you meant. Extracting knowledge took prompt craft, until OpenAI taught it a format."
+                reality="Nobody was shipping software with this. It's here because everything that follows is still this machine underneath: you feed it the start of a pattern and it continues — unaware of what you meant. Getting knowledge out took craft, until OpenAI taught it a format."
                 vibe="skepticism"
                 years="2019–2022"
               >
                 <Era1Playground />
                 <FieldNote date="2019–2021">
-                  No notes survive from this era, because I have none: I was
+                  No notes survive from these years — I have none. I was
                   teaching juniors to write these functions by hand while a
                   model autocompleted them badly. We hadn&apos;t met yet.
                 </FieldNote>
@@ -84,10 +84,9 @@ export function Masterclass() {
                     it — the extension API allows a sidebar, not an editor that
                     thinks; indexing a codebase and editing across files needs
                     the core. That&apos;s why Copilot rode along as a plugin
-                    while Cursor rebuilt the vehicle. The door out of this room
-                    opened late in 2024, when models learned to reason —
-                    multi-step thinking, the ingredient the next room was
-                    waiting for.
+                    while Cursor rebuilt the vehicle. The ceiling finally
+                    cracked late in 2024, when models learned to reason —
+                    multi-step thinking, the ingredient agents were waiting for.
                   </p>
                 }
                 era="Era II"
@@ -98,6 +97,11 @@ export function Masterclass() {
                 years="2022–2024"
               >
                 <Era2Extraction />
+                <p className="mb-4 max-w-2xl text-muted-foreground text-sm">
+                  Then the chat moved into the editor, and your selection became
+                  its context — no more ferrying. This is the Cursor moment.
+                  Watch what it still couldn&apos;t see:
+                </p>
                 <Era2Companion />
               </EraPanel>
             )}
@@ -105,12 +109,11 @@ export function Masterclass() {
               <EraPanel
                 deepCut={
                   <p>
-                    Here&apos;s the part that should reframe everything: I
-                    didn&apos;t build the harness myself. The agent built its
-                    own auditor; I set its rules. A page that used to take hours
-                    of manual diffing came in at 2–3 hours of the agent working
-                    a list I never had to touch — about a week of work I
-                    didn&apos;t do.
+                    I didn&apos;t build the harness myself. The agent built its
+                    own auditor; I set the rules it audits against. A page that
+                    used to take hours of manual diffing came in at 2–3 hours of
+                    the agent working a list I never had to touch — about a week
+                    of work I didn&apos;t do.
                   </p>
                 }
                 era="Era III"
@@ -121,6 +124,11 @@ export function Masterclass() {
                 years="2024 → now"
               >
                 <Era3Loop />
+                <p className="mb-4 max-w-2xl text-muted-foreground text-sm">
+                  Here it is with real stakes: a client&apos;s WordPress site,
+                  rebuilt in Next.js, pixel for pixel. I wrote the rules. The
+                  agent runs until they&apos;re met:
+                </p>
                 <Era3Harness />
                 <Era3Ladder />
                 <Era3Pipeline />
@@ -141,7 +149,7 @@ export function Masterclass() {
                 era="Outlook"
                 expandLabel="Did you know? That dashboard didn't exist a second ago."
                 name="The runtime frontier"
-                reality="An honest label: this is not a room the story's hero lives in. Everything so far was about empowering one engineer. This is the model crossing out of the build phase into the runtime itself — interfaces compiled from questions, code as a just-in-time byproduct. Not our era. The next frontier."
+                reality="An honest label: this isn't lived experience yet — nobody works here daily. It's the model crossing out of the build phase into the running software itself: ask a question, and the interface is compiled on the spot. Try it on the questions that matter — the data behind it is real, German, and cited."
                 vibe="the next frontier"
                 years="2026 →"
               >

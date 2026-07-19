@@ -15,9 +15,9 @@ export function CompanyBrain() {
         The other half: ambient context
       </p>
       <p className="mb-6 max-w-2xl text-muted-foreground text-sm">
-        Era 2 made you carry context by hand — paste it in, copy the answer back
-        out. Era 4 dissolves that: the org&apos;s communication flows into one
-        living markdown brain the model already stands inside.
+        Remember ferrying context by hand — paste it in, copy the answer back
+        out? Here that dissolves: a company&apos;s communication flows into one
+        living document the model already stands inside.
       </p>
       <div className="grid items-center gap-4 sm:grid-cols-[1fr_auto_1fr]">
         <ul className="space-y-2">

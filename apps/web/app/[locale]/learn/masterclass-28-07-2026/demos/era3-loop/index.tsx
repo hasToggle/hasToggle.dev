@@ -35,8 +35,7 @@ export function Era3Loop() {
         An LLM with tools, trapped in a loop
       </p>
       <p className="mt-1 max-w-2xl text-muted-foreground text-sm">
-        Strip away the debate about what an agent is, and mechanically this is
-        all of it:
+        One task, start to finish — no human between the steps:
       </p>
       <ol className="mt-4 space-y-1 font-mono text-xs">
         {LOOP_STEPS.map((step, i) => (
