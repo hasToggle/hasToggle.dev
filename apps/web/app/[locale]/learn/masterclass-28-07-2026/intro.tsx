@@ -28,14 +28,36 @@ export function Intro({ onBegin }: { onBegin: () => void }) {
         answer for.
       </p>
 
-      <p className="mt-4 max-w-2xl text-base text-foreground/55 leading-7">
+      <dl className="mt-8 max-w-2xl space-y-4 border-foreground/15 border-l-2 pl-4">
+        <div>
+          <dt className="font-mono text-foreground/90 text-sm">
+            agentic{" "}
+            <span className="text-muted-foreground">
+              · from <em>agent</em> — one who acts.
+            </span>
+          </dt>
+          <dd className="mt-1 text-base text-foreground/70 leading-7">
+            Software that doesn&apos;t just answer. It does things: reads your
+            files, writes code, runs the tests, tries again.
+          </dd>
+        </div>
+        <div>
+          <dt className="font-mono text-foreground/90 text-sm">
+            agentic engineering
+          </dt>
+          <dd className="mt-1 text-base text-foreground/70 leading-7">
+            The practice of planning and directing such agents, rather than
+            typing the code yourself.
+          </dd>
+        </div>
+      </dl>
+
+      <p className="mt-6 max-w-2xl text-base text-foreground/55 leading-7">
         Software isn&apos;t written the way it was three years ago. In 2022, an
         AI model couldn&apos;t reliably answer a question. Today, engineers hand
-        entire features to agents that write, test, and check the code on their
-        own — while the engineer plans the next thing. The practice has a name:
-        agentic engineering. Nobody designed the road that led here. This is the
-        story of how we arrived — told as it happened, one barely useful model
-        at a time.
+        entire features to agents and move on to planning the next one. Nobody
+        designed the road that led here. This is the story of how we arrived —
+        told as it happened, one barely useful model at a time.
       </p>
 
       <RhythmFigure />
