@@ -63,7 +63,7 @@ export function Intro({ onBegin }: { onBegin: () => void }) {
       </p>
 
       <p className="mt-6 max-w-2xl text-base text-foreground/75 leading-7">
-        Now, about you.
+        Three things before we start:
       </p>
 
       <ul className="mt-4 max-w-2xl space-y-2">
