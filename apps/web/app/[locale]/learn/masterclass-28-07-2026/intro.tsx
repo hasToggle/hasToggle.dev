@@ -22,12 +22,6 @@ export function Intro({ onBegin }: { onBegin: () => void }) {
         Agentic Engineering
       </Heading>
 
-      <p className="mt-8 max-w-2xl text-balance text-foreground/75 text-xl leading-9">
-        I&apos;m Eric — principal engineer, web-development coach. All of the
-        code I ship today is written by LLMs I direct. What they write, I still
-        answer for.
-      </p>
-
       <dl className="mt-8 max-w-2xl space-y-4 border-foreground/15 border-l-2 pl-4">
         <div>
           <dt className="font-mono text-foreground/90 text-sm">
@@ -62,7 +56,17 @@ export function Intro({ onBegin }: { onBegin: () => void }) {
 
       <RhythmFigure />
 
-      <ul className="mt-8 max-w-2xl space-y-2">
+      <p className="mt-8 max-w-2xl text-balance text-foreground/75 text-xl leading-9">
+        I&apos;m Eric — principal engineer, web-development coach. All of the
+        code I ship today is written by LLMs I direct. What they write, I still
+        answer for.
+      </p>
+
+      <p className="mt-6 max-w-2xl text-base text-foreground/75 leading-7">
+        Now, about you.
+      </p>
+
+      <ul className="mt-4 max-w-2xl space-y-2">
         {HOW_TO_WATCH.map((line) => (
           <li
             className="flex gap-3 text-base text-foreground/70 leading-7"
