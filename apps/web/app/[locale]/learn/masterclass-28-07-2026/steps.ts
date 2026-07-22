@@ -1,13 +1,12 @@
 export type StepId =
   | "intro"
-  | "era-1"
-  | "era-2"
-  | "era-3"
-  | "era-4"
+  | "completion"
+  | "integration"
+  | "agentic-engineering"
+  | "outlook"
   | "synthesis";
 
 export interface Step {
-  era?: string;
   id: StepId;
   label: string;
   vibe?: string;
@@ -15,25 +14,14 @@ export interface Step {
 
 export const STEPS: readonly Step[] = [
   { id: "intro", label: "Intro" },
-  { era: "Era I", id: "era-1", label: "2019–2022", vibe: "skepticism" },
+  { id: "completion", label: "2019–2022", vibe: "skepticism" },
+  { id: "integration", label: "2022–2024", vibe: "guarded fascination" },
   {
-    era: "Era II",
-    id: "era-2",
-    label: "2022–2024",
-    vibe: "guarded fascination",
-  },
-  {
-    era: "Era III",
-    id: "era-3",
+    id: "agentic-engineering",
     label: "2024 → now",
     vibe: "the trust pivot",
   },
-  {
-    era: "Outlook",
-    id: "era-4",
-    label: "2026 →",
-    vibe: "the next frontier",
-  },
+  { id: "outlook", label: "2026 →", vibe: "the next frontier" },
   { id: "synthesis", label: "Synthesis" },
 ] as const;
 

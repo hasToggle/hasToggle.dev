@@ -5,10 +5,10 @@ describe("masterclass steps", () => {
   test("has six ordered steps starting at intro, ending at synthesis", () => {
     expect(STEPS.map((s) => s.id)).toEqual([
       "intro",
-      "era-1",
-      "era-2",
-      "era-3",
-      "era-4",
+      "completion",
+      "integration",
+      "agentic-engineering",
+      "outlook",
       "synthesis",
     ]);
   });
@@ -25,18 +25,18 @@ describe("masterclass steps", () => {
 
   test("getStepIndex returns position", () => {
     expect(getStepIndex("intro")).toBe(0);
-    expect(getStepIndex("era-3")).toBe(3);
+    expect(getStepIndex("agentic-engineering")).toBe(3);
   });
 
   test("getAdjacentStep walks forward and back, clamping at ends", () => {
     expect(getAdjacentStep("intro", "prev")).toBeNull();
-    expect(getAdjacentStep("intro", "next")).toBe("era-1");
-    expect(getAdjacentStep("era-4", "next")).toBe("synthesis");
+    expect(getAdjacentStep("intro", "next")).toBe("completion");
+    expect(getAdjacentStep("outlook", "next")).toBe("synthesis");
     expect(getAdjacentStep("synthesis", "next")).toBeNull();
   });
 
   test("isStepId narrows valid ids only", () => {
-    expect(isStepId("era-2")).toBe(true);
+    expect(isStepId("integration")).toBe(true);
     expect(isStepId("nope")).toBe(false);
   });
 });

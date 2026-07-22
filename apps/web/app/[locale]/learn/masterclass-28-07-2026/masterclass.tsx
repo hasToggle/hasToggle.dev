@@ -44,8 +44,10 @@ export function Masterclass() {
             key={step}
             transition={{ duration: 0.2 }}
           >
-            {step === "intro" && <Intro onBegin={() => setStep("era-1")} />}
-            {step === "era-1" && (
+            {step === "intro" && (
+              <Intro onBegin={() => setStep("completion")} />
+            )}
+            {step === "completion" && (
               <EraPanel
                 deepCut={
                   <p>
@@ -74,7 +76,7 @@ export function Masterclass() {
                 </FieldNote>
               </EraPanel>
             )}
-            {step === "era-2" && (
+            {step === "integration" && (
               <EraPanel
                 deepCut={
                   <p>
@@ -103,7 +105,7 @@ export function Masterclass() {
                 <Era2Companion />
               </EraPanel>
             )}
-            {step === "era-3" && (
+            {step === "agentic-engineering" && (
               <EraPanel
                 deepCut={
                   <p>
@@ -132,7 +134,7 @@ export function Masterclass() {
                 <Era3Meter />
               </EraPanel>
             )}
-            {step === "era-4" && (
+            {step === "outlook" && (
               <EraPanel
                 deepCut={
                   <p>
