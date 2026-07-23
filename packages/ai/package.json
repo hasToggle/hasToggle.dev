@@ -7,10 +7,10 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^4.0.17",
-    "@ai-sdk/react": "^4.0.37",
+    "@ai-sdk/openai": "^4.0.20",
+    "@ai-sdk/react": "^4.0.40",
     "@t3-oss/env-nextjs": "^0.13.11",
-    "ai": "^7.0.34",
+    "ai": "^7.0.37",
     "next": "^16.2.11",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
