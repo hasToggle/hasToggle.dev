@@ -3,6 +3,7 @@
 import { Button } from "@repo/design-system/components/ui/button";
 import { AnimatePresence, motion } from "motion/react";
 import { parseAsStringLiteral, useQueryState } from "nuqs";
+import { useEffect } from "react";
 import { Era1Playground } from "./demos/era1-playground";
 import { Era2Companion } from "./demos/era2-companion";
 import { Era2Extraction } from "./demos/era2-companion/extraction-demo";
@@ -16,6 +17,7 @@ import { EraPanel } from "./era-panel";
 import { FieldNote } from "./field-note";
 import { Intro } from "./intro";
 import { StepperHeader } from "./stepper-header";
+import { isArrowConsumingTarget, stepKeyDirection } from "./step-keys";
 import { getAdjacentStep, STEPS, type StepId } from "./steps";
 import { Synthesis } from "./synthesis";
 
@@ -31,6 +33,21 @@ export function Masterclass() {
 
   const prev = getAdjacentStep(step, "prev");
   const next = getAdjacentStep(step, "next");
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      const dir = stepKeyDirection(event);
+      if (!dir || isArrowConsumingTarget(event.target)) {
+        return;
+      }
+      const adjacent = getAdjacentStep(step, dir);
+      if (adjacent) {
+        setStep(adjacent);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [step, setStep]);
 
   return (
     <div className="flex min-h-dvh flex-col">
