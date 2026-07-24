@@ -81,8 +81,7 @@ export function Masterclass() {
                 }
                 expandLabel="Did you know? It was never listening."
                 name="The completion machine"
-                reality="Nobody was shipping software with this. It's here because everything that follows is still this machine underneath: you feed it the start of a pattern and it continues — unaware of what you meant. Getting knowledge out took craft, until OpenAI taught it a format."
-                vibe="skepticism"
+                reality="Nobody was shipping software with this. But everything that came after is still this machine underneath: you feed it the start of a pattern and it continues — unaware of what you meant. Getting knowledge out took craft, until OpenAI taught it a format."
                 years="2019–2022"
               >
                 <Era1Playground />
@@ -110,7 +109,6 @@ export function Masterclass() {
                 expandLabel="Did you know? You were the bus."
                 name="Extraction → Integration"
                 reality="It answers now — in a browser tab, a world away from your code. You ferry context in and answers out by hand, until the chat moves into the editor and your selection becomes its context. Either way the verdict held: a senior engineer was faster. The model missed the file next door and the framework's basics, and correcting it cost more than writing it."
-                vibe="guarded fascination"
                 years="2022–2024"
               >
                 <Era2Extraction />
@@ -136,7 +134,6 @@ export function Masterclass() {
                 expandLabel="Did you know? I didn't build the harness either."
                 name="Agentic engineering"
                 reality="Strip the debate away: an agent is an LLM with tools, trapped in a loop. Claude Code put that loop in a terminal — barely useful at first, even on the strongest coding models. Then the loop learned to run longer; minutes became hours. You stop writing syntax and start writing the rules the loop must satisfy."
-                vibe="the trust pivot"
                 years="2024 → now"
               >
                 <Era3Loop />

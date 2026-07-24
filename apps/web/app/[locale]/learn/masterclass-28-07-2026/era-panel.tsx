@@ -7,7 +7,6 @@ interface EraPanelProps {
   expandLabel: string;
   name: string;
   reality: string;
-  vibe?: string;
   years: string;
 }
 
@@ -15,7 +14,6 @@ export function EraPanel({
   years,
   name,
   reality,
-  vibe,
   expandLabel,
   deepCut,
   children,
@@ -29,11 +27,6 @@ export function EraPanel({
       <p className="mt-5 max-w-2xl text-foreground/75 text-lg leading-8">
         {reality}
       </p>
-      {vibe && (
-        <p className="mt-3 font-display text-ht-cyan-700 text-xl italic dark:text-ht-cyan-300">
-          How it felt: {vibe}
-        </p>
-      )}
       <div className="mt-10">{children}</div>
       <Expandable label={expandLabel}>{deepCut}</Expandable>
     </section>
