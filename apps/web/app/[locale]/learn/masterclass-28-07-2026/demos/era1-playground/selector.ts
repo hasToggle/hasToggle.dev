@@ -3,6 +3,9 @@ import { PROMPTS, type PromptSeed } from "./completions";
 export type Band = "low" | "mid" | "high";
 export type Mode = "base" | "instruct";
 
+/** The dial's standing value. The S3 gate opens only on a band the presenter moved to. */
+export const INITIAL_TEMP = 0.7;
+
 export type { PromptSeed };
 export { PROMPTS };
 
