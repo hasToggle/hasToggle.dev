@@ -63,15 +63,16 @@ export function Era1Playground() {
   }, [stop]);
 
   const run = useCallback(
-    (runMode: Mode) => {
+    (runMode: Mode, runPromptId: string = promptId) => {
       stop();
       setVerdict(null);
+      const runPrompt = PROMPTS.find((p) => p.id === runPromptId) ?? PROMPTS[0];
       setLastRun({
         band: bandFor(temp),
-        isQuestion: prompt.isQuestion,
+        isQuestion: runPrompt.isQuestion,
         mode: runMode,
       });
-      const full = selectCompletion(promptId, temp, runMode);
+      const full = selectCompletion(runPromptId, temp, runMode);
       const reduce = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
       ).matches;
@@ -90,7 +91,7 @@ export function Era1Playground() {
         }
       }, STREAM_MS);
     },
-    [promptId, prompt.isQuestion, temp, stop]
+    [promptId, temp, stop]
   );
 
   const reveal = useCallback((next: Stage) => {
@@ -109,17 +110,22 @@ export function Era1Playground() {
   }, [lastRun, reveal, stage]);
 
   const handleAcceptOffer = useCallback(() => {
+    const questionId = PROMPTS.find((p) => p.isQuestion)?.id ?? promptId;
     reveal(advance(stage, { type: "accept-offer" }));
     setMode("instruct");
-    run("instruct");
-  }, [reveal, run, stage]);
+    setPromptId(questionId);
+    run("instruct", questionId);
+  }, [promptId, reveal, run, stage]);
 
   const handleModeChange = useCallback(
     (next: Mode) => {
+      if (next === mode) {
+        return;
+      }
       clear();
       setMode(next);
     },
-    [clear]
+    [clear, mode]
   );
 
   const handlePromptClick = useCallback(
@@ -128,10 +134,13 @@ export function Era1Playground() {
       if (!id) {
         return;
       }
+      if (id === promptId) {
+        return;
+      }
       clear();
       setPromptId(id);
     },
-    [clear]
+    [clear, promptId]
   );
 
   const handleReset = useCallback(() => {
@@ -139,8 +148,8 @@ export function Era1Playground() {
     setPromptId(PROMPTS[0].id);
     setMode("base");
     setTemp(INITIAL_TEMP);
-    reveal("continuation");
-  }, [clear, reveal]);
+    reveal(advance(stage, { type: "reset" }));
+  }, [clear, reveal, stage]);
 
   useEffect(() => stop, [stop]);
 
@@ -207,7 +216,11 @@ export function Era1Playground() {
         </div>
 
         {armed || verdict !== null ? (
-          <div className="border-foreground/10 border-t px-4 py-3 sm:px-6">
+          <div
+            aria-live="polite"
+            className="border-foreground/10 border-t px-4 py-3 sm:px-6"
+            role="status"
+          >
             {verdict === null ? (
               <button
                 className="font-mono text-muted-foreground text-sm hover:text-foreground"
