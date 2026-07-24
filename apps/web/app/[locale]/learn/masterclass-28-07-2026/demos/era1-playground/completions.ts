@@ -20,7 +20,7 @@ export const PROMPTS: readonly PromptSeed[] = [
     instructAnswer:
       "items.slice().reverse();\n}\n\n// slice() copies first, so the original array is untouched.",
     isQuestion: false,
-    label: "A half-written function",
+    label: "a half-written function",
     prefix: "function reverseList(items) {\n  return ",
   },
   {
@@ -33,7 +33,7 @@ export const PROMPTS: readonly PromptSeed[] = [
     instructAnswer:
       "Use slice() to copy the array, then reverse():\n\nconst reversed = items.slice().reverse();\n\nCalling reverse() alone would mutate the original.",
     isQuestion: true,
-    label: "A question (watch what happens)",
+    label: "a question",
     prefix: "// how do I reverse a list in JavaScript?\n",
   },
 ] as const;
