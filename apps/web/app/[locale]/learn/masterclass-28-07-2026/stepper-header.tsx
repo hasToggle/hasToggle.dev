@@ -18,7 +18,7 @@ export function StepperHeader({ current, onSelect }: StepperHeaderProps) {
         {STEPS.map((step: Step) => {
           const active = step.id === current;
           return (
-            <li className="flex-1" key={step.id}>
+            <li className="flex flex-1" key={step.id}>
               <button
                 aria-current={active ? "step" : undefined}
                 className={cn(
