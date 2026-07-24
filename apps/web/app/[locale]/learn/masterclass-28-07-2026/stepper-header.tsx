@@ -43,6 +43,10 @@ export function StepperHeader({ current, onSelect }: StepperHeaderProps) {
           );
         })}
       </ol>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-full h-10 bg-linear-to-b from-background to-transparent"
+      />
     </nav>
   );
 }
