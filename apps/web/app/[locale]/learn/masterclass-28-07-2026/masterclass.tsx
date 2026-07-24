@@ -157,23 +157,25 @@ export function Masterclass() {
           </motion.div>
         </AnimatePresence>
       </main>
-      <footer className="mx-auto flex w-full max-w-5xl items-center justify-between px-4 py-8">
-        <Button
-          disabled={!prev}
-          onClick={() => prev && setStep(prev)}
-          type="button"
-          variant="ghost"
-        >
-          ← Back
-        </Button>
-        <Button
-          disabled={!next}
-          onClick={() => next && setStep(next)}
-          type="button"
-        >
-          Next →
-        </Button>
-      </footer>
+      {step !== "intro" && (
+        <footer className="mx-auto flex w-full max-w-5xl items-center justify-between px-4 py-8">
+          <Button
+            disabled={!prev}
+            onClick={() => prev && setStep(prev)}
+            type="button"
+            variant="ghost"
+          >
+            ← Back
+          </Button>
+          <Button
+            disabled={!next}
+            onClick={() => next && setStep(next)}
+            type="button"
+          >
+            Next →
+          </Button>
+        </footer>
+      )}
     </div>
   );
 }
