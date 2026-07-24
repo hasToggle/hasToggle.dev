@@ -22,7 +22,7 @@ export function StepperHeader({ current, onSelect }: StepperHeaderProps) {
               <button
                 aria-current={active ? "step" : undefined}
                 className={cn(
-                  "group w-full border-b-2 px-2 py-3 text-center transition-colors focus-visible:text-foreground focus-visible:outline-hidden",
+                  "w-full border-b-2 px-2 py-3 text-center transition-colors focus-visible:bg-foreground/10 focus-visible:text-foreground focus-visible:outline-hidden",
                   active
                     ? "border-ht-cyan-500 text-foreground"
                     : "border-transparent text-muted-foreground hover:text-foreground"
@@ -30,7 +30,7 @@ export function StepperHeader({ current, onSelect }: StepperHeaderProps) {
                 onClick={() => onSelect(step.id)}
                 type="button"
               >
-                <span className="block font-medium text-xs underline-offset-4 group-focus-visible:underline group-focus-visible:decoration-2 sm:text-sm">
+                <span className="block font-medium text-xs sm:text-sm">
                   {step.label}
                 </span>
                 {step.vibe && (
