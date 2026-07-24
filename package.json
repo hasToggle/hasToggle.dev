@@ -10,8 +10,8 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
-    "check": "bunx --bun ultracite@latest check",
-    "fix": "bunx --bun ultracite@latest fix",
+    "check": "bunx --bun ultracite check",
+    "fix": "bunx --bun ultracite fix",
     "test": "turbo test",
     "analyze": "turbo analyze",
     "translate": "turbo translate",
