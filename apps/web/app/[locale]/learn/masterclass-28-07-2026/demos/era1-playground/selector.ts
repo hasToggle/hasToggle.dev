@@ -1,4 +1,9 @@
-import { PROMPTS, type PromptSeed } from "./completions";
+import {
+  OUTPUT_COLUMNS,
+  OUTPUT_LINES,
+  PROMPTS,
+  type PromptSeed,
+} from "./completions";
 
 export type Band = "low" | "mid" | "high";
 export type Mode = "base" | "instruct";
@@ -7,7 +12,7 @@ export type Mode = "base" | "instruct";
 export const INITIAL_TEMP = 0.7;
 
 export type { PromptSeed };
-export { PROMPTS };
+export { OUTPUT_COLUMNS, OUTPUT_LINES, PROMPTS };
 
 export function bandFor(temp: number): Band {
   if (temp < 0.4) {
@@ -28,8 +33,8 @@ export function selectCompletion(
   if (!prompt) {
     return "";
   }
-  if (mode === "instruct") {
-    return prompt.instructAnswer;
-  }
-  return prompt.continuations[bandFor(temp)];
+  const band = bandFor(temp);
+  return mode === "instruct"
+    ? prompt.instructAnswers[band]
+    : prompt.continuations[band];
 }

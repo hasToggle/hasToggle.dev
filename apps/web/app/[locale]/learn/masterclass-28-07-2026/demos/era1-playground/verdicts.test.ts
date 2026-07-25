@@ -35,12 +35,13 @@ describe("era1 verdicts", () => {
     );
   });
 
-  test("post-training flattened the dice, so the band stops mattering", () => {
+  test("post-training did not flatten the dice — the high band still reads differently", () => {
     for (const isQuestion of [true, false]) {
-      const lines = BANDS.map((band) =>
-        verdictFor({ band, isQuestion, mode: "instruct" })
-      );
-      expect(new Set(lines).size).toBe(1);
+      const low = verdictFor({ band: "low", isQuestion, mode: "instruct" });
+      const mid = verdictFor({ band: "mid", isQuestion, mode: "instruct" });
+      const high = verdictFor({ band: "high", isQuestion, mode: "instruct" });
+      expect(low).toBe(mid);
+      expect(high).not.toBe(mid);
     }
   });
 

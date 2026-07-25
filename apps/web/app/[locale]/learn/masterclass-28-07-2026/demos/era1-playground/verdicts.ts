@@ -18,6 +18,12 @@ const INSTRUCT_QUESTION =
 const INSTRUCT_CONTINUE =
   "One clean completion, every time. Same machine — new manners.";
 
+const INSTRUCT_QUESTION_HIGH =
+  "The dial is still up, and it still answers — in the shape you asked for. Post-training didn't take the dice away. It made the format survive them.";
+
+const INSTRUCT_CONTINUE_HIGH =
+  "It wanders a little, and still lands the completion. The format holds at any temperature.";
+
 export function verdictFor({
   band,
   isQuestion,
@@ -28,7 +34,10 @@ export function verdictFor({
   mode: Mode;
 }): string {
   if (mode === "instruct") {
-    return isQuestion ? INSTRUCT_QUESTION : INSTRUCT_CONTINUE;
+    if (isQuestion) {
+      return band === "high" ? INSTRUCT_QUESTION_HIGH : INSTRUCT_QUESTION;
+    }
+    return band === "high" ? INSTRUCT_CONTINUE_HIGH : INSTRUCT_CONTINUE;
   }
   if (isQuestion) {
     return band === "high" ? BASE_QUESTION_HIGH : BASE_QUESTION;

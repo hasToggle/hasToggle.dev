@@ -34,10 +34,21 @@ describe("era1 selector", () => {
     expect(answer).toContain("reverse()");
   });
 
-  test("instruct output is stable across temperature", () => {
-    expect(selectCompletion("reverse-fn", 0.1, "instruct")).toBe(
+  test("instruct mode has its own dice — the band still changes the answer", () => {
+    expect(selectCompletion("reverse-fn", 0.1, "instruct")).not.toBe(
       selectCompletion("reverse-fn", 1.3, "instruct")
     );
+    expect(selectCompletion("how-do-i", 0.1, "instruct")).not.toBe(
+      selectCompletion("how-do-i", 1.3, "instruct")
+    );
+  });
+
+  test("every instruct answer answers, at every temperature", () => {
+    for (const band of [0.1, 0.7, 1.4]) {
+      const answer = selectCompletion("how-do-i", band, "instruct");
+      expect(answer).not.toContain("how do I");
+      expect(answer).toContain("slice()");
+    }
   });
 
   test("mode defaults to base", () => {

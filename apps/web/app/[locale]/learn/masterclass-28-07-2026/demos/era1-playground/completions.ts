@@ -3,11 +3,20 @@ import type { Band } from "./selector";
 export interface PromptSeed {
   continuations: Record<Band, string>;
   id: string;
-  instructAnswer: string;
+  instructAnswers: Record<Band, string>;
   isQuestion: boolean;
   label: string;
   prefix: string;
 }
+
+/**
+ * The console reserves this much room so the Run button never moves when a
+ * completion lands. `completions.test.ts` fails if any prefix + completion
+ * would overflow either dimension — so new copy breaks the build rather than
+ * quietly reintroducing the jump.
+ */
+export const OUTPUT_LINES = 9;
+export const OUTPUT_COLUMNS = 72;
 
 export const PROMPTS: readonly PromptSeed[] = [
   {
@@ -17,8 +26,11 @@ export const PROMPTS: readonly PromptSeed[] = [
       mid: "items.slice().reverse();\n}\n\n// reverse a string too\nfunction reverseStr(s) {\n  return s.split('')",
     },
     id: "reverse-fn",
-    instructAnswer:
-      "items.slice().reverse();\n}\n\n// slice() copies first, so the original array is untouched.",
+    instructAnswers: {
+      high: "items.slice().reverse();\n}\n\n// slice() copies first — the original survives. reverse() alone\n// would not. Newer runtimes have toReversed(), which copies for you.\n// Whether you needed a reversed copy is a separate question entirely.",
+      low: "items.slice().reverse();\n}\n\n// slice() copies first, so the original array is untouched.",
+      mid: "items.slice().reverse();\n}\n\n// slice() copies the array first, so the original is left untouched.\n// reverse() on its own would mutate it in place.",
+    },
     isQuestion: false,
     label: "a half-written function",
     prefix: "function reverseList(items) {\n  return ",
@@ -30,8 +42,11 @@ export const PROMPTS: readonly PromptSeed[] = [
       mid: "// and how do I do it without mutating the original?\n// is reverse() stable?\n// why does this matter?\n",
     },
     id: "how-do-i",
-    instructAnswer:
-      "Use slice() to copy the array, then reverse():\n\nconst reversed = items.slice().reverse();\n\nCalling reverse() alone would mutate the original.",
+    instructAnswers: {
+      high: "Copy it first, then reverse:\n\nconst reversed = items.slice().reverse();\n\nreverse() alone mutates in place. If your runtime is recent enough,\ntoReversed() does the copying for you. And if the list is large\nenough to worry about, you probably wanted an iterator instead.",
+      low: "Use slice() to copy the array, then reverse():\n\nconst reversed = items.slice().reverse();\n\nCalling reverse() alone would mutate the original.",
+      mid: "Copy the array first, then reverse it:\n\nconst reversed = items.slice().reverse();\n\nreverse() on its own mutates the array in place, which is\nrarely what you want.",
+    },
     isQuestion: true,
     label: "a question",
     prefix: "// how do I reverse a list in JavaScript?\n",
