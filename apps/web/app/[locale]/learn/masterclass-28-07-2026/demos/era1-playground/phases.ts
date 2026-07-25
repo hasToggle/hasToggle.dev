@@ -1,4 +1,4 @@
-import type { Mode } from "./selector";
+import { INITIAL_TEMP, type Mode, PROMPTS } from "./selector";
 
 export type PhaseId = "autocomplete" | "unanswered" | "dial" | "taught";
 
@@ -69,4 +69,34 @@ export function adjacentPhase(
 ): PhaseId | null {
   const next = indexOf(id) + (dir === "next" ? 1 : -1);
   return PHASES[next]?.id ?? null;
+}
+
+const QUESTION_PROMPT_ID = PROMPTS.find((p) => p.isQuestion)?.id;
+
+/**
+ * The inverse of `arrival`: given the machine's current configuration, the
+ * earliest phase that could have produced it. Rules are checked in order and
+ * later beats win, so a control left in a later-beat state (dial moved, mode
+ * flipped) can never be masked by an earlier `furthest`/`phase` on its own —
+ * see `index.tsx`, which folds this into both before rendering.
+ */
+export function phaseImpliedBy({
+  mode,
+  promptId,
+  temp,
+}: {
+  mode: Mode;
+  promptId: string;
+  temp: number;
+}): PhaseId {
+  if (mode === "instruct") {
+    return "taught";
+  }
+  if (temp !== INITIAL_TEMP) {
+    return "dial";
+  }
+  if (promptId === QUESTION_PROMPT_ID) {
+    return "unanswered";
+  }
+  return "autocomplete";
 }

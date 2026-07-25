@@ -23,7 +23,7 @@ describe("era1 output geometry", () => {
     }
   });
 
-  test("no line is wide enough to wrap into a second one", () => {
+  test("no line is wide enough to wrap into a second one, at projector widths (≥ ~760px)", () => {
     for (const text of everyRendering()) {
       for (const line of text.split("\n")) {
         expect(line.length).toBeLessThanOrEqual(OUTPUT_COLUMNS);

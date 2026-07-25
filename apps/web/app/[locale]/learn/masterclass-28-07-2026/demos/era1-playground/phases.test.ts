@@ -5,9 +5,13 @@ import {
   furthestOf,
   PHASES,
   phaseFor,
+  phaseImpliedBy,
   reached,
 } from "./phases";
-import { PROMPTS } from "./selector";
+import { INITIAL_TEMP, PROMPTS } from "./selector";
+
+const QUESTION_PROMPT_ID = PROMPTS.find((p) => p.isQuestion)?.id ?? "";
+const OTHER_PROMPT_ID = PROMPTS.find((p) => !p.isQuestion)?.id ?? "reverse-fn";
 
 describe("era1 phases", () => {
   test("four beats, in the order the presenter walks them", () => {
@@ -66,5 +70,71 @@ describe("era1 phases", () => {
       expect(phase.label).not.toContain("//");
       expect(phase.label).not.toContain("▸");
     }
+  });
+
+  test("PHASES has exactly four entries — phase-footer.tsx's NUMERALS array is sized to match", () => {
+    expect(PHASES.length).toBe(4);
+  });
+
+  describe("phaseImpliedBy", () => {
+    test("the default config implies the first beat", () => {
+      expect(
+        phaseImpliedBy({
+          mode: "base",
+          promptId: OTHER_PROMPT_ID,
+          temp: INITIAL_TEMP,
+        })
+      ).toBe("autocomplete");
+    });
+
+    test("the question prompt implies nobody answers", () => {
+      expect(
+        phaseImpliedBy({
+          mode: "base",
+          promptId: QUESTION_PROMPT_ID,
+          temp: INITIAL_TEMP,
+        })
+      ).toBe("unanswered");
+    });
+
+    test("a moved dial implies turn the dial, even off the function prompt", () => {
+      expect(
+        phaseImpliedBy({
+          mode: "base",
+          promptId: OTHER_PROMPT_ID,
+          temp: 1.4,
+        })
+      ).toBe("dial");
+    });
+
+    test("instruct mode implies taught to answer, regardless of prompt or temp", () => {
+      expect(
+        phaseImpliedBy({
+          mode: "instruct",
+          promptId: OTHER_PROMPT_ID,
+          temp: INITIAL_TEMP,
+        })
+      ).toBe("taught");
+    });
+
+    test("instruct mode wins over a moved dial", () => {
+      expect(
+        phaseImpliedBy({
+          mode: "instruct",
+          promptId: QUESTION_PROMPT_ID,
+          temp: 1.4,
+        })
+      ).toBe("taught");
+    });
+
+    test("a moved dial wins over the question prompt alone", () => {
+      expect(
+        phaseImpliedBy({
+          mode: "base",
+          promptId: QUESTION_PROMPT_ID,
+          temp: 0.1,
+        })
+      ).toBe("dial");
+    });
   });
 });

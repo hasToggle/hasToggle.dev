@@ -14,6 +14,14 @@ export interface PromptSeed {
  * completion lands. `completions.test.ts` fails if any prefix + completion
  * would overflow either dimension — so new copy breaks the build rather than
  * quietly reintroducing the jump.
+ *
+ * The column reservation holds at the projector widths this demo is designed
+ * for (roughly 760px and up). Below that the output panel's text wraps, the
+ * line-count reservation is exceeded, and the panel scrolls instead — which
+ * the design spec accepts as the narrow-viewport fallback. `OUTPUT_LINES`
+ * itself has no such caveat: it holds at every width, since wrapping only
+ * ever adds lines on narrow viewports, and the widest renderings are already
+ * accounted for above.
  */
 export const OUTPUT_LINES = 9;
 export const OUTPUT_COLUMNS = 72;

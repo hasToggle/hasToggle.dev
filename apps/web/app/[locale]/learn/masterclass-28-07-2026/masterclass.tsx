@@ -2,7 +2,7 @@
 
 import { Button } from "@repo/design-system/components/ui/button";
 import { AnimatePresence, motion } from "motion/react";
-import { parseAsBoolean, parseAsStringLiteral, useQueryState } from "nuqs";
+import { createParser, parseAsStringLiteral, useQueryState } from "nuqs";
 import { useEffect } from "react";
 import { Era1Playground } from "./demos/era1-playground";
 import { Era2Companion } from "./demos/era2-companion";
@@ -28,6 +28,21 @@ import { Synthesis } from "./synthesis";
 
 const STEP_IDS = STEPS.map((s) => s.id);
 
+/**
+ * The spec documents the entry URL as `?presenter=1` in bold, and `Shift+P`
+ * must round-trip back to that same URL. `parseAsBoolean` only accepts the
+ * literal string `"true"`, so both would silently fall through to the
+ * default. This accepts `1`, `true` (any case) and the bare `?presenter`
+ * flag (an empty value), and always serializes back to `"1"`.
+ */
+const parseAsPresenterFlag = createParser<boolean>({
+  parse: (value) => {
+    const normalized = value.toLowerCase();
+    return normalized === "1" || normalized === "true" || normalized === "";
+  },
+  serialize: (value) => (value ? "1" : "false"),
+});
+
 export function Masterclass() {
   const [step, setStep] = useQueryState(
     "step",
@@ -41,7 +56,7 @@ export function Masterclass() {
 
   const [presenter, setPresenter] = useQueryState(
     "presenter",
-    parseAsBoolean.withDefault(false).withOptions({ history: "replace" })
+    parseAsPresenterFlag.withDefault(false).withOptions({ history: "replace" })
   );
 
   useEffect(() => {

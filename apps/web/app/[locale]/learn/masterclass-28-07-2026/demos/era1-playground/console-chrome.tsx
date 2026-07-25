@@ -51,7 +51,7 @@ export function ConsoleChrome({
   const cells = showPostTrainedCell ? MODES : MODES.slice(0, 1);
 
   return (
-    <div className="flex h-14 items-center gap-x-5 border-foreground/10 border-b bg-muted/30 px-4 sm:px-6">
+    <div className="flex min-h-14 flex-wrap items-center gap-x-5 gap-y-2 border-foreground/10 border-b bg-muted/30 px-4 py-2 sm:h-14 sm:flex-nowrap sm:px-6 sm:py-0">
       {/* The machine's name. It does not change — only its training does. */}
       <span className="shrink-0 font-mono text-foreground/80 text-sm">
         davinci-002

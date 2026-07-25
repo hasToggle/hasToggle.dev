@@ -7,7 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ConsoleChrome } from "./console-chrome";
 import { dispositionFor } from "./disposition";
 import { PhaseFooter } from "./phase-footer";
-import { furthestOf, type PhaseId, phaseFor } from "./phases";
+import { furthestOf, type PhaseId, phaseFor, phaseImpliedBy } from "./phases";
 import { PromptTabs } from "./prompt-tabs";
 import {
   bandFor,
@@ -190,8 +190,22 @@ export function Era1Playground({ presenter }: Era1PlaygroundProps) {
     [patch]
   );
 
+  // A control left in a later-beat state (dial moved, mode flipped) implies
+  // that later beat even if `furthest`/`phase` haven't caught up — e.g.
+  // toggling presenter mode on mid-session. Folding it into both keeps the
+  // disposition and the footer's highlight consistent with what's on screen;
+  // `furthestOf` is monotone both ways, so this only ever opens gates and
+  // advances the highlight, never closes or rewinds them.
+  const implied = phaseImpliedBy({
+    mode: snap.mode,
+    promptId: snap.promptId,
+    temp: snap.temp,
+  });
+  const furthest = furthestOf(snap.furthest, implied);
+  const phase = furthestOf(snap.phase, implied);
+
   const disposition = dispositionFor({
-    furthest: snap.furthest,
+    furthest,
     presenter,
   });
   const prompt = PROMPTS.find((p) => p.id === snap.promptId) ?? PROMPTS[0];
@@ -243,7 +257,7 @@ export function Era1Playground({ presenter }: Era1PlaygroundProps) {
 
         <div
           aria-live="polite"
-          className="flex h-14 items-center border-foreground/10 border-t px-4 sm:px-6"
+          className="flex min-h-14 items-center border-foreground/10 border-t px-4 py-2 sm:h-14 sm:px-6 sm:py-0"
           role="status"
         >
           <AnimatePresence mode="wait">
@@ -263,7 +277,7 @@ export function Era1Playground({ presenter }: Era1PlaygroundProps) {
         </div>
 
         {disposition.showFooter ? (
-          <PhaseFooter current={snap.phase} onSelect={goToPhase} />
+          <PhaseFooter current={phase} onSelect={goToPhase} />
         ) : null}
       </div>
     </div>
