@@ -64,9 +64,10 @@ instead of embarrassing.
 ## 2 · One disposition, no branching
 
 There is no second code path for the two modes. A pure
-`dispositionFor({ presenter, phase, reached })` returns the flags the console
-reads, and it is the single place the two modes reconcile so that
-`presenter ? … : …` never appears in JSX.
+`dispositionFor({ furthest, presenter })` returns the flags the console reads,
+and it is the single place the two modes reconcile so that `presenter ? … : …`
+never appears in JSX. (`furthest` is the furthest phase visited; it is named that
+rather than `reached` so it doesn't shadow the `reached()` predicate it calls.)
 
 | | default | presenter |
 |---|---|---|
