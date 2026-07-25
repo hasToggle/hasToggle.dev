@@ -2,7 +2,7 @@
 
 import { Button } from "@repo/design-system/components/ui/button";
 import { AnimatePresence, motion } from "motion/react";
-import { parseAsStringLiteral, useQueryState } from "nuqs";
+import { parseAsBoolean, parseAsStringLiteral, useQueryState } from "nuqs";
 import { useEffect } from "react";
 import { Era1Playground } from "./demos/era1-playground";
 import { Era2Companion } from "./demos/era2-companion";
@@ -16,8 +16,13 @@ import { Era4Runtime } from "./demos/era4-runtime";
 import { EraPanel } from "./era-panel";
 import { FieldNote } from "./field-note";
 import { Intro } from "./intro";
+import {
+  isArrowConsumingTarget,
+  isPresenterToggle,
+  isTextEntryTarget,
+  stepKeyDirection,
+} from "./step-keys";
 import { StepperHeader } from "./stepper-header";
-import { isArrowConsumingTarget, stepKeyDirection } from "./step-keys";
 import { getAdjacentStep, STEPS, type StepId } from "./steps";
 import { Synthesis } from "./synthesis";
 
@@ -34,8 +39,18 @@ export function Masterclass() {
   const prev = getAdjacentStep(step, "prev");
   const next = getAdjacentStep(step, "next");
 
+  const [presenter, setPresenter] = useQueryState(
+    "presenter",
+    parseAsBoolean.withDefault(false).withOptions({ history: "replace" })
+  );
+
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
+      if (isPresenterToggle(event) && !isTextEntryTarget(event.target)) {
+        event.preventDefault();
+        setPresenter(!presenter);
+        return;
+      }
       const dir = stepKeyDirection(event);
       if (!dir || isArrowConsumingTarget(event.target)) {
         return;
@@ -47,7 +62,7 @@ export function Masterclass() {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [step, setStep]);
+  }, [presenter, setPresenter, step, setStep]);
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -84,7 +99,7 @@ export function Masterclass() {
                 reality="Nobody was shipping software with this. But everything that came after is still this machine underneath: you feed it the start of a pattern and it continues — unaware of what you meant. Getting knowledge out took craft, until OpenAI taught it a format."
                 years="2019–2022"
               >
-                <Era1Playground />
+                <Era1Playground presenter={presenter} />
                 <FieldNote date="2019–2021">
                   No notes survive from these years — I have none. I was
                   teaching juniors to write these functions by hand while a

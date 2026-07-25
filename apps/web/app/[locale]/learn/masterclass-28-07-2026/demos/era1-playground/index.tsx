@@ -1,53 +1,57 @@
 "use client";
 
 import { Button } from "@repo/design-system/components/ui/button";
-import { cn } from "@repo/design-system/lib/utils";
+import { AnimatePresence, motion } from "motion/react";
 import type { MouseEvent } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ConsoleChrome } from "./console-chrome";
+import { dispositionFor } from "./disposition";
+import { PhaseFooter } from "./phase-footer";
+import { furthestOf, type PhaseId, phaseFor } from "./phases";
+import { PromptTabs } from "./prompt-tabs";
 import {
-  type Band,
   bandFor,
   INITIAL_TEMP,
   type Mode,
+  OUTPUT_LINES,
   PROMPTS,
   selectCompletion,
 } from "./selector";
-import { getRevealedStage, setRevealedStage } from "./session-store";
 import {
-  advance,
-  type Stage,
-  showsDial,
-  showsDialWhisper,
-  showsModeSwitch,
-  showsOffer,
-  showsPromptSelector,
-  showsReset,
-} from "./stage";
+  type DemoSnapshot,
+  freshSnapshot,
+  getSnapshot,
+  saveSnapshot,
+} from "./session-store";
 import { verdictFor } from "./verdicts";
 
 const STREAM_MS = 18;
 
-interface RunSnapshot {
-  band: Band;
-  isQuestion: boolean;
-  mode: Mode;
+/** Long enough that Eric has already said the line and the page agrees. */
+const VERDICT_DELAY_MS = 1500;
+
+/** `OUTPUT_LINES` at leading-7, plus p-4 top and bottom. */
+const OUTPUT_HEIGHT = `calc(${OUTPUT_LINES} * 1.75rem + 2rem)`;
+
+const DIAL_WHISPER = "temperature — how much the dice get to decide";
+
+interface Era1PlaygroundProps {
+  presenter: boolean;
 }
 
-export function Era1Playground() {
-  const [stage, setStage] = useState<Stage>(getRevealedStage);
-  const [promptId, setPromptId] = useState(PROMPTS[0].id);
-  const [temp, setTemp] = useState(INITIAL_TEMP);
-  const [mode, setMode] = useState<Mode>("base");
-  const [shown, setShown] = useState("");
+export function Era1Playground({ presenter }: Era1PlaygroundProps) {
+  const [snap, setSnap] = useState<DemoSnapshot>(getSnapshot);
   const [streaming, setStreaming] = useState(false);
-  const [lastRun, setLastRun] = useState<RunSnapshot | null>(null);
-  const [verdict, setVerdict] = useState<string | null>(null);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const target = useRef("");
+  const latest = useRef(snap);
 
-  const prompt = PROMPTS.find((p) => p.id === promptId) ?? PROMPTS[0];
+  useEffect(() => {
+    latest.current = snap;
+    saveSnapshot(snap);
+  }, [snap]);
 
-  const stop = useCallback(() => {
+  const stopTimer = useCallback(() => {
     if (timer.current) {
       clearInterval(timer.current);
       timer.current = null;
@@ -55,77 +59,109 @@ export function Era1Playground() {
     setStreaming(false);
   }, []);
 
-  const clear = useCallback(() => {
-    stop();
-    setShown("");
-    setLastRun(null);
-    setVerdict(null);
-  }, [stop]);
+  // Navigating away mid-stream stores the *finished* text, so stepping back
+  // returns a completed run rather than a sentence cut in half.
+  useEffect(
+    () => () => {
+      if (timer.current) {
+        clearInterval(timer.current);
+        timer.current = null;
+        saveSnapshot({ ...latest.current, output: target.current });
+      }
+    },
+    []
+  );
+
+  const patch = useCallback((next: Partial<DemoSnapshot>) => {
+    setSnap((s) => ({ ...s, ...next }));
+  }, []);
 
   const run = useCallback(
-    (runMode: Mode, runPromptId: string = promptId) => {
-      stop();
-      setVerdict(null);
+    (runMode: Mode, runPromptId: string, runTemp: number) => {
+      stopTimer();
       const runPrompt = PROMPTS.find((p) => p.id === runPromptId) ?? PROMPTS[0];
-      setLastRun({
-        band: bandFor(temp),
+      const full = selectCompletion(runPromptId, runTemp, runMode);
+      target.current = full;
+      const lastRun = {
+        band: bandFor(runTemp),
         isQuestion: runPrompt.isQuestion,
         mode: runMode,
-      });
-      const full = selectCompletion(runPromptId, temp, runMode);
+      };
       const reduce = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
       ).matches;
       if (reduce) {
-        setShown(full);
+        patch({ lastRun, output: full, verdict: null });
         return;
       }
-      setShown("");
+      patch({ lastRun, output: "", verdict: null });
       setStreaming(true);
       let i = 0;
       timer.current = setInterval(() => {
         i += 1;
-        setShown(full.slice(0, i));
+        setSnap((s) => ({ ...s, output: full.slice(0, i) }));
         if (i >= full.length) {
-          stop();
+          stopTimer();
         }
       }, STREAM_MS);
     },
-    [promptId, temp, stop]
+    [patch, stopTimer]
   );
 
-  const reveal = useCallback((next: Stage) => {
-    setStage(next);
-    setRevealedStage(next);
-  }, []);
+  // The page never speaks first: the verdict arrives a beat after the stream
+  // finishes, agreeing with what Eric has already said.
+  const { lastRun, verdict } = snap;
+  useEffect(() => {
+    // The ternary rather than an early return: TypeScript narrows `lastRun`
+    // inside the true branch, and the effect returns a cleanup on every path.
+    const id =
+      !streaming && lastRun !== null && verdict === null
+        ? setTimeout(
+            () => patch({ verdict: verdictFor(lastRun) }),
+            VERDICT_DELAY_MS
+          )
+        : null;
+    return () => {
+      if (id) {
+        clearTimeout(id);
+      }
+    };
+  }, [lastRun, patch, streaming, verdict]);
 
-  const handleRun = useCallback(() => run(mode), [run, mode]);
+  const handleRun = useCallback(
+    () => run(snap.mode, snap.promptId, snap.temp),
+    [run, snap.mode, snap.promptId, snap.temp]
+  );
 
-  const handleVerdict = useCallback(() => {
-    if (!lastRun) {
-      return;
-    }
-    setVerdict(verdictFor(lastRun));
-    reveal(advance(stage, { type: "verdict", ...lastRun }));
-  }, [lastRun, reveal, stage]);
-
-  const handleAcceptOffer = useCallback(() => {
-    const questionId = PROMPTS.find((p) => p.isQuestion)?.id ?? promptId;
-    reveal(advance(stage, { type: "accept-offer" }));
-    setMode("instruct");
-    setPromptId(questionId);
-    run("instruct", questionId);
-  }, [promptId, reveal, run, stage]);
+  const goToPhase = useCallback(
+    (id: PhaseId) => {
+      stopTimer();
+      const { arrival } = phaseFor(id);
+      setSnap((s) => ({
+        ...s,
+        furthest: furthestOf(s.furthest, id),
+        lastRun: null,
+        mode: arrival.mode,
+        output: "",
+        phase: id,
+        promptId: arrival.promptId,
+        temp: arrival.resetTemp ? INITIAL_TEMP : s.temp,
+        verdict: null,
+      }));
+    },
+    [stopTimer]
+  );
 
   const handleModeChange = useCallback(
     (next: Mode) => {
-      if (next === mode) {
-        return;
-      }
-      clear();
-      setMode(next);
+      stopTimer();
+      setSnap((s) =>
+        s.mode === next
+          ? s
+          : { ...s, lastRun: null, mode: next, output: "", verdict: null }
+      );
     },
-    [clear, mode]
+    [stopTimer]
   );
 
   const handlePromptClick = useCallback(
@@ -134,79 +170,69 @@ export function Era1Playground() {
       if (!id) {
         return;
       }
-      if (id === promptId) {
-        return;
-      }
-      clear();
-      setPromptId(id);
+      stopTimer();
+      setSnap((s) =>
+        s.promptId === id
+          ? s
+          : { ...s, lastRun: null, output: "", promptId: id, verdict: null }
+      );
     },
-    [clear, promptId]
+    [stopTimer]
   );
 
   const handleReset = useCallback(() => {
-    clear();
-    setPromptId(PROMPTS[0].id);
-    setMode("base");
-    setTemp(INITIAL_TEMP);
-    reveal(advance(stage, { type: "reset" }));
-  }, [clear, reveal, stage]);
+    stopTimer();
+    setSnap(freshSnapshot());
+  }, [stopTimer]);
 
-  useEffect(() => stop, [stop]);
+  const handleTempChange = useCallback(
+    (temp: number) => patch({ temp }),
+    [patch]
+  );
 
-  const armed = lastRun !== null && !streaming && verdict === null;
+  const disposition = dispositionFor({
+    furthest: snap.furthest,
+    presenter,
+  });
+  const prompt = PROMPTS.find((p) => p.id === snap.promptId) ?? PROMPTS[0];
+
+  // One slot, one line: the run's verdict, or the dial's whisper before any
+  // run, or nothing. Both regions this replaces used to appear and disappear.
+  const line =
+    snap.verdict ??
+    (disposition.showDial && snap.lastRun === null ? DIAL_WHISPER : "");
 
   return (
     <div className="mb-6">
       <div className="overflow-hidden rounded-xl border border-foreground/10 bg-background">
         <ConsoleChrome
-          mode={mode}
+          mode={snap.mode}
           onModeChange={handleModeChange}
           onReset={handleReset}
-          onTempChange={setTemp}
-          showDial={showsDial(stage, mode)}
-          showReset={showsReset(stage)}
-          showSwitch={showsModeSwitch(stage)}
-          temp={temp}
+          onTempChange={handleTempChange}
+          showDial={disposition.showDial}
+          showPostTrainedCell={disposition.showPostTrainedCell}
+          temp={snap.temp}
         />
 
-        {showsDialWhisper(stage) ? (
-          <p className="border-foreground/10 border-b px-4 py-2 font-mono text-[11px] text-muted-foreground sm:px-6">
-            temperature — how much the dice get to decide
-          </p>
-        ) : null}
-
         <div className="p-4 sm:p-6">
-          {showsPromptSelector(stage) ? (
-            <div className="mb-4 flex flex-wrap items-baseline gap-x-6 gap-y-2">
-              <span className="font-mono text-[11px] text-muted-foreground uppercase tracking-widest">
-                prompt
+          <div className="overflow-hidden rounded-lg border border-foreground/10 bg-muted/40">
+            <PromptTabs
+              activeId={snap.promptId}
+              onSelect={handlePromptClick}
+              showSecond={disposition.showSecondPrompt}
+            />
+            <pre
+              className="overflow-auto whitespace-pre-wrap p-4 font-mono text-[15px] leading-7"
+              style={{ height: OUTPUT_HEIGHT }}
+            >
+              <span className="text-foreground">{prompt.prefix}</span>
+              <span className="text-ht-cyan-700 dark:text-ht-cyan-300">
+                {snap.output}
               </span>
-              {PROMPTS.map((p) => (
-                <button
-                  className={cn(
-                    "border-b-2 pb-0.5 font-mono text-sm transition-colors",
-                    p.id === promptId
-                      ? "border-ht-cyan-500 text-foreground"
-                      : "border-transparent text-muted-foreground hover:text-foreground"
-                  )}
-                  data-prompt={p.id}
-                  key={p.id}
-                  onClick={handlePromptClick}
-                  type="button"
-                >
-                  {p.label}
-                </button>
-              ))}
-            </div>
-          ) : null}
-
-          <pre className="min-h-40 overflow-x-auto whitespace-pre-wrap rounded-lg border border-foreground/10 bg-muted/40 p-4 font-mono text-[15px] leading-7">
-            <span className="text-foreground">{prompt.prefix}</span>
-            <span className="text-ht-cyan-700 dark:text-ht-cyan-300">
-              {shown}
-            </span>
-            {streaming ? <span className="animate-pulse">▋</span> : null}
-          </pre>
+              {streaming ? <span className="animate-pulse">▋</span> : null}
+            </pre>
+          </div>
 
           <div className="mt-4 flex justify-end">
             <Button onClick={handleRun} type="button">
@@ -215,45 +241,31 @@ export function Era1Playground() {
           </div>
         </div>
 
-        {armed || verdict !== null ? (
-          <div
-            aria-live="polite"
-            className="border-foreground/10 border-t px-4 py-3 sm:px-6"
-            role="status"
-          >
-            {verdict === null ? (
-              <button
-                className="font-mono text-muted-foreground text-sm hover:text-foreground"
-                onClick={handleVerdict}
-                type="button"
+        <div
+          aria-live="polite"
+          className="flex h-14 items-center border-foreground/10 border-t px-4 sm:px-6"
+          role="status"
+        >
+          <AnimatePresence mode="wait">
+            {line ? (
+              <motion.p
+                animate={{ opacity: 1 }}
+                className="max-w-2xl text-foreground/55 text-sm italic"
+                exit={{ opacity: 0 }}
+                initial={{ opacity: 0 }}
+                key={line}
+                transition={{ duration: 0.35 }}
               >
-                ↩ what just happened
-              </button>
-            ) : (
-              <p className="max-w-2xl text-foreground/55 text-sm italic">
-                {verdict}
-              </p>
-            )}
-          </div>
+                {line}
+              </motion.p>
+            ) : null}
+          </AnimatePresence>
+        </div>
+
+        {disposition.showFooter ? (
+          <PhaseFooter current={snap.phase} onSelect={goToPhase} />
         ) : null}
       </div>
-
-      {showsOffer(stage) ? (
-        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-3 rounded-xl border border-foreground/15 border-dashed px-4 py-3 sm:px-6">
-          <span className="font-mono text-muted-foreground text-xs">2022</span>
-          <span className="text-foreground/70 text-sm">
-            humans taught it a format
-          </span>
-          <Button
-            className="ml-auto"
-            onClick={handleAcceptOffer}
-            size="sm"
-            type="button"
-          >
-            Load the post-trained model →
-          </Button>
-        </div>
-      ) : null}
     </div>
   );
 }
