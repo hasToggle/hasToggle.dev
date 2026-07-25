@@ -1,5 +1,10 @@
 import { describe, expect, it } from "bun:test";
-import { type StepKeyEvent, stepKeyDirection } from "./step-keys";
+import {
+  isPresenterToggle,
+  isTextEntryTarget,
+  type StepKeyEvent,
+  stepKeyDirection,
+} from "./step-keys";
 
 function keyEvent(overrides: Partial<StepKeyEvent>): StepKeyEvent {
   return {
@@ -51,5 +56,51 @@ describe("stepKeyDirection", () => {
     expect(
       stepKeyDirection(keyEvent({ defaultPrevented: true, key: "ArrowRight" }))
     ).toBeNull();
+  });
+});
+
+describe("isPresenterToggle", () => {
+  it("fires on Shift+P", () => {
+    expect(isPresenterToggle(keyEvent({ key: "P", shiftKey: true }))).toBe(
+      true
+    );
+    expect(isPresenterToggle(keyEvent({ key: "p", shiftKey: true }))).toBe(
+      true
+    );
+  });
+
+  it("does not fire without the shift", () => {
+    expect(isPresenterToggle(keyEvent({ key: "p" }))).toBe(false);
+  });
+
+  it("yields to browser and OS shortcuts", () => {
+    expect(
+      isPresenterToggle(keyEvent({ key: "P", metaKey: true, shiftKey: true }))
+    ).toBe(false);
+    expect(
+      isPresenterToggle(keyEvent({ ctrlKey: true, key: "P", shiftKey: true }))
+    ).toBe(false);
+    expect(
+      isPresenterToggle(keyEvent({ altKey: true, key: "P", shiftKey: true }))
+    ).toBe(false);
+  });
+
+  it("ignores held-down repeats and already-handled events", () => {
+    expect(
+      isPresenterToggle(keyEvent({ key: "P", repeat: true, shiftKey: true }))
+    ).toBe(false);
+    expect(
+      isPresenterToggle(
+        keyEvent({ defaultPrevented: true, key: "P", shiftKey: true })
+      )
+    ).toBe(false);
+  });
+
+  it("cannot collide with step navigation — the arrows never see a chord", () => {
+    expect(stepKeyDirection(keyEvent({ key: "P", shiftKey: true }))).toBeNull();
+  });
+
+  it("treats a null target as safe to handle", () => {
+    expect(isTextEntryTarget(null)).toBe(false);
   });
 });
