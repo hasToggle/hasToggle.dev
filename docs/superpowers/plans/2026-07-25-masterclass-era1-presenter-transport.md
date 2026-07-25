@@ -21,6 +21,9 @@
 - **No verdict line may contain `//` or `▸`** — there is an existing test asserting this.
 - **Commit after every task.** Messages follow the repo's existing voice: `feat(masterclass): …` / `refactor(masterclass): …`, lowercase subject, no trailing period, ending with the `Co-Authored-By: Claude <noreply@anthropic.com>` trailer.
 - **Named exports only**, `interface` over `type` for object shapes, object properties sorted alphabetically (Biome's `useSortedKeys` is on — write them sorted the first time).
+- **Biome judgment-rule findings are pre-existing house style in this directory.** `noJsxPropsBind` (inline arrows in JSX props), `noExportedImports`, and array-index keys already fire across the masterclass exhibit — `stepper-header.tsx` uses `onClick={() => onSelect(step.id)}`, and the new footer matches it deliberately. `--write` will not fix them and they are not regressions. Only mechanical findings on files this plan touches need to come out clean.
+- **Do not start a dev server.** Eric keeps one running on port 3001, and Next 16 refuses to start a second for the same project directory ("Run kill <pid> to stop it"). Reuse the running server.
+- **`curl` 500s on this page** even when the browser does not — the middleware chain needs real browser headers. Verify in a browser (Playwright or Chrome DevTools MCP), never with `curl`.
 
 ---
 
@@ -1577,10 +1580,10 @@ Expected: clean.
 
 - [ ] **Step 9: Smoke-test in the browser**
 
-Run `bun dev` (or `turbo dev --filter=web`) and open
-**`localhost:3001/learn/masterclass-28-07-2026?step=completion`**.
+Do **not** start a dev server — reuse the one already running on port 3001. Drive a browser (Playwright or Chrome DevTools MCP) to
+**`http://localhost:3001/learn/masterclass-28-07-2026?step=completion`**.
 
-The `/en/`-prefixed URL 500s in middleware. That is pre-existing and unrelated, but it will make the page look broken if you hit it.
+The `/en/`-prefixed URL 500s in middleware. That is pre-existing and unrelated, but it will make the page look broken if you hit it. `curl` 500s on both paths regardless — use a real browser.
 
 Confirm only that the page renders, the console is fully populated, and `Run` streams. The full walk is Task 7.
 
@@ -1612,9 +1615,9 @@ Unit tests cannot reach any of the four things this redesign was for. Walk them 
 
 **Files:** none — this task produces a verification report, not a diff.
 
-- [ ] **Step 1: Start the server and open the demo**
+- [ ] **Step 1: Open the demo in a browser**
 
-Run `bun dev`, open `localhost:3001/learn/masterclass-28-07-2026?step=completion`.
+Reuse the dev server already running on port 3001 — do not start one. Drive Playwright or Chrome DevTools MCP to `http://localhost:3001/learn/masterclass-28-07-2026?step=completion`. `curl` will 500 regardless of whether the page works.
 
 - [ ] **Step 2: Walk the default view (the shared link)**
 
