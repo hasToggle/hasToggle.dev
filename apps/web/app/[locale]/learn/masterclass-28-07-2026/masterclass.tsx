@@ -101,11 +101,12 @@ export function Masterclass() {
                 years="2019–2022"
               >
                 <Era1Playground presenter={presenter} />
-                <FieldNote date="2022" label="from the literature">
+                <FieldNote date="2022" label="the record">
                   Asked for the capital of France, a base model offers the
-                  capital of Germany, as a question. Users preferred
-                  post-trained answers roughly 85% of the time over the base
-                  model&apos;s; ChatGPT shipped on that flip nine months later.
+                  capital of Germany, as a question. OpenAI&apos;s own labelers
+                  preferred post-trained answers roughly 85% of the time over
+                  the base model&apos;s; ChatGPT shipped on that flip nine
+                  months later.
                 </FieldNote>
               </EraPanel>
             )}
