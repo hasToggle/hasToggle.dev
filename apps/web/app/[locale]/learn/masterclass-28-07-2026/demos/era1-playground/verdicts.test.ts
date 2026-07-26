@@ -20,7 +20,10 @@ describe("era1 verdicts", () => {
 
   test("the base machine never answers the question", () => {
     const line = verdictFor({ band: "mid", isQuestion: true, mode: "base" });
-    expect(line).toContain("There's no one in there to ask");
+    // Assert the reading, not the sentence: the line has to say it declined to
+    // answer and name what it did instead, or the beat lands on nothing.
+    expect(line).toContain("didn't answer");
+    expect(line).toContain("continued");
   });
 
   test("the high band earns its own reading", () => {
