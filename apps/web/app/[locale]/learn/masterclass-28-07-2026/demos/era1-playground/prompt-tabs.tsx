@@ -14,14 +14,19 @@ interface PromptTabsProps {
 }
 
 /**
- * Folder tabs. The active one carries the output panel's exact fill and touches
- * it with no border between, so the two read as one object; the inactive one
- * sits on the console's own background and reads as behind. No underline, no
- * accent colour — the join itself says which prompt is loaded.
+ * The panel is one continuous surface, and this row sits on it. The loaded
+ * prompt therefore needs no treatment at all — it *is* the surface, flush with
+ * the code beneath it. Only the unloaded prompt is marked, as a recess cut into
+ * that surface.
  *
- * The fill has to live here rather than on the wrapper: `bg-muted/40` is
- * translucent, so the active tab and the panel only composite to the same
- * colour if both sit directly on the wrapper's `bg-background`.
+ * Marking the active tab instead is what made it read as a plump floating
+ * button in a field of its own, and gave the panel a stripe of bare background
+ * above the tabs. There is no field here and nothing to sit in it.
+ *
+ * The recess is darkened per theme rather than by one translucent token, so it
+ * reads as a hole in both. A fill that lightens would read as a raised button —
+ * and a raised *inactive* tab would invert the phase footer's grammar, where a
+ * filled shape is the one that's live.
  */
 export function PromptTabs({
   activeId,
@@ -29,8 +34,10 @@ export function PromptTabs({
   showSecond,
 }: PromptTabsProps) {
   const visible = showSecond ? PROMPTS : PROMPTS.slice(0, 1);
+  // The row's p-1 plus each tab's px-3 puts the first label at exactly the
+  // code's p-4 indent, so the loaded prompt and its output share a left edge.
   return (
-    <div className="flex h-10 items-stretch gap-1 px-2 pt-2">
+    <div className="flex h-11 items-stretch gap-1 p-1">
       <AnimatePresence initial={false}>
         {visible.map((prompt) => {
           const active = prompt.id === activeId;
@@ -39,10 +46,10 @@ export function PromptTabs({
               animate={{ opacity: 1 }}
               aria-pressed={active}
               className={cn(
-                "whitespace-nowrap rounded-t-md px-3 font-mono text-xs transition-colors sm:text-sm",
+                "whitespace-nowrap rounded-md px-3 font-mono text-xs transition-colors sm:text-sm",
                 active
-                  ? "bg-muted text-foreground"
-                  : "text-muted-foreground hover:bg-foreground/[0.03] hover:text-foreground"
+                  ? "text-foreground"
+                  : "bg-foreground/[0.06] text-muted-foreground hover:bg-foreground/10 hover:text-foreground dark:bg-black/35 dark:hover:bg-black/50"
               )}
               data-prompt={prompt.id}
               exit={{ opacity: 0 }}
