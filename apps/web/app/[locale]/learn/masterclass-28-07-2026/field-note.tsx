@@ -4,9 +4,20 @@ interface FieldNoteProps {
   children: React.ReactNode;
   className?: string;
   date: string;
+  /**
+   * Defaults to "field note", which claims the passage is Eric's own dated
+   * observation. Override it when the aside carries something else — evidence
+   * from the literature, say — so the eyebrow doesn't overclaim.
+   */
+  label?: string;
 }
 
-export function FieldNote({ children, className, date }: FieldNoteProps) {
+export function FieldNote({
+  children,
+  className,
+  date,
+  label = "field note",
+}: FieldNoteProps) {
   return (
     <aside
       className={cn(
@@ -15,7 +26,7 @@ export function FieldNote({ children, className, date }: FieldNoteProps) {
       )}
     >
       <p className="font-mono text-[11px] text-muted-foreground uppercase tracking-[0.2em]">
-        field note · {date}
+        {label} · {date}
       </p>
       <div className="mt-2 font-mono text-foreground/70 text-sm/6">
         {children}

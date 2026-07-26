@@ -96,29 +96,16 @@ export function Masterclass() {
             )}
             {step === "completion" && (
               <EraPanel
-                deepCut={
-                  <p>
-                    There was no intent model here — only continuation.
-                    OpenAI&apos;s fix was post-training: humans wrote answers,
-                    the model was tuned on them, then ranked by preference
-                    (InstructGPT, 2022). The canonical failure in the literature
-                    is this very demo — asked for the capital of France, a base
-                    model offers the capital of Germany, as a question.
-                    Post-trained answers were preferred roughly 85% of the time
-                    over the base model&apos;s; ChatGPT shipped on that flip
-                    nine months later.
-                  </p>
-                }
-                expandLabel="Did you know? It was never listening."
                 name="The completion machine"
                 reality="Nobody was shipping software with this. But everything that came after is still this machine underneath: you feed it the start of a pattern and it continues — unaware of what you meant. Getting knowledge out took craft, until OpenAI taught it a format."
                 years="2019–2022"
               >
                 <Era1Playground presenter={presenter} />
-                <FieldNote date="2019–2021">
-                  No notes survive from these years — I have none. I was
-                  teaching juniors to write these functions by hand while a
-                  model autocompleted them badly. We hadn&apos;t met yet.
+                <FieldNote date="2022" label="from the literature">
+                  Asked for the capital of France, a base model offers the
+                  capital of Germany, as a question. Users preferred
+                  post-trained answers roughly 85% of the time over the base
+                  model&apos;s; ChatGPT shipped on that flip nine months later.
                 </FieldNote>
               </EraPanel>
             )}

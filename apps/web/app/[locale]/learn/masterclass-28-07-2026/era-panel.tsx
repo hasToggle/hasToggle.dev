@@ -3,8 +3,9 @@ import { Heading, Subheading } from "../../components/text";
 
 interface EraPanelProps {
   children: React.ReactNode;
-  deepCut: React.ReactNode;
-  expandLabel: string;
+  /** Omit with `expandLabel` when an era makes its case on the page instead. */
+  deepCut?: React.ReactNode;
+  expandLabel?: string;
   name: string;
   reality: string;
   years: string;
@@ -28,7 +29,9 @@ export function EraPanel({
         {reality}
       </p>
       <div className="mt-10">{children}</div>
-      <Expandable label={expandLabel}>{deepCut}</Expandable>
+      {expandLabel && deepCut ? (
+        <Expandable label={expandLabel}>{deepCut}</Expandable>
+      ) : null}
     </section>
   );
 }
