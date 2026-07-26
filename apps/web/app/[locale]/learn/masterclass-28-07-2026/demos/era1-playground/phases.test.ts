@@ -72,7 +72,7 @@ describe("era1 phases", () => {
     }
   });
 
-  test("PHASES has exactly four entries — phase-footer.tsx's NUMERALS array is sized to match", () => {
+  test("PHASES has exactly four entries — phase-footer.tsx's row is sized for four", () => {
     expect(PHASES.length).toBe(4);
   });
 

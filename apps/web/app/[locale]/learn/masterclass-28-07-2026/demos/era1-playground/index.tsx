@@ -230,14 +230,14 @@ export function Era1Playground({ presenter }: Era1PlaygroundProps) {
         />
 
         <div className="p-4 sm:p-6">
-          <div className="overflow-hidden rounded-lg border border-foreground/10 bg-muted/40">
+          <div className="overflow-hidden rounded-lg border border-foreground/10 bg-background">
             <PromptTabs
               activeId={snap.promptId}
               onSelect={handlePromptClick}
               showSecond={disposition.showSecondPrompt}
             />
             <pre
-              className="overflow-auto whitespace-pre-wrap p-4 font-mono text-[15px] leading-7"
+              className="overflow-auto whitespace-pre-wrap bg-muted p-4 font-mono text-[15px] leading-7"
               style={{ height: OUTPUT_HEIGHT }}
             >
               <span className="text-foreground">{prompt.prefix}</span>

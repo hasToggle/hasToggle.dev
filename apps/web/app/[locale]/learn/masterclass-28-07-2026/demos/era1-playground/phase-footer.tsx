@@ -2,10 +2,9 @@
 
 import { cn } from "@repo/design-system/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
-import { adjacentPhase, PHASES, type PhaseId } from "./phases";
+import { adjacentPhase, PHASES, type PhaseId, phaseFor } from "./phases";
 
-const NUMERALS = ["①", "②", "③", "④"] as const;
-const ACCORDION = { duration: 0.25 } as const;
+const CROSSFADE = { duration: 0.2 } as const;
 
 interface ArrowProps {
   dir: "prev" | "next";
@@ -17,7 +16,7 @@ function Arrow({ dir, onSelect, target }: ArrowProps) {
   return (
     <button
       aria-label={dir === "prev" ? "Previous beat" : "Next beat"}
-      className="shrink-0 rounded px-2 py-1 font-mono text-muted-foreground text-sm transition-colors hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
+      className="shrink-0 rounded px-2 font-mono text-muted-foreground text-sm transition-colors hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
       disabled={target === null}
       onClick={() => target && onSelect(target)}
       type="button"
@@ -33,60 +32,74 @@ interface PhaseFooterProps {
 }
 
 /**
- * Presenter mode's transport. An accordion: only the current beat carries its
- * label, the rest collapse to bare numerals — still clickable, so a jump is
- * always one click, and so nothing on the projector reads ahead of the room.
+ * Presenter mode's transport. Four numerals at fixed positions, and the current
+ * beat's name in a reserved slot beneath them.
+ *
+ * The name sits on its own line rather than beside its numeral because an inline
+ * accordion moves every other numeral as the label grows — measured at 138px of
+ * drift between the shortest and longest beat, which means re-aiming for a
+ * target that was somewhere else a moment ago. Here the numerals never move and
+ * the name crossfades in place.
+ *
+ * The current beat is a *filled* numeral, the same "one of these is live"
+ * grammar the mode switch in the chrome already speaks — legible from the back
+ * wall without leaning on colour.
  */
 export function PhaseFooter({ current, onSelect }: PhaseFooterProps) {
+  const phase = phaseFor(current);
   return (
     <nav
       aria-label="Demo beats"
-      className="flex h-12 items-center gap-1 border-foreground/10 border-t px-2 sm:px-4"
+      className="flex h-[4.5rem] flex-col items-center justify-center gap-1.5 border-foreground/10 border-t px-2 sm:px-4"
     >
-      <Arrow
-        dir="prev"
-        onSelect={onSelect}
-        target={adjacentPhase(current, "prev")}
-      />
-      {PHASES.map((phase, index) => {
-        const active = phase.id === current;
-        return (
-          <button
-            aria-current={active ? "step" : undefined}
-            className={cn(
-              "flex items-center gap-2 whitespace-nowrap border-b-2 px-2 py-1 font-mono text-xs transition-colors",
-              active
-                ? "border-ht-cyan-500 text-foreground"
-                : "border-transparent text-muted-foreground hover:text-foreground"
-            )}
-            key={phase.id}
-            onClick={() => onSelect(phase.id)}
-            type="button"
+      <div className="flex items-center gap-2">
+        <Arrow
+          dir="prev"
+          onSelect={onSelect}
+          target={adjacentPhase(current, "prev")}
+        />
+        {PHASES.map((p, index) => {
+          const active = p.id === current;
+          return (
+            <button
+              aria-current={active ? "step" : undefined}
+              aria-label={p.label}
+              className={cn(
+                "flex size-7 shrink-0 items-center justify-center rounded-full font-mono text-xs tabular-nums transition-colors",
+                active
+                  ? "bg-foreground text-background"
+                  : "border border-foreground/20 text-muted-foreground hover:border-foreground/40 hover:text-foreground"
+              )}
+              key={p.id}
+              onClick={() => onSelect(p.id)}
+              type="button"
+            >
+              {index + 1}
+            </button>
+          );
+        })}
+        <Arrow
+          dir="next"
+          onSelect={onSelect}
+          target={adjacentPhase(current, "next")}
+        />
+      </div>
+
+      <div className="flex h-5 items-center">
+        <AnimatePresence mode="wait">
+          <motion.span
+            animate={{ opacity: 1 }}
+            className="whitespace-nowrap font-mono text-foreground text-xs"
+            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            key={current}
+            transition={CROSSFADE}
           >
-            <span>{NUMERALS[index]}</span>
-            <AnimatePresence initial={false}>
-              {active ? (
-                <motion.span
-                  animate={{ opacity: 1, width: "auto" }}
-                  className="overflow-hidden"
-                  exit={{ opacity: 0, width: 0 }}
-                  initial={{ opacity: 0, width: 0 }}
-                  key="label"
-                  transition={ACCORDION}
-                >
-                  {phase.year ? `${phase.year} · ` : ""}
-                  {phase.label}
-                </motion.span>
-              ) : null}
-            </AnimatePresence>
-          </button>
-        );
-      })}
-      <Arrow
-        dir="next"
-        onSelect={onSelect}
-        target={adjacentPhase(current, "next")}
-      />
+            {phase.year ? `${phase.year} · ` : ""}
+            {phase.label}
+          </motion.span>
+        </AnimatePresence>
+      </div>
     </nav>
   );
 }
