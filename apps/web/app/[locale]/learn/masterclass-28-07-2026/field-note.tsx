@@ -6,8 +6,13 @@ interface FieldNoteProps {
   date: string;
   /**
    * Defaults to "field note", which claims the passage is Eric's own dated
-   * observation. Override it when the aside carries something else — evidence
-   * from the literature, say — so the eyebrow doesn't overclaim.
+   * observation. Override it when the aside carries something else.
+   *
+   * Name the subject rather than the kind of source. "from the literature"
+   * and "the record" were both tried and both failed — the first overclaimed
+   * for a passage that mixes a cited result with a teaching illustration, and
+   * the second was so vague it had to be explained. A subject reads on a
+   * projector without a footnote.
    */
   label?: string;
 }

@@ -101,7 +101,7 @@ export function Masterclass() {
                 years="2019–2022"
               >
                 <Era1Playground presenter={presenter} />
-                <FieldNote date="2022" label="the record">
+                <FieldNote date="2022" label="post-training">
                   Asked for the capital of France, a base model offers the
                   capital of Germany, as a question. OpenAI&apos;s own labelers
                   preferred post-trained answers roughly 85% of the time over
