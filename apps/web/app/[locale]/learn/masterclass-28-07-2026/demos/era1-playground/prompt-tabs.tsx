@@ -35,10 +35,12 @@ export function PromptTabs({
   showSecond,
 }: PromptTabsProps) {
   const visible = showSecond ? PROMPTS : PROMPTS.slice(0, 1);
-  // The band's px-1 plus each tab's px-3 puts the first label at exactly the
-  // code's p-4 indent, so the loaded prompt and its output share a left edge.
+  // The band carries no horizontal padding: the first tab has to reach the
+  // panel's own edge, or a sliver of band shows beside it and reads as a seam.
+  // Each tab's px-4 therefore both indents the label to match the code's p-4
+  // and supplies the inset the band no longer does.
   return (
-    <div className="flex h-10 items-stretch gap-1 bg-foreground/[0.04] px-1 dark:bg-black/30">
+    <div className="flex h-10 items-stretch gap-1 bg-foreground/[0.04] dark:bg-black/30">
       <AnimatePresence initial={false}>
         {visible.map((prompt) => {
           const active = prompt.id === activeId;
@@ -47,7 +49,7 @@ export function PromptTabs({
               animate={{ opacity: 1 }}
               aria-pressed={active}
               className={cn(
-                "whitespace-nowrap rounded-t-md px-3 font-mono text-xs transition-colors sm:text-sm",
+                "whitespace-nowrap rounded-t-md px-4 font-mono text-xs transition-colors sm:text-sm",
                 active
                   ? "bg-muted text-foreground"
                   : "text-muted-foreground hover:text-foreground"
