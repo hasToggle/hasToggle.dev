@@ -31,7 +31,7 @@
     "disposable-email-domains": "^1.0.62",
     "lucide-react": "^1.26.0",
     "motion": "^12.42.2",
-    "next": "16.2.11",
+    "next": "16.2.12",
     "nuqs": "^2.9.2",
     "react": "^19.2.8",
     "react-canvas-confetti": "^2.0.7",
