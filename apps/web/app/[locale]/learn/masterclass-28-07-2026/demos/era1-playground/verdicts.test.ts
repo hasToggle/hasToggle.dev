@@ -26,10 +26,19 @@ describe("era1 verdicts", () => {
     expect(line).toContain("continued");
   });
 
-  test("the high band earns its own reading", () => {
-    const mid = verdictFor({ band: "mid", isQuestion: true, mode: "base" });
-    const high = verdictFor({ band: "high", isQuestion: true, mode: "base" });
-    expect(high).not.toBe(mid);
+  test("the dial beat reads the same whichever way the dial was turned", () => {
+    const parked = verdictFor({ band: "mid", isQuestion: true, mode: "base" });
+    const cold = verdictFor({ band: "low", isQuestion: true, mode: "base" });
+    const hot = verdictFor({ band: "high", isQuestion: true, mode: "base" });
+    // Turning it either way is the same beat, so it earns one reading...
+    expect(cold).toBe(hot);
+    // ...and that reading is not the one for the dial sitting where it started.
+    expect(cold).not.toBe(parked);
+  });
+
+  test("the dial beat explains what temperature is", () => {
+    const line = verdictFor({ band: "high", isQuestion: true, mode: "base" });
+    expect(line).toContain("temperature");
   });
 
   test("low and mid share a reading — only the high band is strange", () => {
