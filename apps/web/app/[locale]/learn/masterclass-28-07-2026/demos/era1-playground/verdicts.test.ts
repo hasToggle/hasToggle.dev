@@ -18,6 +18,22 @@ describe("era1 verdicts", () => {
     }
   });
 
+  test("only the dial beat depends on the dial", () => {
+    // Every beat reads the same at every temperature, so what the room hears
+    // never depends on where the slider happens to be sitting. The exception is
+    // the base question, where turning the dial is itself the next beat and so
+    // earns a second reading — one for parked, one for turned.
+    for (const mode of MODES) {
+      for (const isQuestion of [true, false]) {
+        const readings = new Set(
+          BANDS.map((band) => verdictFor({ band, isQuestion, mode }))
+        );
+        const isDialBeat = mode === "base" && isQuestion;
+        expect(readings.size).toBe(isDialBeat ? 2 : 1);
+      }
+    }
+  });
+
   test("the base machine never answers the question", () => {
     const line = verdictFor({ band: "mid", isQuestion: true, mode: "base" });
     // Assert the reading, not the sentence: the line has to say it declined to
@@ -30,9 +46,7 @@ describe("era1 verdicts", () => {
     const parked = verdictFor({ band: "mid", isQuestion: true, mode: "base" });
     const cold = verdictFor({ band: "low", isQuestion: true, mode: "base" });
     const hot = verdictFor({ band: "high", isQuestion: true, mode: "base" });
-    // Turning it either way is the same beat, so it earns one reading...
     expect(cold).toBe(hot);
-    // ...and that reading is not the one for the dial sitting where it started.
     expect(cold).not.toBe(parked);
   });
 
@@ -41,26 +55,14 @@ describe("era1 verdicts", () => {
     expect(line).toContain("temperature");
   });
 
-  test("low and mid share a reading — only the high band is strange", () => {
-    expect(verdictFor({ band: "low", isQuestion: false, mode: "base" })).toBe(
-      verdictFor({ band: "mid", isQuestion: false, mode: "base" })
-    );
-  });
-
-  test("post-training did not flatten the dice — the high band still reads differently", () => {
-    for (const isQuestion of [true, false]) {
-      const low = verdictFor({ band: "low", isQuestion, mode: "instruct" });
-      const mid = verdictFor({ band: "mid", isQuestion, mode: "instruct" });
-      const high = verdictFor({ band: "high", isQuestion, mode: "instruct" });
-      expect(low).toBe(mid);
-      expect(high).not.toBe(mid);
+  test("the flip lands on ChatGPT at every temperature", () => {
+    // The era's payoff. It must survive arriving with the dial still cranked
+    // from the beat before, which is the path the presenter actually walks.
+    for (const band of BANDS) {
+      expect(
+        verdictFor({ band, isQuestion: true, mode: "instruct" })
+      ).toContain("ChatGPT");
     }
-  });
-
-  test("the flip names the ChatGPT moment", () => {
-    expect(
-      verdictFor({ band: "mid", isQuestion: true, mode: "instruct" })
-    ).toContain("ChatGPT moment");
   });
 
   test("no verdict borrows the engineers' register", () => {
