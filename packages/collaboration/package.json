@@ -11,7 +11,7 @@
     "@liveblocks/client": "^3.23.0",
     "@liveblocks/node": "^3.23.0",
     "@liveblocks/react": "^3.23.0",
-    "next": "^16.2.11",
+    "next": "^16.2.12",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "server-only": "^0.0.1",
