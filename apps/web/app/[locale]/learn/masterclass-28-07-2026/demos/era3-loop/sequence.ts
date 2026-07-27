@@ -18,6 +18,13 @@ export const LOOP_STEPS: readonly LoopStep[] = [
   { kind: "respond", label: "done — 5 tests passing" },
 ];
 
-export function nextLoopStep(i: number): number {
-  return (i + 1) % LOOP_STEPS.length;
+export const LAST_LOOP_STEP = LOOP_STEPS.length - 1;
+
+/**
+ * Walks the sequence once and stops. Returns null at the end rather than
+ * wrapping: the run is something the presenter starts, not something the page
+ * does on its own.
+ */
+export function advanceLoop(i: number): number | null {
+  return i < LAST_LOOP_STEP ? i + 1 : null;
 }
