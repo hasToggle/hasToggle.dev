@@ -2,10 +2,12 @@
 
 import { Button } from "@repo/design-system/components/ui/button";
 import { AnimatePresence, motion } from "motion/react";
-import type { MouseEvent } from "react";
+import type { CSSProperties, MouseEvent } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ConsoleChrome } from "./console-chrome";
 import { dispositionFor } from "./disposition";
+import { completionClass, prefixIsComment, visibleTokens } from "./highlight";
+import { COMPLETION_TOKENS, PREFIX_TOKENS } from "./highlight/tokens.generated";
 import { PhaseFooter } from "./phase-footer";
 import { furthestOf, type PhaseId, phaseFor, phaseImpliedBy } from "./phases";
 import { PromptTabs } from "./prompt-tabs";
@@ -213,6 +215,23 @@ export function Era1Playground({ presenter }: Era1PlaygroundProps) {
   // and a caption waiting on screen is the page speaking over him.
   const line = snap.verdict ?? "";
 
+  // Tokens are precomputed from the *finished* text and revealed by character
+  // count, so the colours a token gets never change as it streams.
+  //
+  // The band comes from `lastRun`, never from the dial's current position.
+  // Dragging the dial deliberately does not clear the output — the verdict
+  // describes the run, not the slider — so after running at 1.5 and dragging
+  // back to 0.7, `snap.output` still holds the high-band text. Keying off
+  // `snap.temp` there would slice a *different* completion's tokens and render
+  // text the machine never produced.
+  const prefixTokens = PREFIX_TOKENS[prompt.id] ?? [];
+  const runBand = snap.lastRun?.band ?? bandFor(snap.temp);
+  const completionKey = `${snap.promptId}:${snap.mode}:${runBand}`;
+  const shownTokens = visibleTokens(
+    COMPLETION_TOKENS[completionKey] ?? [],
+    snap.output.length
+  );
+
   return (
     <div className="mb-6">
       <div className="overflow-hidden rounded-xl border border-foreground/10 bg-background">
@@ -237,10 +256,24 @@ export function Era1Playground({ presenter }: Era1PlaygroundProps) {
               className="overflow-auto whitespace-pre-wrap p-4 font-mono text-[15px] leading-7"
               style={{ height: OUTPUT_HEIGHT }}
             >
-              <span className="text-foreground">{prompt.prefix}</span>
-              <span className="text-ht-cyan-700 dark:text-ht-cyan-300">
-                {snap.output}
-              </span>
+              {prefixTokens.map((token, index) => (
+                <span
+                  className={
+                    prefixIsComment(token.k)
+                      ? "text-foreground/85 italic"
+                      : "text-[var(--tl)] dark:text-[var(--td)]"
+                  }
+                  key={`p${index}`}
+                  style={{ "--td": token.d, "--tl": token.l } as CSSProperties}
+                >
+                  {token.t}
+                </span>
+              ))}
+              {shownTokens.map((token, index) => (
+                <span className={completionClass(token.k)} key={`c${index}`}>
+                  {token.t}
+                </span>
+              ))}
               {streaming ? <span className="animate-pulse">▋</span> : null}
             </pre>
           </div>
