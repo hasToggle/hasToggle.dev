@@ -14,6 +14,9 @@ import { Era3Meter } from "./demos/era3-meter";
 import { Era3Pipeline } from "./demos/era3-pipeline";
 import { Era3Reach } from "./demos/era3-reach";
 import { Era4Runtime } from "./demos/era4-runtime";
+import { BeatFooter } from "./beat-footer";
+import { BeatSlot } from "./beat-slot";
+import { adjacentBeat, BEATS } from "./beats";
 import { EraPanel } from "./era-panel";
 import { FieldNote } from "./field-note";
 import { Intro } from "./intro";
@@ -26,6 +29,10 @@ import {
 import { StepperHeader } from "./stepper-header";
 import { getAdjacentStep, STEPS, type StepId } from "./steps";
 import { Synthesis } from "./synthesis";
+import { useBeats } from "./use-beats";
+
+/** The four failures the reach demo walks one at a time. */
+const REACH_BEATS = ["skipped", "bent", "left", "reached"] as const;
 
 const STEP_IDS = STEPS.map((s) => s.id);
 
@@ -60,6 +67,8 @@ export function Masterclass() {
     parseAsPresenterFlag.withDefault(false).withOptions({ history: "replace" })
   );
 
+  const { current: beat, go: goBeat, has } = useBeats(step, presenter);
+
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (isPresenterToggle(event) && !isTextEntryTarget(event.target)) {
@@ -71,6 +80,14 @@ export function Masterclass() {
       if (!dir || isArrowConsumingTarget(event.target)) {
         return;
       }
+      // One key for the whole talk: exhaust this step's beats, then move on.
+      if (presenter) {
+        const nextBeat = adjacentBeat(step, beat, dir);
+        if (nextBeat) {
+          goBeat(nextBeat);
+          return;
+        }
+      }
       const adjacent = getAdjacentStep(step, dir);
       if (adjacent) {
         setStep(adjacent);
@@ -78,7 +95,12 @@ export function Masterclass() {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [presenter, setPresenter, step, setStep]);
+  }, [presenter, setPresenter, step, setStep, beat, goBeat]);
+
+  const reachRevealed = presenter
+    ? REACH_BEATS.filter((id) => has(id)).length
+    : undefined;
+  const reachFenced = presenter ? has("fenced") : undefined;
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -130,13 +152,17 @@ export function Masterclass() {
                 reality="It answers now — in a browser tab, a world away from your code. You ferry context in and answers out by hand, until the chat moves into the editor and your selection becomes its context. Either way the verdict held: a senior engineer was faster. The model missed the file next door and the framework's basics, and correcting it cost more than writing it."
                 years="2022–2024"
               >
-                <Era2Extraction />
-                <p className="mb-4 max-w-2xl text-muted-foreground text-sm">
-                  Then the chat moved into the editor, and your selection became
-                  its context — no more ferrying. This is the Cursor moment.
-                  Watch what it still couldn&apos;t see:
-                </p>
-                <Era2Companion />
+                <BeatSlot show={has("tab")}>
+                  <Era2Extraction />
+                </BeatSlot>
+                <BeatSlot show={has("editor")}>
+                  <p className="mb-4 max-w-2xl text-muted-foreground text-sm">
+                    Then the chat moved into the editor, and your selection
+                    became its context — no more ferrying. This is the Cursor
+                    moment. Watch what it still couldn&apos;t see:
+                  </p>
+                  <Era2Companion />
+                </BeatSlot>
               </EraPanel>
             )}
             {step === "agentic-engineering" && (
@@ -155,18 +181,31 @@ export function Masterclass() {
                 reality="Strip the debate away: an agent is an LLM with tools, trapped in a loop. Claude Code put that loop in a terminal — barely useful at first, even on the strongest coding models. Then the loop learned to run longer; minutes became hours. You stop writing syntax and start writing the rules the loop must satisfy."
                 years="2024 → now"
               >
-                <Era3Loop />
-                <Era3Ladder />
-                <Era3Reach />
-                <p className="mt-10 mb-4 max-w-2xl text-muted-foreground text-sm">
-                  I don&apos;t write Playwright. I can say what pixel for pixel
-                  means, and I can tell when the answer is wrong. The agent
-                  wrote the measuring tool; I wrote the rule it measures against
-                  — a client&apos;s WordPress site, rebuilt in Next.js:
-                </p>
-                <Era3Harness />
-                <Era3Pipeline />
-                <Era3Meter />
+                <BeatSlot show={has("loop")}>
+                  <Era3Loop />
+                </BeatSlot>
+                <BeatSlot show={has("reading")}>
+                  <Era3Ladder />
+                </BeatSlot>
+                <BeatSlot show={has("run")}>
+                  <Era3Reach fenced={reachFenced} revealed={reachRevealed} />
+                </BeatSlot>
+                <BeatSlot show={has("parity")}>
+                  <p className="mt-10 mb-4 max-w-2xl text-muted-foreground text-sm">
+                    I don&apos;t write Playwright. I can say what pixel for
+                    pixel means, and I can tell when the answer is wrong. The
+                    agent wrote the measuring tool; I wrote the rule it measures
+                    against — a client&apos;s WordPress site, rebuilt in
+                    Next.js:
+                  </p>
+                  <Era3Harness />
+                </BeatSlot>
+                <BeatSlot show={has("lanes")}>
+                  <Era3Pipeline />
+                </BeatSlot>
+                <BeatSlot show={has("meter")}>
+                  <Era3Meter />
+                </BeatSlot>
               </EraPanel>
             )}
             {step === "outlook" && (
@@ -210,6 +249,13 @@ export function Masterclass() {
             Next →
           </Button>
         </footer>
+      )}
+      {presenter && BEATS[step].length > 0 && (
+        <>
+          {/* Reserves the height the fixed transport takes out of the viewport. */}
+          <div className="h-[4.5rem]" />
+          <BeatFooter current={beat} onSelect={goBeat} step={step} />
+        </>
       )}
     </div>
   );
