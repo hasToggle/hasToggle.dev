@@ -49,10 +49,10 @@ export function kindFromScopes(scopes: string[]): Kind {
 }
 
 const COMPLETION_CLASS: Record<Kind, string> = {
-  comment: "text-ht-cyan-700/55 italic dark:text-ht-cyan-300/75",
+  comment: "text-ht-cyan-700/70 italic dark:text-ht-cyan-300/75",
   keyword: "font-medium text-ht-cyan-700 dark:text-ht-cyan-300",
   plain: "text-ht-cyan-700 dark:text-ht-cyan-300",
-  punct: "text-ht-cyan-700/70 dark:text-ht-cyan-300/70",
+  punct: "text-ht-cyan-700/80 dark:text-ht-cyan-300/85",
   string: "text-ht-cyan-700 dark:text-ht-cyan-300",
 };
 

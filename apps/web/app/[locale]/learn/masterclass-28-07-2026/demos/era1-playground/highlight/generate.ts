@@ -6,6 +6,11 @@
  * imports it. The output is committed so the browser gets tokens, not a
  * highlighter, and so a stream cannot flicker: colours computed from finished
  * text stay put as the text is revealed.
+ *
+ * The fingerprint below only catches a source string changing. It cannot
+ * catch a `shiki` version bump changing grammars or themes underneath the
+ * committed tokens — no test can detect that drift, so re-run
+ * `bun run gen:era1-highlight` by hand after any `shiki` upgrade.
  */
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";

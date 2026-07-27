@@ -226,7 +226,8 @@ export function Era1Playground({ presenter }: Era1PlaygroundProps) {
   // text the machine never produced.
   const prefixTokens = PREFIX_TOKENS[prompt.id] ?? [];
   const runBand = snap.lastRun?.band ?? bandFor(snap.temp);
-  const completionKey = `${snap.promptId}:${snap.mode}:${runBand}`;
+  const outputMode = snap.lastRun?.mode ?? snap.mode;
+  const completionKey = `${snap.promptId}:${outputMode}:${runBand}`;
   const shownTokens = visibleTokens(
     COMPLETION_TOKENS[completionKey] ?? [],
     snap.output.length
