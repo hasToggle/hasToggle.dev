@@ -17,6 +17,13 @@ export type Kind = "comment" | "keyword" | "plain" | "punct" | "string";
  * Priority order matters. Shiki returns `// a comment` as a single token whose
  * scope list ends in `punctuation.definition.comment.js`, so a last-scope-wins
  * rule would style every comment as punctuation.
+ *
+ * This function feeds two committed token files — `era1-playground/highlight/`
+ * and `era2-companion/highlight/`. Changing it invalidates both, and Era I
+ * reads the resulting `k` values to pick colours, so a change here can send
+ * Era I's colours wrong with a fully green test suite. The same is true of
+ * each generator's `THEME` constant. No test catches this drift — after
+ * editing either, re-run every generator.
  */
 export function kindFromScopes(scopes: string[]): Kind {
   const joined = scopes.join(" ");

@@ -1,6 +1,5 @@
 "use client";
 
-import type { CSSProperties } from "react";
 import { useState } from "react";
 import {
   type ClipPhase,
@@ -94,7 +93,7 @@ export function Era2Extraction() {
               className="rounded border px-2 py-0.5 disabled:opacity-40"
               disabled={phase !== "copied"}
               onClick={() => setPhase((p) => clipTransition(p, "paste"))}
-              style={{ borderColor: RULE }}
+              style={{ borderColor: "#3c3c3c", color: EDITOR_FG }}
               type="button"
             >
               Paste
@@ -123,18 +122,17 @@ export function Era2Extraction() {
             {pasted ? (
               EDITOR_TOKENS.map((line, lineIndex) => (
                 <div key={`l${lineIndex}`}>
-                  {line.map((token, tokenIndex) => (
-                    <span
-                      key={`t${tokenIndex}`}
-                      style={{ color: token.c } as CSSProperties}
-                    >
-                      {token.t}
-                    </span>
-                  ))}
+                  {line.length === 0
+                    ? " "
+                    : line.map((token, tokenIndex) => (
+                        <span key={`t${tokenIndex}`} style={{ color: token.c }}>
+                          {token.t}
+                        </span>
+                      ))}
                 </div>
               ))
             ) : (
-              <div className="italic" style={{ color: GUTTER_FG }}>
+              <div className="italic" style={{ color: EDITOR_DIM }}>
                 {phase === "copied" ? PLACEHOLDER.copied : PLACEHOLDER.idle}
               </div>
             )}
@@ -152,7 +150,7 @@ export function Era2Extraction() {
           </p>
         ) : null}
         <button
-          className="ml-auto shrink-0 font-mono text-muted-foreground text-xs hover:text-foreground"
+          className="ml-auto shrink-0 rounded border border-foreground/15 px-2 py-1 font-mono text-muted-foreground text-xs hover:text-foreground"
           onClick={() => setPhase("idle")}
           type="button"
         >
