@@ -17,6 +17,25 @@ const BAD_BG = "#5a1d1d";
  *  beats read as a pair rather than as two arbitrary colours. */
 const ADDED_BG = "#1d3a1d";
 
+/**
+ * The demo grows as the presenter drives it — Apply adds four lines and a
+ * banner, Fix adds two more — and every one of those shoved the rest of the
+ * page down. So the console reserves its tallest state from the first frame.
+ *
+ * Derived from the token data rather than guessed, so new copy cannot quietly
+ * outgrow the reservation: the initial phase also renders a ghost row, which is
+ * why it is counted here and not just in `rowCount`.
+ */
+const MAX_ROWS = Math.max(
+  ...(Object.keys(FILE_TOKENS) as FilePhase[]).map(
+    (phase) => FILE_TOKENS[phase].length + (phase === "initial" ? 1 : 0)
+  )
+);
+/** `MAX_ROWS` at leading-6, plus the code area's py-3 top and bottom. */
+const CODE_MIN_HEIGHT = `calc(${MAX_ROWS} * 1.5rem + 1.5rem)`;
+/** Tall enough for the amber banner, which is the taller of the two. */
+const BANNER_MIN_HEIGHT = "min-h-13";
+
 export function Era2Companion() {
   const [phase, setPhase] = useState<FilePhase>("initial");
   const [ghostAccepted, setGhostAccepted] = useState(false);
@@ -100,7 +119,7 @@ export function Era2Companion() {
                 gutter beside it. */}
             <div
               className="flex-1 overflow-x-auto whitespace-pre px-3 py-3"
-              style={{ color: EDITOR_FG }}
+              style={{ color: EDITOR_FG, minHeight: CODE_MIN_HEIGHT }}
             >
               {lines.map((tokens, lineIndex) => (
                 <div key={`l${lineIndex}`} style={rowBackground(lineIndex)}>
@@ -195,27 +214,32 @@ export function Era2Companion() {
         </div>
       </div>
 
-      {phase === "applied" && (
-        <div className="flex items-center justify-between gap-3 bg-amber-50 px-4 py-3 text-amber-900 text-sm dark:bg-amber-950/40 dark:text-amber-200">
-          <span>
-            Applied — but <code>{SUGGESTION.missingRef}</code> isn&apos;t
-            imported in this file. It only saw the selection, not the system.
-          </span>
-          <button
-            className="shrink-0 rounded-md bg-amber-600 px-3 py-1 text-white"
-            onClick={fix}
-            type="button"
-          >
-            Fix it yourself
-          </button>
-        </div>
-      )}
-      {phase === "resolved" && (
-        <div className="bg-emerald-50 px-4 py-3 text-emerald-800 text-sm dark:bg-emerald-950/40 dark:text-emerald-200">
-          You added the import. You were the integration layer — every accept,
-          file by file.
-        </div>
-      )}
+      {/* The banner slot is always here, so a verdict arriving does not shove
+          the page. `min-h` rather than a fixed height: at narrow widths the
+          amber line wraps, and growing is better than clipping. */}
+      <div className={`flex ${BANNER_MIN_HEIGHT}`}>
+        {phase === "applied" && (
+          <div className="flex flex-1 items-center justify-between gap-3 bg-amber-50 px-4 py-2 text-amber-900 text-sm dark:bg-amber-950/40 dark:text-amber-200">
+            <span>
+              Applied — but <code>{SUGGESTION.missingRef}</code> isn&apos;t
+              imported in this file. It only saw the selection, not the system.
+            </span>
+            <button
+              className="shrink-0 rounded-md bg-amber-600 px-3 py-1 text-white"
+              onClick={fix}
+              type="button"
+            >
+              Fix it yourself
+            </button>
+          </div>
+        )}
+        {phase === "resolved" && (
+          <div className="flex flex-1 items-center bg-emerald-50 px-4 py-2 text-emerald-800 text-sm dark:bg-emerald-950/40 dark:text-emerald-200">
+            You added the import. You were the integration layer — every accept,
+            file by file.
+          </div>
+        )}
+      </div>
     </div>
   );
 }
