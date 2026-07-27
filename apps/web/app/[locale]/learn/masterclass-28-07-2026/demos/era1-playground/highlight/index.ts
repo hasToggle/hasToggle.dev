@@ -8,6 +8,8 @@
  * Shiki must never be imported here: this module reaches the browser.
  */
 
+import type { PromptSeed } from "../selector";
+
 export type Kind = "comment" | "keyword" | "plain" | "punct" | "string";
 
 export interface PrefixToken {
@@ -94,4 +96,29 @@ export function visibleTokens(
     }
   }
   return out;
+}
+
+/**
+ * A cheap stand-in for regenerating. Token data cannot drift unless one of the
+ * source strings changes, so hashing the sources catches the real hazard — a
+ * completion edited without re-running the generator — without loading Shiki
+ * grammars into a suite that otherwise finishes in milliseconds.
+ */
+export function fingerprintSources(prompts: readonly PromptSeed[]): string {
+  const parts: string[] = [];
+  for (const p of [...prompts].sort((a, b) => a.id.localeCompare(b.id))) {
+    parts.push(p.id, p.prefix);
+    for (const band of ["high", "low", "mid"] as const) {
+      parts.push(p.continuations[band], p.instructAnswers[band]);
+    }
+  }
+  const joined = parts.join("");
+  let h1 = 0x81_1c_9d_c5;
+  for (let i = 0; i < joined.length; i += 1) {
+    // biome-ignore lint/suspicious/noBitwiseOperators: FNV-1a hash requires XOR and unsigned-shift
+    h1 ^= joined.charCodeAt(i);
+    // biome-ignore lint/suspicious/noBitwiseOperators: FNV-1a hash requires XOR and unsigned-shift
+    h1 = Math.imul(h1, 0x01_00_01_93) >>> 0;
+  }
+  return `${h1.toString(16).padStart(8, "0")}-${joined.length.toString(16)}`;
 }

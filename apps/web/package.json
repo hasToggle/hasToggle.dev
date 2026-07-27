@@ -8,6 +8,7 @@
     "analyze": "ANALYZE=true npm run build",
     "test": "bun test",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "gen:era1-highlight": "bun run \"./app/[locale]/learn/masterclass-28-07-2026/demos/era1-playground/highlight/generate.ts\"",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
