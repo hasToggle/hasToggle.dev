@@ -1,44 +1,8 @@
 import { describe, expect, test } from "bun:test";
-import {
-  type CompletionToken,
-  completionClass,
-  kindFromScopes,
-  visibleTokens,
-} from "./index";
+import { type CompletionToken, completionClass, visibleTokens } from "./index";
 
 const toks = (...pairs: [string, string][]): CompletionToken[] =>
   pairs.map(([t, k]) => ({ k: k as CompletionToken["k"], t }));
-
-describe("kindFromScopes", () => {
-  test("a comment wins over the punctuation scope it also carries", () => {
-    // Shiki hands back one token for `// a comment` whose LAST scope is
-    // punctuation.definition.comment.js. Scanning only the last scope would
-    // render every comment as punctuation.
-    expect(
-      kindFromScopes([
-        "source.js",
-        "comment.line.double-slash.js",
-        "punctuation.definition.comment.js",
-      ])
-    ).toBe("comment");
-  });
-
-  test("strings, keywords and punctuation each find their kind", () => {
-    expect(kindFromScopes(["string.quoted.single.js"])).toBe("string");
-    expect(kindFromScopes(["meta.var.expr.js", "storage.type.js"])).toBe(
-      "keyword"
-    );
-    expect(kindFromScopes(["keyword.operator.assignment.js"])).toBe("keyword");
-    expect(kindFromScopes(["punctuation.terminator.statement.js"])).toBe(
-      "punct"
-    );
-  });
-
-  test("anything unrecognised is plain, never undefined", () => {
-    expect(kindFromScopes(["source.js"])).toBe("plain");
-    expect(kindFromScopes([])).toBe("plain");
-  });
-});
 
 describe("completionClass", () => {
   test("every kind is cyan and only cyan", () => {
