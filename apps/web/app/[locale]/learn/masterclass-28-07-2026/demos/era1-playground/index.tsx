@@ -33,8 +33,6 @@ const VERDICT_DELAY_MS = 1500;
 /** `OUTPUT_LINES` at leading-7, plus p-4 top and bottom. */
 const OUTPUT_HEIGHT = `calc(${OUTPUT_LINES} * 1.75rem + 2rem)`;
 
-const DIAL_WHISPER = "temperature — how much the dice get to decide";
-
 interface Era1PlaygroundProps {
   presenter: boolean;
 }
@@ -210,11 +208,10 @@ export function Era1Playground({ presenter }: Era1PlaygroundProps) {
   });
   const prompt = PROMPTS.find((p) => p.id === snap.promptId) ?? PROMPTS[0];
 
-  // One slot, one line: the run's verdict, or the dial's whisper before any
-  // run, or nothing. Both regions this replaces used to appear and disappear.
-  const line =
-    snap.verdict ??
-    (disposition.showDial && snap.lastRun === null ? DIAL_WHISPER : "");
+  // One slot, one line, and it stays empty until a run at this beat has earned
+  // something to say. Arriving at a beat says nothing: the presenter is talking,
+  // and a caption waiting on screen is the page speaking over him.
+  const line = snap.verdict ?? "";
 
   return (
     <div className="mb-6">
