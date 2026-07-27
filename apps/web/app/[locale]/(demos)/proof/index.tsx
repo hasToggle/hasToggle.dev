@@ -2,9 +2,7 @@
 
 import { Button } from "@repo/design-system/components/ui/button";
 import { useState } from "react";
-import { Expandable } from "../../components/expandable";
 import { MetaAside } from "../../components/meta-aside";
-import { IncidentEssay } from "./incident-essay";
 
 type Stage = "surface" | "revealed";
 
@@ -32,13 +30,10 @@ export function Proof() {
       </div>
 
       <MetaAside className="mt-8 max-w-prose" variant="block">
-        A check that can transform input into compliance isn&apos;t a check.
-        It&apos;s a translator.
+        The Unix epoch was supposed to be a sensible default for “the beginning
+        of time.” It works fine until the beginning of time starts showing up in
+        your production data.
       </MetaAside>
-
-      <Expandable label="Did you know? The day the records vanished.">
-        <IncidentEssay />
-      </Expandable>
     </div>
   );
 }
