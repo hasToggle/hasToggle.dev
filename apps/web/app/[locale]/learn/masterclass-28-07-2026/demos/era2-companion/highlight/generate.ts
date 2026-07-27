@@ -5,10 +5,15 @@
  *
  * Imports Shiki and is never bundled — nothing in the client tree imports it.
  *
- * The fingerprint below only catches THREAD_ANSWER changing. It cannot catch a
- * `shiki` version bump changing grammars or themes underneath the committed
- * tokens — no test can detect that drift, so re-run this by hand after any
- * `shiki` upgrade.
+ * Two fingerprints are committed alongside the tokens: SOURCE_FINGERPRINT over
+ * THREAD_ANSWER, and FILE_FINGERPRINT over the three rendered file states
+ * (initial, applied, resolved). Each only catches its own source text
+ * changing. Neither hashes the tokens themselves — both hash source, which is
+ * merely an input to tokenisation — so a `shiki` version bump, a theme
+ * change, or an edit to the shared `kindFromScopes` can change the committed
+ * colours while both fingerprints stay put and the suite stays green. No test
+ * can detect that drift; re-run this by hand after any `shiki` upgrade or any
+ * change to `kindFromScopes`.
  */
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";

@@ -84,13 +84,28 @@ describe("era2 companion file tokens", () => {
     }
   });
 
-  test("the resolved state really does contain an empty line", () => {
-    // Not trivia: it is why the renderer must emit a space for a zero-token
-    // line. Without that the row collapses and the gutter slips by one for
-    // every line below it.
-    expect(FILE_TOKENS.resolved.some((tokens) => tokens.length === 0)).toBe(
-      true
+  test("a zero-token line must still be rendered as a space — index.tsx depends on it", () => {
+    // A <div> with no inline content forms no line box and collapses to zero
+    // height, while its gutter digit is a full line tall. Every row below would
+    // then be off by one. index.tsx guards this with `tokens.length === 0 ? " "`.
+    // This test exists so deleting that guard is a deliberate act, not a tidy-up.
+    const emptyLines = FILE_TOKENS.resolved.filter(
+      (tokens) => tokens.length === 0
     );
+    expect(emptyLines.length).toBeGreaterThan(0);
+    for (const tokens of emptyLines) {
+      expect(tokens.map((t) => t.t).join("")).toBe("");
+    }
+  });
+
+  test("every token carries a colour", () => {
+    for (const [phase] of states) {
+      for (const tokens of FILE_TOKENS[phase]) {
+        for (const token of tokens) {
+          expect(token.c).toMatch(HEX_COLOR);
+        }
+      }
+    }
   });
 
   test("the applied state still contains the reference that is missing", () => {
