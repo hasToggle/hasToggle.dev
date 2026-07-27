@@ -13,6 +13,9 @@ const EDITOR_DIM = "#858585";
 const GUTTER_FG = "#6e7681";
 const RULE = "#2b2b2b";
 const BAD_BG = "#5a1d1d";
+/** VS Code's diff-added tint. Deliberately the opposite of BAD_BG, so the two
+ *  beats read as a pair rather than as two arbitrary colours. */
+const ADDED_BG = "#1d3a1d";
 
 export function Era2Companion() {
   const [phase, setPhase] = useState<FilePhase>("initial");
@@ -28,17 +31,32 @@ export function Era2Companion() {
   const lines = FILE_TOKENS[phase];
   const ghostShowing = phase === "initial";
   const rowCount = lines.length + (ghostShowing ? 1 : 0);
+  const lineText = (tokens: (typeof lines)[number]) =>
+    tokens.map((t) => t.t).join("");
   // The beat: the model wrote a call to something this file never imports.
   // Found by scanning the tokens, so it stays true if the copy is re-tokenised.
   const badIndex =
     phase === "applied"
       ? lines.findIndex((tokens) =>
-          tokens
-            .map((t) => t.t)
-            .join("")
-            .includes(SUGGESTION.missingRef)
+          lineText(tokens).includes(SUGGESTION.missingRef)
         )
       : -1;
+  // Fixing prepends the import *and* a blank line, so every line the room was
+  // looking at shifts down two. Marking the line that arrived gives the eye
+  // somewhere to land instead of re-reading the whole file.
+  const addedIndex =
+    phase === "resolved"
+      ? lines.findIndex((tokens) => lineText(tokens) === SUGGESTION.fixLine)
+      : -1;
+  // Both are -1 unless their phase is live, so at most one can ever match.
+  const rowBackground = (lineIndex: number) => {
+    if (lineIndex === badIndex) {
+      return { backgroundColor: BAD_BG };
+    }
+    if (lineIndex === addedIndex) {
+      return { backgroundColor: ADDED_BG };
+    }
+  };
 
   return (
     <div
@@ -85,14 +103,7 @@ export function Era2Companion() {
               style={{ color: EDITOR_FG }}
             >
               {lines.map((tokens, lineIndex) => (
-                <div
-                  key={`l${lineIndex}`}
-                  style={
-                    lineIndex === badIndex
-                      ? { backgroundColor: BAD_BG }
-                      : undefined
-                  }
-                >
+                <div key={`l${lineIndex}`} style={rowBackground(lineIndex)}>
                   {tokens.length === 0
                     ? " "
                     : tokens.map((token, tokenIndex) => (
