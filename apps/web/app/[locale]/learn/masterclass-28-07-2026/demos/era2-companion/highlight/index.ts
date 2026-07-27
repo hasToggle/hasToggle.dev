@@ -16,3 +16,10 @@ export interface EditorToken {
   k: Kind;
   t: string;
 }
+
+/**
+ * The three states the companion demo's file passes through. They are
+ * deterministic — `applySuggestion` and `resolveMismatch` are pure — so all
+ * three are tokenised at author time rather than at render.
+ */
+export type FilePhase = "applied" | "initial" | "resolved";
