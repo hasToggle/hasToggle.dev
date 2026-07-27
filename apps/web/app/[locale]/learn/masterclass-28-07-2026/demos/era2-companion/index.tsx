@@ -1,100 +1,179 @@
 "use client";
 
 import { useState } from "react";
-import {
-  applySuggestion,
-  INITIAL_FILE,
-  resolveMismatch,
-  SUGGESTION,
-} from "./apply";
+import { SUGGESTION } from "./apply";
+import type { FilePhase } from "./highlight/index";
+import { FILE_TOKENS } from "./highlight/tokens.generated";
 
-type Phase = "initial" | "applied" | "resolved";
+/** VS Code Dark+, held deliberately outside the page's theme. */
+const EDITOR_BG = "#1e1e1e";
+const TABSTRIP_BG = "#252526";
+const EDITOR_FG = "#d4d4d4";
+const EDITOR_DIM = "#858585";
+const GUTTER_FG = "#6e7681";
+const RULE = "#2b2b2b";
+const BAD_BG = "#5a1d1d";
 
 export function Era2Companion() {
-  const [phase, setPhase] = useState<Phase>("initial");
-  const [file, setFile] = useState(INITIAL_FILE);
+  const [phase, setPhase] = useState<FilePhase>("initial");
   const [ghostAccepted, setGhostAccepted] = useState(false);
 
-  const apply = () => {
-    const { file: next } = applySuggestion(INITIAL_FILE, SUGGESTION);
-    setFile(next);
-    setPhase("applied");
-  };
-  const fix = () => {
-    setFile((f) => resolveMismatch(f, SUGGESTION));
-    setPhase("resolved");
-  };
+  const apply = () => setPhase("applied");
+  const fix = () => setPhase("resolved");
   const reset = () => {
-    setFile(INITIAL_FILE);
     setPhase("initial");
     setGhostAccepted(false);
   };
 
-  return (
-    <div className="overflow-hidden rounded-xl border border-foreground/10">
-      <div className="grid md:grid-cols-[1.4fr_1fr]">
-        {/* editor */}
-        <div className="bg-[#1e1e1e] p-4 font-mono text-[#d4d4d4] text-xs leading-6">
-          <div className="mb-2 text-[#858585]">checkout.js</div>
-          {file.lines.map((line, i) => {
-            const bad =
-              phase === "applied" && line.includes(SUGGESTION.missingRef);
-            return (
-              <div
-                className={bad ? "bg-[#5a1d1d]" : undefined}
-                key={`${i}-${line}`}
-              >
-                {line || " "}
-              </div>
-            );
-          })}
-          {phase === "initial" && (
-            <button
-              className="mt-1 block w-full text-left text-[#858585] italic hover:text-[#bbb]"
-              onClick={() => setGhostAccepted(true)}
-              type="button"
-            >
-              {ghostAccepted
-                ? "  // discount applied"
-                : "  // ghost: press to accept →"}
-            </button>
-          )}
-        </div>
+  const lines = FILE_TOKENS[phase];
+  const ghostShowing = phase === "initial";
+  const rowCount = lines.length + (ghostShowing ? 1 : 0);
+  // The beat: the model wrote a call to something this file never imports.
+  // Found by scanning the tokens, so it stays true if the copy is re-tokenised.
+  const badIndex =
+    phase === "applied"
+      ? lines.findIndex((tokens) =>
+          tokens
+            .map((t) => t.t)
+            .join("")
+            .includes(SUGGESTION.missingRef)
+        )
+      : -1;
 
-        {/* chat panel */}
-        <div className="bg-[#252526] p-4 text-[#ccc] text-xs">
-          <div className="mb-2 text-[#858585] uppercase tracking-wide">
-            Chat
+  return (
+    <div
+      className="overflow-hidden rounded-xl border border-foreground/10"
+      style={{ backgroundColor: EDITOR_BG }}
+    >
+      {/* One window. The chat is docked inside it — that is the Cursor moment,
+          and it is what distinguishes this demo from the two-window one above. */}
+      <div className="grid md:grid-cols-[1.4fr_1fr]">
+        <div>
+          <div
+            className="flex items-stretch font-mono text-[11px]"
+            style={{ backgroundColor: TABSTRIP_BG }}
+          >
+            {/* The active tab takes the code area's fill and merges downward. */}
+            <span
+              className="flex items-center gap-2 px-3 py-2"
+              style={{ backgroundColor: EDITOR_BG, color: EDITOR_FG }}
+            >
+              <span
+                aria-hidden="true"
+                className="size-2 rounded-sm"
+                style={{ backgroundColor: "#e5c07b" }}
+              />
+              checkout.js
+            </span>
           </div>
-          <div className="mb-2 rounded bg-[#2d2d30] px-2 py-1.5">
-            add validation so an unknown code doesn&apos;t crash
-          </div>
-          <div className="rounded border border-[#3c3c3c] bg-[#1e1e1e] p-2 font-mono leading-5">
-            {SUGGESTION.code.map((l) => (
-              <div key={l}>{l}</div>
-            ))}
-            <div className="mt-2 flex gap-2">
-              <button
-                className="rounded bg-ht-cyan-600 px-2 py-1 text-[11px] text-white disabled:opacity-40"
-                disabled={phase !== "initial"}
-                onClick={apply}
-                type="button"
-              >
-                Apply
-              </button>
-              <button
-                className="rounded border border-[#555] px-2 py-1 text-[#aaa] text-[11px]"
-                onClick={reset}
-                type="button"
-              >
-                Reset
-              </button>
+
+          <div className="flex font-mono text-[13px] leading-6">
+            <div
+              aria-hidden="true"
+              className="select-none border-r px-3 py-3 text-right"
+              style={{ borderColor: RULE, color: GUTTER_FG }}
+            >
+              {Array.from({ length: rowCount }, (_, i) => (
+                <div key={`ln${i + 1}`}>{i + 1}</div>
+              ))}
+            </div>
+            {/* `whitespace-pre` keeps the indentation HTML would otherwise
+                collapse, and stops a long line wrapping out of step with the
+                gutter beside it. */}
+            <div
+              className="flex-1 overflow-x-auto whitespace-pre px-3 py-3"
+              style={{ color: EDITOR_FG }}
+            >
+              {lines.map((tokens, lineIndex) => (
+                <div
+                  key={`l${lineIndex}`}
+                  style={
+                    lineIndex === badIndex
+                      ? { backgroundColor: BAD_BG }
+                      : undefined
+                  }
+                >
+                  {tokens.length === 0
+                    ? " "
+                    : tokens.map((token, tokenIndex) => (
+                        <span key={`t${tokenIndex}`} style={{ color: token.c }}>
+                          {token.t}
+                        </span>
+                      ))}
+                </div>
+              ))}
+              {/* `hover:brightness-125` rather than a `hover:text-*` class: the
+                  colour is an inline style, and inline styles beat classes, so
+                  a hover colour utility would never appear. A filter is not
+                  competing with the style attribute, so it does. */}
+              {ghostShowing ? (
+                <button
+                  className="block w-full text-left italic hover:brightness-125"
+                  onClick={() => setGhostAccepted(true)}
+                  style={{ color: EDITOR_DIM }}
+                  type="button"
+                >
+                  {ghostAccepted
+                    ? "  // discount applied"
+                    : "  // ghost: press to accept →"}
+                </button>
+              ) : null}
             </div>
           </div>
-          <p className="mt-2 text-[#858585] italic">
-            It can&apos;t run it. It can&apos;t see the rest of your repo. You
-            decide if it&apos;s right — and you move it.
-          </p>
+        </div>
+
+        {/* The chat, docked as a side panel rather than a second region. */}
+        <div className="border-l" style={{ borderColor: RULE }}>
+          <div
+            className="border-b px-3 py-2 font-mono text-[11px] uppercase tracking-wide"
+            style={{
+              backgroundColor: TABSTRIP_BG,
+              borderColor: RULE,
+              color: EDITOR_DIM,
+            }}
+          >
+            Chat
+          </div>
+          <div className="p-3 text-xs" style={{ color: "#ccc" }}>
+            <div
+              className="mb-2 rounded px-2 py-1.5"
+              style={{ backgroundColor: "#2d2d30" }}
+            >
+              add validation so an unknown code doesn&apos;t crash
+            </div>
+            {/* Uncoloured on purpose: this is a proposal, not yet your code —
+                which is the whole point the demo is about to make. */}
+            <div
+              className="rounded border p-2 font-mono leading-5"
+              style={{ backgroundColor: EDITOR_BG, borderColor: "#3c3c3c" }}
+            >
+              {SUGGESTION.code.map((l) => (
+                <div key={l}>{l}</div>
+              ))}
+              <div className="mt-2 flex gap-2">
+                <button
+                  className="rounded bg-ht-cyan-600 px-2 py-1 text-[11px] text-white disabled:opacity-40"
+                  disabled={phase !== "initial"}
+                  onClick={apply}
+                  type="button"
+                >
+                  Apply
+                </button>
+                <button
+                  className="rounded border px-2 py-1 text-[11px]"
+                  onClick={reset}
+                  style={{ borderColor: "#555", color: "#aaa" }}
+                  type="button"
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
+            <p className="mt-2 italic" style={{ color: EDITOR_DIM }}>
+              It can&apos;t run it. It can&apos;t see the rest of your repo. You
+              decide if it&apos;s right — and you move it.
+            </p>
+          </div>
         </div>
       </div>
 
