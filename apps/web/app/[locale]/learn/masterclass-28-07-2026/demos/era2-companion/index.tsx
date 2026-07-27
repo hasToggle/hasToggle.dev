@@ -162,8 +162,15 @@ export function Era2Companion() {
                 <div key={l}>{l}</div>
               ))}
               <div className="mt-2 flex gap-2">
+                {/* Dark label on the cyan, not white: ht-cyan-600 is #00bbd2,
+                    and white on it measures 2.32:1 — confident-looking and well
+                    under AA. Dark ink gets 7.09:1 on the same fill.
+                    The disabled state sets its own pair rather than fading the
+                    whole button, because element opacity composites text *and*
+                    fill toward the panel and crushes the ratio between them to
+                    2.56:1. An explicit muted pair holds 6.31:1. */}
                 <button
-                  className="rounded bg-ht-cyan-600 px-2 py-1 text-[11px] text-white disabled:opacity-40"
+                  className="rounded bg-ht-cyan-600 px-2 py-1 text-[#0f2327] text-[11px] disabled:bg-[#2a3c3f] disabled:text-[#a8c3c7]"
                   disabled={phase !== "initial"}
                   onClick={apply}
                   type="button"
