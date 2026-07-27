@@ -68,7 +68,7 @@ export function Era3Reach({ revealed, fenced }: Era3ReachProps) {
 
   return (
     <div className="mt-10 rounded-xl border border-foreground/10 p-4 sm:p-6">
-      <p className="font-medium text-sm">Everything it could reach</p>
+      <p className="font-medium text-sm">Nothing was outside the loop</p>
       <p className="mt-1 max-w-2xl text-muted-foreground text-sm">
         One instruction, on a repo where nothing was fenced off.
       </p>
@@ -140,16 +140,16 @@ export function Era3Reach({ revealed, fenced }: Era3ReachProps) {
               {showFence ? (
                 <div className="fade-in animate-in rounded-lg border border-foreground/10 bg-foreground/[0.03] p-3 duration-300">
                   <p className="font-mono text-[11px] text-muted-foreground">
-                    in reach
+                    inside the loop
                   </p>
                   <p className="mt-1 font-mono text-foreground/70 text-xs">
-                    {r.inReach}
+                    {r.insideLoop}
                   </p>
                   <p className="mt-3 font-mono text-[11px] text-muted-foreground">
-                    out of reach
+                    outside the loop
                   </p>
                   <p className="mt-1 font-mono text-ht-cyan-700 text-xs dark:text-ht-cyan-300">
-                    {r.outOfReach}
+                    {r.outsideLoop}
                   </p>
                 </div>
               ) : null}

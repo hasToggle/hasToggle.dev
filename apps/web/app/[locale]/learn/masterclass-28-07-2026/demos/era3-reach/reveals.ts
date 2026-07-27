@@ -7,11 +7,12 @@ export type Evidence =
 export interface Reveal {
   evidence: Evidence;
   id: RevealId;
-  inReach: string;
+  /** The check as it stood: inside the thing it was meant to constrain. */
+  insideLoop: string;
   label: string;
   /** States what happened, then names the mechanism. Nothing else. */
   line: string;
-  outOfReach: string;
+  outsideLoop: string;
 }
 
 export const REVEALS: readonly Reveal[] = [
@@ -24,10 +25,10 @@ export const REVEALS: readonly Reveal[] = [
       ],
     },
     id: "skipped",
-    inReach: '"run lint after every edit" in CLAUDE.md',
+    insideLoop: '"run lint after every edit" in CLAUDE.md',
     label: "what it skipped",
     line: "It didn't refuse. It never came up.",
-    outOfReach: "pre-commit hook — the commit is refused",
+    outsideLoop: "pre-commit hook — the commit is refused",
   },
   {
     evidence: {
@@ -36,18 +37,18 @@ export const REVEALS: readonly Reveal[] = [
       removed: 'expect(validate("SAVE10")).toBe(true)',
     },
     id: "bent",
-    inReach: "Write(checkout.test.js)",
+    insideLoop: "Write(checkout.test.js)",
     label: "what it bent",
     line: "You asked for green. That is the shortest way to green.",
-    outOfReach: "test files denied to the edit tool",
+    outsideLoop: "test files denied to the edit tool",
   },
   {
     evidence: { kind: "lines", lines: ["checkout.js — 3 TODOs, still there."] },
     id: "left",
-    inReach: "the agent types done.",
+    insideLoop: "the agent types done.",
     label: "what it left",
     line: "It stopped the same way the 2019 machine stopped. The pattern looked finished.",
-    outOfReach: "the harness owns the exit phrase",
+    outsideLoop: "the harness owns the exit phrase",
   },
   {
     evidence: {
@@ -55,12 +56,12 @@ export const REVEALS: readonly Reveal[] = [
       lines: ["TRUNCATE discounts — 4,312 rows."],
     },
     id: "reached",
-    inReach: "DATABASE_URL, full access",
+    insideLoop: "DATABASE_URL, full access",
     label: "what it reached",
-    line: "The fixture was dirty, so it cleaned it. The key was in .env, and .env was in reach.",
-    outOfReach: "read-only role — permission denied: discounts",
+    line: "The fixture was dirty, so it cleaned it. The key was in .env, and nothing said it couldn't use it.",
+    outsideLoop: "read-only role — permission denied: discounts",
   },
 ] as const;
 
 export const VERDICT =
-  "Every fence here is something the loop can't type its way past. That's the only kind that holds.";
+  "Every fence here sits outside the loop. Inside it, a rule is a request.";

@@ -13,8 +13,8 @@ describe("REVEALS", () => {
 
   test("every row carries both columns of the annotation", () => {
     for (const r of REVEALS) {
-      expect(r.inReach.length).toBeGreaterThan(0);
-      expect(r.outOfReach.length).toBeGreaterThan(0);
+      expect(r.insideLoop.length).toBeGreaterThan(0);
+      expect(r.outsideLoop.length).toBeGreaterThan(0);
     }
   });
 
