@@ -131,7 +131,7 @@ export function Footer() {
             </div>
             <div>
               <div className="py-3 text-center text-muted-foreground text-sm/6">
-                You just picked up six new defenses. We&apos;ll be using them.
+                You just picked up five new defenses. We&apos;ll be using them.
                 Welcome to hasToggle.
               </div>
             </div>
