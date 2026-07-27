@@ -216,8 +216,14 @@ export function Era2Companion() {
 
       {/* The banner slot is always here, so a verdict arriving does not shove
           the page. `min-h` rather than a fixed height: at narrow widths the
-          amber line wraps, and growing is better than clipping. */}
-      <div className={`flex ${BANNER_MIN_HEIGHT}`}>
+          amber line wraps, and growing is better than clipping.
+          Its top rule is what the gutter and the panel divider terminate into —
+          without it they stop at the grid's edge and dangle in the reserved
+          space below. An editor's gutter ends at a bar, not in mid-air. */}
+      <div
+        className={`flex border-t ${BANNER_MIN_HEIGHT}`}
+        style={{ borderColor: RULE }}
+      >
         {phase === "applied" && (
           <div className="flex flex-1 items-center justify-between gap-3 bg-amber-50 px-4 py-2 text-amber-900 text-sm dark:bg-amber-950/40 dark:text-amber-200">
             <span>
