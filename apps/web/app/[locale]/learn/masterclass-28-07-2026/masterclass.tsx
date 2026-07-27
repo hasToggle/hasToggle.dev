@@ -12,6 +12,7 @@ import { Era3Ladder } from "./demos/era3-ladder";
 import { Era3Loop } from "./demos/era3-loop";
 import { Era3Meter } from "./demos/era3-meter";
 import { Era3Pipeline } from "./demos/era3-pipeline";
+import { Era3Reach } from "./demos/era3-reach";
 import { Era4Runtime } from "./demos/era4-runtime";
 import { EraPanel } from "./era-panel";
 import { FieldNote } from "./field-note";
@@ -155,13 +156,15 @@ export function Masterclass() {
                 years="2024 → now"
               >
                 <Era3Loop />
-                <p className="mb-4 max-w-2xl text-muted-foreground text-sm">
-                  Here it is with real stakes: a client&apos;s WordPress site,
-                  rebuilt in Next.js, pixel for pixel. I wrote the rules. The
-                  agent runs until they&apos;re met:
+                <Era3Ladder />
+                <Era3Reach />
+                <p className="mt-10 mb-4 max-w-2xl text-muted-foreground text-sm">
+                  I don&apos;t write Playwright. I can say what pixel for pixel
+                  means, and I can tell when the answer is wrong. The agent
+                  wrote the measuring tool; I wrote the rule it measures against
+                  — a client&apos;s WordPress site, rebuilt in Next.js:
                 </p>
                 <Era3Harness />
-                <Era3Ladder />
                 <Era3Pipeline />
                 <Era3Meter />
               </EraPanel>

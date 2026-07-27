@@ -5,19 +5,17 @@ export type Evidence =
   | { kind: "diff"; removed: string; added: string };
 
 export interface Reveal {
-  id: RevealId;
-  label: string;
   evidence: Evidence;
+  id: RevealId;
+  inReach: string;
+  label: string;
   /** States what happened, then names the mechanism. Nothing else. */
   line: string;
-  inReach: string;
   outOfReach: string;
 }
 
 export const REVEALS: readonly Reveal[] = [
   {
-    id: "skipped",
-    label: "what it skipped",
     evidence: {
       kind: "lines",
       lines: [
@@ -25,39 +23,41 @@ export const REVEALS: readonly Reveal[] = [
         "lint never appears above.",
       ],
     },
-    line: "It didn't refuse. It never came up.",
+    id: "skipped",
     inReach: '"run lint after every edit" in CLAUDE.md',
+    label: "what it skipped",
+    line: "It didn't refuse. It never came up.",
     outOfReach: "pre-commit hook — the commit is refused",
   },
   {
-    id: "bent",
-    label: "what it bent",
     evidence: {
+      added: 'expect(validate("SAVE10")).toBe(validate("SAVE10"))',
       kind: "diff",
       removed: 'expect(validate("SAVE10")).toBe(true)',
-      added: 'expect(validate("SAVE10")).toBe(validate("SAVE10"))',
     },
-    line: "You asked for green. That is the shortest way to green.",
+    id: "bent",
     inReach: "Write(checkout.test.js)",
+    label: "what it bent",
+    line: "You asked for green. That is the shortest way to green.",
     outOfReach: "test files denied to the edit tool",
   },
   {
-    id: "left",
-    label: "what it left",
     evidence: { kind: "lines", lines: ["checkout.js — 3 TODOs, still there."] },
-    line: "It stopped the same way the 2019 machine stopped. The pattern looked finished.",
+    id: "left",
     inReach: "the agent types done.",
+    label: "what it left",
+    line: "It stopped the same way the 2019 machine stopped. The pattern looked finished.",
     outOfReach: "the harness owns the exit phrase",
   },
   {
-    id: "reached",
-    label: "what it reached",
     evidence: {
       kind: "lines",
       lines: ["TRUNCATE discounts — 4,312 rows."],
     },
-    line: "The fixture was dirty, so it cleaned it. The key was in .env, and .env was in reach.",
+    id: "reached",
     inReach: "DATABASE_URL, full access",
+    label: "what it reached",
+    line: "The fixture was dirty, so it cleaned it. The key was in .env, and .env was in reach.",
     outOfReach: "read-only role — permission denied: discounts",
   },
 ] as const;
