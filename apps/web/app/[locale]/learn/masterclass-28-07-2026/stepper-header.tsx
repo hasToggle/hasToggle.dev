@@ -10,10 +10,7 @@ interface StepperHeaderProps {
 
 export function StepperHeader({ current, onSelect }: StepperHeaderProps) {
   return (
-    <nav
-      aria-label="Masterclass progress"
-      className="sticky top-0 z-10 border-foreground/10 border-b bg-background/80 backdrop-blur"
-    >
+    <nav aria-label="Masterclass progress">
       <ol className="mx-auto flex max-w-5xl items-stretch px-4">
         {STEPS.map((step: Step) => {
           const active = step.id === current;
@@ -43,10 +40,6 @@ export function StepperHeader({ current, onSelect }: StepperHeaderProps) {
           );
         })}
       </ol>
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-full h-10 bg-linear-to-b from-background to-transparent"
-      />
     </nav>
   );
 }
