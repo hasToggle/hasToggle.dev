@@ -28,6 +28,14 @@ describe("BEATS", () => {
     expect(BEATS.integration.map((b) => b.id)).toEqual(["tab", "editor"]);
   });
 
+  test("era IV holds the ambient demo back until the second beat", () => {
+    // `masterclass.tsx` gates on these exact ids. A rename here without one
+    // there hides a demo for the whole talk and nothing else would catch it.
+    expect(BEATS.outlook.map((b) => b.id)).toEqual(["compiled", "ambient"]);
+    expect(reached("outlook", "ambient", "compiled", true)).toBe(false);
+    expect(reached("outlook", "ambient", "ambient", true)).toBe(true);
+  });
+
   test("steps without beats are ungated", () => {
     expect(BEATS.completion).toEqual([]);
     expect(reached("completion", "anything", "anything", true)).toBe(true);

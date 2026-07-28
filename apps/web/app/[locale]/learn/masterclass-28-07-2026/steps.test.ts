@@ -19,7 +19,7 @@ describe("masterclass steps", () => {
       "skepticism",
       "guarded fascination",
       "the trust pivot",
-      "the next frontier",
+      "recognition",
     ]);
   });
 
