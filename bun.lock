@@ -1,5 +1,6 @@
 {
   "lockfileVersion": 1,
+  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "has-toggle",
@@ -187,7 +188,7 @@
         "react-canvas-confetti": "^2.0.7",
         "react-dom": "^19.2.8",
         "react-use-measure": "^2.1.7",
-        "recharts": "^3.9.0",
+        "recharts": "^3.10.1",
         "sharp": "^0.35.3",
         "shiki": "^4.3.1",
         "usehooks-ts": "^3.1.1",
