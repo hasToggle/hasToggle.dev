@@ -1,100 +1,122 @@
 import { describe, expect, test } from "bun:test";
 import {
-  attentionTarget,
   type BoardState,
   boardReducer,
-  EXECUTE_TICKS,
+  EXECUTION_CAP_MS,
+  formatElapsed,
+  inFlightCount,
   initialBoardState,
+  isAnyExecuting,
   isBoardDone,
-  isSettled,
-  VALIDATE_TICKS,
+  type LaneId,
 } from "./reducer";
 
-const tick = (s: BoardState, n = 1) => {
-  let next = s;
-  for (let i = 0; i < n; i += 1) {
-    next = boardReducer(next, { type: "tick" });
-  }
-  return next;
-};
-const AUTO_TICKS = EXECUTE_TICKS + VALIDATE_TICKS;
+function tick(state: BoardState, ms: number): BoardState {
+  return boardReducer(state, { ms, type: "tick" });
+}
 
-describe("initial board", () => {
-  test("rag plans, wp and deps are already executing", () => {
+function handOff(state: BoardState, lane: LaneId): BoardState {
+  return boardReducer(state, { lane, type: "handOff" });
+}
+
+describe("era3 board", () => {
+  test("every lane starts planned, so each one needs its own hand-off", () => {
     const s = initialBoardState();
-    expect(s.lanes.rag.phase).toBe("plan");
-    expect(s.lanes.wp.phase).toBe("execute");
-    expect(s.lanes.deps.phase).toBe("execute");
+    expect(Object.values(s.lanes).every((l) => l.phase === "planned")).toBe(
+      true
+    );
+    expect(isAnyExecuting(s)).toBe(false);
   });
 
-  test("attention starts at the rag plan gate", () => {
-    expect(attentionTarget(initialBoardState())).toBe("rag-plan");
-  });
-});
-
-describe("automatic lanes", () => {
-  test("wp reaches done without any click", () => {
-    const s = tick(initialBoardState(), AUTO_TICKS);
-    expect(s.lanes.wp.phase).toBe("done");
+  test("a lane never advances on its own — only clicks move it", () => {
+    let s = handOff(initialBoardState(), "rag");
+    for (let i = 0; i < 60; i += 1) {
+      s = tick(s, 1000);
+    }
+    expect(s.lanes.rag.phase).toBe("executing");
   });
 
-  test("deps parks at awaiting-signature and never auto-merges", () => {
-    const s = tick(initialBoardState(), AUTO_TICKS + 20);
-    expect(s.lanes.deps.phase).toBe("awaiting-signature");
+  test("the clock runs only for lanes that were handed off", () => {
+    const s = tick(handOff(initialBoardState(), "rag"), 3000);
+    expect(s.lanes.rag.elapsedMs).toBe(3000);
+    expect(s.lanes.wp.elapsedMs).toBe(0);
+    expect(s.lanes.deps.elapsedMs).toBe(0);
   });
 
-  test("rag never leaves plan without the hand-off click", () => {
-    const s = tick(initialBoardState(), 50);
-    expect(s.lanes.rag.phase).toBe("plan");
-  });
-});
-
-describe("gates", () => {
-  test("handOff moves rag into execute, then ticks carry it to done", () => {
-    let s = boardReducer(initialBoardState(), { type: "handOff" });
-    expect(s.lanes.rag.phase).toBe("execute");
-    s = tick(s, AUTO_TICKS);
-    expect(s.lanes.rag.phase).toBe("done");
+  test("lanes run in parallel, each on its own clock", () => {
+    let s = handOff(initialBoardState(), "rag");
+    s = tick(s, 2000);
+    s = handOff(s, "wp");
+    s = tick(s, 2000);
+    expect(s.lanes.rag.elapsedMs).toBe(4000);
+    expect(s.lanes.wp.elapsedMs).toBe(2000);
+    expect(inFlightCount(s)).toBe(2);
   });
 
-  test("approveMerge is a no-op until deps awaits a signature", () => {
-    const early = boardReducer(initialBoardState(), { type: "approveMerge" });
-    expect(early.lanes.deps.phase).toBe("execute");
-    const parked = tick(initialBoardState(), AUTO_TICKS);
-    const merged = boardReducer(parked, { type: "approveMerge" });
-    expect(merged.lanes.deps.phase).toBe("done");
-  });
-});
-
-describe("attention + completion", () => {
-  test("attention moves to the deps signature once rag is handed off", () => {
-    let s = boardReducer(initialBoardState(), { type: "handOff" });
-    s = tick(s, AUTO_TICKS);
-    expect(attentionTarget(s)).toBe("deps-signature");
+  test("done stops the clock without moving the work to validation", () => {
+    let s = tick(handOff(initialBoardState(), "rag"), 5000);
+    s = boardReducer(s, { lane: "rag", type: "markDone" });
+    expect(s.lanes.rag.phase).toBe("executed");
+    s = tick(s, 9000);
+    expect(s.lanes.rag.elapsedMs).toBe(5000);
+    // Still mine to carry: stopped is not accepted.
+    expect(inFlightCount(s)).toBe(1);
   });
 
-  test("board completes only after both clicks and all ticks", () => {
-    let s = boardReducer(initialBoardState(), { type: "handOff" });
-    s = tick(s, AUTO_TICKS);
-    expect(isBoardDone(s)).toBe(false);
-    s = boardReducer(s, { type: "approveMerge" });
+  test("validation cannot be reached while the clock is still running", () => {
+    const running = tick(handOff(initialBoardState(), "rag"), 2000);
+    expect(boardReducer(running, { lane: "rag", type: "toValidation" })).toBe(
+      running
+    );
+  });
+
+  test("the clock stops at the hidden cap, and the lane keeps waiting", () => {
+    let s = handOff(initialBoardState(), "rag");
+    s = tick(s, EXECUTION_CAP_MS + 60_000);
+    expect(s.lanes.rag.elapsedMs).toBe(EXECUTION_CAP_MS);
+    expect(s.lanes.rag.phase).toBe("executing");
+  });
+
+  test("transitions are refused out of order", () => {
+    const s = initialBoardState();
+    expect(boardReducer(s, { lane: "rag", type: "toValidation" })).toBe(s);
+    expect(boardReducer(s, { lane: "rag", type: "accept" })).toBe(s);
+    const executing = handOff(s, "rag");
+    expect(boardReducer(executing, { lane: "rag", type: "accept" })).toBe(
+      executing
+    );
+  });
+
+  test("a second hand-off does not restart a running lane", () => {
+    const running = tick(handOff(initialBoardState(), "rag"), 4000);
+    expect(handOff(running, "rag")).toBe(running);
+  });
+
+  test("the board is done only once all three are accepted", () => {
+    let s = initialBoardState();
+    for (const lane of ["rag", "wp", "deps"] as LaneId[]) {
+      // Four clicks a lane: hand off, done, validate, accept.
+      s = handOff(s, lane);
+      s = boardReducer(s, { lane, type: "markDone" });
+      s = boardReducer(s, { lane, type: "toValidation" });
+      expect(isBoardDone(s)).toBe(false);
+      s = boardReducer(s, { lane, type: "accept" });
+    }
     expect(isBoardDone(s)).toBe(true);
-    expect(attentionTarget(s)).toBe(null);
-  });
-});
-
-describe("fastForward and reset", () => {
-  test("fastForward settles the board but holds every gate", () => {
-    const s = boardReducer(initialBoardState(), { type: "fastForward" });
-    expect(isSettled(s)).toBe(true);
-    expect(s.lanes.rag.phase).toBe("plan");
-    expect(s.lanes.wp.phase).toBe("done");
-    expect(s.lanes.deps.phase).toBe("awaiting-signature");
+    expect(inFlightCount(s)).toBe(0);
   });
 
   test("reset returns to the initial state", () => {
-    let s = boardReducer(initialBoardState(), { type: "fastForward" });
-    s = boardReducer(s, { type: "reset" });
-    expect(s).toEqual(initialBoardState());
+    const s = tick(handOff(initialBoardState(), "rag"), 8000);
+    expect(boardReducer(s, { type: "reset" })).toEqual(initialBoardState());
+  });
+});
+
+describe("formatElapsed", () => {
+  test("pads seconds and rolls into minutes", () => {
+    expect(formatElapsed(0)).toBe("0:00");
+    expect(formatElapsed(7000)).toBe("0:07");
+    expect(formatElapsed(65_000)).toBe("1:05");
+    expect(formatElapsed(EXECUTION_CAP_MS)).toBe("5:00");
   });
 });

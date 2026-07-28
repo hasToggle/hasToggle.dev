@@ -48,7 +48,7 @@ const KPIS: readonly { label: string; value: string }[] = [
     label: "My monthly usage at API prices",
     value: "thousands of €",
   },
-  { label: "The subscription, flat", value: "€180 · ×2" },
+  { label: "The subscription, flat", value: "€180" },
   {
     label: "Weekly quota — resets Saturday 11:00",
     value: "gone by Wednesday",
@@ -123,7 +123,7 @@ export function Era3Meter() {
         </div>
       </div>
 
-      <FieldNote className="mt-6" date="2026-07">
+      <FieldNote className="mt-6" label="how I work">
         I say hi to the agent at seven sharp. Not to be polite — the five-hour
         meter starts when I do. Start coding at ten, and the next window opens
         just as the first would bite. The greeting is load-bearing.

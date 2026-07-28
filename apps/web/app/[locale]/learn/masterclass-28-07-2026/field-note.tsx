@@ -3,7 +3,11 @@ import { cn } from "@repo/design-system/lib/utils";
 interface FieldNoteProps {
   children: React.ReactNode;
   className?: string;
-  date: string;
+  /**
+   * Omit when the aside describes a standing practice rather than something
+   * observed on a date — a date implies the claim could go stale.
+   */
+  date?: string;
   /**
    * Defaults to "field note", which claims the passage is Eric's own dated
    * observation. Override it when the aside carries something else.
@@ -30,8 +34,10 @@ export function FieldNote({
         className
       )}
     >
+      {/* One expression, not `{label} · {date}`: JSX would leave the separator
+          and its spaces behind when the date is absent. */}
       <p className="font-mono text-[11px] text-muted-foreground uppercase tracking-[0.2em]">
-        {label} · {date}
+        {date ? `${label} · ${date}` : label}
       </p>
       <div className="mt-2 font-mono text-foreground/70 text-sm/6">
         {children}
