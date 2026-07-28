@@ -176,16 +176,6 @@ export function Masterclass() {
             )}
             {step === "agentic-engineering" && (
               <EraPanel
-                deepCut={
-                  <p>
-                    I didn&apos;t build the harness myself. The agent built its
-                    own auditor; I set the rules it audits against. A page that
-                    used to take hours of manual diffing came in at 2–3 hours of
-                    the agent working a list I never had to touch — about a week
-                    of work I didn&apos;t do.
-                  </p>
-                }
-                expandLabel="Did you know? I didn't build the harness either."
                 name="Agentic engineering"
                 reality="Strip the debate away: an agent is an LLM with tools, trapped in a loop. Claude Code put that loop in a terminal — barely useful at first, even on the strongest coding models. Then the loop learned to run longer; minutes became hours. You stop writing syntax and start writing the rules the loop must satisfy."
                 years="2024 → now"

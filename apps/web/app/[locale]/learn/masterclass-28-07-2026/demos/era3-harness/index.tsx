@@ -31,14 +31,19 @@ export function Era3Harness() {
 
   return (
     <div className="rounded-xl border border-foreground/10 p-4 sm:p-6">
+      <p className="font-medium text-base">Pixel for pixel</p>
+      <p className="mt-1 mb-4 max-w-2xl text-muted-foreground text-sm">
+        A client&apos;s site on the left, its rebuild on the right, and the
+        auditor the agent wrote to hold one against the other.
+      </p>
+
       {/* target vs candidate */}
       <div className="grid gap-4 sm:grid-cols-2">
-        <Mock label="Target · WordPress" tight={false} />
+        <Mock isTarget label="Target · WordPress" resolved={resolved} />
         <Mock
           converged={isClear(state)}
           label="Candidate · Next.js"
-          // candidate tightens toward target as diffs resolve
-          tight={resolved("padding")}
+          resolved={resolved}
         />
       </div>
 
@@ -82,7 +87,7 @@ export function Era3Harness() {
               {remainingCount(state)}
             </span>
           </div>
-          <div className="mt-3 flex gap-2">
+          <div className="mt-3">
             <button
               className="rounded bg-[#21262d] px-3 py-1 text-[#c9d1d9] disabled:opacity-40"
               disabled={state.running || isClear(state)}
@@ -91,48 +96,53 @@ export function Era3Harness() {
             >
               Run audit
             </button>
-            <button
-              className="rounded border border-[#30363d] px-3 py-1"
-              onClick={() => dispatch({ type: "reset" })}
-              type="button"
-            >
-              Reset
-            </button>
-            <button
-              className={cn(
-                "rounded px-3 py-1",
-                state.validated
-                  ? "bg-[#238636] text-white"
-                  : "border border-[#30363d] text-[#8b949e]"
-              )}
-              disabled={!isClear(state)}
-              onClick={() => dispatch({ type: "validate" })}
-              type="button"
-            >
-              {state.validated ? "VALIDATED ✓" : "Validate"}
-            </button>
           </div>
         </div>
       </div>
 
+      {/* Outside the terminal, in the page's own idiom and right-aligned —
+          the same control Era II's demos use, so one gesture means one thing
+          across the talk. */}
+      <div className="mt-4 flex">
+        <button
+          className="ml-auto shrink-0 rounded border border-foreground/15 px-2 py-1 font-mono text-muted-foreground text-xs hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
+          disabled={state.running}
+          onClick={() => dispatch({ type: "reset" })}
+          type="button"
+        >
+          ↺ reset
+        </button>
+      </div>
+
       <p className="mt-4 text-foreground/55 text-sm italic">
         You wrote the validation rules. The agent screenshots, diffs, fixes, and
-        re-runs — on its own — until the count hits zero. The iframe stays
+        re-runs — on its own — until the count hits zero. The embed stays
         flagged: knowing what isn&apos;t worth it is your judgment too.
       </p>
     </div>
   );
 }
 
+/**
+ * Every row in the diff list owns a property of this skeleton, so resolving a
+ * row visibly moves the candidate toward the target instead of only striking
+ * text off a list. The target renders as if everything were already fixed —
+ * it is the thing being matched — so a clean run makes the two panels
+ * identical except for the excepted embed, which is the judgment call.
+ */
 function Mock({
   label,
-  tight,
   converged,
+  isTarget,
+  resolved,
 }: {
-  label: string;
-  tight: boolean;
   converged?: boolean;
+  isTarget?: boolean;
+  label: string;
+  resolved: (id: string) => boolean;
 }) {
+  const fixed = (id: string) => isTarget || resolved(id);
+
   return (
     <div>
       <div className="mb-1 font-mono text-[10px] text-muted-foreground uppercase tracking-wide">
@@ -142,13 +152,33 @@ function Mock({
       <div className="rounded-lg border border-foreground/10 bg-background p-4">
         <div
           className={cn(
-            "h-2.5 w-3/5 rounded bg-foreground motion-safe:transition-all",
-            tight ? "mb-2" : "mb-3"
+            "rounded motion-safe:transition-all motion-safe:duration-500",
+            fixed("padding") ? "mb-3" : "mb-6",
+            fixed("weight") ? "h-2.5" : "h-3",
+            fixed("width") ? "w-3/5" : "w-[52%]",
+            fixed("color") ? "bg-foreground/75" : "bg-foreground"
           )}
         />
         <div className="mb-1.5 h-1.5 w-11/12 rounded bg-foreground/30" />
         <div className="mb-3 h-1.5 w-4/5 rounded bg-foreground/30" />
-        <div className="h-6 w-28 rounded bg-emerald-500" />
+        <div
+          className={cn(
+            "h-6 rounded bg-emerald-500 motion-safe:transition-all motion-safe:duration-500",
+            fixed("button") ? "w-28" : "w-32"
+          )}
+        />
+        {/* The exception, kept visible: clearing the count never makes this
+            one match, and it is not supposed to. */}
+        <div
+          className={cn(
+            "mt-3 flex h-8 items-center justify-center rounded border border-dashed font-mono text-[9px] uppercase tracking-wide",
+            isTarget
+              ? "border-foreground/20 bg-foreground/[0.03] text-muted-foreground"
+              : "border-amber-500/60 bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400"
+          )}
+        >
+          {isTarget ? "social embed" : "⚠ social embed"}
+        </div>
       </div>
     </div>
   );

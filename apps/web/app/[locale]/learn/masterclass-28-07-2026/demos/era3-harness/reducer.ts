@@ -7,13 +7,11 @@ export interface HarnessState {
   diffs: DiffItem[];
   log: string[];
   running: boolean;
-  validated: boolean;
 }
 
 export type HarnessAction =
   | { type: "run" }
   | { type: "tick" }
-  | { type: "validate" }
   | { type: "reset" };
 
 export function initialHarnessState(): HarnessState {
@@ -21,7 +19,6 @@ export function initialHarnessState(): HarnessState {
     diffs: INITIAL_DIFFS.map((d) => ({ ...d })),
     log: [],
     running: false,
-    validated: false,
   };
 }
 
@@ -61,8 +58,6 @@ export function harnessReducer(
         running: stillPending,
       };
     }
-    case "validate":
-      return { ...state, validated: isClear(state) };
     case "reset":
       return initialHarnessState();
     default:

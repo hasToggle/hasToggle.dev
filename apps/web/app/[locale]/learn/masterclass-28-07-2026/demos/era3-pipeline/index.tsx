@@ -5,8 +5,8 @@ import { useEffect, useReducer } from "react";
 import { LANES, type LaneMeta } from "./lanes";
 import {
   attentionTarget,
-  boardReducer,
   type BoardState,
+  boardReducer,
   initialBoardState,
   isBoardDone,
   isSettled,
@@ -18,11 +18,11 @@ const PHASES = ["plan", "execute", "validate"] as const;
 type Column = (typeof PHASES)[number];
 
 const PHASE_COLUMN: Record<LanePhase, Column> = {
-  plan: "plan",
-  execute: "execute",
-  validate: "validate",
   "awaiting-signature": "validate",
   done: "validate",
+  execute: "execute",
+  plan: "plan",
+  validate: "validate",
 };
 
 export function Era3Pipeline() {
@@ -52,7 +52,7 @@ export function Era3Pipeline() {
 
   return (
     <div className="mt-10 rounded-xl border border-foreground/10 p-4 sm:p-6">
-      <p className="font-medium text-sm">Three lanes, one week</p>
+      <p className="font-medium text-base">Three lanes, one week</p>
       <p className="mt-1 max-w-2xl text-muted-foreground text-sm">
         Three real streams from my board. Every lane runs plan → execute →
         validate. The board runs itself — click where it asks you.

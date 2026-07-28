@@ -90,7 +90,7 @@ function TimelineRow({
 export function Era3Meter() {
   return (
     <div className="mt-10 rounded-xl border border-foreground/10 p-4 sm:p-6">
-      <p className="font-medium text-sm">The meter</p>
+      <p className="font-medium text-base">What it costs to work this way</p>
       <p className="mt-1 max-w-2xl text-muted-foreground text-sm">
         Working like this has an economy. Five-hour windows that start at your
         first message; a weekly quota; a flat price for what would otherwise be
