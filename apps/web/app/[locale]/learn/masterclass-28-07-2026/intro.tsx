@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@repo/design-system/components/ui/button";
-import { MetaAside } from "../../components/meta-aside";
 import { Heading, Subheading } from "../../components/text";
 import { RhythmFigure } from "./rhythm-figure";
 
@@ -82,10 +81,6 @@ export function Intro({ onBegin }: { onBegin: () => void }) {
           </li>
         ))}
       </ul>
-
-      <MetaAside className="mt-6 max-w-2xl">
-        Engineers: the folds marked ▸ are for you.
-      </MetaAside>
 
       <Button className="mt-10" onClick={onBegin} size="lg" type="button">
         Begin →
