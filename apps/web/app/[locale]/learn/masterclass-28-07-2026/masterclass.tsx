@@ -4,6 +4,10 @@ import { Button } from "@repo/design-system/components/ui/button";
 import { AnimatePresence, motion } from "motion/react";
 import { createParser, parseAsStringLiteral, useQueryState } from "nuqs";
 import { useEffect } from "react";
+import { AddressStrip } from "./address-strip";
+import { BeatFooter } from "./beat-footer";
+import { BeatSlot } from "./beat-slot";
+import { adjacentBeat, BEATS } from "./beats";
 import { Era1Playground } from "./demos/era1-playground";
 import { Era2Companion } from "./demos/era2-companion";
 import { Era2Extraction } from "./demos/era2-companion/extraction-demo";
@@ -14,9 +18,6 @@ import { Era3Meter } from "./demos/era3-meter";
 import { Era3Pipeline } from "./demos/era3-pipeline";
 import { Era3Reach } from "./demos/era3-reach";
 import { Era4Runtime } from "./demos/era4-runtime";
-import { BeatFooter } from "./beat-footer";
-import { BeatSlot } from "./beat-slot";
-import { adjacentBeat, BEATS } from "./beats";
 import { EraPanel } from "./era-panel";
 import { FieldNote } from "./field-note";
 import { Intro } from "./intro";
@@ -104,7 +105,14 @@ export function Masterclass() {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <StepperHeader current={step} onSelect={setStep} />
+      <header className="sticky top-0 z-10 border-foreground/10 border-b bg-background/80 backdrop-blur">
+        <AddressStrip />
+        <StepperHeader current={step} onSelect={setStep} />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-full h-10 bg-linear-to-b from-background to-transparent"
+        />
+      </header>
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-12 sm:py-16">
         <AnimatePresence mode="wait">
           <motion.div

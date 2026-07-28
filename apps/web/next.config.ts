@@ -14,17 +14,22 @@ export default async (): Promise<NextConfig> => {
     hostname: "picsum.photos",
   });
 
-  if (process.env.NODE_ENV === "production") {
-    const redirects: NextConfig["redirects"] = async () => [
-      {
-        source: "/legal",
-        destination: "/legal/privacy",
-        statusCode: 301,
-      },
-    ];
+  const redirects: NextConfig["redirects"] = async () => [
+    {
+      source: "/legal",
+      destination: "/legal/privacy",
+      statusCode: 301,
+    },
+    // Short, sayable URL for the live masterclass. Temporary on purpose: a 301
+    // would be cached in every attendee's browser and break the next talk.
+    {
+      source: "/live",
+      destination: "/learn/masterclass-28-07-2026",
+      permanent: false,
+    },
+  ];
 
-    nextConfig.redirects = redirects;
-  }
+  nextConfig.redirects = redirects;
 
   if (env.VERCEL) {
     nextConfig = withSentry(nextConfig);

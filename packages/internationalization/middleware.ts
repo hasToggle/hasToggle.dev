@@ -1,24 +1,16 @@
-import { match as matchLocale } from "@formatjs/intl-localematcher";
-import Negotiator from "negotiator";
 import type { NextRequest } from "next/server";
 import { createI18nMiddleware } from "next-international/middleware";
 import languine from "./languine.json" with { type: "json" };
+import { resolveLocale } from "./locale-negotiation";
 
 const locales = [languine.locale.source, ...languine.locale.targets];
 
 const I18nMiddleware = createI18nMiddleware({
-  locales,
   defaultLocale: "en",
+  locales,
+  resolveLocaleFromRequest: (request: NextRequest) =>
+    resolveLocale(Object.fromEntries(request.headers.entries()), locales, "en"),
   urlMappingStrategy: "rewriteDefault",
-  resolveLocaleFromRequest: (request: NextRequest) => {
-    const headers = Object.fromEntries(request.headers.entries());
-    const negotiator = new Negotiator({ headers });
-    const acceptedLanguages = negotiator.languages();
-
-    const matchedLocale = matchLocale(acceptedLanguages, locales, "en");
-
-    return matchedLocale;
-  },
 });
 
 export const internationalizationMiddleware = (request: NextRequest) =>
