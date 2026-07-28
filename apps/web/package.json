@@ -8,6 +8,8 @@
     "analyze": "ANALYZE=true npm run build",
     "test": "bun test",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "gen:era1-highlight": "bun run \"./app/[locale]/learn/masterclass-28-07-2026/demos/era1-playground/highlight/generate.ts\"",
+    "gen:era2-highlight": "bun run \"./app/[locale]/learn/masterclass-28-07-2026/demos/era2-companion/highlight/generate.ts\"",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
@@ -37,6 +39,7 @@
     "react-canvas-confetti": "^2.0.7",
     "react-dom": "^19.2.8",
     "react-use-measure": "^2.1.7",
+    "recharts": "^3.9.0",
     "sharp": "^0.35.3",
     "shiki": "^4.3.1",
     "usehooks-ts": "^3.1.1",
