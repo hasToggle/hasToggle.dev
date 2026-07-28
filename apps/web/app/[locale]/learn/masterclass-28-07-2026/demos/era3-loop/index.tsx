@@ -61,7 +61,7 @@ export function Era3Loop() {
 
   return (
     <div className="mb-10 rounded-xl border border-foreground/10 p-4 sm:p-6">
-      <p className="font-medium text-sm">
+      <p className="font-medium text-base">
         An LLM with tools, trapped in a loop
       </p>
       <p className="mt-1 max-w-2xl text-muted-foreground text-sm">

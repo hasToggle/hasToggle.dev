@@ -1,8 +1,17 @@
 export interface LadderStage {
+  /** Renders the count as an estimate rather than a tally. */
+  approx?: boolean;
   artifact: "diff" | "plan" | "design";
   /** the artifact's rendered lines (mono) */
   body: readonly string[];
   line: string;
+  /**
+   * Lines of text this year's artifact asks a human to read. The diff counts
+   * every changed line, not just the ones shown; the plan counts the detail
+   * under each step, not the five headlines it lists. Same unit all three
+   * years, so the bar comparing them is honest.
+   */
+  lines: number;
   read: string;
   year: "2024" | "2025" | "2026";
 }
@@ -41,10 +50,13 @@ export const LADDER_STAGES: readonly LadderStage[] = [
       "  // …214 more lines",
     ],
     line: "Plan mode, then a wall of diffs. I read every generated line like a literature student. I have a literature degree. I did not expect to use it on diffs.",
-    read: "I read the code.",
+    // 27 lines shown, 214 more behind the fold.
+    lines: 241,
+    read: "I checked every line.",
     year: "2024",
   },
   {
+    approx: true,
     artifact: "plan",
     body: [
       "1. Extract validation into validateDiscount(code)",
@@ -54,7 +66,10 @@ export const LADDER_STAGES: readonly LadderStage[] = [
       "5. Migrate call sites; delete the naked DISCOUNTS lookup",
     ],
     line: "The design was mine; Claude wrote the implementation plan. I reviewed intentions, not artifacts.",
-    read: "I read the plan.",
+    // Not the five headlines below — everything written under them, which was
+    // still about half a diff's worth of reading.
+    lines: 120,
+    read: "I reviewed the plan.",
     year: "2025",
   },
   {
@@ -65,6 +80,7 @@ export const LADDER_STAGES: readonly LadderStage[] = [
       "the proof.",
     ],
     line: "I plan the design. Claude writes the implementation plan. TDD runs the execution — tests read the code, I don't.",
+    lines: 3,
     read: "I read the design. Tests read the code.",
     year: "2026",
   },

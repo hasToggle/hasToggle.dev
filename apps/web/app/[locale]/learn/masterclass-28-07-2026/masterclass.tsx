@@ -18,6 +18,7 @@ import { Era3Meter } from "./demos/era3-meter";
 import { Era3Pipeline } from "./demos/era3-pipeline";
 import { Era3Reach } from "./demos/era3-reach";
 import { Era4Runtime } from "./demos/era4-runtime";
+import { CompanyBrain } from "./demos/era4-runtime/company-brain";
 import { EraPanel } from "./era-panel";
 import { FieldNote } from "./field-note";
 import { Intro } from "./intro";
@@ -175,16 +176,6 @@ export function Masterclass() {
             )}
             {step === "agentic-engineering" && (
               <EraPanel
-                deepCut={
-                  <p>
-                    I didn&apos;t build the harness myself. The agent built its
-                    own auditor; I set the rules it audits against. A page that
-                    used to take hours of manual diffing came in at 2–3 hours of
-                    the agent working a list I never had to touch — about a week
-                    of work I didn&apos;t do.
-                  </p>
-                }
-                expandLabel="Did you know? I didn't build the harness either."
                 name="Agentic engineering"
                 reality="Strip the debate away: an agent is an LLM with tools, trapped in a loop. Claude Code put that loop in a terminal — barely useful at first, even on the strongest coding models. Then the loop learned to run longer; minutes became hours. You stop writing syntax and start writing the rules the loop must satisfy."
                 years="2024 → now"
@@ -218,21 +209,16 @@ export function Masterclass() {
             )}
             {step === "outlook" && (
               <EraPanel
-                deepCut={
-                  <p>
-                    The dashboard you just watched assemble is json-render under
-                    the hood — a spec the model emits and the page compiles at
-                    runtime. The same engine lets an end user build their own UI
-                    without a developer in the loop. Code stops being a
-                    permanent artifact and becomes a byproduct of intent.
-                  </p>
-                }
-                expandLabel="Did you know? That dashboard didn't exist a second ago."
-                name="The runtime frontier"
-                reality="An honest label: this isn't lived experience yet — nobody works here daily. It's the model crossing out of the build phase into the running software itself: ask a question, and the interface is compiled on the spot. Try it on the questions that matter — the data behind it is real, German, and cited."
-                years="2026 →"
+                name="The model moves in"
+                reality="The model moved into the running product: ask, and the interface is built on the spot. It moved into everything a company writes: mail, chat, meeting notes, tickets. Neither is a demo. Both change who gets to ask."
+                years="now"
               >
-                <Era4Runtime />
+                <BeatSlot show={has("compiled")}>
+                  <Era4Runtime />
+                </BeatSlot>
+                <BeatSlot show={has("ambient")}>
+                  <CompanyBrain />
+                </BeatSlot>
               </EraPanel>
             )}
             {step === "synthesis" && <Synthesis />}

@@ -11,9 +11,8 @@ function run(state = initialHarnessState()) {
 }
 
 describe("era3 harness reducer", () => {
-  test("starts with pending diffs and the iframe excepted, not validated", () => {
+  test("starts with pending diffs and the embed excepted", () => {
     const s = initialHarnessState();
-    expect(s.validated).toBe(false);
     expect(s.diffs.some((d) => d.status === "excepted")).toBe(true);
     expect(remainingCount(s)).toBeGreaterThan(0);
   });
@@ -40,16 +39,14 @@ describe("era3 harness reducer", () => {
     expect(s.running).toBe(false);
   });
 
-  test("validate only succeeds when clear", () => {
-    const notClear = run();
-    expect(harnessReducer(notClear, { type: "validate" }).validated).toBe(
-      false
-    );
+  test("the excepted diff is never resolved by ticking", () => {
     let s = run();
     while (remainingCount(s) > 0) {
       s = harnessReducer(s, { type: "tick" });
     }
-    expect(harnessReducer(s, { type: "validate" }).validated).toBe(true);
+    // The skeleton keeps its amber marker after a clean run, which is the
+    // demo's point: clear does not mean identical.
+    expect(s.diffs.filter((d) => d.status === "excepted")).toHaveLength(1);
   });
 
   test("reset returns to the initial state", () => {
@@ -57,6 +54,7 @@ describe("era3 harness reducer", () => {
     s = harnessReducer(s, { type: "tick" });
     const r = harnessReducer(s, { type: "reset" });
     expect(remainingCount(r)).toBe(remainingCount(initialHarnessState()));
-    expect(r.validated).toBe(false);
+    expect(r.log).toEqual([]);
+    expect(r.running).toBe(false);
   });
 });

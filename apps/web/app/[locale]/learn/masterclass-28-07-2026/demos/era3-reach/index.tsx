@@ -68,7 +68,7 @@ export function Era3Reach({ revealed, fenced }: Era3ReachProps) {
 
   return (
     <div className="mt-10 rounded-xl border border-foreground/10 p-4 sm:p-6">
-      <p className="font-medium text-sm">Nothing was outside the loop</p>
+      <p className="font-medium text-base">Nothing was outside the loop</p>
       <p className="mt-1 max-w-2xl text-muted-foreground text-sm">
         One instruction, on a repo where nothing was fenced off.
       </p>

@@ -40,8 +40,8 @@ export const INITIAL_DIFFS: readonly DiffItem[] = [
   },
   {
     id: "iframe",
-    label: "stripe iframe — excepted (judgment call)",
-    log: "iframe left as-is — not worth pixel-chasing",
+    label: "social embed — excepted (judgment call)",
+    log: "social embed left as-is — not worth pixel-chasing",
     status: "excepted",
   },
 ] as const;

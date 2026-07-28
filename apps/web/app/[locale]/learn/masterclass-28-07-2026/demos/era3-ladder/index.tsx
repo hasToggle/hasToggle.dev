@@ -13,75 +13,113 @@ const RUNNER_TESTS = [
 ] as const;
 const RUNNER_MS = 450;
 
+/** The bar is relative to the worst year, so 2024 reads as full. */
+const MAX_LINES = Math.max(...LADDER_STAGES.map((s) => s.lines));
+
+function diffTone(line: string): string {
+  if (line.startsWith("+")) {
+    return "text-emerald-700 dark:text-emerald-400";
+  }
+  if (line.startsWith("-")) {
+    return "text-red-700 dark:text-red-400";
+  }
+  return "text-muted-foreground";
+}
+
 export function Era3Ladder() {
   const [year, setYear] = useState<LadderStage["year"]>("2024");
   const stage = LADDER_STAGES.find((s) => s.year === year) ?? LADDER_STAGES[0];
 
   return (
     <div className="mt-10 rounded-xl border border-foreground/10 p-4 sm:p-6">
-      <p className="font-medium text-sm">What I read, year by year</p>
+      <p className="font-medium text-base">What I read, year by year</p>
       <p className="mt-1 max-w-2xl text-muted-foreground text-sm">
         The same feature you fixed by hand earlier, reviewed three years
         running.
       </p>
 
-      <div className="mt-4 flex gap-2">
-        {LADDER_STAGES.map((s) => (
-          <button
-            className={cn(
-              "rounded-full border px-3 py-1 font-mono text-xs",
-              s.year === year
-                ? "border-ht-cyan-500 text-foreground"
-                : "border-foreground/15 text-muted-foreground hover:text-foreground"
-            )}
-            key={s.year}
-            onClick={() => setYear(s.year)}
-            type="button"
-          >
-            {s.year} · {s.read}
-          </button>
-        ))}
-      </div>
+      {/* One object, not three controls and a detached result. The tabs are
+          the deck's existing folder grammar: the live year carries the panel's
+          own fill and runs to the band's bottom edge, so it merges into the
+          artifact beneath it rather than floating above it. */}
+      <div className="mt-4 overflow-hidden rounded-lg border border-foreground/10">
+        <div className="flex h-10 items-stretch gap-1 bg-foreground/[0.04] dark:bg-black/30">
+          {LADDER_STAGES.map((s) => (
+            <button
+              aria-pressed={s.year === year}
+              className={cn(
+                "rounded-t-md px-4 font-mono text-xs transition-colors sm:text-sm",
+                s.year === year
+                  ? "bg-muted/40 text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+              key={s.year}
+              onClick={() => setYear(s.year)}
+              type="button"
+            >
+              {s.year}
+            </button>
+          ))}
+        </div>
 
-      <div className="mt-4 rounded-lg border border-foreground/10 bg-muted/40 p-4">
-        {stage.artifact === "diff" && (
-          <div className="max-h-44 overflow-y-auto font-mono text-xs leading-5">
-            {stage.body.map((l, i) => (
-              <div
-                className={
-                  l.startsWith("+")
-                    ? "text-emerald-700 dark:text-emerald-400"
-                    : l.startsWith("-")
-                      ? "text-red-700 dark:text-red-400"
-                      : "text-muted-foreground"
-                }
-                key={`${i}-${l}`}
-              >
-                {l}
-              </div>
-            ))}
-          </div>
-        )}
-        {stage.artifact === "plan" && (
-          <ol className="list-decimal space-y-1 pl-5 font-mono text-xs leading-6">
-            {stage.body.map((l) => (
-              <li key={l}>{l.replace(/^\d+\.\s*/, "")}</li>
-            ))}
-          </ol>
-        )}
-        {stage.artifact === "design" && (
-          <div className="grid gap-4 sm:grid-cols-2">
-            <p className="font-mono text-xs leading-6">
-              {stage.body.join(" ")}
+        <div className="bg-muted/40">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-4 pt-4">
+            <p className="font-medium text-sm">{stage.read}</p>
+            <p className="font-mono text-[11px] text-muted-foreground tabular-nums">
+              {stage.approx ? "~" : ""}
+              {stage.lines} lines read
             </p>
-            <TestRunner key={year} />
           </div>
-        )}
-      </div>
 
-      <p className="mt-3 max-w-2xl text-foreground/55 text-sm italic">
-        {stage.line}
-      </p>
+          {/* The argument, as a measurement: what a human has to read collapses
+              from a wall of diff to three sentences. */}
+          <div className="mt-3 px-4">
+            <div className="h-1 w-full overflow-hidden rounded-full bg-foreground/10">
+              <div
+                className="h-full min-w-[3px] rounded-full bg-ht-cyan-500 transition-[width] duration-500"
+                style={{ width: `${(stage.lines / MAX_LINES) * 100}%` }}
+              />
+            </div>
+          </div>
+
+          <div className="px-4 py-4">
+            {/* `whitespace-pre` below is load-bearing: these are divs, so
+                without it HTML collapses the diff's leading indentation and
+                every nested line lands flush against the +. */}
+            {stage.artifact === "diff" && (
+              <div className="max-h-44 overflow-auto font-mono text-xs leading-5">
+                {stage.body.map((l, i) => (
+                  <div
+                    className={cn("whitespace-pre", diffTone(l))}
+                    key={`${i}-${l}`}
+                  >
+                    {l}
+                  </div>
+                ))}
+              </div>
+            )}
+            {stage.artifact === "plan" && (
+              <ol className="list-decimal space-y-1 pl-5 font-mono text-xs leading-6">
+                {stage.body.map((l) => (
+                  <li key={l}>{l.replace(/^\d+\.\s*/, "")}</li>
+                ))}
+              </ol>
+            )}
+            {stage.artifact === "design" && (
+              <div className="grid gap-4 sm:grid-cols-2">
+                <p className="font-mono text-xs leading-6">
+                  {stage.body.join(" ")}
+                </p>
+                <TestRunner key={year} />
+              </div>
+            )}
+          </div>
+
+          <p className="border-foreground/10 border-t px-4 py-3 text-foreground/55 text-sm italic">
+            {stage.line}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

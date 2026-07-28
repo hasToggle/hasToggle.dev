@@ -5,39 +5,28 @@ export function Synthesis() {
     <section className="fade-in animate-in py-10 duration-300 sm:py-16">
       <Subheading>Where this leaves you</Subheading>
       <Heading as="h2" className="mt-3 text-4xl sm:text-5xl">
-        The model changed. You didn&apos;t.
+        The machine didn&apos;t change. The job did.
       </Heading>
       <div className="mt-8 max-w-2xl space-y-5 text-foreground/75 text-lg leading-8">
         <p>
-          Seven years, three machines. One that could only continue, taught to
-          answer. An answerer in a browser tab, moved into the editor. A model
-          with tools, trapped in a loop — until the loop could carry real work.
-          Every step was shaped by what the model could barely do, and by how
-          people learned to use it.
+          Seven years, one machine. It could only continue your sentence, until
+          people taught it what an answer looks like. It moved into the editor.
+          It picked up tools and a loop that runs for hours. Now it&apos;s
+          moving into the products themselves. Underneath every one of those: a
+          pattern, continued until it looks finished.
         </p>
         <p>
-          Through all of it, the thing that made the work <em>yours</em> was
-          never the syntax. It was the judgment: what to ask, what to trust,
-          where to draw the boundary, what counts as done.
+          You saw it stop that way twice, seven years apart — the base model
+          that answered a question with a question, and the agent that typed{" "}
+          <em>done</em>
+          {" while the job wasn't."}
         </p>
-        <div className="rounded-xl border border-foreground/10 p-5">
-          <p className="text-base text-foreground/75">
-            One more thing. The page you&apos;re standing in was built by the
-            process it describes: a design spec I wrote, an implementation plan
-            Claude wrote, and tests that read the code so nobody had to. The
-            documents are real, and dated:
-          </p>
-          <ul className="mt-4 space-y-1 font-mono text-muted-foreground text-xs">
-            <li>
-              docs/superpowers/specs/2026-06-29-masterclass-four-eras-design.md
-            </li>
-            <li>docs/superpowers/plans/2026-06-29-masterclass-four-eras.md</li>
-            <li>apps/web/…/masterclass-28-07-2026/demos/**/*.test.ts</li>
-          </ul>
-          <p className="mt-4 text-foreground/55 text-sm italic">
-            The exhibit is its own final exhibit.
-          </p>
-        </div>
+        <p>
+          What moved is your side. You stopped writing syntax and started
+          writing what the work has to satisfy: the design, the plan, the tests
+          that read the code so you don&apos;t. Those hold only from outside the
+          loop. Inside it, a rule is a request.
+        </p>
         <p className="font-display text-2xl text-foreground italic">
           AI produces the artifact. You hold the meaning.
         </p>

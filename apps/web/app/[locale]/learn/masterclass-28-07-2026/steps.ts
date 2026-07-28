@@ -21,7 +21,7 @@ export const STEPS: readonly Step[] = [
     label: "2024 → now",
     vibe: "the trust pivot",
   },
-  { id: "outlook", label: "2026 →", vibe: "the next frontier" },
+  { id: "outlook", label: "meanwhile", vibe: "recognition" },
   { id: "synthesis", label: "Synthesis" },
 ] as const;
 

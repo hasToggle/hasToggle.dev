@@ -32,7 +32,10 @@ export const BEATS: Record<StepId, readonly Beat[]> = {
     { id: "editor", label: "the chat moves in" },
   ],
   intro: [],
-  outlook: [],
+  outlook: [
+    { id: "compiled", label: "compiled on the spot" },
+    { id: "ambient", label: "ambient context" },
+  ],
   synthesis: [],
 };
 
