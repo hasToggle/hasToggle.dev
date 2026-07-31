@@ -14,6 +14,16 @@
       "rangeStrategy": "bump"
     },
     {
+      "description": "@radix-ui/react-slot@1.3.1 calls createContext at module scope without 'use client', crashing RSC builds (see radix-ui/primitives#3542). Drop this rule and the root package.json override once a fixed release ships.",
+      "matchPackageNames": ["@radix-ui/react-slot"],
+      "allowedVersions": "!/^1\\.3\\.1$/"
+    },
+    {
+      "description": "radix-ui@1.6.5 pins the broken @radix-ui/react-slot@1.3.1 — remove together with the rule above.",
+      "matchPackageNames": ["radix-ui"],
+      "allowedVersions": "!/^1\\.6\\.5$/"
+    },
+    {
       "matchUpdateTypes": ["patch", "pin", "digest"],
       "automerge": true,
       "groupName": "patch updates"

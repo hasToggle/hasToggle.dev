@@ -11,7 +11,7 @@
     "@shikijs/rehype": "^4.3.1",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
-    "react": "^19.2.7",
+    "react": "^19.2.8",
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.1",
     "shiki": "^4.3.1"
@@ -19,9 +19,9 @@
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "@types/mdx": "^2.0.14",
-    "@types/node": "26.1.1",
+    "@types/node": "26.1.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "19.2.3",
-    "next": "^16.2.10"
+    "next": "^16.2.12"
   }
 }

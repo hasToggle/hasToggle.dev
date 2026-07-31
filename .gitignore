@@ -285,3 +285,6 @@ packages/database/generated
 
 # Claude Code scheduled-tasks runtime lock (transient; .claude/settings.json stays tracked)
 .claude/scheduled_tasks.lock
+
+# Superpowers brainstorming companion
+.superpowers/
