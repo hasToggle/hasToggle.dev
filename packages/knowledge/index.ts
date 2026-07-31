@@ -1,6 +1,9 @@
 // biome-ignore-all lint/performance/noBarrelFile: Package API re-export pattern for clean import surface
 
-export { getKnowledgeDb } from "./client";
+// DB bootstrapping (getKnowledgeDb) deliberately lives behind the
+// `@repo/knowledge/client` subpath: the barrel must stay importable from
+// every server runtime (Next.js, the eve agent app, Bun tests).
+export { ObjectId } from "mongodb";
 export type { KnowledgeCollections } from "./collections";
 export { ensureIndexes, getCollections } from "./collections";
 export type { ErasureReport } from "./erasure";
