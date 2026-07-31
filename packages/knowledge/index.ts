@@ -9,6 +9,13 @@ export { ensureIndexes, getCollections } from "./collections";
 export type { ErasureReport } from "./erasure";
 export { erasePerson } from "./erasure";
 export { keys } from "./keys";
+export type {
+  EntityDecision,
+  FactDecision,
+  ResolveProposalItemsInput,
+  ResolveProposalItemsResult,
+} from "./review";
+export { resolveProposalItems } from "./review";
 export type { Engagement, Organization, Person } from "./schemas/entities";
 export {
   engagementSchema,

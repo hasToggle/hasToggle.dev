@@ -34,11 +34,11 @@ const SEARCH_INDEXES = [
 // Search indexes need Atlas (or mongod 8.2+ with search enabled); a plain
 // mongod rejects the commands. Continue past exactly that case — anything
 // else (auth, network, permissions) must surface, not be swallowed.
+const SEARCH_UNSUPPORTED_REGEX =
+  /listSearchIndexes|createSearchIndex|search index|Unrecognized|no such command|not allowed/i;
+
 const isSearchUnsupported = (error: unknown): boolean =>
-  error instanceof Error &&
-  /listSearchIndexes|createSearchIndex|search index|Unrecognized|no such command|not allowed/i.test(
-    error.message
-  );
+  error instanceof Error && SEARCH_UNSUPPORTED_REGEX.test(error.message);
 
 const run = async () => {
   const uri = process.env.KNOWLEDGE_MONGODB_URI;
@@ -58,7 +58,10 @@ const run = async () => {
       let existing: { name?: string }[] = [];
       try {
         // biome-ignore lint/performance/noAwaitInLoops: sequential one-time setup script
-        existing = await db.collection(collection).listSearchIndexes().toArray();
+        existing = await db
+          .collection(collection)
+          .listSearchIndexes()
+          .toArray();
       } catch (error) {
         if (!isSearchUnsupported(error)) {
           throw error;

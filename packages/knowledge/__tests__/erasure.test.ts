@@ -8,6 +8,8 @@ const TENANT = "test-tenant";
 const now = () => ({ createdAt: new Date(), updatedAt: new Date() });
 const annaIdentifiersPattern = /Anna Schmidt|anna@mueller\.de/i;
 const annaNamePattern = /Anna Schmidt/i;
+const leaIdentifiersPattern = /Lea|kunde\.de/;
+const leaNamePattern = /Lea Sommer/;
 
 describe.skipIf(!uri)("erasePerson", () => {
   const client = new MongoClient(uri ?? "mongodb://localhost:27017");
@@ -279,9 +281,7 @@ describe.skipIf(!uri)("erasePerson", () => {
     });
 
     const report = await erasePerson(db, TENANT, tomId);
-    expect(report.orphanedBlobUrls).toEqual([
-      "https://blob.example/tom.m4a",
-    ]);
+    expect(report.orphanedBlobUrls).toEqual(["https://blob.example/tom.m4a"]);
 
     // The report alone is ephemeral — a caller crash between report and Blob
     // deletion must leave a persistent marker to sweep by.
@@ -415,12 +415,12 @@ describe.skipIf(!uri)("erasePerson", () => {
     const open = await proposals.findOne({ _id: openId });
     expect(open?.factDrafts[0]?.text).toContain("[REDACTED]");
     expect(JSON.stringify(open?.entityDrafts[0]?.data)).not.toMatch(
-      /Lea|kunde\.de/
+      leaIdentifiersPattern
     );
     const resolved = await proposals.findOne({ _id: resolvedId });
-    expect(resolved?.factDrafts[0]?.text).not.toMatch(/Lea Sommer/);
+    expect(resolved?.factDrafts[0]?.text).not.toMatch(leaNamePattern);
     expect(resolved?.factDrafts[0]?.resolution.finalText).not.toMatch(
-      /Lea Sommer/
+      leaNamePattern
     );
   });
 

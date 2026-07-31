@@ -16,6 +16,8 @@ export interface ErasureReport {
   sourcesRedacted: number;
 }
 
+const WHITESPACE_REGEX = /\s+/;
+
 const escapeRegex = (value: string) =>
   value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
@@ -41,7 +43,9 @@ const buildRedactor = (person: Person): Redactor | null => {
   const exact = [person.name, ...person.emails].filter(
     (identifier) => identifier.length > 2
   );
-  const tokens = person.name.split(/\s+/).filter((token) => token.length > 2);
+  const tokens = person.name
+    .split(WHITESPACE_REGEX)
+    .filter((token) => token.length > 2);
   if (exact.length === 0 && tokens.length === 0) {
     return null;
   }
