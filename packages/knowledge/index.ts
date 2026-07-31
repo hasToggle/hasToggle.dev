@@ -32,9 +32,14 @@ export {
 } from "./schemas/proposals";
 export type { Source } from "./schemas/sources";
 export { sourceSchema, sourceStatusValues } from "./schemas/sources";
-export type { FactsSearchOptions } from "./search";
+export type { EntityNameSearchOptions, FactsSearchOptions } from "./search";
 export {
+  buildEntityNameSearchPipeline,
   buildFactsSearchPipeline,
   FACTS_SEARCH_INDEX_NAME,
   factsSearchIndexDefinition,
+  ORGANIZATIONS_SEARCH_INDEX_NAME,
+  organizationsSearchIndexDefinition,
+  PEOPLE_SEARCH_INDEX_NAME,
+  peopleSearchIndexDefinition,
 } from "./search";

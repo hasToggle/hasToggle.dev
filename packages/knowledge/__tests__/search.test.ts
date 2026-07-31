@@ -1,9 +1,14 @@
 import { describe, expect, test } from "bun:test";
 import { currentlyValidFilter } from "../schemas/facts";
 import {
+  buildEntityNameSearchPipeline,
   buildFactsSearchPipeline,
   FACTS_SEARCH_INDEX_NAME,
   factsSearchIndexDefinition,
+  ORGANIZATIONS_SEARCH_INDEX_NAME,
+  organizationsSearchIndexDefinition,
+  PEOPLE_SEARCH_INDEX_NAME,
+  peopleSearchIndexDefinition,
 } from "../search";
 
 describe("currentlyValidFilter", () => {
@@ -28,6 +33,69 @@ describe("factsSearchIndexDefinition", () => {
       "token"
     );
     expect(factsSearchIndexDefinition.mappings.dynamic).toBe(false);
+  });
+});
+
+describe("factsSearchIndexDefinition German analysis", () => {
+  test("text carries a German multi and the pipeline queries both paths", () => {
+    // German content wants lucene.german (compound stemming; since the July
+    // 2025 stemmer change also ä/ö/ü→ae/oe/ue folding, so Müller matches
+    // Mueller) while the default analyzer keeps code-switched English intact.
+    expect(
+      factsSearchIndexDefinition.mappings.fields.text.multi.german.analyzer
+    ).toBe("lucene.german");
+
+    const pipeline = buildFactsSearchPipeline({
+      query: "Workshoppräferenz",
+      tenantId: "test-tenant",
+    });
+    expect(pipeline[0]?.$search.compound.must[0]?.text.path).toEqual([
+      "text",
+      { multi: "german", value: "text" },
+    ]);
+  });
+});
+
+describe("entity name search", () => {
+  test("index definitions map name for search and tenant for filtering", () => {
+    expect(organizationsSearchIndexDefinition.mappings.dynamic).toBe(false);
+    expect(organizationsSearchIndexDefinition.mappings.fields.name.type).toBe(
+      "string"
+    );
+    expect(
+      organizationsSearchIndexDefinition.mappings.fields.tenantId.type
+    ).toBe("token");
+    expect(peopleSearchIndexDefinition.mappings.fields.name.type).toBe(
+      "string"
+    );
+  });
+
+  test("pipeline fuzzy-matches names within the tenant", () => {
+    const pipeline = buildEntityNameSearchPipeline({
+      entity: "people",
+      query: "Ana Schmit",
+      tenantId: "test-tenant",
+    });
+    const search = pipeline[0]?.$search;
+    expect(search.index).toBe(PEOPLE_SEARCH_INDEX_NAME);
+    expect(search.compound.filter).toContainEqual({
+      equals: { path: "tenantId", value: "test-tenant" },
+    });
+    expect(search.compound.must).toEqual([
+      { text: { fuzzy: { maxEdits: 1 }, path: "name", query: "Ana Schmit" } },
+    ]);
+    expect(pipeline.at(-1)).toEqual({ $limit: 10 });
+  });
+
+  test("organizations pipeline uses its own index and respects limit", () => {
+    const pipeline = buildEntityNameSearchPipeline({
+      entity: "organizations",
+      limit: 3,
+      query: "Müler",
+      tenantId: "test-tenant",
+    });
+    expect(pipeline[0]?.$search.index).toBe(ORGANIZATIONS_SEARCH_INDEX_NAME);
+    expect(pipeline.at(-1)).toEqual({ $limit: 3 });
   });
 });
 
