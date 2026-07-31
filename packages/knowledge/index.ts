@@ -19,6 +19,7 @@ export {
 } from "./schemas/entities";
 export type { Fact, FactAnchors, FactCategory } from "./schemas/facts";
 export {
+  currentlyValidFilter,
   factAnchorsSchema,
   factCategoryValues,
   factSchema,

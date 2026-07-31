@@ -27,6 +27,14 @@ export const factAnchorsSchema = z
   );
 export type FactAnchors = z.infer<typeof factAnchorsSchema>;
 
+// The lifecycle convention in queryable form: a fact is currently valid iff
+// both fields are absent, and { field: null } matches null-or-missing. Share
+// this everywhere (search, dossier reads, ask tools) instead of re-typing it.
+export const currentlyValidFilter = {
+  supersededBy: null,
+  validUntil: null,
+} as const;
+
 export const factSchema = z.object({
   ...baseDocFields,
   anchors: factAnchorsSchema,

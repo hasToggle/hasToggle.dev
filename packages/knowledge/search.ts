@@ -1,5 +1,5 @@
 import type { Document } from "mongodb";
-import type { FactCategory } from "./schemas/facts";
+import { currentlyValidFilter, type FactCategory } from "./schemas/facts";
 
 export const FACTS_SEARCH_INDEX_NAME = "facts_search";
 
@@ -51,9 +51,7 @@ export const buildFactsSearchPipeline = ({
   ];
 
   if (!includeSuperseded) {
-    // Convention from schemas/facts.ts: valid iff both lifecycle fields absent.
-    // In MongoDB, { field: null } matches both null and missing.
-    pipeline.push({ $match: { supersededBy: null, validUntil: null } });
+    pipeline.push({ $match: currentlyValidFilter });
   }
 
   pipeline.push({ $limit: limit });

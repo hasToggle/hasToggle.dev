@@ -1,9 +1,22 @@
 import { describe, expect, test } from "bun:test";
+import { currentlyValidFilter } from "../schemas/facts";
 import {
   buildFactsSearchPipeline,
   FACTS_SEARCH_INDEX_NAME,
   factsSearchIndexDefinition,
 } from "../search";
+
+describe("currentlyValidFilter", () => {
+  test("is the queryable form of the lifecycle convention", () => {
+    // { field: null } matches null AND missing — together with ignoreUndefined
+    // on the client this makes "valid iff both absent" queryable everywhere
+    // (search, dossier reads, ask tools) without re-typing the invariant.
+    expect(currentlyValidFilter).toEqual({
+      supersededBy: null,
+      validUntil: null,
+    });
+  });
+});
 
 describe("factsSearchIndexDefinition", () => {
   test("maps exactly the fields the pipeline filters on", () => {
