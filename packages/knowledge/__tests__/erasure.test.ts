@@ -164,6 +164,51 @@ describe.skipIf(!uri)("erasePerson", () => {
     expect(report.redactionSkipped).toBe(false);
   });
 
+  test("leaves already-reviewed drafts untouched when discarding pending ones", async () => {
+    const { people, proposals } = getCollections(db);
+    const reviewedPersonId = new ObjectId();
+    const confirmedFactId = new ObjectId();
+    await people.insertOne({
+      _id: reviewedPersonId,
+      emails: ["max@berger-consulting.de"],
+      name: "Max Berger",
+      tenantId: TENANT,
+      ...now(),
+    });
+    const proposalId = new ObjectId();
+    await proposals.insertOne({
+      _id: proposalId,
+      entityDrafts: [],
+      factDrafts: [
+        {
+          anchors: { personId: reviewedPersonId },
+          category: "preference",
+          confidence: 0.9,
+          resolution: { factId: confirmedFactId, status: "confirmed" },
+          text: "Bevorzugt Vormittagstermine.",
+        },
+        {
+          anchors: { personId: reviewedPersonId },
+          category: "logistics",
+          confidence: 0.6,
+          resolution: { status: "pending" },
+          text: "Wechselt das Büro.",
+        },
+      ],
+      kind: "ingestion",
+      status: "open",
+      tenantId: TENANT,
+      ...now(),
+    });
+
+    await erasePerson(db, TENANT, reviewedPersonId);
+
+    const after = await proposals.findOne({ _id: proposalId });
+    // The reviewer's past decision is history, not something erasure rewrites.
+    expect(after?.factDrafts[0]?.resolution.status).toBe("confirmed");
+    expect(after?.factDrafts[1]?.resolution.status).toBe("discarded");
+  });
+
   test("skips redaction when the person has no usable identifiers", async () => {
     const { people, sources } = getCollections(db);
     const shortPersonId = new ObjectId();

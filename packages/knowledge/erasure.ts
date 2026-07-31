@@ -43,7 +43,14 @@ export const erasePerson = async (
   await proposals.updateMany(
     { status: "open", tenantId },
     { $set: { "factDrafts.$[draft].resolution.status": "discarded" } },
-    { arrayFilters: [{ "draft.anchors.personId": personId }] }
+    {
+      arrayFilters: [
+        {
+          "draft.anchors.personId": personId,
+          "draft.resolution.status": "pending",
+        },
+      ],
+    }
   );
 
   // 3. Redact the person's identifiers wherever they appear in source text.
