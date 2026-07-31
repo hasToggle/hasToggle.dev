@@ -134,7 +134,7 @@ describe.skipIf(!uri)("erasePerson", () => {
     expect(report.factsDeleted).toBe(2);
     expect(report.sourcesRedacted).toBe(2);
     expect(report.redactionSkipped).toBe(false);
-    expect(report.orphanedAudioBlobUrls).toEqual([
+    expect(report.orphanedBlobUrls).toEqual([
       "https://blob.example/voice1.m4a",
     ]);
 
@@ -279,13 +279,73 @@ describe.skipIf(!uri)("erasePerson", () => {
     });
 
     const report = await erasePerson(db, TENANT, tomId);
-    expect(report.orphanedAudioBlobUrls).toEqual([
+    expect(report.orphanedBlobUrls).toEqual([
       "https://blob.example/tom.m4a",
     ]);
 
     // The report alone is ephemeral — a caller crash between report and Blob
     // deletion must leave a persistent marker to sweep by.
     const after = await sources.findOne({ _id: tomSourceId });
+    expect(after?.blobsPendingDeletion).toBe(true);
+  });
+
+  test("reports attachment blobs of orphaned email sources", async () => {
+    const { people, sources, facts } = getCollections(db);
+    const idaId = new ObjectId();
+    const idaSourceId = new ObjectId();
+    await people.insertOne({
+      _id: idaId,
+      emails: ["ida@nordwind.de"],
+      name: "Ida Brandt",
+      tenantId: TENANT,
+      ...now(),
+    });
+    await sources.insertOne({
+      _id: idaSourceId,
+      attachments: [
+        {
+          blobUrl: "https://blob.example/vertrag.pdf",
+          contentType: "application/pdf",
+          filename: "Vertrag.pdf",
+        },
+        {
+          blobUrl: "https://blob.example/anhang2.pdf",
+          contentType: "application/pdf",
+          filename: "Anhang2.pdf",
+        },
+      ],
+      capturedBy: "user_ceo1",
+      content: "Vertragsentwurf von Ida Brandt.",
+      email: {
+        forwardedBy: "ceo@seminarco.de",
+        gmailMessageId: "msg-ida-1",
+        originalSender: "ida@nordwind.de",
+        sentAt: new Date(),
+        subject: "Vertrag",
+      },
+      status: "reviewed",
+      tenantId: TENANT,
+      type: "email",
+      ...now(),
+    });
+    await facts.insertOne({
+      _id: new ObjectId(),
+      anchors: { personId: idaId },
+      category: "logistics",
+      confidence: 0.7,
+      confirmedBy: "user_ceo1",
+      sourceId: idaSourceId,
+      tenantId: TENANT,
+      text: "Vertrag kommt per Anhang.",
+      ...now(),
+    });
+
+    const report = await erasePerson(db, TENANT, idaId);
+    expect(report.orphanedBlobUrls).toEqual([
+      "https://blob.example/vertrag.pdf",
+      "https://blob.example/anhang2.pdf",
+    ]);
+    const after = await sources.findOne({ _id: idaSourceId });
     expect(after?.blobsPendingDeletion).toBe(true);
   });
 

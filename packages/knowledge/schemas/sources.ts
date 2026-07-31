@@ -12,6 +12,15 @@ export const sourceStatusValues = [
 
 export const sourceSchema = z.object({
   ...baseDocFields,
+  attachments: z
+    .array(
+      z.object({
+        blobUrl: z.url(),
+        contentType: z.string().min(1),
+        filename: z.string().min(1),
+      })
+    )
+    .optional(),
   audio: z
     .object({
       blobUrl: z.url(),

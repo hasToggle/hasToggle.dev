@@ -44,6 +44,32 @@ describe("sourceSchema", () => {
     expect(result.success).toBe(true);
   });
 
+  test("accepts an email source with attachments", () => {
+    const result = sourceSchema.safeParse({
+      ...base,
+      attachments: [
+        {
+          blobUrl: "https://blob.example/angebot.pdf",
+          contentType: "application/pdf",
+          filename: "Angebot_Q3.pdf",
+        },
+      ],
+      capturedBy: "user_ceo2",
+      content: "Anbei das Angebot.",
+      email: {
+        forwardedBy: "ceo1@seminarco.de",
+        gmailMessageId: "18c9a7b2f3d4e5f7",
+        originalSender: "anna@mueller.de",
+        sentAt: new Date("2026-07-02"),
+        subject: "Angebot",
+      },
+      status: "received",
+      type: "email",
+    });
+    expect(result.success).toBe(true);
+    expect(result.data?.attachments?.[0]?.filename).toBe("Angebot_Q3.pdf");
+  });
+
   test("rejects unknown status", () => {
     const result = sourceSchema.safeParse({
       ...base,

@@ -8,7 +8,8 @@ const REDACTED = "[REDACTED]";
 
 export interface ErasureReport {
   factsDeleted: number;
-  orphanedAudioBlobUrls: string[];
+  /** Audio and attachment blobs whose source no longer backs any fact. */
+  orphanedBlobUrls: string[];
   personDeleted: boolean;
   proposalsRedacted: number;
   redactionSkipped: boolean;
@@ -204,7 +205,7 @@ export const erasePerson = async (
   if (!person) {
     return {
       factsDeleted: 0,
-      orphanedAudioBlobUrls: [],
+      orphanedBlobUrls: [],
       personDeleted: false,
       proposalsRedacted: 0,
       redactionSkipped: false,
@@ -245,12 +246,13 @@ export const erasePerson = async (
     proposalsRedacted = await redactProposals(proposals, tenantId, redactor);
   }
 
-  // 4. Report audio blobs whose source no longer backs any fact — the caller
-  //    (app layer) deletes them from Vercel Blob. Also persist the pending
-  //    deletion on the source: a caller crash between report and blob delete
-  //    must not orphan the audio forever (re-running erasePerson after the
-  //    person doc is gone returns early and cannot re-derive this list).
-  const orphanedAudioBlobUrls: string[] = [];
+  // 4. Report audio and attachment blobs whose source no longer backs any
+  //    fact — the caller (app layer) deletes them from Vercel Blob. Also
+  //    persist the pending deletion on the source: a caller crash between
+  //    report and blob delete must not orphan the blobs forever (re-running
+  //    erasePerson after the person doc is gone returns early and cannot
+  //    re-derive this list).
+  const orphanedBlobUrls: string[] = [];
   for (const sourceId of affectedSourceIds) {
     // biome-ignore lint/performance/noAwaitInLoops: per-source count must run after fact deletion; the affected-source set is small
     const remaining = await facts.countDocuments({ sourceId, tenantId });
@@ -258,10 +260,17 @@ export const erasePerson = async (
       continue;
     }
     const source = await sources.findOne({ _id: sourceId, tenantId });
-    if (!source?.audio) {
+    if (!source) {
       continue;
     }
-    orphanedAudioBlobUrls.push(source.audio.blobUrl);
+    const blobUrls = [
+      ...(source.audio ? [source.audio.blobUrl] : []),
+      ...(source.attachments ?? []).map((attachment) => attachment.blobUrl),
+    ];
+    if (blobUrls.length === 0) {
+      continue;
+    }
+    orphanedBlobUrls.push(...blobUrls);
     await sources.updateOne(
       { _id: source._id, tenantId },
       { $set: { blobsPendingDeletion: true, updatedAt: new Date() } }
@@ -273,7 +282,7 @@ export const erasePerson = async (
 
   return {
     factsDeleted,
-    orphanedAudioBlobUrls,
+    orphanedBlobUrls,
     personDeleted: true,
     proposalsRedacted,
     redactionSkipped: redactor === null,
