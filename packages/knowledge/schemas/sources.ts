@@ -19,6 +19,9 @@ export const sourceSchema = z.object({
       durationSeconds: z.number().positive().optional(),
     })
     .optional(),
+  // Set by the erasure cascade when every fact backed by this source is gone:
+  // the caller must delete the referenced blobs, then unset audio/attachments.
+  blobsPendingDeletion: z.boolean().optional(),
   capturedBy: z.string().min(1),
   // The textual payload: transcript (voice), body (email), or pasted text (manual).
   content: z.string().optional(),

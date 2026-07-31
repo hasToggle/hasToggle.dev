@@ -209,6 +209,161 @@ describe.skipIf(!uri)("erasePerson", () => {
     expect(after?.factDrafts[1]?.resolution.status).toBe("discarded");
   });
 
+  test("redacts standalone name tokens, not just the full name", async () => {
+    const { people, sources } = getCollections(db);
+    const petraId = new ObjectId();
+    const petraSourceId = new ObjectId();
+    await people.insertOne({
+      _id: petraId,
+      emails: [],
+      name: "Petra Lindemann",
+      tenantId: TENANT,
+      ...now(),
+    });
+    await sources.insertOne({
+      _id: petraSourceId,
+      capturedBy: "user_ceo1",
+      content:
+        "Petra will das Angebot prüfen. Petras Assistenz meldet sich. Die Petrafix GmbH bleibt außen vor.",
+      status: "reviewed",
+      tenantId: TENANT,
+      type: "manual",
+      ...now(),
+    });
+
+    const report = await erasePerson(db, TENANT, petraId);
+    expect(report.sourcesRedacted).toBe(1);
+
+    const after = await sources.findOne({ _id: petraSourceId });
+    // Voice notes speak in first names: bare tokens and the genitive form
+    // must go; substrings inside other words must survive.
+    expect(after?.content).toContain("[REDACTED] will das Angebot");
+    expect(after?.content).toContain("[REDACTED] Assistenz");
+    expect(after?.content).toContain("Petrafix GmbH");
+  });
+
+  test("marks orphaned-blob sources as blobsPendingDeletion", async () => {
+    const { people, sources, facts } = getCollections(db);
+    const tomId = new ObjectId();
+    const tomSourceId = new ObjectId();
+    await people.insertOne({
+      _id: tomId,
+      emails: ["tom@example.de"],
+      name: "Tom Weber",
+      tenantId: TENANT,
+      ...now(),
+    });
+    await sources.insertOne({
+      _id: tomSourceId,
+      audio: {
+        blobUrl: "https://blob.example/tom.m4a",
+        contentType: "audio/mp4",
+      },
+      capturedBy: "user_ceo1",
+      content: "Tom Weber über Logistik.",
+      status: "reviewed",
+      tenantId: TENANT,
+      type: "voice",
+      ...now(),
+    });
+    await facts.insertOne({
+      _id: new ObjectId(),
+      anchors: { personId: tomId },
+      category: "logistics",
+      confidence: 0.8,
+      confirmedBy: "user_ceo1",
+      sourceId: tomSourceId,
+      tenantId: TENANT,
+      text: "Logistik läuft über ihn.",
+      ...now(),
+    });
+
+    const report = await erasePerson(db, TENANT, tomId);
+    expect(report.orphanedAudioBlobUrls).toEqual([
+      "https://blob.example/tom.m4a",
+    ]);
+
+    // The report alone is ephemeral — a caller crash between report and Blob
+    // deletion must leave a persistent marker to sweep by.
+    const after = await sources.findOne({ _id: tomSourceId });
+    expect(after?.blobsPendingDeletion).toBe(true);
+  });
+
+  test("redacts person identifiers inside proposal drafts, including resolved ones", async () => {
+    const { people, proposals } = getCollections(db);
+    const leaId = new ObjectId();
+    const openId = new ObjectId();
+    const resolvedId = new ObjectId();
+    await people.insertOne({
+      _id: leaId,
+      emails: ["lea@kunde.de"],
+      name: "Lea Sommer",
+      tenantId: TENANT,
+      ...now(),
+    });
+    await proposals.insertOne({
+      _id: openId,
+      entityDrafts: [
+        {
+          data: { emails: ["lea@kunde.de"], name: "Lea Sommer" },
+          draftId: "p-1",
+          entityType: "person",
+          resolution: { status: "pending" },
+        },
+      ],
+      factDrafts: [
+        {
+          anchors: { personDraftId: "p-1" },
+          category: "background",
+          confidence: 0.5,
+          resolution: { status: "pending" },
+          text: "Lea kommt von der Messe.",
+        },
+      ],
+      kind: "ingestion",
+      status: "open",
+      tenantId: TENANT,
+      ...now(),
+    });
+    await proposals.insertOne({
+      _id: resolvedId,
+      entityDrafts: [],
+      factDrafts: [
+        {
+          anchors: { organizationId: new ObjectId() },
+          category: "relationship",
+          confidence: 0.9,
+          resolution: {
+            finalText: "Ansprechpartnerin ist Lea Sommer.",
+            status: "edited",
+          },
+          text: "Kontakt läuft über Lea Sommer.",
+        },
+      ],
+      kind: "ingestion",
+      resolvedAt: new Date(),
+      resolvedBy: "user_ceo1",
+      status: "resolved",
+      tenantId: TENANT,
+      ...now(),
+    });
+
+    const report = await erasePerson(db, TENANT, leaId);
+    // Proposals are the retained audit trail — Art. 17 reaches into them too.
+    expect(report.proposalsRedacted).toBe(2);
+
+    const open = await proposals.findOne({ _id: openId });
+    expect(open?.factDrafts[0]?.text).toContain("[REDACTED]");
+    expect(JSON.stringify(open?.entityDrafts[0]?.data)).not.toMatch(
+      /Lea|kunde\.de/
+    );
+    const resolved = await proposals.findOne({ _id: resolvedId });
+    expect(resolved?.factDrafts[0]?.text).not.toMatch(/Lea Sommer/);
+    expect(resolved?.factDrafts[0]?.resolution.finalText).not.toMatch(
+      /Lea Sommer/
+    );
+  });
+
   test("skips redaction when the person has no usable identifiers", async () => {
     const { people, sources } = getCollections(db);
     const shortPersonId = new ObjectId();
