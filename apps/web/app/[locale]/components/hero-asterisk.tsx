@@ -26,9 +26,9 @@ export function HeroAsterisk() {
           <span aria-hidden="true" className="select-none opacity-70">
             *&nbsp;
           </span>
-          AI doesn&apos;t make you better. It makes you bigger. It&apos;s an
-          amplifier, not a compass — it has no opinion on whether you&apos;re
-          pointed the right way.
+          The real feature, in production, on this page. No videos, no
+          screenshots, nothing &ldquo;simplified for clarity&rdquo;. View source
+          if you don&apos;t trust us — that&apos;s the correct instinct.
         </p>
       </HoverCardContent>
     </HoverCard>
