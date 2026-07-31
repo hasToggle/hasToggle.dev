@@ -211,6 +211,67 @@ describe.skipIf(!uri)("erasePerson", () => {
     expect(after?.factDrafts[1]?.resolution.status).toBe("discarded");
   });
 
+  test("never touches another tenant's data", async () => {
+    const { people, sources, proposals } = getCollections(db);
+    const otherSourceId = new ObjectId();
+    const otherProposalId = new ObjectId();
+    const doppelgaengerId = new ObjectId();
+    // Same name in a different tenant — nothing of theirs may change.
+    await people.insertOne({
+      _id: doppelgaengerId,
+      emails: ["kim@anderswo.de"],
+      name: "Kim Larsen",
+      tenantId: "other-tenant",
+      ...now(),
+    });
+    await sources.insertOne({
+      _id: otherSourceId,
+      capturedBy: "user_other",
+      content: "Kim Larsen bleibt Ansprechpartnerin.",
+      status: "reviewed",
+      tenantId: "other-tenant",
+      type: "manual",
+      ...now(),
+    });
+    await proposals.insertOne({
+      _id: otherProposalId,
+      entityDrafts: [],
+      factDrafts: [
+        {
+          anchors: { personId: doppelgaengerId },
+          category: "background",
+          confidence: 0.5,
+          resolution: { status: "pending" },
+          text: "Kim Larsen kennt das Projekt.",
+        },
+      ],
+      kind: "ingestion",
+      status: "open",
+      tenantId: "other-tenant",
+      ...now(),
+    });
+    const erasedId = new ObjectId();
+    await people.insertOne({
+      _id: erasedId,
+      emails: ["kim@kunde.de"],
+      name: "Kim Larsen",
+      tenantId: TENANT,
+      ...now(),
+    });
+
+    const report = await erasePerson(db, TENANT, erasedId);
+    expect(report.personDeleted).toBe(true);
+
+    const otherSource = await sources.findOne({ _id: otherSourceId });
+    expect(otherSource?.content).toBe("Kim Larsen bleibt Ansprechpartnerin.");
+    const otherProposal = await proposals.findOne({ _id: otherProposalId });
+    expect(otherProposal?.factDrafts[0]?.text).toBe(
+      "Kim Larsen kennt das Projekt."
+    );
+    expect(otherProposal?.factDrafts[0]?.resolution.status).toBe("pending");
+    expect(await people.findOne({ _id: doppelgaengerId })).not.toBeNull();
+  });
+
   test("redacts standalone name tokens, not just the full name", async () => {
     const { people, sources } = getCollections(db);
     const petraId = new ObjectId();
