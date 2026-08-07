@@ -11,8 +11,9 @@ This is a **has-toggle** monorepo - a production-grade Turborepo template for Ne
 ### Setup & Installation
 ```bash
 bun install                    # Install all dependencies
-bun migrate                   # Format, generate, and push Prisma schema to database
 ```
+
+Set `MONGODB_URI` in the environment (validated via @t3-oss/env-nextjs in `packages/database/keys.ts`).
 
 ### Running Applications
 ```bash
@@ -44,11 +45,8 @@ turbo analyze --filter=app     # Analyze bundle size
 ```
 
 ### Database
-```bash
-bun migrate                   # Format schema, generate Prisma client, push to DB
-cd packages/database && bunx prisma studio    # Open Prisma Studio
-cd packages/database && bunx prisma generate  # Regenerate Prisma client only
-```
+
+The database is MongoDB, accessed through the official `mongodb` driver — there is no ORM, no schema migrations, and no generated client. `packages/database/index.ts` exports a `database` object with typed collection handles; document types live in `packages/database/types.ts`.
 
 ### Maintenance
 ```bash
@@ -90,16 +88,17 @@ The repository uses **Bun workspaces** with two main directories:
 4. **docs** - Documentation site (Mintlify)
 5. **email** - Email templates (React Email)
 6. **storybook** - Component development environment
-7. **studio** - Database management UI
+7. **studio** - Database management UI (stale Prisma Studio wrapper; non-functional since the MongoDB migration)
 
 ### Shared Packages (packages/)
 
 Core infrastructure packages:
 
 - **@repo/auth** - Clerk authentication (client, server, middleware, provider)
-- **@repo/database** - Prisma ORM with Neon PostgreSQL adapter
-  - Schema at `packages/database/prisma/schema.prisma`
-  - Generated client at `packages/database/generated/client/`
+- **@repo/database** - MongoDB via the official `mongodb` driver (server-only)
+  - Typed collection handles exported from `packages/database/index.ts`
+  - Document types at `packages/database/types.ts`
+  - Requires `MONGODB_URI` (validated in `packages/database/keys.ts`)
 - **@repo/design-system** - shadcn/ui component library
   - Components in `components/` (auto-generated, excluded from Biome linting)
   - Providers for themes, tooltips, etc.
@@ -125,7 +124,7 @@ Core infrastructure packages:
 - **Language**: TypeScript 5.9 (strict mode, NodeNext module resolution)
 - **Package Manager**: Bun 1.1.43
 - **Build Tool**: Turborepo 2.5.8
-- **Database**: PostgreSQL (Neon) via Prisma 6.18
+- **Database**: MongoDB via the official `mongodb` driver 7.x
 - **Auth**: Clerk
 - **Styling**: Tailwind CSS 4.1
 - **Linting**: Biome 2.3.1 with ultracite presets (core, react, next)
@@ -163,7 +162,7 @@ Core infrastructure packages:
 
 - `turbo.json` - Turborepo task pipeline configuration
 - `biome.jsonc` - Linter/formatter configuration (extends ultracite presets)
-- `packages/database/prisma/schema.prisma` - Database schema
+- `packages/database/types.ts` - Database document types
 - Root `package.json` - Monorepo scripts, workspace configuration, and CLI entry point (`dist/index.js`)
 
 ## Development Notes
@@ -171,7 +170,7 @@ Core infrastructure packages:
 - The main branch is not explicitly configured in git - PRs should target the default branch
 - Apps have independent dev ports: app (3000), web (3001), api (3002)
 - API development automatically runs Stripe CLI webhook forwarding to localhost:3002/webhooks/payments
-- Prisma client is generated to a custom output directory: `packages/database/generated/client/`
+- MongoDB access goes through the shared client in `packages/database/index.ts` (cached on `global` in development to survive hot reloads)
 - Tests must pass before builds complete (enforced by Turborepo pipeline)
 - The design system excludes shadcn auto-generated UI components from version control linting
 
