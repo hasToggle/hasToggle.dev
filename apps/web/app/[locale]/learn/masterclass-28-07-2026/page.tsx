@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Masterclass } from "./masterclass";
 
 export const metadata: Metadata = {
@@ -9,5 +10,11 @@ export const metadata: Metadata = {
 };
 
 export default function MasterclassPage() {
-  return <Masterclass />;
+  return (
+    // The exhibit reads its step from the URL (nuqs), which is runtime data
+    // under Cache Components — so it renders inside a Suspense boundary.
+    <Suspense fallback={null}>
+      <Masterclass />
+    </Suspense>
+  );
 }

@@ -7,6 +7,7 @@ import {
 } from "@repo/cms";
 import { createMetadata } from "@repo/seo/metadata";
 import type { Metadata } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
@@ -17,31 +18,51 @@ interface LegalPageProperties {
   }>;
 }
 
+// The legal frontmatter carries only title and description; compiling the
+// MDX to read them is expensive, so the metadata fields get their own
+// cached, serializable lookup.
+async function getLegalMeta(
+  slug: string
+): Promise<{ description: string; title: string } | null> {
+  "use cache";
+  cacheTag("legal");
+  cacheLife("max");
+
+  const page = await getLegalPage(slug);
+  return page ? { description: page.description, title: page.title } : null;
+}
+
 export const generateMetadata = async ({
   params,
 }: LegalPageProperties): Promise<Metadata> => {
   const { slug } = await params;
-  const page = await getLegalPage(slug);
+  const page = await getLegalMeta(slug);
 
   if (!page) {
     return {};
   }
 
-  return createMetadata({
-    title: page.title,
-    description: page.description,
-  });
+  return createMetadata(page);
 };
 
 export const generateStaticParams = (): { slug: string }[] =>
   getLegalSlugs().map((slug) => ({ slug }));
 
-const LegalPageRoute = async ({ params }: LegalPageProperties) => {
-  const { slug } = await params;
+/**
+ * The MDX pipeline (evaluate + Shiki) calls timers internally, so the
+ * rendered document lives in a `use cache` scope. The sidebar date has
+ * always shown "today" here (no date in the frontmatter) — now it's
+ * explicitly the bake date, refreshed with the cache.
+ */
+async function LegalArticle({ slug }: { slug: string }) {
+  "use cache";
+  cacheTag("legal");
+  cacheLife("days");
+
   const page = await getLegalPage(slug);
 
   if (!page) {
-    notFound();
+    return null;
   }
 
   const Content = page.content;
@@ -77,6 +98,16 @@ const LegalPageRoute = async ({ params }: LegalPageProperties) => {
       </div>
     </div>
   );
+}
+
+const LegalPageRoute = async ({ params }: LegalPageProperties) => {
+  const { slug } = await params;
+
+  if (!getLegalSlugs().includes(slug)) {
+    notFound();
+  }
+
+  return <LegalArticle slug={slug} />;
 };
 
 export default LegalPageRoute;

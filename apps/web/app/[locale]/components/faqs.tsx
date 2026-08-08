@@ -10,35 +10,35 @@ const faqs: {
 }[] = [
   {
     answer:
-      "It does. Frequently. With absolute confidence. That\u2019s exactly why you need to understand the fundamentals. AI is powerful but not infallible. We teach you to review, debug, and guide AI so you catch mistakes before they ship. Understanding how code works is what separates builders from prompt-typists.",
-    meta: "It does. Frequently. With absolute confidence. That\u2019s lesson one.",
-    question: "Does AI really get things wrong?",
+      "A playground. Every demo on this page is the real feature running in production — the counter counts, the cache expires, the image renders because you asked. The goal is to cover everything Next.js and Vercel can do, one live exhibit at a time. The official docs are good; this is the lab bench that belongs next to them.",
+    question: "What exactly am I looking at?",
   },
   {
     answer:
-      "A short email every Monday. One misconception about AI or web development \u2014 what it is, why it\u2019s wrong, and what\u2019s actually true. Some editions come with interactive demos like the ones on this page. All of them are designed to leave you sharper than you were before you opened them. It\u2019s free, it takes five minutes, and it\u2019s the most useful thing in your inbox that you actually open on purpose.",
-    question: "What do I actually get?",
-  },
-  {
-    answer:
-      "Two things, mostly. Taste \u2014 knowing which answer is the right one when AI gives you four that all compile. And craft \u2014 turning that answer into code that holds up after you\u2019ve moved on. AI can produce both kinds of output. It can\u2019t tell you which one matters here. That\u2019s the work this site sharpens.",
-    question: "What do you actually mean by \u201cjudgment\u201d?",
-  },
-  {
-    answer:
-      "The weekly digest is free. Completely, permanently, no-asterisk free. We\u2019re building something bigger \u2014 a live cohort where you build production web apps with AI, guided by the same thinking that runs through everything on this page. That\u2019s coming, and it won\u2019t be free. But the digest stands on its own. You don\u2019t need to buy anything to get value here.",
-    meta: "See? We told you what we\u2019re selling. Most landing pages hide that part.",
+      "The playground is free. Completely, permanently, no-asterisk free. The paid thing is coaching: small cohorts where you build production apps with me on exactly these topics, AI workflow included. The page teaches; the cohort makes it stick.",
+    meta: "See? We told you what we’re selling. Most landing pages hide that part.",
     question: "Is this free?",
   },
   {
     answer:
-      "You write code \u2014 professionally, seriously, or getting there. You use AI and you\u2019re good at it, but sometimes you ship something and you can\u2019t quite explain why it works. Or it doesn\u2019t work and you can\u2019t quite explain why. You know enough to build things but you suspect there are gaps you haven\u2019t found yet. You\u2019re right. There are. Everyone has them. This is a place where finding them feels like progress, not failure.",
+      "Anyone between “just finished a bootcamp” and “has opinions about caching strategies”. If you’ve ever refreshed a page wondering why your update didn’t show up, or sprinkled “use client” everywhere just to be safe, you’re the audience. Beginners get footing. Seniors get a reference that actually runs.",
     question: "Who is this for?",
   },
   {
     answer:
-      "Because it\u2019s what we use, and we teach from experience, not theory. Claude is the AI we build with every day. But nothing here is locked to one tool. The thinking skills \u2014 knowing what to ask, catching wrong defaults, seeing through surface simplicity \u2014 those work whether you\u2019re using Claude, Cursor, Copilot, or whatever ships next Tuesday. We teach with Claude. You\u2019ll carry it everywhere.",
-    question: "Why Claude specifically?",
+      "Do read the docs — we link them from every exhibit, on purpose. But reading about streaming and watching three skeletons resolve in delay order are different kinds of knowing. Docs tell you how it works. A playground lets you find out what happens.",
+    question: "Why not just read the docs?",
+  },
+  {
+    answer:
+      "In public, with AI. The repo is on GitHub. The building happens in Conductor, with Claude Code doing the typing, and the process — prompts, checkpoints, wrong turns included — is being published alongside via Entire.io. This site is its own biggest demo.",
+    meta: "The AI writes the code. The judgment about what ships stays human. That division of labor is the actual curriculum.",
+    question: "How is this site built?",
+  },
+  {
+    answer:
+      "One new exhibit and its write-up: what it shows, why it matters, and the part the docs undersell. Five minutes, no filler, and unsubscribing stays one click away.",
+    question: "What lands in my inbox on Monday?",
   },
 ];
 
