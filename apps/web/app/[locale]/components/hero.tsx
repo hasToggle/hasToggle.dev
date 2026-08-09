@@ -28,8 +28,7 @@ export function Hero() {
             <HeroAsterisk />
           </h1>
           <p className="mt-8 max-w-xl font-medium text-muted-foreground text-xl/8 sm:text-2xl/9">
-            Every demo below is the real feature, running on the page
-            you&apos;re reading. For developers who learn by poking things.
+            For developers who learn by poking things.
           </p>
           <div className="mt-12 flex flex-col items-start gap-x-8 gap-y-4 sm:flex-row sm:flex-wrap sm:items-center">
             <MarketingButton href="#demo-01">Start poking</MarketingButton>
@@ -49,7 +48,7 @@ export function Hero() {
             className="mb-6 font-mono font-semibold text-[0.7rem] text-muted-foreground uppercase tracking-[0.2em]"
             id="contents-heading"
           >
-            Contents — start anywhere; the order is the syllabus
+            Contents
           </h2>
           <ol className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             {CHAPTERS.map((chapter) => (
@@ -77,10 +76,9 @@ export function Hero() {
             <span aria-hidden="true" className="select-none opacity-70">
               *&nbsp;
             </span>
-            The real feature, in production, on this page. No videos, no
-            screenshots, nothing &ldquo;simplified for clarity&rdquo;. View
-            source if you don&apos;t trust us — that&apos;s the correct
-            instinct.
+            Or better: run it yourself. Everything below answers back when you
+            press it. And view source whenever you like — skepticism is the
+            correct instinct.
           </MetaAside>
         </div>
       </Container>

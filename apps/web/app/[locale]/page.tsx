@@ -13,6 +13,7 @@ import { CodeBlock } from "./(playground)/code-block";
 import { DemoSection } from "./(playground)/demo-section";
 import { OgDemo } from "./(playground)/image/og-demo";
 import { OG_SOURCE } from "./(playground)/image/source";
+import { InlineCode } from "./(playground)/inline-code";
 import { LivePanel } from "./(playground)/live-panel";
 import {
   PressCount,
@@ -68,7 +69,7 @@ function PartDivider() {
 
 export const metadata: Metadata = {
   description:
-    "Interactive demos of Next.js and Vercel features, running live on the page you're reading. Caching, streaming, server actions, generated images — poke them, read the real source, learn faster. New exhibit every Monday.",
+    "Interactive demos of Next.js and Vercel — caching, streaming, server actions, generated images. Press the buttons, break the cache, read the code that did it. New exhibit every Monday.",
   // Resolves the relative /api/og image below to an absolute URL in the
   // rendered og:image tag — crawlers don't do relative.
   metadataBase: new URL(env.NEXT_PUBLIC_WEB_URL),
@@ -105,15 +106,15 @@ function BoundaryDemo() {
         <>
           <p>
             Every component in the App Router runs on the server unless you say
-            otherwise. One directive — <code>&quot;use client&quot;</code> —
-            moves a subtree into the browser. Everything else follows from that
-            split: what can read secrets, what can hold state, what ships
-            JavaScript and what arrives as finished HTML.
+            otherwise. One directive —{" "}
+            <InlineCode>&quot;use client&quot;</InlineCode>&#32;— moves a
+            subtree into the browser. Everything else follows from that split:
+            what can read secrets, what can hold state, what ships JavaScript
+            and what arrives as finished HTML.
           </p>
           <p>
-            Both cards below are real. One rendered in Node.js and was cached
-            into this page. The other hydrated in your tab and is waiting for
-            you to click it.
+            One of these cards rendered in Node.js and arrived as finished HTML.
+            The other hydrated in your tab and is waiting for you to click it.
           </p>
         </>
       }
@@ -156,15 +157,15 @@ function ShellDemo() {
         <>
           <p>
             Static doesn&apos;t mean written by hand, and dynamic doesn&apos;t
-            mean every visitor pays full price. <code>use cache</code> bakes a
-            component&apos;s output into the page&apos;s static shell; a cache
-            tag gives you a handle to expire it on demand. That&apos;s most of
-            caching — and caching is most of the questions.
+            mean every visitor pays full price.{" "}
+            <InlineCode>use cache</InlineCode>&#32;bakes a component&apos;s
+            output into the page&apos;s static shell; a cache tag gives you a
+            handle to expire it on demand.
           </p>
           <p>
-            The stamp below is this page&apos;s own cache entry. Press the
-            button and you expire it — for every visitor, instantly. It&apos;s
-            our production cache. Poke it.
+            The stamp below is this page&apos;s cache entry. Press the button
+            and it expires — for every visitor, instantly. Nobody ever lets you
+            press this button. Go on.
           </p>
         </>
       }
@@ -216,9 +217,8 @@ function StreamDemo({ searchParams }: PageProps) {
             response — whenever each part is done.
           </p>
           <p>
-            These three rows are honestly slow: the server sleeps on purpose,
-            per request. Watch the skeletons resolve in delay order. Then make
-            it do it again.
+            These three rows are slow on purpose. Watch the skeletons resolve in
+            delay order — fastest first, slowest last. Then make it do it again.
           </p>
         </>
       }
@@ -268,10 +268,10 @@ function MutationDemo() {
         <>
           <p>
             A Server Action is a function that lives on the server and plugs
-            straight into a form&apos;s <code>action</code>. No endpoint to
-            design, no fetch, no JSON contract — the form invokes the function,
-            the function mutates, and Next.js re-renders the page with the
-            result.
+            straight into a form&apos;s <InlineCode>action</InlineCode>. No
+            endpoint to design, no fetch, no JSON contract — the form invokes
+            the function, the function mutates, and Next.js re-renders the page
+            with the result.
           </p>
           <p>
             This one increments a counter stored in an httpOnly cookie. The
@@ -283,7 +283,7 @@ function MutationDemo() {
       meta={
         <>
           Somewhere, a 2019 tutorial is still teaching you to build{" "}
-          <code>/api/increment</code>. It can rest now.
+          <InlineCode>/api/increment</InlineCode>. It can rest now.
         </>
       }
       sourcePath="apps/web/app/[locale]/(playground)/mutation"
@@ -318,22 +318,23 @@ function ImageDemo() {
       intro={
         <>
           <p>
-            <code>ImageResponse</code> turns JSX into a PNG at request time —
-            it&apos;s how sites generate a link-preview card per page instead of
-            per designer. Under the hood it&apos;s a route handler like any
-            other: query in, image out.
+            <InlineCode>ImageResponse</InlineCode>&#32;turns JSX into a PNG at
+            request time — it&apos;s how sites generate a link-preview card per
+            page instead of per designer. Under the hood it&apos;s a route
+            handler like any other: query in, image out.
           </p>
           <p>
-            Type a title and the server draws your card. This exact endpoint
-            renders the Open Graph image for this page — share the site anywhere
-            and you&apos;ll see exhibit № 05 working unprompted.
+            Type a title and the server draws your card. The same endpoint makes
+            the link preview for this page — and the pattern carries to every
+            page you&apos;ll ever need a card for.
           </p>
         </>
       }
       meta={
         <>
-          Flexbox only, no grid — Satori is a renderer with standards. Strong
-          opinions have never looked this much like a build error.
+          The fine print: it looks like CSS, but the renderer (Satori) only
+          understands flexbox. Grid users will be shown the door, politely, at
+          build time.
         </>
       }
       sourcePath="apps/web/app/api/og"
@@ -379,7 +380,7 @@ function Roadmap() {
           <p className="mt-6 text-foreground/75 text-lg leading-8">
             The plan is everything Next.js has to offer — and as much of the
             Vercel platform as can be demonstrated from inside a web page. One
-            working exhibit at a time, in public.
+            exhibit at a time, in public.
           </p>
         </div>
 
@@ -472,7 +473,7 @@ function DigestCTA() {
           </Heading>
           <p className="mt-6 max-w-xl text-balance text-foreground/75 text-lg leading-8">
             A new demo lands on this page. The write-up lands in your inbox:
-            what it shows, why it matters, where the docs undersell it.
+            what it shows, why it matters, when to reach for it.
           </p>
           <p className="mt-3 max-w-xl text-balance text-base text-foreground/55">
             Cohort seats open to the list first.

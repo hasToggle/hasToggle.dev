@@ -17,7 +17,7 @@ interface DemoSectionProps {
   id: string;
   intro: React.ReactNode;
   meta?: React.ReactNode;
-  /** Path inside this repo, relative to repo root, for "view the real source". */
+  /** Path inside this repo, relative to repo root, for the GitHub source link. */
   sourcePath: string;
   topic: string;
 }
@@ -89,7 +89,7 @@ export function DemoSection({
               <SectionLink href={docs.href} label={`docs: ${docs.label}`} />
               <SectionLink
                 href={`${GITHUB_BASE}${encodeURI(sourcePath)}`}
-                label="real source on GitHub"
+                label="source on GitHub"
               />
             </div>
             {meta && <MetaAside className="mt-8 max-w-2xl">{meta}</MetaAside>}

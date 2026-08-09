@@ -10,7 +10,7 @@ const faqs: {
 }[] = [
   {
     answer:
-      "A playground. Every demo on this page is the real feature running in production — the counter counts, the cache expires, the image renders because you asked. The goal is to cover everything Next.js and Vercel can do, one live exhibit at a time. The official docs are good; this is the lab bench that belongs next to them.",
+      "A place to find out what happens when you press things. Each exhibit pairs a demo with its source — press the button, watch the cache expire, read the code that did it. The plan is to cover everything Next.js and Vercel can do, one exhibit at a time. The official docs are good; this is the lab bench that belongs next to them.",
     question: "What exactly am I looking at?",
   },
   {
@@ -21,7 +21,7 @@ const faqs: {
   },
   {
     answer:
-      "Anyone between “just finished a bootcamp” and “has opinions about caching strategies”. If you’ve ever refreshed a page wondering why your update didn’t show up, or sprinkled “use client” everywhere just to be safe, you’re the audience. Beginners get footing. Seniors get a reference that actually runs.",
+      "Anyone from “I want to build things but don’t code yet” to “I have opinions about caching strategies”. If you’ve ever refreshed a page wondering why your update didn’t show up, or sprinkled “use client” everywhere just to be safe, you’re the audience. Beginners get footing. Seniors get a reference they can poke.",
     question: "Who is this for?",
   },
   {
@@ -37,7 +37,7 @@ const faqs: {
   },
   {
     answer:
-      "One new exhibit and its write-up: what it shows, why it matters, and the part the docs undersell. Five minutes, no filler, and unsubscribing stays one click away.",
+      "One new exhibit and its write-up: what it shows, why it matters, when to reach for it. Five minutes, no filler, and unsubscribing stays one click away.",
     question: "What lands in my inbox on Monday?",
   },
 ];

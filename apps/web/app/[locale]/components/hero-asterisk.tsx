@@ -26,9 +26,9 @@ export function HeroAsterisk() {
           <span aria-hidden="true" className="select-none opacity-70">
             *&nbsp;
           </span>
-          The real feature, in production, on this page. No videos, no
-          screenshots, nothing &ldquo;simplified for clarity&rdquo;. View source
-          if you don&apos;t trust us — that&apos;s the correct instinct.
+          Or better: run it yourself. Everything below answers back when you
+          press it. And view source whenever you like — skepticism is the
+          correct instinct.
         </p>
       </HoverCardContent>
     </HoverCard>

@@ -144,8 +144,8 @@ export function Footer() {
             </div>
             <div>
               <div className="py-3 text-center text-muted-foreground text-sm/6">
-                Everything you just poked was real. It still is. Welcome to
-                hasToggle.
+                Come back Monday — there&apos;ll be something new to poke.
+                Welcome to hasToggle.
               </div>
             </div>
             <div className="flex">
