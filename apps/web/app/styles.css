@@ -206,6 +206,23 @@
   animation: highlightFadeIn 0.2s ease-in-out forwards;
 }
 
+/* OG demo — image-viewer checkerboard, so a generated PNG reads as a file,
+   not a styled div. */
+.og-checker {
+  --checker: rgb(0 0 0 / 0.055);
+  background-image: conic-gradient(
+    var(--checker) 25%,
+    transparent 0 50%,
+    var(--checker) 0 75%,
+    transparent 0
+  );
+  background-size: 16px 16px;
+}
+
+.dark .og-checker {
+  --checker: rgb(255 255 255 / 0.07);
+}
+
 /* Shiki code syntax highlighting styles */
 .shiki {
   color: var(--shiki-light);

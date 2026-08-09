@@ -1,3 +1,4 @@
+import { cacheLife } from "next/cache";
 import { Container } from "./container";
 import { Logo } from "./logo";
 import { Link } from "./marketing-link";
@@ -27,9 +28,15 @@ function SitemapLink(props: React.ComponentPropsWithoutRef<typeof Link>) {
 function Sitemap() {
   return (
     <div>
-      <SitemapHeading>Product</SitemapHeading>
+      <SitemapHeading>Playground</SitemapHeading>
       <SitemapLinks>
         <SitemapLink href="/#faq">FAQs</SitemapLink>
+        <SitemapLink
+          href="https://github.com/hasToggle/hasToggle.dev"
+          target="_blank"
+        >
+          Source on GitHub
+        </SitemapLink>
       </SitemapLinks>
     </div>
   );
@@ -95,7 +102,13 @@ function SocialLinks() {
   );
 }
 
-function Copyright() {
+// biome-ignore lint/suspicious/useAwait: `use cache` only works on async functions, even when nothing awaits
+async function Copyright() {
+  // Cached because with Cache Components, even `new Date()` is a decision:
+  // bake it, or defer it. The year can safely be a day stale.
+  "use cache";
+  cacheLife("days");
+
   return (
     <div className="text-foreground text-sm/6">
       &copy; {new Date().getFullYear()} hasToggle.
@@ -131,7 +144,7 @@ export function Footer() {
             </div>
             <div>
               <div className="py-3 text-center text-muted-foreground text-sm/6">
-                You just picked up five new defenses. We&apos;ll be using them.
+                Come back Monday — there&apos;ll be something new to poke.
                 Welcome to hasToggle.
               </div>
             </div>

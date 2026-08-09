@@ -1,6 +1,7 @@
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import {
   getBlogPost,
+  getBlogPosts,
   getBlogSlugs,
   mdxComponents,
   TableOfContents,
@@ -8,6 +9,7 @@ import {
 import { JsonLd } from "@repo/seo/json-ld";
 import { createMetadata } from "@repo/seo/metadata";
 import type { Metadata } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -25,32 +27,44 @@ interface BlogPostProperties {
   }>;
 }
 
+// Frontmatter only — no MDX compilation — so metadata stays deterministic.
+const findPostMeta = (slug: string) =>
+  getBlogPosts().find((post) => post.slug === slug);
+
 export const generateMetadata = async ({
   params,
 }: BlogPostProperties): Promise<Metadata> => {
   const { slug } = await params;
-  const post = await getBlogPost(slug);
+  const post = findPostMeta(slug);
 
   if (!post) {
     return {};
   }
 
   return createMetadata({
-    title: post.title,
     description: post.description,
     image: post.image,
+    title: post.title,
   });
 };
 
 export const generateStaticParams = (): { slug: string }[] =>
   getBlogSlugs().map((slug) => ({ slug }));
 
-const BlogPostPage = async ({ params }: BlogPostProperties) => {
-  const { slug } = await params;
+/**
+ * The MDX pipeline (evaluate + Shiki) is expensive and calls timers
+ * internally, so the whole rendered article lives in a `use cache` scope:
+ * compiled once per slug per deploy, served from the static shell after.
+ */
+async function Article({ slug }: { slug: string }) {
+  "use cache";
+  cacheTag("blog");
+  cacheLife("max");
+
   const post = await getBlogPost(slug);
 
   if (!post) {
-    notFound();
+    return null;
   }
 
   const Content = post.content;
@@ -59,19 +73,19 @@ const BlogPostPage = async ({ params }: BlogPostProperties) => {
     <>
       <JsonLd
         code={{
-          "@type": "BlogPosting",
           "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          author: post.authors.at(0)?.name,
+          dateModified: post.date,
           datePublished: post.date,
           description: post.description,
-          mainEntityOfPage: {
-            "@type": "WebPage",
-            "@id": new URL(`/blog/${post.slug}`, url).toString(),
-          },
           headline: post.title,
           image: post.image,
-          dateModified: post.date,
-          author: post.authors.at(0)?.name,
           isAccessibleForFree: true,
+          mainEntityOfPage: {
+            "@id": new URL(`/blog/${post.slug}`, url).toString(),
+            "@type": "WebPage",
+          },
         }}
       />
       <div className="container mx-auto py-16">
@@ -117,6 +131,16 @@ const BlogPostPage = async ({ params }: BlogPostProperties) => {
       </div>
     </>
   );
+}
+
+const BlogPostPage = async ({ params }: BlogPostProperties) => {
+  const { slug } = await params;
+
+  if (!getBlogSlugs().includes(slug)) {
+    notFound();
+  }
+
+  return <Article slug={slug} />;
 };
 
 export default BlogPostPage;

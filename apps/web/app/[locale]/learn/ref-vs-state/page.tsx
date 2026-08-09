@@ -5,7 +5,7 @@ import { ImageIcon, RefreshCw } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { parseAsString, useQueryState } from "nuqs";
-import { useRef, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 
 // --- Constants ---
 const GRID_OPACITY = 0.03;
@@ -384,7 +384,17 @@ function DiscoveryPanel({
 
 // --- Main Component ---
 
-export default function RefVsStateLab() {
+export default function RefVsStatePage() {
+  return (
+    // The lab reads its mode from the URL (nuqs), which is runtime data under
+    // Cache Components — so it renders inside a Suspense boundary.
+    <Suspense fallback={null}>
+      <RefVsStateLab />
+    </Suspense>
+  );
+}
+
+function RefVsStateLab() {
   const [mode, setMode] = useQueryState(
     "mode",
     parseAsString.withDefault("useRef").withOptions({ history: "replace" })
