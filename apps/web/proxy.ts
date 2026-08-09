@@ -7,7 +7,7 @@ import {
   noseconeOptionsWithToolbar,
   securityMiddleware,
 } from "@repo/security/middleware";
-import { createNEMO } from "@rescale/nemo";
+import { createNEMO } from "@zanreal/nemo";
 import { type NextProxy, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
 
@@ -61,7 +61,7 @@ const i18nWithExclusions = (request: NextRequest) => {
   return internationalizationMiddleware(request);
 };
 
-// Compose non-Clerk middleware with Nemo
+// Compose the app's own middleware (i18n + arcjet) with Nemo
 const composedMiddleware = createNEMO(
   {},
   {
@@ -70,7 +70,7 @@ const composedMiddleware = createNEMO(
   }
 );
 
-// Clerk middleware wraps other middleware in its callback
+// authMiddleware wraps the rest of the chain in its callback
 export const proxy = authMiddleware(
   // biome-ignore lint/suspicious/noExplicitAny: Type cast needed due to Next.js type duplication in monorepo
   async (_auth: any, request: Request, event: any) => {

@@ -1,8 +1,8 @@
 import { render } from "@react-email/render";
-import { DigestEmail } from "@repo/email/templates/digest";
+import DigestEmail from "@repo/email/templates/digest";
 import { MongoClient, ObjectId } from "mongodb";
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const { MONGODB_URI } = process.env;
 if (!MONGODB_URI) {
   console.error("MONGODB_URI environment variable is required");
   process.exit(1);
@@ -17,13 +17,13 @@ const [, , command, ...args] = process.argv;
 async function handleCreate() {
   const title = args[0] || "Untitled Draft";
   const result = await digests.insertOne({
-    title,
-    misconception: "",
     content: "",
-    status: "draft",
-    sentAt: null,
-    scheduledFor: null,
     createdAt: new Date(),
+    misconception: "",
+    scheduledFor: null,
+    sentAt: null,
+    status: "draft",
+    title,
     updatedAt: new Date(),
   });
   console.log(`Created digest: ${result.insertedId}`);
@@ -58,7 +58,7 @@ function parseUpdateFlags(): Record<string, unknown> {
 }
 
 async function handleUpdate() {
-  const id = args[0];
+  const [id] = args;
   if (!id) {
     console.error(
       "Usage: bun digest update <id> --title '...' --misconception '...' --content '...' --series-name '...' --series-part N"
@@ -72,8 +72,7 @@ async function handleUpdate() {
 }
 
 async function handleSchedule() {
-  const id = args[0];
-  const dateStr = args[1];
+  const [id, dateStr] = args;
   if (!id) {
     console.error("Usage: bun digest schedule <id> [YYYY-MM-DDTHH:mm]");
     process.exit(1);
@@ -84,8 +83,8 @@ async function handleSchedule() {
     { _id: new ObjectId(id) },
     {
       $set: {
-        status: "scheduled",
         scheduledFor,
+        status: "scheduled",
         updatedAt: new Date(),
       },
     }
@@ -113,7 +112,7 @@ async function handleList() {
 }
 
 async function handleSend() {
-  const id = args[0];
+  const [id] = args;
   if (!id) {
     console.error("Usage: bun digest send <id>");
     process.exit(1);
@@ -159,9 +158,9 @@ async function handleSend() {
   const { error } = await resend.batch.send(
     emails.map((to) => ({
       from: resendFrom,
-      to,
-      subject: digest.title,
       html,
+      subject: digest.title,
+      to,
     }))
   );
 
@@ -174,8 +173,8 @@ async function handleSend() {
     { _id: new ObjectId(id) },
     {
       $set: {
-        status: "sent",
         sentAt: new Date(),
+        status: "sent",
         updatedAt: new Date(),
       },
     }

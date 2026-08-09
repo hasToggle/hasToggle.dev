@@ -1,7 +1,7 @@
 "use client";
 
 import { parseAsInteger, useQueryState } from "nuqs";
-import { useTransition } from "react";
+import { useCallback, useTransition } from "react";
 import { MarketingButton } from "../../components/marketing-button";
 import { MAX_RUN_ID } from "./parse-run-id";
 
@@ -23,12 +23,15 @@ export function RerunButton() {
       startTransition,
     })
   );
+  const handleClick = useCallback(() => {
+    setRun((current) => ((current ?? 0) % MAX_RUN_ID) + 1);
+  }, [setRun]);
 
   return (
     <div className="flex flex-wrap items-center gap-4">
       <MarketingButton
         disabled={isPending}
-        onClick={() => setRun((run % MAX_RUN_ID) + 1)}
+        onClick={handleClick}
         variant="outline"
       >
         {isPending ? "Streaming…" : "Run it again"}
