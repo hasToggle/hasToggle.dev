@@ -114,7 +114,7 @@ async function Article({ slug }: { slug: string }) {
                   src={post.image}
                   width={800}
                 />
-              ) : undefined}
+              ) : null}
               <div className="mx-auto max-w-prose">
                 <Content components={mdxComponents} />
               </div>

@@ -68,7 +68,7 @@ The repository uses **Bun workspaces** with two main directories:
 ### Applications (apps/)
 
 1. **app** (port 3000) - Main SaaS application
-   - Authentication via Clerk (route groups: `(authenticated)` and `(unauthenticated)`)
+   - Authentication via better-auth (route groups: `(authenticated)` and `(unauthenticated)`); handler mounted at `/api/auth/[...all]`
    - Uses Next.js 16 with App Router
    - Server actions in `app/actions/`
    - API routes in `app/api/`
@@ -87,14 +87,24 @@ The repository uses **Bun workspaces** with two main directories:
 
 4. **docs** - Documentation site (Mintlify)
 5. **email** - Email templates (React Email)
-6. **storybook** - Component development environment
+6. **storybook** (`apps/storybook`) - Component development environment.
+   Its package name is `@repo/storybook`, **not** `storybook`: Bun links every
+   workspace package into the root `node_modules` by name, so a workspace named
+   `storybook` shadows the real `storybook` npm package and every addon that
+   imports `storybook/internal/*` fails to resolve. Turbo filter is
+   `--filter=@repo/storybook`. Never name a workspace after one of its own
+   dependencies.
 7. **studio** - Database management UI (stale Prisma Studio wrapper; non-functional since the MongoDB migration)
 
 ### Shared Packages (packages/)
 
 Core infrastructure packages:
 
-- **@repo/auth** - Clerk authentication (client, server, middleware, provider)
+- **@repo/auth** - better-auth authentication (client, server, middleware, provider)
+  - MongoDB adapter + organization plugin; the active org id is the tenant id
+  - Server instance in `instance.ts`; `server.ts` is a Clerk-shaped compat layer
+    (`auth()`, `currentUser()`) so callers did not have to change
+  - Handler mounted by apps/app at `/api/auth/[...all]`
 - **@repo/database** - MongoDB via the official `mongodb` driver (server-only)
   - Typed collection handles exported from `packages/database/index.ts`
   - Document types at `packages/database/types.ts`
@@ -125,7 +135,7 @@ Core infrastructure packages:
 - **Package Manager**: Bun 1.1.43
 - **Build Tool**: Turborepo 2.5.8
 - **Database**: MongoDB via the official `mongodb` driver 7.x
-- **Auth**: Clerk
+- **Auth**: better-auth (email/password + organizations)
 - **Styling**: Tailwind CSS 4.1
 - **Linting**: Biome 2.3.1 with ultracite presets (core, react, next)
 - **Testing**: Bun test runner

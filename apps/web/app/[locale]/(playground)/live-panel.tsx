@@ -40,11 +40,11 @@ export function LivePanel({
         </span>
       </figcaption>
       <div className="p-5 sm:p-6">{children}</div>
-      {readout && (
+      {readout ? (
         <div className="border-foreground/10 border-t bg-muted/30 px-4 py-3 font-mono text-ht-cyan-800/85 text-xs/5 sm:px-5 dark:text-ht-cyan-300/85">
           {readout}
         </div>
-      )}
+      ) : null}
     </figure>
   );
 }

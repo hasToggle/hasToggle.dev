@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { BoundaryCard } from "./card";
 
 /**
@@ -10,6 +10,9 @@ import { BoundaryCard } from "./card";
  */
 export function ClientCard() {
   const [count, setCount] = useState(0);
+  const handleClick = useCallback(() => {
+    setCount((current) => current + 1);
+  }, []);
 
   return (
     <BoundaryCard
@@ -25,7 +28,7 @@ export function ClientCard() {
         <div className="flex items-center gap-4">
           <button
             className="inline-flex items-center justify-center rounded-full border border-transparent bg-primary px-4 py-[calc(0.5rem-1px)] font-medium text-base text-primary-foreground shadow-md hover:bg-primary/90"
-            onClick={() => setCount(count + 1)}
+            onClick={handleClick}
             type="button"
           >
             Click me

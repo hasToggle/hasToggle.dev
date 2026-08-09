@@ -92,7 +92,9 @@ export function DemoSection({
                 label="source on GitHub"
               />
             </div>
-            {meta && <MetaAside className="mt-8 max-w-2xl">{meta}</MetaAside>}
+            {meta ? (
+              <MetaAside className="mt-8 max-w-2xl">{meta}</MetaAside>
+            ) : null}
           </div>
         </div>
       </Container>

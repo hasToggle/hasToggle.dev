@@ -4,7 +4,7 @@ import { Button } from "@repo/design-system/components/ui/button";
 import { Input } from "@repo/design-system/components/ui/input";
 import { Label } from "@repo/design-system/components/ui/label";
 import { cn } from "@repo/design-system/lib/utils";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { DEFAULT_OG_TITLE } from "@/app/api/og/title";
 
 interface GeneratedImage {
@@ -76,17 +76,29 @@ export function OgDemo() {
 
   useEffect(
     () => () => {
-      if (shownUrl.current) {
+      // `!== null`, not truthiness: biome reads `useRef(null).current` as
+      // always-null from the initializer and flags the shorter form.
+      if (shownUrl.current !== null) {
         URL.revokeObjectURL(shownUrl.current);
       }
     },
     []
   );
 
-  const generate = (event: React.SyntheticEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setTitle(draft.trim() || DEFAULT_OG_TITLE);
-  };
+  const generate = useCallback(
+    (event: React.SyntheticEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      setTitle(draft.trim() || DEFAULT_OG_TITLE);
+    },
+    [draft]
+  );
+
+  const handleDraftChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setDraft(event.target.value);
+    },
+    []
+  );
 
   return (
     <div className="flex flex-col gap-4">
@@ -100,7 +112,7 @@ export function OgDemo() {
             id="og-title"
             maxLength={120}
             name="title"
-            onChange={(event) => setDraft(event.target.value)}
+            onChange={handleDraftChange}
             placeholder={DEFAULT_OG_TITLE}
             type="text"
             value={draft}
@@ -136,13 +148,13 @@ export function OgDemo() {
               </span>
             </div>
           )}
-          {loading && image && (
+          {loading && image ? (
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="rounded-full bg-background/80 px-4 py-1.5 font-mono text-muted-foreground text-xs">
                 satori is drawing…
               </span>
             </div>
-          )}
+          ) : null}
         </div>
       </div>
       <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 font-mono text-muted-foreground text-xs">

@@ -5,7 +5,7 @@ import { ImageIcon, RefreshCw } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { parseAsString, useQueryState } from "nuqs";
-import { Suspense, useRef, useState } from "react";
+import { Suspense, useCallback, useRef, useState } from "react";
 
 // --- Constants ---
 const GRID_OPACITY = 0.03;
@@ -202,16 +202,19 @@ function ScenarioCard({
   recommendation: Mode;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const toggle = useCallback(() => {
+    setExpanded((previous) => !previous);
+  }, []);
 
   return (
     <button
       className="w-full rounded-lg border border-white/5 bg-white/5 p-3 text-left transition-colors hover:border-white/10"
-      onClick={() => setExpanded(!expanded)}
+      onClick={toggle}
       type="button"
     >
       <div className="text-sm text-white/60">{question}</div>
       <AnimatePresence>
-        {expanded && (
+        {expanded ? (
           <motion.div
             animate={{ height: "auto", opacity: 1 }}
             className="overflow-hidden"
@@ -232,7 +235,7 @@ function ScenarioCard({
               <p className="mt-1 text-white/50 text-xs">{answer}</p>
             </div>
           </motion.div>
-        )}
+        ) : null}
       </AnimatePresence>
     </button>
   );
@@ -394,6 +397,38 @@ export default function RefVsStatePage() {
   );
 }
 
+/**
+ * Extracted so the click handler can close over its own `mode` in a
+ * useCallback instead of a fresh arrow per row inside the .map.
+ */
+function ModeToggleButton({
+  isActive,
+  mode,
+  onSelect,
+}: {
+  isActive: boolean;
+  mode: Mode;
+  onSelect: (mode: Mode) => void;
+}) {
+  const handleClick = useCallback(() => {
+    onSelect(mode);
+  }, [mode, onSelect]);
+
+  return (
+    <button
+      className={`rounded-full border px-4 py-1.5 font-mono text-xs transition-all ${
+        isActive
+          ? "border-white bg-white text-black"
+          : "border-white/10 text-white/40 hover:border-white/20"
+      }`}
+      onClick={handleClick}
+      type="button"
+    >
+      {mode}
+    </button>
+  );
+}
+
 function RefVsStateLab() {
   const [mode, setMode] = useQueryState(
     "mode",
@@ -431,42 +466,47 @@ function RefVsStateLab() {
     return STAGE_INITIAL;
   })();
 
-  const handleReload = () => {
+  const handleReload = useCallback(() => {
     setImageKey((k) => k + 1);
     setLoaded(false);
     setReloadCount((c) => c + 1);
-    // Reset the ref-based image opacity when reloading
-    if (imgRef.current) {
+    // Reset the ref-based image opacity when reloading. `!== null`, not
+    // truthiness: biome reads `useRef(null).current` as always-null from the
+    // initializer and flags the shorter form.
+    if (imgRef.current !== null) {
       imgRef.current.classList.remove("opacity-100");
       imgRef.current.classList.add("opacity-0");
     }
-  };
+  }, []);
 
-  const handleModeChange = (newMode: Mode) => {
-    setMode(newMode);
-    setModeToggles((c) => c + 1);
-    // Reset all state when switching modes
-    setImageKey((k) => k + 1);
-    setLoaded(false);
-    setReloadCount(0);
-    setRenderCount(0);
-  };
+  const handleModeChange = useCallback(
+    (newMode: Mode) => {
+      setMode(newMode);
+      setModeToggles((c) => c + 1);
+      // Reset all state when switching modes
+      setImageKey((k) => k + 1);
+      setLoaded(false);
+      setReloadCount(0);
+      setRenderCount(0);
+    },
+    [setMode]
+  );
 
-  const handleLoadRef = () => {
+  const handleLoadRef = useCallback(() => {
     // Fake delay to demonstrate that DOM mutation doesn't trigger re-render
     setTimeout(() => {
       imgRef.current?.classList.remove("opacity-0");
       imgRef.current?.classList.add("opacity-100");
     }, FAKE_LOAD_DELAY_MS);
-  };
+  }, []);
 
-  const handleLoadState = () => {
+  const handleLoadState = useCallback(() => {
     // Same delay, but this triggers a React re-render
     setTimeout(() => {
       setLoaded(true);
       setRenderCount((c) => c + 1);
     }, FAKE_LOAD_DELAY_MS);
-  };
+  }, []);
 
   const currentMode = (mode === "useState" ? "useState" : "useRef") as Mode;
 
@@ -497,18 +537,12 @@ function RefVsStateLab() {
         {/* Mode Toggle */}
         <div className="flex gap-2">
           {(["useRef", "useState"] as const).map((m) => (
-            <button
-              className={`rounded-full border px-4 py-1.5 font-mono text-xs transition-all ${
-                currentMode === m
-                  ? "border-white bg-white text-black"
-                  : "border-white/10 text-white/40 hover:border-white/20"
-              }`}
+            <ModeToggleButton
+              isActive={currentMode === m}
               key={m}
-              onClick={() => handleModeChange(m)}
-              type="button"
-            >
-              {m}
-            </button>
+              mode={m}
+              onSelect={handleModeChange}
+            />
           ))}
         </div>
       </header>

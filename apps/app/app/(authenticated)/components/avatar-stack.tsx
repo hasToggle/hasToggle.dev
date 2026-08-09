@@ -51,13 +51,14 @@ export const AvatarStack = () => {
       {hasMoreUsers && (
         <PresenceAvatar
           info={{
-            name: `+${others.length - MAX_VISIBLE_AVATARS}`,
             color: "var(--color-muted-foreground)",
+            name: `+${others.length - MAX_VISIBLE_AVATARS}`,
           }}
         />
       )}
 
-      {self && <PresenceAvatar info={self.info} />}
+      {/* useSelf from the suspense entrypoint always resolves to a user. */}
+      <PresenceAvatar info={self.info} />
     </div>
   );
 };
