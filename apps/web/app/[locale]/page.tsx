@@ -170,6 +170,12 @@ async function ShellDemo() {
             and it expires — for every visitor, instantly. Nobody ever lets you
             press this button. Go on.
           </p>
+          <p>
+            Then fetch what&apos;s actually cached. The fingerprint changes
+            twice, not once: expiring an entry and refilling it are two
+            different events, and the gap between them is where &ldquo;why is my
+            page still stale&rdquo; lives.
+          </p>
         </>
       }
       meta={
