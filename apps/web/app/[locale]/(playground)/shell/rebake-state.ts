@@ -12,15 +12,11 @@ export type RebakeState =
   | { expiredAt: string; phase: "expired" }
   | { expiredAt: string; phase: "refetched"; privateId: string };
 
-export type RebakePhase = RebakeState["phase"];
-
 export type RebakeAction =
   | { at: string; type: "expired" }
   | { privateId: string; type: "refetched" };
 
-export function initialRebakeState(): RebakeState {
-  return { phase: "served" };
-}
+export const INITIAL_REBAKE_STATE: RebakeState = { phase: "served" };
 
 /**
  * `privateId` is captured on the *fetch*, not on the expiry. At expiry time the

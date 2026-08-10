@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import {
   canFetch,
   canRebake,
-  initialRebakeState,
+  INITIAL_REBAKE_STATE,
   type RebakeState,
   rebakeReducer,
 } from "./rebake-state";
@@ -21,21 +21,21 @@ function refetch(state: RebakeState, privateId = PRIVATE_ID): RebakeState {
 
 describe("rebake state", () => {
   test("you arrive looking at the shell everyone else gets", () => {
-    const state = initialRebakeState();
+    const state = INITIAL_REBAKE_STATE;
     expect(state).toEqual({ phase: "served" });
     expect(canRebake(state)).toBe(true);
     expect(canFetch(state)).toBe(false);
   });
 
   test("expiring records when, and locks the button until you answer it", () => {
-    const state = expire(initialRebakeState());
+    const state = expire(INITIAL_REBAKE_STATE);
     expect(state).toEqual({ expiredAt: EXPIRED_AT, phase: "expired" });
     expect(canRebake(state)).toBe(false);
     expect(canFetch(state)).toBe(true);
   });
 
   test("fetching hands back the comparison and frees the button", () => {
-    const state = refetch(expire(initialRebakeState()));
+    const state = refetch(expire(INITIAL_REBAKE_STATE));
     expect(state).toEqual({
       expiredAt: EXPIRED_AT,
       phase: "refetched",
@@ -46,17 +46,17 @@ describe("rebake state", () => {
   });
 
   test("fetching without expiring first changes nothing", () => {
-    const state = initialRebakeState();
+    const state = INITIAL_REBAKE_STATE;
     expect(refetch(state)).toBe(state);
   });
 
   test("fetching twice changes nothing the second time", () => {
-    const once = refetch(expire(initialRebakeState()));
+    const once = refetch(expire(INITIAL_REBAKE_STATE));
     expect(refetch(once, "ffffffff")).toBe(once);
   });
 
   test("re-baking again clears the old comparison, which no longer has a subject", () => {
-    const state = expire(refetch(expire(initialRebakeState())), LATER);
+    const state = expire(refetch(expire(INITIAL_REBAKE_STATE)), LATER);
     expect(state).toEqual({ expiredAt: LATER, phase: "expired" });
     expect(canFetch(state)).toBe(true);
   });

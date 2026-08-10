@@ -3,52 +3,21 @@
 import { useRouter } from "next/navigation";
 import { useCallback, useReducer, useTransition } from "react";
 import { MarketingButton } from "../../components/marketing-button";
-import { formatClock } from "../format";
 import { rebakeShell } from "./actions";
+import { readout } from "./rebake-copy";
 import {
   canFetch,
   canRebake,
-  initialRebakeState,
-  type RebakeState,
+  INITIAL_REBAKE_STATE,
   rebakeReducer,
 } from "./rebake-state";
 
-const IDLE_CAPTION =
-  "expires the cache tag for everyone, instantly. Then something surprising happens.";
-const EXPIRED_CAPTION =
-  "the shell you killed is gone. Its replacement doesn't exist until someone asks for it. Be the someone.";
-
-interface Readout {
-  caption: string;
-  detail: string;
-  label: string;
-}
-
-/**
- * The provenance line, which is the only part of the demo that has to change
- * per phase — the stamp above states facts that survive all three.
- */
-function readout(state: RebakeState, currentId: string): Readout {
-  if (state.phase === "expired") {
-    return {
-      caption: EXPIRED_CAPTION,
-      detail: `at ${formatClock(new Date(state.expiredAt))} — the hash above is a private render, computed for you and cached for nobody`,
-      label: "expired",
-    };
-  }
-  if (state.phase === "refetched") {
-    return {
-      caption: IDLE_CAPTION,
-      detail: `from the static shell, baked by your own request — you saw #${state.privateId}, the cache kept #${currentId}`,
-      label: "served",
-    };
-  }
-  return {
-    caption: IDLE_CAPTION,
-    detail: "from the static shell — no server render for you",
-    label: "served",
-  };
-}
+// The outline variant's `disabled:` look, re-expressed for `aria-disabled` —
+// the re-bake button stays a real, focusable element while it's locked, so
+// keyboard and screen-reader users don't lose their place when the fetch
+// button appears beside it. See MarketingButton's `outline` variant.
+const REBAKE_LOCKED_LOOK =
+  "aria-disabled:bg-transparent aria-disabled:opacity-40";
 
 interface RebakePanelProps {
   /** The fingerprint the server just rendered, whichever render that was. */
@@ -62,16 +31,23 @@ interface RebakePanelProps {
  */
 export function RebakePanel({ currentId }: RebakePanelProps) {
   const router = useRouter();
-  const [state, dispatch] = useReducer(rebakeReducer, initialRebakeState());
+  const [state, dispatch] = useReducer(rebakeReducer, INITIAL_REBAKE_STATE);
   const [isRebaking, startRebake] = useTransition();
   const [isFetching, startFetch] = useTransition();
 
+  const rebakeLocked = !canRebake(state) || isRebaking;
+
   const handleRebake = useCallback(() => {
+    // Guards the same lock the button's `aria-disabled` shows, since that
+    // attribute doesn't stop clicks the way the native one does.
+    if (rebakeLocked) {
+      return;
+    }
     startRebake(async () => {
       const { rebakedAt } = await rebakeShell();
       dispatch({ at: rebakedAt, type: "expired" });
     });
-  }, []);
+  }, [rebakeLocked]);
 
   const handleFetch = useCallback(() => {
     startFetch(() => {
@@ -87,15 +63,23 @@ export function RebakePanel({ currentId }: RebakePanelProps) {
 
   return (
     <div className="flex flex-col gap-3">
-      <dl className="grid gap-1 font-mono text-muted-foreground text-sm/6">
-        <div className="flex gap-3">
-          <dt className="w-16 shrink-0 text-muted-foreground/60">{label}</dt>
-          <dd>{detail}</dd>
-        </div>
-      </dl>
+      {/*
+        role="status" on a <dl> itself trips Biome's
+        noInteractiveElementToNoninteractiveRole rule, so the live region
+        wraps the definition list instead of landing on it directly.
+      */}
+      <div aria-live="polite" role="status">
+        <dl className="grid gap-1 font-mono text-muted-foreground text-sm/6">
+          <div className="flex gap-3">
+            <dt className="w-16 shrink-0 text-muted-foreground/60">{label}</dt>
+            <dd>{detail}</dd>
+          </div>
+        </dl>
+      </div>
       <div className="flex flex-wrap items-center gap-3">
         <MarketingButton
-          disabled={!canRebake(state) || isRebaking}
+          aria-disabled={rebakeLocked}
+          className={REBAKE_LOCKED_LOOK}
           onClick={handleRebake}
           variant="outline"
         >
