@@ -21,6 +21,7 @@ import {
 } from "./(playground)/mutation/press-count";
 import { PressForm } from "./(playground)/mutation/press-form";
 import { MUTATION_SOURCE } from "./(playground)/mutation/source";
+import { getBake } from "./(playground)/shell/bake";
 import { BakedStamp } from "./(playground)/shell/baked-stamp";
 import { RebakeButton } from "./(playground)/shell/rebake-button";
 import { SHELL_SOURCE } from "./(playground)/shell/source";
@@ -143,7 +144,9 @@ function BoundaryDemo() {
   );
 }
 
-function ShellDemo() {
+async function ShellDemo() {
+  const bake = await getBake();
+
   return (
     <DemoSection
       chapter="02"
@@ -189,7 +192,7 @@ function ShellDemo() {
         }
       >
         <div className="flex flex-col gap-6">
-          <BakedStamp />
+          <BakedStamp bake={bake} />
           <RebakeButton />
         </div>
       </LivePanel>
