@@ -23,7 +23,7 @@ import { PressForm } from "./(playground)/mutation/press-form";
 import { MUTATION_SOURCE } from "./(playground)/mutation/source";
 import { getBake } from "./(playground)/shell/bake";
 import { BakedStamp } from "./(playground)/shell/baked-stamp";
-import { RebakeButton } from "./(playground)/shell/rebake-button";
+import { RebakePanel } from "./(playground)/shell/rebake-panel";
 import { SHELL_SOURCE } from "./(playground)/shell/source";
 import {
   RerunButton,
@@ -193,7 +193,7 @@ async function ShellDemo() {
       >
         <div className="flex flex-col gap-6">
           <BakedStamp bake={bake} />
-          <RebakeButton />
+          <RebakePanel currentId={bake.id} />
         </div>
       </LivePanel>
       <CodeBlock code={SHELL_SOURCE} file="bake.ts + actions.ts" />
