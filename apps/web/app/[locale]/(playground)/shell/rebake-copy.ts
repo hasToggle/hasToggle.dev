@@ -5,6 +5,15 @@ const IDLE_CAPTION =
   "expires the cache tag for everyone, instantly. Then something surprising happens.";
 const EXPIRED_CAPTION =
   "the shell you killed is gone. Its replacement doesn't exist until someone asks for it. Be the someone.";
+const REVEALED_CAPTION =
+  "expiring an entry and refilling it are two different events. You just watched both.";
+
+/**
+ * Replaces the caption when the action never came back, so a failure lands in
+ * the slot the visitor is already reading instead of adding a line and moving
+ * everything below it.
+ */
+export const REBAKE_FAILED_CAPTION = "the re-bake didn't come back. Try again?";
 
 interface Readout {
   caption: string;
@@ -12,11 +21,48 @@ interface Readout {
   label: string;
 }
 
+const SERVED_DETAIL =
+  "from the static shell — the same entry every visitor gets";
+
 const SERVED_READOUT: Readout = {
   caption: IDLE_CAPTION,
-  detail: "from the static shell — the same entry every visitor gets",
+  detail: SERVED_DETAIL,
   label: "served",
 };
+
+function expiredDetail(clock: string): string {
+  return `at ${clock} — the hash above was rendered for you and cached for nobody`;
+}
+
+function revealedDetail(privateId: string, currentId: string): string {
+  return `from the static shell — you saw #${privateId}, the cache kept #${currentId}`;
+}
+
+/**
+ * Every string each slot could hold, for the panel to stack invisibly behind
+ * the live one so the slot is always as tall as its worst case — at every
+ * viewport, not just the ones someone measured.
+ *
+ * The placeholders are the same width as the real values (a clock is always
+ * `HH:MM:SS`, a bake id always eight hex characters), so the ghosts wrap
+ * exactly where the real thing will. `rebake-copy.test.ts` holds that
+ * property still.
+ */
+const PLACEHOLDER_CLOCK = "00:00:00 UTC";
+const PLACEHOLDER_ID = "00000000";
+
+export const CAPTION_VARIANTS: readonly string[] = [
+  IDLE_CAPTION,
+  EXPIRED_CAPTION,
+  REVEALED_CAPTION,
+  REBAKE_FAILED_CAPTION,
+];
+
+export const DETAIL_VARIANTS: readonly string[] = [
+  SERVED_DETAIL,
+  expiredDetail(PLACEHOLDER_CLOCK),
+  revealedDetail(PLACEHOLDER_ID, PLACEHOLDER_ID),
+];
 
 /**
  * The provenance line, which is the only part of the demo that has to change
@@ -26,7 +72,7 @@ export function readout(state: RebakeState, currentId: string): Readout {
   if (state.phase === "expired") {
     return {
       caption: EXPIRED_CAPTION,
-      detail: `at ${formatClock(new Date(state.expiredAt))} — the hash above is a private render, computed for you and cached for nobody`,
+      detail: expiredDetail(formatClock(new Date(state.expiredAt))),
       label: "expired",
     };
   }
@@ -38,8 +84,8 @@ export function readout(state: RebakeState, currentId: string): Readout {
       return SERVED_READOUT;
     }
     return {
-      caption: IDLE_CAPTION,
-      detail: `from the static shell — you saw #${state.privateId}, the cache kept #${currentId}`,
+      caption: REVEALED_CAPTION,
+      detail: revealedDetail(state.privateId, currentId),
       label: "served",
     };
   }

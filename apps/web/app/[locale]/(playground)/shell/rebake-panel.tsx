@@ -2,10 +2,15 @@
 
 import { cn } from "@repo/design-system/lib/utils";
 import { useRouter } from "next/navigation";
-import { useCallback, useReducer, useTransition } from "react";
+import { useCallback, useReducer, useState, useTransition } from "react";
 import { MarketingButton } from "../../components/marketing-button";
 import { rebakeShell } from "./actions";
-import { readout } from "./rebake-copy";
+import {
+  CAPTION_VARIANTS,
+  DETAIL_VARIANTS,
+  REBAKE_FAILED_CAPTION,
+  readout,
+} from "./rebake-copy";
 import {
   canFetch,
   canRebake,
@@ -26,6 +31,44 @@ const REBAKE_LOCKED_LOOK = cn(
   "aria-disabled:cursor-not-allowed aria-disabled:hover:bg-transparent"
 );
 
+const IDLE_REBAKE_LABEL = "Re-bake this page";
+const REBAKE_LABELS = [IDLE_REBAKE_LABEL, "Re-baking…"];
+const FETCH_LABELS = ["Fetch what's actually cached", "Fetching…"];
+
+/**
+ * Renders `value` stacked on top of every string it could have been, so the
+ * cell is always as tall and as wide as its worst case. Reserving by hand
+ * means a magic number per breakpoint that a copy edit silently invalidates;
+ * this reserves the real thing, at whatever width the reader happens to be.
+ *
+ * The ghosts are `visibility: hidden`, so they take space but leave the tab
+ * order, the selection, and — with `aria-hidden` — the announcement alone.
+ */
+function StableSlot({
+  className,
+  value,
+  variants,
+}: {
+  className?: string;
+  value: string;
+  variants: readonly string[];
+}) {
+  return (
+    <span className={cn("grid", className)}>
+      {variants.map((variant) => (
+        <span
+          aria-hidden="true"
+          className="invisible [grid-area:1/1]"
+          key={variant}
+        >
+          {variant}
+        </span>
+      ))}
+      <span className="[grid-area:1/1]">{value}</span>
+    </span>
+  );
+}
+
 interface RebakePanelProps {
   /** The fingerprint the server just rendered, whichever render that was. */
   currentId: string;
@@ -35,14 +78,20 @@ interface RebakePanelProps {
  * Expiring a tag and refilling it are separate events, so they get separate
  * buttons — and the button you can't press is doing as much teaching as the
  * one you can.
+ *
+ * Every slot in here is sized for its tallest and widest state, because a
+ * demo about cache timing is unreadable if the thing you are watching hops
+ * down the page as it changes.
  */
 export function RebakePanel({ currentId }: RebakePanelProps) {
   const router = useRouter();
   const [state, dispatch] = useReducer(rebakeReducer, INITIAL_REBAKE_STATE);
   const [isRebaking, startRebake] = useTransition();
   const [isFetching, startFetch] = useTransition();
+  const [rebakeFailed, setRebakeFailed] = useState(false);
 
   const rebakeLocked = !canRebake(state) || isRebaking;
+  const fetchable = canFetch(state);
 
   const handleRebake = useCallback(() => {
     // Guards the same lock the button's `aria-disabled` shows, since that
@@ -50,9 +99,16 @@ export function RebakePanel({ currentId }: RebakePanelProps) {
     if (rebakeLocked) {
       return;
     }
+    setRebakeFailed(false);
     startRebake(async () => {
-      const { rebakedAt } = await rebakeShell();
-      dispatch({ at: rebakedAt, type: "expired" });
+      try {
+        const { rebakedAt } = await rebakeShell();
+        dispatch({ at: rebakedAt, type: "expired" });
+      } catch {
+        // The tag may well have been expired before the response died, so the
+        // copy promises nothing about what happened — it just says so.
+        setRebakeFailed(true);
+      }
     });
   }, [rebakeLocked]);
 
@@ -67,6 +123,9 @@ export function RebakePanel({ currentId }: RebakePanelProps) {
   }, [currentId, router]);
 
   const { caption, detail, label } = readout(state, currentId);
+  const rebakeLabel = isRebaking ? REBAKE_LABELS[1] : REBAKE_LABELS[0];
+  const fetchLabel = isFetching ? FETCH_LABELS[1] : FETCH_LABELS[0];
+  const captionText = rebakeFailed ? REBAKE_FAILED_CAPTION : caption;
 
   return (
     <div className="flex flex-col gap-3">
@@ -79,7 +138,9 @@ export function RebakePanel({ currentId }: RebakePanelProps) {
         <dl className="grid gap-1 font-mono text-muted-foreground text-sm/6">
           <div className="flex gap-3">
             <dt className="w-16 shrink-0 text-muted-foreground/60">{label}</dt>
-            <dd>{detail}</dd>
+            <dd className="min-w-0 flex-1">
+              <StableSlot value={detail} variants={DETAIL_VARIANTS} />
+            </dd>
           </div>
         </dl>
       </div>
@@ -90,17 +151,22 @@ export function RebakePanel({ currentId }: RebakePanelProps) {
           onClick={handleRebake}
           variant="outline"
         >
-          {isRebaking ? "Re-baking…" : "Re-bake this page"}
+          <StableSlot value={rebakeLabel} variants={REBAKE_LABELS} />
         </MarketingButton>
-        {canFetch(state) ? (
-          <MarketingButton
-            disabled={isFetching}
-            onClick={handleFetch}
-            variant="outline"
-          >
-            {isFetching ? "Fetching…" : "Fetch what's actually cached"}
-          </MarketingButton>
-        ) : null}
+        {/*
+          Rendered in every phase, hidden from sight and from the a11y tree
+          when it doesn't apply, so the row always reserves its exact
+          footprint. `invisible` also takes it out of the tab order.
+        */}
+        <MarketingButton
+          aria-hidden={!fetchable}
+          className={fetchable ? undefined : "invisible"}
+          disabled={!fetchable || isFetching}
+          onClick={handleFetch}
+          variant="outline"
+        >
+          <StableSlot value={fetchLabel} variants={FETCH_LABELS} />
+        </MarketingButton>
       </div>
       {/*
         Its own live region rather than the one above: the caption sits below
@@ -110,9 +176,12 @@ export function RebakePanel({ currentId }: RebakePanelProps) {
       */}
       <p
         aria-live="polite"
-        className="font-mono text-muted-foreground text-xs/5"
+        className={cn(
+          "font-mono text-xs/5",
+          rebakeFailed ? "text-destructive" : "text-muted-foreground"
+        )}
       >
-        {caption}
+        <StableSlot value={captionText} variants={CAPTION_VARIANTS} />
       </p>
     </div>
   );
