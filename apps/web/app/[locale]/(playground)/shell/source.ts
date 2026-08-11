@@ -15,6 +15,8 @@ export async function getBake() {
 
 export async function rebakeShell() {
   updateTag("landing-shell"); // expires it now, for everyone
+  // The tag's expiry is stamped after this render finishes, so the bake in
+  // this response was cached for nobody. The next request makes the real one.
   return { rebakedAt: new Date().toISOString() };
 }
 `;

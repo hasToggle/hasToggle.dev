@@ -21,8 +21,9 @@ import {
 } from "./(playground)/mutation/press-count";
 import { PressForm } from "./(playground)/mutation/press-form";
 import { MUTATION_SOURCE } from "./(playground)/mutation/source";
+import { getBake } from "./(playground)/shell/bake";
 import { BakedStamp } from "./(playground)/shell/baked-stamp";
-import { RebakeButton } from "./(playground)/shell/rebake-button";
+import { RebakePanel } from "./(playground)/shell/rebake-panel";
 import { SHELL_SOURCE } from "./(playground)/shell/source";
 import {
   RerunButton,
@@ -143,7 +144,9 @@ function BoundaryDemo() {
   );
 }
 
-function ShellDemo() {
+async function ShellDemo() {
+  const bake = await getBake();
+
   return (
     <DemoSection
       chapter="02"
@@ -167,6 +170,12 @@ function ShellDemo() {
             and it expires — for every visitor, instantly. Nobody ever lets you
             press this button. Go on.
           </p>
+          <p>
+            Then fetch what&apos;s actually cached. The fingerprint changes
+            twice, not once: expiring an entry and refilling it are two
+            different events, and the gap between them is where &ldquo;why is my
+            page still stale&rdquo; lives.
+          </p>
         </>
       }
       meta={
@@ -189,8 +198,8 @@ function ShellDemo() {
         }
       >
         <div className="flex flex-col gap-6">
-          <BakedStamp />
-          <RebakeButton />
+          <BakedStamp bake={bake} />
+          <RebakePanel currentId={bake.id} />
         </div>
       </LivePanel>
       <CodeBlock code={SHELL_SOURCE} file="bake.ts + actions.ts" />
