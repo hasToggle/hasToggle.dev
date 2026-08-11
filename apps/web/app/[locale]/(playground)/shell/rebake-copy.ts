@@ -34,8 +34,14 @@ function expiredDetail(clock: string): string {
   return `at ${clock} — the hash above was rendered for you and cached for nobody`;
 }
 
+/**
+ * Both fingerprints, because the comparison is the whole payoff — but each
+ * one carries its role, and the one on screen says so. Two bare hex strings
+ * side by side look identical at a glance and leave the reader guessing
+ * which of them is the stamp they are looking at.
+ */
 function revealedDetail(privateId: string, currentId: string): string {
-  return `from the static shell — you saw #${privateId}, the cache kept #${currentId}`;
+  return `#${currentId} is the bake above, and every visitor gets it. #${privateId} was yours alone, and is gone`;
 }
 
 /**

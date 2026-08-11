@@ -46,7 +46,7 @@ describe("rebake readout", () => {
     expect(readout(state, CURRENT_ID)).toEqual({
       caption:
         "expiring an entry and refilling it are two different events. You just watched both.",
-      detail: `from the static shell — you saw #${PRIVATE_ID}, the cache kept #${CURRENT_ID}`,
+      detail: `#${CURRENT_ID} is the bake above, and every visitor gets it. #${PRIVATE_ID} was yours alone, and is gone`,
       label: "served",
     });
   });
