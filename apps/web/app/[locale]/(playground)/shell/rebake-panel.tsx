@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@repo/design-system/lib/utils";
 import { useRouter } from "next/navigation";
 import { useCallback, useReducer, useTransition } from "react";
 import { MarketingButton } from "../../components/marketing-button";
@@ -16,8 +17,14 @@ import {
 // the re-bake button stays a real, focusable element while it's locked, so
 // keyboard and screen-reader users don't lose their place when the fetch
 // button appears beside it. See MarketingButton's `outline` variant.
-const REBAKE_LOCKED_LOOK =
-  "aria-disabled:bg-transparent aria-disabled:opacity-40";
+//
+// The hover override earns its place: a natively disabled button is excluded
+// from `:hover` matching, but an `aria-disabled` one is still live, so the
+// variant's `hover:bg-muted` would light up a button that does nothing.
+const REBAKE_LOCKED_LOOK = cn(
+  "aria-disabled:bg-transparent aria-disabled:opacity-40",
+  "aria-disabled:cursor-not-allowed aria-disabled:hover:bg-transparent"
+);
 
 interface RebakePanelProps {
   /** The fingerprint the server just rendered, whichever render that was. */
@@ -95,7 +102,18 @@ export function RebakePanel({ currentId }: RebakePanelProps) {
           </MarketingButton>
         ) : null}
       </div>
-      <p className="font-mono text-muted-foreground text-xs/5">{caption}</p>
+      {/*
+        Its own live region rather than the one above: the caption sits below
+        the buttons, so a single region can't span both without reordering
+        what a sighted reader sees. Two polite regions announce in DOM order —
+        the fact, then what to do about it.
+      */}
+      <p
+        aria-live="polite"
+        className="font-mono text-muted-foreground text-xs/5"
+      >
+        {caption}
+      </p>
     </div>
   );
 }
