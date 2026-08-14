@@ -1,3 +1,5 @@
+// biome-ignore lint/correctness/noUnusedImports: better-auth 1.6.28 leaks AuthQueryAtom into authClient's inferred type from an internal dist path; this import gives declaration emit a portable name for it (TS2883)
+import type { AuthQueryAtom } from "better-auth/client";
 import { organizationClient } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
 
