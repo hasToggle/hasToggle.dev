@@ -26,9 +26,9 @@ export function HeroAsterisk() {
           <span aria-hidden="true" className="select-none opacity-70">
             *&nbsp;
           </span>
-          Or better: run it yourself. Everything below answers back when you
-          press it. And view source whenever you like — skepticism is the
-          correct instinct.
+          Or don&apos;t take it on faith. Every panel below answers back when
+          you press it, and every one links to the code that did it. Skepticism
+          is the correct instinct.
         </p>
       </HoverCardContent>
     </HoverCard>

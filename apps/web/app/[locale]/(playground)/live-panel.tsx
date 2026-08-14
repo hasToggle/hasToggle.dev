@@ -24,6 +24,10 @@ export function LivePanel({
     <figure
       className={cn(
         "overflow-hidden rounded-2xl border border-foreground/10 bg-background shadow-sm",
+        // The instrument warms slightly under the cursor. It is the only
+        // hover state on a non-interactive element on this page — it marks
+        // the panel as the thing you are meant to reach for.
+        "transition-colors duration-300 hover:border-foreground/20",
         className
       )}
     >

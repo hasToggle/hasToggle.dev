@@ -70,7 +70,7 @@ function PartDivider() {
 
 export const metadata: Metadata = {
   description:
-    "Interactive demos of Next.js and Vercel — caching, streaming, server actions, generated images. Press the buttons, break the cache, read the code that did it. New exhibit every Monday.",
+    "Five things developers believe about Next.js, each answered by the feature itself running on the page: the server/client boundary, caching, streaming, Server Actions, generated images. Press it, break it, read the code that did it. New exhibit every Monday.",
   // Resolves the relative /api/og image below to an absolute URL in the
   // rendered og:image tag — crawlers don't do relative.
   metadataBase: new URL(env.NEXT_PUBLIC_WEB_URL),
@@ -96,34 +96,35 @@ interface PageProps {
 function BoundaryDemo() {
   return (
     <DemoSection
+      belief="I’ll put “use client” on it, to be safe."
       chapter="01"
       docs={{
         href: "https://nextjs.org/docs/app/getting-started/server-and-client-components",
         label: "Server and Client Components",
       }}
-      hook="Two components walk into a page."
       id="demo-01"
       intro={
         <>
           <p>
-            Every component in the App Router runs on the server unless you say
-            otherwise. One directive —{" "}
-            <InlineCode>&quot;use client&quot;</InlineCode>&#32;— moves a
-            subtree into the browser. Everything else follows from that split:
-            what can read secrets, what can hold state, what ships JavaScript
-            and what arrives as finished HTML.
+            Safer than what? Every component in the App Router already runs on
+            the server. <InlineCode>&quot;use client&quot;</InlineCode>&#32;is
+            not a precaution, it&apos;s a purchase — for that file and
+            everything it imports. You buy state, effects and event handlers.
+            You spend the secrets, the direct data access, and the JavaScript
+            your visitor now downloads.
           </p>
           <p>
             One of these cards rendered in Node.js and arrived as finished HTML.
-            The other hydrated in your tab and is waiting for you to click it.
+            The other hydrated in your tab and is waiting for a click. Only one
+            of them knows what version of Node it is running on.
           </p>
         </>
       }
       meta={
         <>
           The error that sends everyone here is &ldquo;useState only works in a
-          Client Component&rdquo;. Now you know why: the server has no clicks to
-          listen for.
+          Client Component&rdquo;. It is not a restriction. The server has no
+          clicks to listen for.
         </>
       }
       sourcePath="apps/web/app/[locale]/(playground)/boundary"
@@ -149,40 +150,41 @@ async function ShellDemo() {
 
   return (
     <DemoSection
+      belief="I cleared the cache, so the page is fresh now."
       chapter="02"
       docs={{
         href: "https://nextjs.org/docs/app/getting-started/caching",
         label: "Caching",
       }}
-      hook="This page was baked before you arrived."
       id="demo-02"
       intro={
         <>
           <p>
-            Static doesn&apos;t mean written by hand, and dynamic doesn&apos;t
-            mean every visitor pays full price.{" "}
+            Clearing it and refilling it are two different events, and the page
+            is only fresh after the second one.{" "}
             <InlineCode>use cache</InlineCode>&#32;bakes a component&apos;s
-            output into the page&apos;s static shell; a cache tag gives you a
-            handle to expire it on demand.
+            output into the page&apos;s static shell. A cache tag is the handle
+            you pull to throw that entry away. Pulling it does not put anything
+            back.
           </p>
           <p>
-            The stamp below is this page&apos;s cache entry. Press the button
-            and it expires — for every visitor, instantly. Nobody ever lets you
-            press this button. Go on.
+            The stamp below is this page&apos;s own cache entry — one entry,
+            shared by every visitor. Press the button and it is gone, for all of
+            them, immediately.
           </p>
           <p>
-            Then fetch what&apos;s actually cached. The fingerprint changes
-            twice, not once: expiring an entry and refilling it are two
-            different events, and the gap between them is where &ldquo;why is my
-            page still stale&rdquo; lives.
+            Then fetch what is actually cached now. The fingerprint moves twice,
+            not once. Expiring an entry and refilling it are separate events,
+            and the gap between them is the answer to the question you came here
+            with.
           </p>
         </>
       }
       meta={
         <>
           &ldquo;Why is my page stale&rdquo; and &ldquo;why is my page
-          slow&rdquo; are the same question read from opposite ends. This demo
-          is both answers.
+          slow&rdquo; are one question read from opposite ends. Tune one and you
+          have chosen the other.
         </>
       }
       sourcePath="apps/web/app/[locale]/(playground)/shell"
@@ -210,31 +212,32 @@ async function ShellDemo() {
 function StreamDemo({ searchParams }: PageProps) {
   return (
     <DemoSection
+      belief="Nothing renders until the slowest part is ready."
       chapter="03"
       docs={{
         href: "https://nextjs.org/docs/app/api-reference/file-conventions/loading",
         label: "Streaming and loading UI",
       }}
-      hook="The page refused to wait."
       id="demo-03"
       intro={
         <>
           <p>
-            Slow data used to hold the whole page hostage. With Suspense, the
-            static shell ships immediately, every slow part shows its fallback,
-            and the server streams finished HTML into place — over the same
-            response — whenever each part is done.
+            It used to. Suspense ends the arrangement. The static shell ships
+            immediately, each slow part shows its fallback, and the server
+            streams finished HTML into place over the same response as each part
+            finishes. Nothing waits for everything.
           </p>
           <p>
-            These three rows are slow on purpose. Watch the skeletons resolve in
-            delay order — fastest first, slowest last. Then make it do it again.
+            These three rows are slow on purpose. They resolve in delay order,
+            fastest first. Run it again and watch the order hold — the sequence
+            is the server finishing, not an animation.
           </p>
         </>
       }
       meta={
         <>
-          loading.tsx is this exact mechanism wearing route-sized clothes. One
-          file, and your whole segment gets a fallback.
+          loading.tsx is this same mechanism wearing route-sized clothes. One
+          file, and the whole segment gets a fallback.
         </>
       }
       sourcePath="apps/web/app/[locale]/(playground)/stream"
@@ -266,33 +269,34 @@ function StreamDemo({ searchParams }: PageProps) {
 function MutationDemo() {
   return (
     <DemoSection
+      belief="You need an API route for that."
       chapter="04"
       docs={{
         href: "https://nextjs.org/docs/app/getting-started/updating-data",
         label: "Updating data with Server Actions",
       }}
-      hook="A form with no API route."
       id="demo-04"
       intro={
         <>
           <p>
-            A Server Action is a function that lives on the server and plugs
-            straight into a form&apos;s <InlineCode>action</InlineCode>. No
-            endpoint to design, no fetch, no JSON contract — the form invokes
-            the function, the function mutates, and Next.js re-renders the page
-            with the result.
+            You need a function. A Server Action lives on the server and plugs
+            straight into a form&apos;s <InlineCode>action</InlineCode>: no
+            endpoint to design, no fetch to write, no JSON contract to keep in
+            sync with itself. The form calls the function, the function mutates,
+            and Next.js re-renders the page around the result.
           </p>
           <p>
-            This one increments a counter stored in an httpOnly cookie. The
-            number is read back by a Server Component — the JavaScript in your
-            tab never touches it, and couldn&apos;t if it tried.
+            This one increments a counter held in an httpOnly cookie, read back
+            by a Server Component. The JavaScript in your tab never touches that
+            value, and could not if it tried.
           </p>
         </>
       }
       meta={
         <>
-          Somewhere, a 2019 tutorial is still teaching you to build{" "}
-          <InlineCode>/api/increment</InlineCode>. It can rest now.
+          Somewhere a tutorial is still walking you through{" "}
+          <InlineCode>/api/increment</InlineCode>. Nothing in it was wrong. It
+          just stopped being necessary.
         </>
       }
       sourcePath="apps/web/app/[locale]/(playground)/mutation"
@@ -317,25 +321,25 @@ function MutationDemo() {
 function ImageDemo() {
   return (
     <DemoSection
+      belief="Every link preview is an image someone made by hand."
       chapter="05"
       docs={{
         href: "https://nextjs.org/docs/app/api-reference/functions/image-response",
         label: "ImageResponse",
       }}
-      hook="An image that didn't exist a second ago."
       id="demo-05"
       intro={
         <>
           <p>
-            <InlineCode>ImageResponse</InlineCode>&#32;turns JSX into a PNG at
-            request time — it&apos;s how sites generate a link-preview card per
-            page instead of per designer. Under the hood it&apos;s a route
-            handler like any other: query in, image out.
+            Someone drew the first one. <InlineCode>ImageResponse</InlineCode>
+            &#32;renders JSX to a PNG at request time, and it is a route handler
+            like any other — query in, image out. One file draws the card for
+            every page you will ever publish.
           </p>
           <p>
-            Type a title and the server draws your card. The same endpoint makes
-            the link preview for this page — and the pattern carries to every
-            page you&apos;ll ever need a card for.
+            Type a title and the server draws it. The same endpoint made the
+            link preview for this page, which is how you can check the claim
+            without taking our word for it.
           </p>
         </>
       }
@@ -377,51 +381,54 @@ function Roadmap() {
   return (
     <section aria-labelledby="roadmap-heading" id="roadmap">
       <Container className="py-24 sm:py-32">
-        <div className="mb-14 max-w-2xl">
-          <Subheading>The syllabus grows</Subheading>
-          <Heading
-            as="h2"
-            className="mt-3 text-balance text-4xl sm:text-5xl md:text-6xl"
-            id="roadmap-heading"
-          >
-            Five exhibits. Dozens to go.
-          </Heading>
-          <p className="mt-6 text-foreground/75 text-lg leading-8">
-            The plan is everything Next.js has to offer — and as much of the
-            Vercel platform as can be demonstrated from inside a web page. One
-            exhibit at a time, in public.
-          </p>
-        </div>
-
-        <ul className="grid max-w-3xl grid-cols-1 gap-x-12 gap-y-3 font-mono text-muted-foreground text-sm/6 sm:grid-cols-2">
-          {UPCOMING.map((item) => (
-            <li className="flex items-baseline gap-3" key={item}>
-              <span
-                aria-hidden="true"
-                className="select-none text-ht-cyan-700/60 dark:text-ht-cyan-300/60"
-              >
-                +
-              </span>
-              {item}
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-16 max-w-2xl">
-          <MetaAside variant="block">
-            Built in the open: the{" "}
-            <a
-              className="underline decoration-ht-cyan-700/40 underline-offset-2 hover:decoration-ht-cyan-700"
-              href="https://github.com/hasToggle/hasToggle.dev"
-              rel="noreferrer"
-              target="_blank"
+        {/* The empty rail keeps the page on one left edge without numbering a
+            section that isn't an exhibit. */}
+        <div className="grid gap-x-12 gap-y-8 lg:grid-cols-[7rem_minmax(0,1fr)]">
+          <div aria-hidden="true" />
+          <div className="ht-reveal">
+            <Subheading>The syllabus grows</Subheading>
+            <Heading
+              as="h2"
+              className="mt-3 max-w-2xl text-balance text-4xl sm:text-5xl md:text-6xl"
+              id="roadmap-heading"
             >
-              repo is public
-            </a>
-            , and the building is done with AI — Conductor orchestrating Claude
-            Code, with the process published alongside via Entire.io. You get
-            the playground and the making-of.
-          </MetaAside>
+              Still to build.
+            </Heading>
+            <p className="mt-6 max-w-2xl text-foreground/75 text-lg leading-8">
+              The plan is everything Next.js can do, and as much of Vercel as
+              can be proved from inside a web page. One exhibit at a time, in
+              public.
+            </p>
+
+            <ul className="mt-14 grid max-w-3xl grid-cols-1 gap-x-12 gap-y-3 font-mono text-muted-foreground text-sm/6 sm:grid-cols-2">
+              {UPCOMING.map((item) => (
+                <li className="flex items-baseline gap-3" key={item}>
+                  <span
+                    aria-hidden="true"
+                    className="select-none text-ht-cyan-700/60 dark:text-ht-cyan-300/60"
+                  >
+                    +
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+
+            <MetaAside className="mt-16 max-w-2xl" variant="block">
+              Built in the open: the{" "}
+              <a
+                className="underline decoration-ht-cyan-700/40 underline-offset-2 transition-colors hover:decoration-ht-cyan-700"
+                href="https://github.com/hasToggle/hasToggle.dev"
+                rel="noreferrer"
+                target="_blank"
+              >
+                repo is public
+              </a>
+              , and the building is done with AI — Conductor orchestrating
+              Claude Code, with the process published alongside via Entire.io.
+              You get the playground and the making-of.
+            </MetaAside>
+          </div>
         </div>
       </Container>
     </section>
@@ -434,7 +441,7 @@ function Cohort() {
       <Container className="py-24 sm:py-32">
         <div className="grid gap-x-12 gap-y-6 lg:grid-cols-[7rem_minmax(0,1fr)]">
           <div aria-hidden="true" />
-          <div className="max-w-2xl">
+          <div className="ht-reveal max-w-2xl">
             <Subheading id="cohort-heading">The cohort</Subheading>
             <Heading as="h2" className="mt-3 text-balance text-4xl sm:text-5xl">
               Some things move faster with a coach.
@@ -448,7 +455,7 @@ function Cohort() {
             </p>
             <div className="mt-8 flex flex-col items-start gap-x-8 gap-y-4 sm:flex-row sm:items-center">
               <MarketingButton href="#digest">
-                Get first dibs on seats
+                Tell me when seats open
               </MarketingButton>
               <MetaAside className="sm:max-w-xs">
                 Paid, small, and honest about both.
@@ -469,7 +476,7 @@ function DigestCTA() {
       id="digest"
     >
       <Container>
-        <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
+        <div className="ht-reveal mx-auto flex max-w-2xl flex-col items-center text-center">
           <Subheading className="text-ht-cyan-800/80 dark:text-ht-cyan-300/80">
             The weekly build
           </Subheading>
@@ -491,8 +498,8 @@ function DigestCTA() {
             <Digest />
           </div>
           <MetaAside className="mt-6">
-            The fact that you&apos;re reading the fine print under an email form
-            says something about you. Something good.
+            One email a week. Unsubscribing is one click, and it works the first
+            time.
           </MetaAside>
         </div>
       </Container>
@@ -501,8 +508,12 @@ function DigestCTA() {
 }
 
 export default function MarketingPage({ searchParams }: PageProps) {
+  // `overflow-x-clip`, not `overflow-hidden`: clipping stops the full-bleed
+  // rules from widening the page, but unlike `hidden` it does not turn this
+  // element into a scroll container — which is what the scroll-driven reveals
+  // resolve against. See `.ht-reveal` in app/styles.css.
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-x-clip">
       <Hero />
       <main>
         <BoundaryDemo />
@@ -516,6 +527,7 @@ export default function MarketingPage({ searchParams }: PageProps) {
         <ImageDemo />
         <PartDivider />
         <Roadmap />
+        <SectionDivider />
         <Cohort />
         <DigestCTA />
         <FrequentlyAskedQuestions />

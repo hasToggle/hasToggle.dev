@@ -8,12 +8,16 @@ interface DemoLink {
 }
 
 interface DemoSectionProps {
+  /**
+   * The sentence a developer has actually said about this feature, set as the
+   * exhibit's heading. Everything below it is the answer.
+   */
+  belief: string;
   /** Syllabus position, e.g. "01". The order is the curriculum. */
   chapter: string;
   children: React.ReactNode;
   /** Official documentation this demo is a lab bench for. */
   docs: DemoLink;
-  hook: string;
   id: string;
   intro: React.ReactNode;
   meta?: React.ReactNode;
@@ -44,15 +48,29 @@ function SectionLink({ href, label }: DemoLink) {
 }
 
 /**
- * Editorial wrapper for one exhibit: numbered rail on the left, prose and the
- * live panel on the right, docs and source links at the bottom. Numbers mean
- * something here — the sections build on each other like a syllabus.
+ * The rail every exhibit hangs off. Just the number: the eyebrow beside it
+ * already names the topic, and the margin is quieter for holding one thing.
+ */
+function SectionRail({ chapter }: { chapter: string }) {
+  return (
+    <div className="text-right lg:block">
+      <span className="font-mono text-4xl text-muted-foreground/40 tabular-nums leading-none tracking-tight lg:text-5xl">
+        {chapter}
+      </span>
+    </div>
+  );
+}
+
+/**
+ * Editorial wrapper for one exhibit. It opens with a belief and answers it
+ * with a running instrument — the same shape the weekly digest uses, so the
+ * page and the email teach in one voice.
  */
 export function DemoSection({
+  belief,
   chapter,
   children,
   docs,
-  hook,
   id,
   intro,
   meta,
@@ -66,20 +84,16 @@ export function DemoSection({
       id={id}
     >
       <Container>
-        <div className="grid gap-x-12 gap-y-6 lg:grid-cols-[7rem_minmax(0,1fr)]">
-          <div>
-            <span className="font-mono text-muted-foreground/60 text-sm tracking-[0.25em] lg:block lg:text-right">
-              {chapter}
-            </span>
-          </div>
-          <div>
+        <div className="grid gap-x-12 gap-y-8 lg:grid-cols-[7rem_minmax(0,1fr)]">
+          <SectionRail chapter={chapter} />
+          <div className="ht-reveal">
             <Subheading>{topic}</Subheading>
             <Heading
               as="h2"
-              className="mt-3 max-w-2xl text-balance text-3xl sm:text-4xl md:text-5xl"
+              className="mt-3 max-w-2xl text-balance text-3xl/[1.1] sm:text-4xl/[1.1] md:text-5xl/[1.05]"
               id={`${id}-heading`}
             >
-              {hook}
+              {belief}
             </Heading>
             <div className="mt-6 max-w-2xl space-y-4 text-foreground/75 text-lg leading-8">
               {intro}

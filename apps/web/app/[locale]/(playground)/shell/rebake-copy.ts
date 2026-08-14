@@ -2,9 +2,9 @@ import { formatClock } from "../format";
 import type { RebakeState } from "./rebake-state";
 
 const IDLE_CAPTION =
-  "expires the cache tag for everyone, instantly. Then something surprising happens.";
+  "expires the cache tag for everyone, instantly. Nothing refills it on its own.";
 const EXPIRED_CAPTION =
-  "the shell you killed is gone. Its replacement doesn't exist until someone asks for it. Be the someone.";
+  "the entry you expired is gone. Its replacement does not exist until someone asks for the page. Ask for it.";
 const REVEALED_CAPTION =
   "expiring an entry and refilling it are two different events. You just watched both.";
 

@@ -144,8 +144,7 @@ export function Footer() {
             </div>
             <div>
               <div className="py-3 text-center text-muted-foreground text-sm/6">
-                Come back Monday — there&apos;ll be something new to poke.
-                Welcome to hasToggle.
+                Come back Monday. There&apos;ll be something new to press.
               </div>
             </div>
             <div className="flex">

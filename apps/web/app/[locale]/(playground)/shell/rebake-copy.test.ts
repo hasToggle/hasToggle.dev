@@ -21,7 +21,7 @@ describe("rebake readout", () => {
   test("served doesn't claim to know how this render happened", () => {
     expect(readout(SERVED_STATE, CURRENT_ID)).toEqual({
       caption:
-        "expires the cache tag for everyone, instantly. Then something surprising happens.",
+        "expires the cache tag for everyone, instantly. Nothing refills it on its own.",
       detail: "from the static shell — the same entry every visitor gets",
       label: "served",
     });
@@ -30,7 +30,7 @@ describe("rebake readout", () => {
   test("expired names the moment and disclaims the private hash above it", () => {
     expect(readout(EXPIRED_STATE, CURRENT_ID)).toEqual({
       caption:
-        "the shell you killed is gone. Its replacement doesn't exist until someone asks for it. Be the someone.",
+        "the entry you expired is gone. Its replacement does not exist until someone asks for the page. Ask for it.",
       detail:
         "at 15:05:35 UTC — the hash above was rendered for you and cached for nobody",
       label: "expired",
@@ -104,7 +104,7 @@ describe("rebake readout", () => {
     };
     expect(readout(state, CURRENT_ID)).toEqual({
       caption:
-        "expires the cache tag for everyone, instantly. Then something surprising happens.",
+        "expires the cache tag for everyone, instantly. Nothing refills it on its own.",
       detail: "from the static shell — the same entry every visitor gets",
       label: "served",
     });

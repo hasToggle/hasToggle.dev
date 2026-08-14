@@ -126,6 +126,50 @@
     monospace;
 }
 
+/* ── Entrance choreography ──────────────────────────────────────────────
+   One movement, played two ways: the hero plays it on a clock, the sections
+   play it against their own position in the viewport. Neither depends on
+   JavaScript, so a failed hydration can never leave a section invisible. */
+@keyframes ht-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The hero's load sequence — the thesis arrives one line at a time. Timed
+   animations are supported everywhere, so this runs for every visitor; each
+   element sets its own offset with --ht-delay. */
+@media (prefers-reduced-motion: no-preference) {
+  .ht-enter {
+    animation: ht-rise 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--ht-delay, 0ms);
+  }
+}
+
+/* The same movement, scrubbed by scroll position instead. Wrapped in
+   @supports on purpose: a browser without scroll-driven animations skips the
+   whole rule and renders the content in place, so the fallback is the plain
+   page rather than an empty one.
+
+   This is also why the page root uses `overflow-x: clip` and not
+   `overflow: hidden` — `hidden` makes the root a scroll container, and
+   view() would then resolve against a box that never scrolls, leaving every
+   revealed element stuck at 0% forever. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .ht-reveal {
+      animation: ht-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 18%;
+    }
+  }
+}
+
 /* Marketing keyframes */
 @keyframes rerender {
   0% {
