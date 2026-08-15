@@ -70,7 +70,7 @@ function PartDivider() {
 
 export const metadata: Metadata = {
   description:
-    "Five things developers believe about Next.js, each answered by the feature itself running on the page: the server/client boundary, caching, streaming, Server Actions, generated images. Press it, break it, read the code that did it. New exhibit every Monday.",
+    "Every exhibit takes something developers are sure about and runs the real feature next to it: the server/client boundary, caching, streaming, Server Actions, generated images. Poke it, break it, read the code that did it. New exhibit every Monday.",
   // Resolves the relative /api/og image below to an absolute URL in the
   // rendered og:image tag — crawlers don't do relative.
   metadataBase: new URL(env.NEXT_PUBLIC_WEB_URL),
@@ -161,8 +161,8 @@ async function ShellDemo() {
       intro={
         <>
           <p>
-            Clearing it and refilling it are two different events, and the page
-            is only fresh after the second one.{" "}
+            You cleared it. Nothing refilled it. Those are two different events,
+            and the page is only fresh after the second one.{" "}
             <InlineCode>use cache</InlineCode>&#32;bakes a component&apos;s
             output into the page&apos;s static shell. A cache tag is the handle
             you pull to throw that entry away. Pulling it does not put anything
@@ -212,7 +212,7 @@ async function ShellDemo() {
 function StreamDemo({ searchParams }: PageProps) {
   return (
     <DemoSection
-      belief="Nothing renders until the slowest part is ready."
+      belief="I’ll fetch it all first, then render."
       chapter="03"
       docs={{
         href: "https://nextjs.org/docs/app/api-reference/file-conventions/loading",
@@ -222,10 +222,10 @@ function StreamDemo({ searchParams }: PageProps) {
       intro={
         <>
           <p>
-            It used to. Suspense ended that. The static shell ships immediately,
-            each slow part shows its fallback, and the server streams finished
-            HTML into place over the same response as each part finishes.
-            Nothing waits for everything.
+            Not any more. The static shell ships immediately, each slow part
+            shows its fallback, and the server streams finished HTML into place
+            over the same response as each part finishes. Nothing waits for
+            everything.
           </p>
           <p>
             These three rows are slow on purpose. They resolve in delay order,
@@ -323,7 +323,7 @@ function MutationDemo() {
 function ImageDemo() {
   return (
     <DemoSection
-      belief="Every link preview is an image someone made by hand."
+      belief="I’ll need to design a card for every page."
       chapter="05"
       docs={{
         href: "https://nextjs.org/docs/app/api-reference/functions/image-response",
@@ -333,7 +333,7 @@ function ImageDemo() {
       intro={
         <>
           <p>
-            Someone drew the first one. <InlineCode>ImageResponse</InlineCode>
+            You&apos;ll design one. <InlineCode>ImageResponse</InlineCode>
             &#32;renders JSX to a PNG at request time, and it is a route handler
             like any other — query in, image out. One file draws the card for
             every page you will ever publish.
@@ -348,8 +348,8 @@ function ImageDemo() {
       meta={
         <>
           The fine print: it looks like CSS, but the renderer (Satori) only
-          understands flexbox. Grid users will be shown the door, politely, at
-          build time.
+          understands flexbox. Grid users will be shown the door, politely, the
+          moment the route runs.
         </>
       }
       sourcePath="apps/web/app/api/og"
@@ -453,7 +453,8 @@ function Cohort() {
               walls catch everyone — hydration, caching, the boundary, all the
               exhibits above. The playground shows you the wall. The cohort gets
               you over it: small paid groups, building production apps on
-              exactly these topics, AI workflow included.
+              exactly these topics, with the same AI workflow that built this
+              page.
             </p>
             <div className="mt-8 flex flex-col items-start gap-x-8 gap-y-4 sm:flex-row sm:items-center">
               <MarketingButton href="#digest">

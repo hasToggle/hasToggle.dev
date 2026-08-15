@@ -32,12 +32,12 @@ const faqs: {
   {
     answer:
       "In public, with AI. The repo is on GitHub. The building happens in Conductor, with Claude Code doing the typing, and the process — prompts, checkpoints, wrong turns included — is being published alongside via Entire.io. This site is its own biggest demo.",
-    meta: "The AI writes the code. The judgment about what ships stays human. That division of labor is the actual curriculum.",
+    meta: "The AI writes the code. Someone still has to decide what ships, and that part hasn’t been automated.",
     question: "How is this site built?",
   },
   {
     answer:
-      "One new exhibit and its write-up: what it shows, why it matters, when to reach for it. Five minutes, no filler, and unsubscribing stays one click away.",
+      "One new exhibit and the write-up that goes with it. Five minutes, no filler, and nothing you have to read on a schedule.",
     question: "What lands in my inbox on Monday?",
   },
 ];
@@ -78,7 +78,7 @@ export function FrequentlyAskedQuestions() {
             as="h2"
             className="mt-3 text-balance text-4xl sm:text-5xl md:text-6xl"
           >
-            Your questions answered.
+            Before you poke anything.
           </Heading>
         </div>
 
