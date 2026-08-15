@@ -144,7 +144,7 @@ export function Footer() {
             </div>
             <div>
               <div className="py-3 text-center text-muted-foreground text-sm/6">
-                Come back Monday. There&apos;ll be something new to press.
+                Come back Monday. There&apos;ll be something new to poke.
               </div>
             </div>
             <div className="flex">

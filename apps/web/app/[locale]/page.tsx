@@ -109,9 +109,10 @@ function BoundaryDemo() {
             Safer than what? Every component in the App Router already runs on
             the server. <InlineCode>&quot;use client&quot;</InlineCode>&#32;is
             not a precaution, it&apos;s a purchase — for that file and
-            everything it imports. You buy state, effects and event handlers.
-            You spend the secrets, the direct data access, and the JavaScript
-            your visitor now downloads.
+            everything it imports. You buy useState, useEffect and onClick. You
+            pay with the database call you can no longer make from here, the API
+            key you can no longer read, and however much React your visitor
+            downloads on their phone.
           </p>
           <p>
             One of these cards rendered in Node.js and arrived as finished HTML.
@@ -123,8 +124,8 @@ function BoundaryDemo() {
       meta={
         <>
           The error that sends everyone here is &ldquo;useState only works in a
-          Client Component&rdquo;. It is not a restriction. The server has no
-          clicks to listen for.
+          Client Component&rdquo;. The server isn&apos;t being difficult. It has
+          no clicks to listen for.
         </>
       }
       sourcePath="apps/web/app/[locale]/(playground)/boundary"
@@ -174,17 +175,16 @@ async function ShellDemo() {
           </p>
           <p>
             Then fetch what is actually cached now. The fingerprint moves twice,
-            not once. Expiring an entry and refilling it are separate events,
-            and the gap between them is the answer to the question you came here
-            with.
+            not once, and the gap between those two moves is where every
+            &ldquo;but I already revalidated it&rdquo; ticket lives.
           </p>
         </>
       }
       meta={
         <>
           &ldquo;Why is my page stale&rdquo; and &ldquo;why is my page
-          slow&rdquo; are one question read from opposite ends. Tune one and you
-          have chosen the other.
+          slow&rdquo; are one question read from opposite ends. Tune one and
+          you&apos;ve picked a side on the other, whether you meant to or not.
         </>
       }
       sourcePath="apps/web/app/[locale]/(playground)/shell"
@@ -222,10 +222,10 @@ function StreamDemo({ searchParams }: PageProps) {
       intro={
         <>
           <p>
-            It used to. Suspense ends the arrangement. The static shell ships
-            immediately, each slow part shows its fallback, and the server
-            streams finished HTML into place over the same response as each part
-            finishes. Nothing waits for everything.
+            It used to. Suspense ended that. The static shell ships immediately,
+            each slow part shows its fallback, and the server streams finished
+            HTML into place over the same response as each part finishes.
+            Nothing waits for everything.
           </p>
           <p>
             These three rows are slow on purpose. They resolve in delay order,
@@ -282,8 +282,8 @@ function MutationDemo() {
             You need a function. A Server Action lives on the server and plugs
             straight into a form&apos;s <InlineCode>action</InlineCode>: no
             endpoint to design, no fetch to write, no JSON contract to keep in
-            sync with itself. The form calls the function, the function mutates,
-            and Next.js re-renders the page around the result.
+            sync. The form calls the function, the function mutates, and Next.js
+            re-renders the page around the result.
           </p>
           <p>
             This one increments a counter held in an httpOnly cookie, read back
@@ -294,9 +294,11 @@ function MutationDemo() {
       }
       meta={
         <>
-          Somewhere a tutorial is still walking you through{" "}
-          <InlineCode>/api/increment</InlineCode>. Nothing in it was wrong. It
-          just stopped being necessary.
+          Somewhere a tutorial is teaching you to build{" "}
+          <InlineCode>/api/increment</InlineCode>. It will teach you to validate
+          the request body, handle the 405, and write a fetch wrapper with a
+          retry. All of it correct. All of it in service of adding one to a
+          number.
         </>
       }
       sourcePath="apps/web/app/[locale]/(playground)/mutation"
@@ -337,9 +339,9 @@ function ImageDemo() {
             every page you will ever publish.
           </p>
           <p>
-            Type a title and the server draws it. The same endpoint made the
-            link preview for this page, which is how you can check the claim
-            without taking our word for it.
+            Type a title and the server draws it. The same endpoint drew the
+            link preview for this page — paste the URL into Slack and check us
+            against it.
           </p>
         </>
       }

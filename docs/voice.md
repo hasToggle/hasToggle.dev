@@ -81,6 +81,14 @@ not where the confidence leaks out.
 **The reader is competent.** They have shipped something they could not explain.
 So has everyone. That is the premise, not the accusation.
 
+**When a referent is vague, name it. Do not reach for a possessive.** "These
+answer back" has no antecedent, and the instinct is to fix it with "Our demos
+answer back" — but `our` repairs vagueness by asserting ownership, which drags
+the sentence into vendor register. "The demos below" repairs it by pointing,
+which costs nothing. This matters most next to a `we` that is being used for
+solidarity: "So have we" makes the narrator a fellow sufferer, and a possessive
+one sentence later turns the same `we` into the seller.
+
 ---
 
 ## 3. Do not
