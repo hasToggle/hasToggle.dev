@@ -5,6 +5,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@repo/design-system/components/ui/hover-card";
+import { HeroFootnoteBody } from "./hero-footnote";
 
 // Kept as its own client component so the Radix HoverCard trigger isn't passed
 // as a Server Component child into the hero's <h1>. Doing so caused a React 19 /
@@ -23,12 +24,7 @@ export function HeroAsterisk() {
         side="bottom"
       >
         <p className="font-mono text-ht-cyan-900/80 text-sm/6 dark:text-ht-cyan-300/90">
-          <span aria-hidden="true" className="select-none opacity-70">
-            *&nbsp;
-          </span>
-          Or don&apos;t take it on faith. Every panel below answers back when
-          you press it, and every one links to the code that did it. Skepticism
-          is the correct instinct.
+          <HeroFootnoteBody />
         </p>
       </HoverCardContent>
     </HoverCard>

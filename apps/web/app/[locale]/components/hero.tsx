@@ -2,6 +2,7 @@ import { Separator } from "@repo/design-system/components/ui/separator";
 import { HeroReadout } from "../(playground)/hero-readout";
 import { Container } from "./container";
 import { HeroAsterisk } from "./hero-asterisk";
+import { HeroFootnoteBody } from "./hero-footnote";
 import { MarketingButton } from "./marketing-button";
 import { MetaAside } from "./meta-aside";
 import { Navbar } from "./navbar";
@@ -90,12 +91,7 @@ export function Hero() {
 
         <div className="pt-8 pb-16 md:hidden" id="hero-footnote-1">
           <MetaAside noMarker variant="block">
-            <span aria-hidden="true" className="select-none opacity-70">
-              *&nbsp;
-            </span>
-            Or don&apos;t take it on faith. Every panel below answers back when
-            you press it, and every one links to the code that did it.
-            Skepticism is the correct instinct.
+            <HeroFootnoteBody />
           </MetaAside>
         </div>
       </Container>
