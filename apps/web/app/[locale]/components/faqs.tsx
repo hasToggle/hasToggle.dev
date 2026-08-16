@@ -16,7 +16,7 @@ const faqs: {
   {
     answer:
       "The playground is free. Completely, permanently, no-asterisk free. The paid thing is coaching: small cohorts where you build production apps with me on exactly these topics, AI workflow included. The page teaches; the cohort makes it stick.",
-    meta: "Now you know what’s being sold. Weigh the rest of the page against that.",
+    meta: "The playground doesn’t get better if you buy the cohort. It’s the same page either way.",
     question: "Is this free?",
   },
   {
