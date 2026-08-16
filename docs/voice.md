@@ -71,26 +71,23 @@ quoting a belief the reader holds, and a quotation delivered from above is an
 accusation. The moment hasToggle is exempt from its own verdict, the whole
 device turns smug.
 
-### Where the page falls short of this — audited 2026-08-16
+### Audit — 2026-08-16
 
-These four are targets. The landing page does not fully hit them yet, and this
-list exists so nobody drafts against §1 believing it is a description:
+These four are targets, not a description. The landing page was audited against
+them and five gaps were found and closed the same day:
 
-- **The stance is nearly absent.** It appears once, in the hero footnote ("So
-  have we"). Across all five exhibit intros, first-person plural occurs once and
-  it is a pointer rather than an admission. The spine currently diagnoses
-  without ever joining.
-- **Mickens covers two of five asides, and they are adjacent.** Exhibits four
-  and five run the same inventory move back to back, which is exactly the
-  repetition §5 warns about. Asides one, two and three are understatement,
-  aphorism and metaphor respectively.
-- **Roach does not reach the exhibits.** The warmth stops at the frame. Intro
-  three contains no second person and no joke, which makes it measurably the
-  flattest prose on the page — a structural gap, not a word-choice one.
-- **One line inverts the stance.** "See? We told you what we're selling. Most
-  landing pages hide that part." awards the narrator a point, and is the only
-  line that punches at a third party instead of at a belief the reader holds.
-- **Aside two is the closest surviving thing to an aphorism**, which §4 forbids.
+| Gap | Closed by |
+|---|---|
+| The stance appeared once on the whole page, in the hero footnote. All five exhibit intros diagnosed without ever joining. | Exhibit one now opens "We reached for it the same way, for about a year, before anyone made us say what it was protecting against." |
+| Mickens covered two of five asides and they were **adjacent** — four and five ran the same inventory move back to back, the repetition §5 warns about. | Aside two becomes the inventory; aside five becomes warmth. The asides now alternate rather than doubling. |
+| Roach never reached the exhibits. Intro three had no second person and no joke — the flattest prose on the page, structurally rather than by word choice. | Intro three now admits the delays are hardcoded, which is both the warm beat and a second instance of the stance. |
+| "See? We told you what we're selling. Most landing pages hide that part." inverted the stance — the narrator awarding itself a point, and the only line punching at a third party. | Replaced with "Now you know what's being sold. Weigh the rest of the page against that." Judgment handed to the reader instead of claimed. |
+| Aside two was the closest surviving thing to the aphorism §4 forbids. | Same edit as row two. |
+
+**Re-audit before assuming this holds.** The counts that produced it are cheap
+to reproduce: first-person plural per intro, register per aside, second-person
+density per section. A register drifting back is invisible line by line and
+obvious in aggregate, which is the only reason it was caught.
 
 ---
 

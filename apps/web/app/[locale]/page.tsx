@@ -106,13 +106,15 @@ function BoundaryDemo() {
       intro={
         <>
           <p>
-            Safer than what? Every component in the App Router already runs on
-            the server. <InlineCode>&quot;use client&quot;</InlineCode>&#32;is
-            not a precaution, it&rsquo;s a purchase — for that file and
-            everything it imports. You buy useState, useEffect and onClick. You
-            pay with the database call you can no longer make from here, the API
-            key you can no longer read, and however much React your visitor
-            downloads on their phone.
+            Safer than what? We reached for it the same way, for about a year,
+            before anyone made us say what it was protecting against. Every
+            component in the App Router already runs on the server.{" "}
+            <InlineCode>&quot;use client&quot;</InlineCode>&#32;is not a
+            precaution, it&rsquo;s a purchase — for that file and everything it
+            imports. You buy useState, useEffect and onClick. You pay with the
+            database call you can no longer make from here, the API key you can
+            no longer read, and however much React your visitor downloads on
+            their phone.
           </p>
           <p>
             One of these cards rendered in Node.js and arrived as finished HTML.
@@ -182,9 +184,9 @@ async function ShellDemo() {
       }
       meta={
         <>
-          &ldquo;Why is my page stale&rdquo; and &ldquo;why is my page
-          slow&rdquo; are one question read from opposite ends. Tune one and
-          you&rsquo;ve picked a side on the other, whether you meant to or not.
+          The ritual: clear the cache, hard refresh, clear it again, open an
+          incognito window, ask a colleague to load it. Five steps, three of
+          which quietly refill the entry you just cleared.
         </>
       }
       sourcePath="apps/web/app/[locale]/(playground)/shell"
@@ -228,9 +230,12 @@ function StreamDemo({ searchParams }: PageProps) {
             everything.
           </p>
           <p>
-            These three rows are slow on purpose. They resolve in delay order,
-            fastest first. Run it again and watch the order hold — the sequence
-            is the server finishing, not an animation.
+            These three rows are slow on purpose. The delays are hardcoded — the
+            only faked thing on this page — but the streaming is not: each row
+            is a Server Component that genuinely finishes on the server and
+            lands when it is done. Run it again and watch the order hold. What
+            you are seeing is the server finishing, not an animation pretending
+            to.
           </p>
         </>
       }
@@ -347,9 +352,9 @@ function ImageDemo() {
       }
       meta={
         <>
-          The workflow this replaces: open Figma, export at 1200&times;630, save
-          it as og-pricing-final-v3.png, wire up the path, then do the whole
-          thing again when someone rewrites the headline.
+          Every repo has an og-image-final-v2.png in it somewhere, quietly out
+          of date since the last time the headline changed. Nobody is coming to
+          update it, and now nobody has to.
         </>
       }
       sourcePath="apps/web/app/api/og"
