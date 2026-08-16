@@ -8,9 +8,13 @@ that label was tried and removed.
 
 This document exists because the voice drifts. It drifts toward prose that is
 correct, defensible, and textureless — the register a language model produces
-when a sentence optimizes for being unobjectionable. Every rule below is derived
-from lines that were actually written for this site and actually accepted or
-rejected. Section 6 is the evidence.
+when a sentence optimizes for being unobjectionable.
+
+Sections 3 through 8 are derived from lines actually written for this site and
+actually accepted or rejected; §6 is that evidence. **Section 1 is different.**
+The sources there were fitted to the pattern afterwards, so they describe what
+the page aims at rather than what it has achieved, and §1 ends with the gap
+between the two.
 
 **How to use it at each stage.** Drafting: start from §2, the lines that already
 work, and pattern-match. Editing: §4 and §5. Brainstorming: leave it closed.
@@ -20,34 +24,73 @@ a shape and needs words, not before.
 
 ---
 
-## 1. The three sources
+## 1. Four registers and one stance
 
-**Paul Ford — "What Is Code?" (Bloomberg Businessweek, 2015).** The spine.
-Long, genuinely technical, funny, second person, quietly brutal about the
-reader's assumptions and never wrong. His load-bearing move is that the
+The page runs four registers. Each owns specific elements and has its own
+source. A fifth name, Ford, is not a register at all — it is a constraint on all
+four.
+
+### The spine — Matthew Butterick, *Practical Typography*
+
+The exhibit intros. Opinionated technical instruction: states that you are
+wrong, explains exactly why, never hedges, never digresses, and does not soften
+the correction with charm. The shape the intros already have — a rebuttal beat,
+then mechanism, then a pointer at the evidence — is his.
+
+> Safer than what? · You cleared it. Nothing refilled it. · Not any more. ·
+> You need a function. · You'll design one.
+
+### The asides — James Mickens, "The Night Watch", "The Slow Winter" (USENIX `;login:`)
+
+Steal the structure, never the voice — he is too distinctive to imitate without
+it reading as impersonation. The structure: set up a received platitude, then
+describe what actually happens in escalating operational detail until the
+platitude collapses under its own specifics. **Texture is inventory, not wit.**
+
+### The frame — Mary Roach, *Stiff*, *Packing for Mars*
+
+The hero, cohort, digest and FAQ. Funny about technical detail without ever
+being cruel about it, curious in a way that makes the reader feel invited rather
+than tested. This is where the page is allowed to be warm without being soft.
+
+### The instrument — Edward Tufte
+
+Panel readouts and labels, and nothing else. Lowercase, middot-separated, real
+identifiers, no adjectives, no jokes; every mark earning its place. In the
+paragraphs this register comes out cold, and §6 records it being proposed there
+and rejected every time.
+
+### The stance — Paul Ford, "What Is Code?" (Bloomberg Businessweek, 2015)
+
+Not a register. A constraint on all four. Ford's load-bearing move is that the
 confrontation includes the narrator — he diagnoses the industry's impostor
-syndrome and puts himself in the diagnosis rather than above it. The moment
-hasToggle is exempt from its own verdict it becomes smug, and the misconception
-frame stops working.
+syndrome and puts himself inside the diagnosis rather than above it.
 
-**James Mickens — "The Night Watch", "The Slow Winter" (USENIX `;login:`).**
-The asides. Steal the structure, never the voice — he is too distinctive to
-imitate without it reading as impersonation. The structure: set up a received
-platitude, then describe what actually happens in escalating operational detail
-until the platitude collapses under its own specifics. **Texture is inventory,
-not wit.**
+This matters more here than it does for him. The misconception frame works by
+quoting a belief the reader holds, and a quotation delivered from above is an
+accusation. The moment hasToggle is exempt from its own verdict, the whole
+device turns smug.
 
-**Mary Roach — *Stiff*, *Packing for Mars*.** The warmth. Funny about technical
-detail without ever being cruel about it, and curious in a way that makes the
-reader feel invited rather than tested. This slot originally read "Tufte", and
-the evidence in section 6 overruled it: austere declarative prose was proposed
-repeatedly on this site and rejected every time.
+### Where the page falls short of this — audited 2026-08-16
 
-### On Tufte
+These four are targets. The landing page does not fully hit them yet, and this
+list exists so nobody drafts against §1 believing it is a description:
 
-Tufte is the right instinct for the *demos* — contempt for decoration, every
-mark earning its place — and the wrong instinct for the *prose*, where it comes
-out cold. Use him on the panels, not the paragraphs.
+- **The stance is nearly absent.** It appears once, in the hero footnote ("So
+  have we"). Across all five exhibit intros, first-person plural occurs once and
+  it is a pointer rather than an admission. The spine currently diagnoses
+  without ever joining.
+- **Mickens covers two of five asides, and they are adjacent.** Exhibits four
+  and five run the same inventory move back to back, which is exactly the
+  repetition §5 warns about. Asides one, two and three are understatement,
+  aphorism and metaphor respectively.
+- **Roach does not reach the exhibits.** The warmth stops at the frame. Intro
+  three contains no second person and no joke, which makes it measurably the
+  flattest prose on the page — a structural gap, not a word-choice one.
+- **One line inverts the stance.** "See? We told you what we're selling. Most
+  landing pages hide that part." awards the narrator a point, and is the only
+  line that punches at a third party instead of at a belief the reader holds.
+- **Aside two is the closest surviving thing to an aphorism**, which §4 forbids.
 
 ---
 
