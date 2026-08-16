@@ -10,7 +10,13 @@ This document exists because the voice drifts. It drifts toward prose that is
 correct, defensible, and textureless — the register a language model produces
 when a sentence optimizes for being unobjectionable. Every rule below is derived
 from lines that were actually written for this site and actually accepted or
-rejected. Section 4 is the evidence.
+rejected. Section 6 is the evidence.
+
+**How to use it at each stage.** Drafting: start from §2, the lines that already
+work, and pattern-match. Editing: §4 and §5. Brainstorming: leave it closed.
+Its instinct is to narrow, and applied to raw ideas it kills the ones worth
+having before they are legible enough to defend. Bring it in when the idea has
+a shape and needs words, not before.
 
 ---
 
@@ -34,7 +40,7 @@ not wit.**
 **Mary Roach — *Stiff*, *Packing for Mars*.** The warmth. Funny about technical
 detail without ever being cruel about it, and curious in a way that makes the
 reader feel invited rather than tested. This slot originally read "Tufte", and
-the evidence in section 4 overruled it: austere declarative prose was proposed
+the evidence in section 6 overruled it: austere declarative prose was proposed
 repeatedly on this site and rejected every time.
 
 ### On Tufte
@@ -45,7 +51,61 @@ out cold. Use him on the panels, not the paragraphs.
 
 ---
 
-## 2. Techniques to reach for
+## 2. Lines that are right
+
+The rest of this document is a filter. This section is the generator. When
+starting from nothing, imitate these before consulting anything below.
+
+> **For developers who learn by poking things.**
+
+The whole voice in seven words. It names the audience by what they *do*, not by
+seniority or job title, and it does not flatter them. "Poking" is the site's
+verb — it appears in the hero, the CTA and the footer, and nothing else should
+replace it.
+
+> **Nothing on this page is a mockup. We checked twice.**
+
+The fourth wall, opened for exactly one clause and shut again. The joke is that
+the page knows it is marketing. Note what it does not do: it does not explain
+the joke, and it does not follow with a third sentence.
+
+> **I cleared the cache, so the page is fresh now.**
+
+An exhibit title. Speech, not a proposition — a thing a person says out loud,
+in the first person, in the tense they would say it. It is wrong, the reader has
+said it, and nothing labels either fact.
+
+> **Somewhere a tutorial is teaching you to build `/api/increment`. It will
+> teach you to validate the request body, handle the 405, and write a fetch
+> wrapper with a retry. All of it correct. All of it in service of adding one to
+> a number.**
+
+Texture is inventory. Three specific nouns do what no adjective could, and the
+punchline is carried entirely by the gap between the effort and the payload.
+
+> **cacheTag("landing-shell") · cacheLife("days") · one entry, shared by every
+> visitor**
+
+The instrument register, used in panel readouts and nowhere else: lowercase,
+middot-separated, real identifiers, no adjectives, no jokes. This is where Tufte
+lives. A readout that cannot be filled with true facts means the panel is not
+finished.
+
+> **The playground shows you the wall. The cohort gets you over it.**
+
+The one place a two-beat reversal is earned. §4 forbids aphorisms, and this
+looks like one — the difference is that both halves are literally true and the
+sentence is drawing a real distinction between two products rather than
+performing wisdom. Earn it this way or not at all.
+
+> **One email a week. Unsubscribing is one click, and it works the first time.**
+
+Warmth exactly where every other site is either cynical or corporate. It makes a
+small, checkable promise instead of a large unfalsifiable one.
+
+---
+
+## 3. Techniques to reach for
 
 **Texture is inventory.** When a line is correct but flat, the fix is almost
 never a better adjective. It is more specific nouns, accumulated until the point
@@ -98,7 +158,7 @@ one sentence later turns the same `we` into the seller.
 
 ---
 
-## 3. Do not
+## 4. Do not
 
 - **Label the confrontation.** No "MISCONCEPTION" eyebrow, no "here's what
   everyone gets wrong". The title is the confrontation.
@@ -120,7 +180,32 @@ one sentence later turns the same `we` into the seller.
 
 ---
 
-## 4. Evidence
+## 5. Editing: three passes
+
+Run these separately and in order. The Satori aside in §6 passed the first two
+and failed the third for weeks, because they were being checked at once.
+
+**Pass 1 — register.** Is it warm, plain and specific, or is it correct and
+flat? Flat is the default failure, not wrongness. Fix with nouns, not adjectives.
+
+**Pass 2 — truth.** Is every claim checkable against the panel directly below
+it? The page's entire authority is that it can be verified, so a line that
+overstates costs more than it earns. Read the readout and the panel copy
+together; they have contradicted each other before.
+
+**Pass 3 — subject.** Is the line about *this exhibit's argument*, or about
+something adjacent — the library underneath, a general truth about the web, a
+joke that would fit anywhere? Anything that would work equally well on another
+exhibit is not doing this exhibit's job.
+
+Then grep the draft for the tells: a two-beat reversal, three parallel clauses,
+"it's not X, it's Y", a compliment aimed at the reader, and any construction
+already used by a nearby exhibit. Reusing a signature move two sections apart
+reads as a formula even when each instance is good.
+
+---
+
+## 6. Evidence
 
 From the copy pass of 2026-08-15. Left column was proposed; right column is what
 shipped after review. The pattern is consistent enough to be a rule: **the
@@ -182,7 +267,7 @@ you to build, and converting it to a confession would cost the sting.
 
 ---
 
-## 5. Time-hardening
+## 7. Time-hardening
 
 Anchor copy on structural truths, not on current model or framework behaviour.
 A line that depends on how a specific model behaves this month is a line that
@@ -191,7 +276,7 @@ stale the Monday exhibit six ships, which is why it became "Still to build."
 
 ---
 
-## 6. Typography
+## 8. Typography
 
 Apostrophes in prose are **U+2019** (`’`), not the straight `'`. In JSX write
 `&rsquo;`, not `&apos;` — `&apos;` is U+0027 and renders straight. In TypeScript
@@ -206,3 +291,39 @@ with different marks. The landing page did exactly that until it was swept.
 **Code keeps straight quotes.** Anything inside `InlineCode`, a `CodeBlock`, or
 a readout quoting real source stays U+0027 — a smart quote in a code sample is
 a snippet that breaks when someone pastes it.
+
+---
+
+## 9. Keeping this current
+
+**Update on a novel rejection. Never on a schedule.**
+
+When a line gets cut, check whether a rule here already predicted it. If one
+did, the document worked — change nothing. Only a rejection that no existing
+rule anticipated earns an edit.
+
+Most rejections should produce no change at all. That is the system working, not
+neglect. A scheduled review is the wrong instrument, because a review with
+nothing to add still feels obliged to add something, and the failure mode of
+this document is not staleness — it is **bloat**. A guide that grows a rule per
+session becomes a guide nobody opens, which is worse than no guide, because it
+creates the impression the voice is handled.
+
+**The two halves have different rules.**
+
+- **§1–§5, the rules.** Stable, and capped at roughly a page. If §4 passes about
+  ten items, two of them are the same rule wearing different clothes — merge
+  them. Adding here should feel expensive.
+- **§6, the evidence.** Append-only and dated. Never edit an existing row. The
+  shipped column is a snapshot of that day, not a live citation; it drifted out
+  of sync with the page three times before this was written down, and chasing
+  the page is not worth the effort because the pattern is what the table is for.
+
+**Promote a line into §2 only when it has survived a review it could have lost.**
+That is what separates a canonical line from one that merely shipped.
+
+**When the site grows past the landing page**, keep one document. Per-surface
+guides drift apart, and the drift is invisible until two surfaces contradict
+each other in front of a reader. If a surface genuinely needs different rules —
+the digest email, the docs, the cohort materials — add a subsection here rather
+than a second file.
