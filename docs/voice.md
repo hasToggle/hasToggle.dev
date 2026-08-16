@@ -148,3 +148,21 @@ Anchor copy on structural truths, not on current model or framework behaviour.
 A line that depends on how a specific model behaves this month is a line that
 will be wrong by a release. Same for counts: "Five exhibits. Dozens to go." goes
 stale the Monday exhibit six ships, which is why it became "Still to build."
+
+---
+
+## 6. Typography
+
+Apostrophes in prose are **U+2019** (`’`), not the straight `'`. In JSX write
+`&rsquo;`, not `&apos;` — `&apos;` is U+0027 and renders straight. In TypeScript
+strings that reach the page (panel labels, button text, captions) write the
+curly character directly.
+
+This is not fussiness. The page mixes JSX text with copy held in string props
+and arrays, and the two escape differently, so a page can end up rendering
+`You'll design one` three lines from `I’ll need to design a card for every page`
+with different marks. The landing page did exactly that until it was swept.
+
+**Code keeps straight quotes.** Anything inside `InlineCode`, a `CodeBlock`, or
+a readout quoting real source stays U+0027 — a smart quote in a code sample is
+a snippet that breaks when someone pastes it.

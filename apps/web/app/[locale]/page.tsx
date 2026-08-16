@@ -108,7 +108,7 @@ function BoundaryDemo() {
           <p>
             Safer than what? Every component in the App Router already runs on
             the server. <InlineCode>&quot;use client&quot;</InlineCode>&#32;is
-            not a precaution, it&apos;s a purchase — for that file and
+            not a precaution, it&rsquo;s a purchase — for that file and
             everything it imports. You buy useState, useEffect and onClick. You
             pay with the database call you can no longer make from here, the API
             key you can no longer read, and however much React your visitor
@@ -124,8 +124,8 @@ function BoundaryDemo() {
       meta={
         <>
           The error that sends everyone here is &ldquo;useState only works in a
-          Client Component&rdquo;. The server isn&apos;t being difficult. It has
-          no clicks to listen for.
+          Client Component&rdquo;. The server isn&rsquo;t being difficult. It
+          has no clicks to listen for.
         </>
       }
       sourcePath="apps/web/app/[locale]/(playground)/boundary"
@@ -163,13 +163,13 @@ async function ShellDemo() {
           <p>
             You cleared it. Nothing refilled it. Those are two different events,
             and the page is only fresh after the second one.{" "}
-            <InlineCode>use cache</InlineCode>&#32;bakes a component&apos;s
-            output into the page&apos;s static shell. A cache tag is the handle
+            <InlineCode>use cache</InlineCode>&#32;bakes a component&rsquo;s
+            output into the page&rsquo;s static shell. A cache tag is the handle
             you pull to throw that entry away. Pulling it does not put anything
             back.
           </p>
           <p>
-            The stamp below is this page&apos;s own cache entry — one entry,
+            The stamp below is this page&rsquo;s own cache entry — one entry,
             shared by every visitor. Press the button and it is gone, for all of
             them, immediately.
           </p>
@@ -184,14 +184,14 @@ async function ShellDemo() {
         <>
           &ldquo;Why is my page stale&rdquo; and &ldquo;why is my page
           slow&rdquo; are one question read from opposite ends. Tune one and
-          you&apos;ve picked a side on the other, whether you meant to or not.
+          you&rsquo;ve picked a side on the other, whether you meant to or not.
         </>
       }
       sourcePath="apps/web/app/[locale]/(playground)/shell"
       topic="caching & revalidation"
     >
       <LivePanel
-        label="this page's own cache"
+        label="this page’s own cache"
         readout={
           <>
             cacheTag(&quot;landing-shell&quot;) · cacheLife(&quot;days&quot;) ·
@@ -280,7 +280,7 @@ function MutationDemo() {
         <>
           <p>
             You need a function. A Server Action lives on the server and plugs
-            straight into a form&apos;s <InlineCode>action</InlineCode>: no
+            straight into a form&rsquo;s <InlineCode>action</InlineCode>: no
             endpoint to design, no fetch to write, no JSON contract to keep in
             sync. The form calls the function, the function mutates, and Next.js
             re-renders the page around the result.
@@ -333,7 +333,7 @@ function ImageDemo() {
       intro={
         <>
           <p>
-            You&apos;ll design one. <InlineCode>ImageResponse</InlineCode>
+            You&rsquo;ll design one. <InlineCode>ImageResponse</InlineCode>
             &#32;renders JSX to a PNG at request time, and it is a route handler
             like any other — query in, image out. One file draws the card for
             every page you will ever publish.

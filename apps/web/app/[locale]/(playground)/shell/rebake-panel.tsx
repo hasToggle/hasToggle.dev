@@ -33,7 +33,7 @@ const REBAKE_LOCKED_LOOK = cn(
 
 const IDLE_REBAKE_LABEL = "Re-bake this page";
 const REBAKE_LABELS = [IDLE_REBAKE_LABEL, "Re-baking…"];
-const FETCH_LABELS = ["Fetch what's actually cached", "Fetching…"];
+const FETCH_LABELS = ["Fetch what’s actually cached", "Fetching…"];
 
 /**
  * Renders `value` stacked on top of every string it could have been, so the

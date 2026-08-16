@@ -13,7 +13,7 @@ const REVEALED_CAPTION =
  * the slot the visitor is already reading instead of adding a line and moving
  * everything below it.
  */
-export const REBAKE_FAILED_CAPTION = "the re-bake didn't come back. Try again?";
+export const REBAKE_FAILED_CAPTION = "the re-bake didn’t come back. Try again?";
 
 interface Readout {
   caption: string;

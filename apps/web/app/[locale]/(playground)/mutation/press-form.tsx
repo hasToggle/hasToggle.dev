@@ -22,7 +22,7 @@ export function PressForm() {
         </MarketingButton>
       </div>
       <p className="font-mono text-muted-foreground text-xs/5">
-        works with JavaScript switched off — try it, we&apos;ll wait
+        works with JavaScript switched off — try it, we&rsquo;ll wait
       </p>
     </form>
   );

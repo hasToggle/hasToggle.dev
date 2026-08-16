@@ -18,7 +18,7 @@ export function ClientCard() {
     <BoundaryCard
       facts={[
         "can use state, effects, onClick",
-        "ships JavaScript (that's the deal)",
+        "ships JavaScript (that’s the deal)",
         "cannot read secrets — it lives in your tab",
       ]}
       side="client"

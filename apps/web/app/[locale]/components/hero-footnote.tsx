@@ -13,7 +13,7 @@ export function HeroFootnoteBody() {
       <span aria-hidden="true" className="select-none opacity-70">
         *&nbsp;
       </span>
-      You&apos;ve opened a &ldquo;live demo&rdquo; that turned out to be an
+      You&rsquo;ve opened a &ldquo;live demo&rdquo; that turned out to be an
       animated GIF. So have we. The demos below answer back, and the code that
       made them is one click down.
     </>

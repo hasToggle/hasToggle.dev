@@ -60,7 +60,7 @@ export function OgDemo() {
       })
       .catch(() => {
         if (!cancelled) {
-          setError("The server couldn't draw that one. Try another title.");
+          setError("The server couldn’t draw that one. Try another title.");
         }
       })
       .finally(() => {
