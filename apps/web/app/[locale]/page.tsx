@@ -347,9 +347,9 @@ function ImageDemo() {
       }
       meta={
         <>
-          The fine print: it looks like CSS, but the renderer (Satori) only
-          understands flexbox. Grid users will be shown the door, politely, the
-          moment the route runs.
+          The workflow this replaces: open Figma, export at 1200&times;630, save
+          it as og-pricing-final-v3.png, wire up the path, then do the whole
+          thing again when someone rewrites the headline.
         </>
       }
       sourcePath="apps/web/app/api/og"
@@ -357,7 +357,7 @@ function ImageDemo() {
     >
       <LivePanel
         label="/api/og"
-        readout="route handler · JSX → Satori → PNG · rendered per request, cached by nobody"
+        readout="route handler · JSX → Satori (flexbox only) → PNG · rendered per request, cached by nobody"
       >
         <OgDemo />
       </LivePanel>

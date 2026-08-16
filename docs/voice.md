@@ -78,6 +78,13 @@ over the receipts: what to press, what to read, how to check. Same for "the fine
 print:" openers on the demo asides. The small type is where the evidence lives,
 not where the confidence leaks out.
 
+**The aside lands on the exhibit's topic, not on its dependencies.** Demo five
+spent its aside on Satori's missing grid support — true, useful, and about the
+rendering library rather than about generating images from code. A constraint of
+the thing underneath is not the argument. Implementation limits belong in the
+panel readout, where they read as specification; the aside is for what the
+exhibit is actually claiming.
+
 **The reader is competent.** They have shipped something they could not explain.
 So has everyone. That is the premise, not the accusation.
 
@@ -131,10 +138,26 @@ time.**
 | Unsubscribing is one click, and nobody asks why. | …and it works the first time. | Cynical lost to warm |
 | `MISCONCEPTION` eyebrow, red, above every title | (removed; topic restored) | Announced the joke before the title landed |
 
-That Satori line originally ended "at build time", which was simply false —
-`/api/og` is a route handler taking a query param, so it fails when the route
-runs, as the panel's own readout says two lines below it. **A good joke does not
-buy an inaccurate claim.** The wording changed; the joke did not have to.
+The right column is a snapshot of what shipped on that date, not a live citation
+— several of these lines have been revised since, and the pattern is the point.
+
+The Satori row is worth following all the way through, because it failed three
+different ways in three passes:
+
+1. The austere version — "grid is not approximated, it is refused" — lost to
+   comic understatement. That is the rule this table exists to show.
+2. The understated version ended "at build time", which was **false**. `/api/og`
+   is a route handler taking a query param, so it fails when the route runs, as
+   the panel's own readout says two lines below. A good joke does not buy an
+   inaccurate claim.
+3. The corrected version was still about the wrong subject. Satori's flexbox
+   limit is a fact about the rendering library, not about generating images
+   from code, so the aside was spending the exhibit's best line on a
+   dependency. It now itemises the design workflow the exhibit retires, and the
+   flexbox constraint moved to the panel readout.
+
+Being funny, then being accurate, then being about the right thing are three
+separate edits, and a line can pass the first two while failing the third.
 
 Titles, which are the frame working correctly. Each one is a sentence a
 developer has actually said, and each intro answers it in the first few words:
