@@ -125,20 +125,37 @@ time.**
 | An answer you read is borrowed. An answer you ran is yours. | For developers who learn by poking things. | Aphorism lost to plain speech |
 | Nothing here is a screenshot. Every panel is the feature itself, running. | Nothing on this page is a mockup. We checked twice. | Severity lost to the fourth-wall wink |
 | Run the first one | Start poking | Same |
-| It looks like CSS. Satori reads flexbox and nothing else — grid is not approximated, it is refused. | The fine print: it looks like CSS, but the renderer (Satori) only understands flexbox. Grid users will be shown the door, politely, at build time. | Austere correction lost to comic understatement |
+| It looks like CSS. Satori reads flexbox and nothing else — grid is not approximated, it is refused. | The fine print: it looks like CSS, but the renderer (Satori) only understands flexbox. Grid users will be shown the door, politely, the moment the route runs. | Austere correction lost to comic understatement |
 | The playground shows you the wall. | Some things move faster with a coach. | Clever reversal lost to the plain statement |
 | AI produces the artifact. You hold the meaning. | You get the playground and the making-of. | Portent lost to concreteness |
 | Unsubscribing is one click, and nobody asks why. | …and it works the first time. | Cynical lost to warm |
 | `MISCONCEPTION` eyebrow, red, above every title | (removed; topic restored) | Announced the joke before the title landed |
 
-Titles that were rewritten to state a belief more plainly, which is the frame
-working correctly:
+That Satori line originally ended "at build time", which was simply false —
+`/api/og` is a route handler taking a query param, so it fails when the route
+runs, as the panel's own readout says two lines below it. **A good joke does not
+buy an inaccurate claim.** The wording changed; the joke did not have to.
 
-| Before | After |
-|---|---|
-| This page was baked before you arrived. | I cleared the cache, so the page is fresh now. |
-| The page refused to wait. | Nothing renders until the slowest part is ready. |
-| An image that didn't exist a second ago. | Every link preview is an image someone made by hand. |
+Titles, which are the frame working correctly. Each one is a sentence a
+developer has actually said, and each intro answers it in the first few words:
+
+| Before | Shipped | Intro opens |
+|---|---|---|
+| Two components walk into a page. | I'll put "use client" on it, to be safe. | Safer than what? |
+| This page was baked before you arrived. | I cleared the cache, so the page is fresh now. | You cleared it. Nothing refilled it. |
+| The page refused to wait. | I'll fetch it all first, then render. | Not any more. |
+| A form with no API route. | You need an API route for that. | You need a function. |
+| An image that didn't exist a second ago. | I'll need to design a card for every page. | You'll design one. |
+
+Two rules fell out of writing these. **A belief has to be speech, not a
+proposition** — "Nothing renders until the slowest part is ready" is merely
+true, where "I'll fetch it all first, then render" is something a person says.
+And **the intro answers the belief in its opening beat**, before any
+explanation starts.
+
+Number four is the one belief that arrives as advice rather than assumption,
+which is left deliberately: an API route is usually something a reviewer tells
+you to build, and converting it to a confession would cost the sting.
 
 ---
 
