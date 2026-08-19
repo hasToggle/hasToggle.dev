@@ -1,12 +1,20 @@
 import { formatClock } from "../format";
 import type { RebakeState } from "./rebake-state";
 
+/**
+ * The three captions are one causal arc. Idle names the handle the button is
+ * wired to; expired explains why the private render cannot be the refill (the
+ * expiry is a timestamp, and that hash predates it — verified on a preview
+ * deploy in PR #364, since `next dev` hides this); revealed discloses that the
+ * refill had no cache API in it at all. Each phase answers the question the
+ * previous one raised.
+ */
 const IDLE_CAPTION =
-  "expires the cache tag for everyone, instantly. Nothing refills it on its own.";
+  'updateTag("landing-shell") expires the entry for everyone, instantly. Nothing refills it on its own.';
 const EXPIRED_CAPTION =
-  "the entry you expired is gone. Its replacement does not exist until someone asks for the page. Ask for it.";
+  "the hash above was rendered before your expiry landed, so the cache will not keep it. The refill is the first render that starts afterwards. Ask for it.";
 const REVEALED_CAPTION =
-  "expiring an entry and refilling it are two different events. You just watched both.";
+  "the fetch ran no cache API — the page rendered again, and this time the cache kept it. Expiring an entry and refilling it are two different events. You just watched both.";
 
 /**
  * Replaces the caption when the action never came back, so a failure lands in

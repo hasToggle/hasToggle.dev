@@ -18,26 +18,26 @@ const EXPIRED_STATE: RebakeState = {
 };
 
 describe("rebake readout", () => {
-  test("served doesn't claim to know how this render happened", () => {
+  test("served names the handle the button is about to pull", () => {
     expect(readout(SERVED_STATE, CURRENT_ID)).toEqual({
       caption:
-        "expires the cache tag for everyone, instantly. Nothing refills it on its own.",
+        'updateTag("landing-shell") expires the entry for everyone, instantly. Nothing refills it on its own.',
       detail: "from the static shell — the same entry every visitor gets",
       label: "served",
     });
   });
 
-  test("expired names the moment and disclaims the private hash above it", () => {
+  test("expired explains why the private hash cannot be the refill", () => {
     expect(readout(EXPIRED_STATE, CURRENT_ID)).toEqual({
       caption:
-        "the entry you expired is gone. Its replacement does not exist until someone asks for the page. Ask for it.",
+        "the hash above was rendered before your expiry landed, so the cache will not keep it. The refill is the first render that starts afterwards. Ask for it.",
       detail:
         "at 15:05:35 UTC — the hash above was rendered for you and cached for nobody",
       label: "expired",
     });
   });
 
-  test("refetched compares what you saw against what actually persisted, without claiming credit for it", () => {
+  test("refetched discloses that the refill was a render, not an API call", () => {
     const state: RebakeState = {
       expiredAt: EXPIRED_AT,
       phase: "refetched",
@@ -45,7 +45,7 @@ describe("rebake readout", () => {
     };
     expect(readout(state, CURRENT_ID)).toEqual({
       caption:
-        "expiring an entry and refilling it are two different events. You just watched both.",
+        "the fetch ran no cache API — the page rendered again, and this time the cache kept it. Expiring an entry and refilling it are two different events. You just watched both.",
       detail: `#${CURRENT_ID} is the bake above, and every visitor gets it. #${PRIVATE_ID} was yours alone, and is gone`,
       label: "served",
     });
@@ -89,8 +89,8 @@ describe("rebake readout", () => {
       phase: "refetched",
       privateId: PRIVATE_ID,
     };
-    // The idle caption promises a surprise; once the surprise is on screen,
-    // still promising it reads as though the panel missed its own reveal.
+    // The idle caption describes what pressing will do; once the reveal is on
+    // screen, repeating it reads as though the panel missed its own reveal.
     expect(readout(revealed, CURRENT_ID).caption).not.toBe(
       readout(SERVED_STATE, CURRENT_ID).caption
     );
@@ -104,7 +104,7 @@ describe("rebake readout", () => {
     };
     expect(readout(state, CURRENT_ID)).toEqual({
       caption:
-        "expires the cache tag for everyone, instantly. Nothing refills it on its own.",
+        'updateTag("landing-shell") expires the entry for everyone, instantly. Nothing refills it on its own.',
       detail: "from the static shell — the same entry every visitor gets",
       label: "served",
     });
