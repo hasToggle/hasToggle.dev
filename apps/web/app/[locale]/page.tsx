@@ -371,16 +371,23 @@ function ImageDemo() {
 }
 
 const UPCOMING: readonly string[] = [
+  "navigation & prefetching",
   "dynamic routes & params",
   "next/image, fonts & the asset pipeline",
+  "metadata, sitemaps & SEO",
+  "optimistic UI & useActionState",
   "proxy, redirects & rewrites",
   "error, not-found & recovery",
   "parallel & intercepted routes",
-  "ISR at scale",
+  "i18n & locale routing",
+  "view transitions",
+  "ISR & pages baked on demand",
   "edge network & geolocation",
+  "feature flags & Edge Config",
+  "web vitals, measured live",
   "preview deploys & instant rollback",
   "cron, queues & background work",
-  "blob, KV & Postgres",
+  "blob, key-value & Postgres",
 ];
 
 function Roadmap() {
