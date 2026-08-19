@@ -163,23 +163,25 @@ async function ShellDemo() {
             You did, and it worked: the entry was gone the instant you called
             it, for every visitor at once. But a revalidation is a deletion with
             a hopeful name. <InlineCode>use cache</InlineCode>&#32;bakes a
-            component&rsquo;s output into the page&rsquo;s static shell; a cache
-            tag is the handle you pull to throw that entry away. Pulling it
-            renders nothing — the fresh page takes a request, and until one
-            arrives, &ldquo;revalidated&rdquo; and &ldquo;stale&rdquo; are both
-            true.
+            component&rsquo;s output into the page&rsquo;s static shell — one
+            copy, served to everyone — and a cache tag is the handle you pull to
+            throw that copy away. Pulling it empties the shelf and lights no
+            oven. The fresh page is baked when the next request asks for one,
+            and not a moment before.
           </p>
           <p>
-            The stamp below is this page&rsquo;s own cache entry — one entry,
-            shared by every visitor. Press the button and a fresh bake lands for
-            all of them, in the time it takes the label to change back. It feels
-            like one event.
+            The stamp below is that copy — this page&rsquo;s own cache entry,
+            wearing a six-character fingerprint so you can tell one bake from
+            the next. Press the button and a fresh bake lands for every visitor,
+            in the time it takes the label to change back. It feels like one
+            event.
           </p>
           <p>
             It is three. Flip the switch and run it again in slow motion — the
-            panel narrates each event as it happens. The fingerprint moves
-            twice, not once, and the gap between those two moves is where you
-            were standing when you said it.
+            panel narrates each event as it happens. Watch the fingerprint: it
+            moves twice, not once, and the gap between those two moves is where
+            the argument happens — you insisting you already revalidated, the
+            page insisting it is stale, and both of you right.
           </p>
         </>
       }
