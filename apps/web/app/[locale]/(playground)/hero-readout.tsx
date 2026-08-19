@@ -1,5 +1,6 @@
 import { connection } from "next/server";
 import { Suspense } from "react";
+import { BakeSwatch } from "./bake-swatch";
 import { formatStamp } from "./format";
 import { getBake } from "./shell/bake";
 
@@ -36,7 +37,7 @@ export async function HeroReadout() {
         and `tabular-nums` stops the digits shuffling as the seconds change.
       */}
       <p className="h-6">
-        <span>bake</span>{" "}
+        <span>bake</span> <BakeSwatch className="mr-1" id={bake.id} />
         <span className="font-medium text-ht-cyan-800 dark:text-ht-cyan-200">
           #{bake.id}
         </span>

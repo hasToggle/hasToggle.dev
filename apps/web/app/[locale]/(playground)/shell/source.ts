@@ -6,7 +6,7 @@ export async function getBake() {
   cacheLife("days");
   return {
     bakedAt: new Date().toISOString(),
-    id: crypto.randomUUID().slice(0, 8), // the fingerprint
+    id: crypto.randomUUID().slice(0, 6), // the fingerprint — and a CSS color
   };
 }
 

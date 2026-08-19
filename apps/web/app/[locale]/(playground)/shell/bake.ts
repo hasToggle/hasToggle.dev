@@ -11,6 +11,9 @@ export interface Bake {
  * cache lifetime runs out. The random id exists so a re-bake is undeniable —
  * timestamps invite squinting, fingerprints don't.
  *
+ * Six hex characters, so the fingerprint IS a CSS color — the swatch beside
+ * it renders the literal value, nothing derived, nothing truncated.
+ *
  * The hero and the shell demo both read this, so they can never disagree.
  */
 // biome-ignore lint/suspicious/useAwait: `use cache` only works on async functions, even when nothing awaits
@@ -21,6 +24,6 @@ export async function getBake(): Promise<Bake> {
 
   return {
     bakedAt: new Date().toISOString(),
-    id: crypto.randomUUID().slice(0, 8),
+    id: crypto.randomUUID().slice(0, 6),
   };
 }

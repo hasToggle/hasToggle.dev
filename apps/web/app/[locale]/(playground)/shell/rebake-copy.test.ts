@@ -9,8 +9,8 @@ import {
 import type { RebakeState } from "./rebake-state";
 
 const EXPIRED_AT = "2026-08-10T15:05:35.000Z";
-const CURRENT_ID = "a020a685";
-const PRIVATE_ID = "1e472bda";
+const CURRENT_ID = "a020a6";
+const PRIVATE_ID = "1e472b";
 
 const SIMPLE_FRESH: RebakeState = {
   hasCompletedCycle: false,

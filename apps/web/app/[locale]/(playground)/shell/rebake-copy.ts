@@ -80,12 +80,12 @@ function revealedDetail(privateId: string, currentId: string): string {
  * reserved together, so flipping the switch doesn't move the page either.
  *
  * The placeholders are the same width as the real values (a clock is always
- * `HH:MM:SS`, a bake id always eight hex characters), so the ghosts wrap
- * exactly where the real thing will. `rebake-copy.test.ts` holds that
- * property still.
+ * `HH:MM:SS`, a bake id always six hex characters — a CSS color), so the
+ * ghosts wrap exactly where the real thing will. `rebake-copy.test.ts` holds
+ * that property still.
  */
 const PLACEHOLDER_CLOCK = "00:00:00 UTC";
-const PLACEHOLDER_ID = "00000000";
+const PLACEHOLDER_ID = "000000";
 
 export const CAPTION_VARIANTS: readonly string[] = [
   SIMPLE_IDLE_CAPTION,

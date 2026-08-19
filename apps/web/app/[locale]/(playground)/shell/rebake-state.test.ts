@@ -9,7 +9,7 @@ import {
 
 const EXPIRED_AT = "2026-08-10T15:05:35.000Z";
 const LATER = "2026-08-10T15:09:00.000Z";
-const PRIVATE_ID = "1e472bda";
+const PRIVATE_ID = "1e472b";
 
 function expire(state: RebakeState, at = EXPIRED_AT): RebakeState {
   return rebakeReducer(state, { at, type: "expired" });
@@ -112,7 +112,7 @@ describe("rebake state", () => {
 
   test("fetching twice changes nothing the second time", () => {
     const once = refetch(expire(MACHINERY_SERVED));
-    expect(refetch(once, "ffffffff")).toBe(once);
+    expect(refetch(once, "ffffff")).toBe(once);
   });
 
   test("re-baking again clears the old comparison, which no longer has a subject", () => {
