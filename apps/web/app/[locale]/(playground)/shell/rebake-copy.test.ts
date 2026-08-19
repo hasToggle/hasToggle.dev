@@ -4,6 +4,7 @@ import {
   DETAIL_VARIANTS,
   REBAKE_FAILED_CAPTION,
   readout,
+  SETTLING_READOUT,
 } from "./rebake-copy";
 import type { RebakeState } from "./rebake-state";
 
@@ -95,6 +96,7 @@ describe("rebake readout", () => {
       readout(MACHINERY_EXPIRED, CURRENT_ID).caption,
       readout(MACHINERY_REFETCHED, CURRENT_ID).caption,
       REBAKE_FAILED_CAPTION,
+      SETTLING_READOUT.caption,
     ];
     for (const caption of shown) {
       expect(CAPTION_VARIANTS).toContain(caption);
@@ -109,10 +111,18 @@ describe("rebake readout", () => {
       readout(MACHINERY_SERVED, CURRENT_ID).detail,
       readout(MACHINERY_EXPIRED, CURRENT_ID).detail,
       readout(MACHINERY_REFETCHED, CURRENT_ID).detail,
+      SETTLING_READOUT.detail,
     ];
     expect(real.map((d) => d.length)).toEqual(
       DETAIL_VARIANTS.map((d) => d.length)
     );
+  });
+
+  test("the settling readout never claims the shared entry is on screen", () => {
+    // While the owed refresh is in flight, the stamp still shows the private
+    // render — the settling lines must not borrow the served claim.
+    expect(SETTLING_READOUT.detail).not.toContain("every visitor");
+    expect(SETTLING_READOUT.label).not.toBe("served");
   });
 
   test("the reveal caption points at the evidence, and only when there is evidence", () => {

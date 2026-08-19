@@ -35,6 +35,21 @@ interface Readout {
   label: string;
 }
 
+/**
+ * Shown while the switch is settling an expiry the visitor left open: the
+ * view flips to simple immediately (the switch has to answer the hand), and
+ * this readout covers the window until the owed refresh lands — because for
+ * that window the served line would be claiming a shared entry the stamp
+ * isn't showing yet.
+ */
+export const SETTLING_READOUT: Readout = {
+  caption:
+    "settling the expiry you left open — the same quiet refresh a mutation normally ends with.",
+  detail:
+    "the hash above is still the private one — its replacement is in flight",
+  label: "asking",
+};
+
 const SERVED_DETAIL =
   "from the static shell — the same entry every visitor gets";
 
@@ -79,12 +94,14 @@ export const CAPTION_VARIANTS: readonly string[] = [
   EXPIRED_CAPTION,
   REVEALED_CAPTION,
   REBAKE_FAILED_CAPTION,
+  SETTLING_READOUT.caption,
 ];
 
 export const DETAIL_VARIANTS: readonly string[] = [
   SERVED_DETAIL,
   expiredDetail(PLACEHOLDER_CLOCK),
   revealedDetail(PLACEHOLDER_ID, PLACEHOLDER_ID),
+  SETTLING_READOUT.detail,
 ];
 
 /**

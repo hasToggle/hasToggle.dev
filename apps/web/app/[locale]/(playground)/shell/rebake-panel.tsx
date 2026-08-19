@@ -11,6 +11,7 @@ import {
   DETAIL_VARIANTS,
   REBAKE_FAILED_CAPTION,
   readout,
+  SETTLING_READOUT,
 } from "./rebake-copy";
 import {
   canFetch,
@@ -132,18 +133,23 @@ export function RebakePanel({ currentId }: RebakePanelProps) {
   }, [machinery, rebakeLocked, router]);
 
   const handleToggle = useCallback(() => {
-    if (canFetch(state)) {
+    const leavesGapOpen = canFetch(state);
+    // The flip itself stays OUT of the transition: it is client-owned state,
+    // and inside one it would not paint until router.refresh() resolved —
+    // the switch sat frozen for the whole round trip. Only the server sync
+    // is transitional; while it flies, `isFetching` swaps in the settling
+    // readout so the flipped view doesn't claim a shared entry the stamp
+    // isn't showing yet.
+    dispatch({ type: "toggled" });
+    if (leavesGapOpen) {
       // Leaving the machinery view with an expiry unanswered: settle it on
       // the way out — quietly finishing the round trip is exactly what real
       // apps do — so the simple view never rests showing a render the cache
       // refused to keep.
       startFetch(() => {
-        dispatch({ type: "toggled" });
         router.refresh();
       });
-      return;
     }
-    dispatch({ type: "toggled" });
   }, [router, state]);
 
   const handleFetch = useCallback(() => {
@@ -156,7 +162,13 @@ export function RebakePanel({ currentId }: RebakePanelProps) {
     });
   }, [currentId, router]);
 
-  const { caption, detail, label } = readout(state, currentId);
+  // A fetch transition still flying after the mode flipped to simple is the
+  // settling window: the owed refresh is out, and the stamp is still the
+  // private render until it lands.
+  const settling = isFetching && !machinery;
+  const { caption, detail, label } = settling
+    ? SETTLING_READOUT
+    : readout(state, currentId);
   const rebakeLabel = isRebaking ? REBAKE_LABELS[1] : REBAKE_LABELS[0];
   const fetchLabel = isFetching ? FETCH_LABELS[1] : FETCH_LABELS[0];
   const captionText = rebakeFailed ? REBAKE_FAILED_CAPTION : caption;
