@@ -93,6 +93,8 @@ function StepMark({ n }: { n: string }) {
 interface RebakePanelProps {
   /** The fingerprint the server just rendered, whichever render that was. */
   currentId: string;
+  /** The instrument's reference bar — code drawer plus docs/source links. */
+  references?: React.ReactNode;
   /**
    * The server-rendered stamp, threaded through as a prop so this client
    * component can wrap it in the pending and landing treatments — the
@@ -108,7 +110,11 @@ interface RebakePanelProps {
  * switch doesn't add a second button — it splits the one button into the two
  * events it was always made of.
  */
-export function RebakePanel({ currentId, stamp }: RebakePanelProps) {
+export function RebakePanel({
+  currentId,
+  references,
+  stamp,
+}: RebakePanelProps) {
   const router = useRouter();
   const [state, dispatch] = useReducer(rebakeReducer, INITIAL_REBAKE_STATE);
   const [isRebaking, startRebake] = useTransition();
@@ -273,6 +279,7 @@ export function RebakePanel({ currentId, stamp }: RebakePanelProps) {
   return (
     <LivePanel
       deck={deck}
+      references={references}
       status={working ? "working" : "live"}
       viewControls={viewControls}
     >

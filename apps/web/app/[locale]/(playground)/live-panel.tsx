@@ -20,6 +20,12 @@ interface LivePanelProps {
    */
   readout?: React.ReactNode;
   /**
+   * The bottom zone: a ReferenceBar holding the code drawer and the docs and
+   * source links — the status bar every editor ends in. The exhibit's whole
+   * engineering surface lives in one chassis.
+   */
+  references?: React.ReactNode;
+  /**
    * The header gauge. `working` means a server round trip is in flight right
    * now — the dot turns amber and says so. There is exactly one such signal
    * per instrument, and this is it.
@@ -43,6 +49,7 @@ export function LivePanel({
   deck,
   label,
   readout,
+  references,
   status = "live",
   viewControls,
 }: LivePanelProps) {
@@ -95,6 +102,11 @@ export function LivePanel({
       {readout ? (
         <div className="border-foreground/10 border-t bg-muted/30 px-4 py-3 font-mono text-ht-cyan-800/85 text-xs/5 sm:px-5 dark:text-ht-cyan-300/85">
           {readout}
+        </div>
+      ) : null}
+      {references ? (
+        <div className="border-foreground/10 border-t bg-muted/40">
+          {references}
         </div>
       ) : null}
     </figure>

@@ -21,6 +21,7 @@ import {
 } from "./(playground)/mutation/press-count";
 import { PressForm } from "./(playground)/mutation/press-form";
 import { MUTATION_SOURCE } from "./(playground)/mutation/source";
+import { ReferenceBar } from "./(playground)/reference-bar";
 import { getBake } from "./(playground)/shell/bake";
 import { BakedStamp } from "./(playground)/shell/baked-stamp";
 import { RebakePanel } from "./(playground)/shell/rebake-panel";
@@ -155,10 +156,6 @@ async function ShellDemo() {
     <DemoSection
       belief="I cleared the cache, so the page is fresh now."
       chapter="02"
-      docs={{
-        href: "https://nextjs.org/docs/app/getting-started/caching",
-        label: "Caching",
-      }}
       id="demo-02"
       intro={
         <>
@@ -191,7 +188,6 @@ async function ShellDemo() {
           work requires caching something that never repeats.
         </>
       }
-      sourcePath="apps/web/app/[locale]/(playground)/shell"
       topic="caching & revalidation"
     >
       {/* The client panel owns the instrument chrome here, because the
@@ -199,10 +195,25 @@ async function ShellDemo() {
           transitions. The stamp stays a Server Component, threaded through
           as a prop — the composition exhibit one teaches. No label (the
           intro names the subject once) and no readout strip: cacheTag and
-          cacheLife are visible in the bake.ts source below, which is the
-          spec plate a reader who wants identifiers actually opens. */}
-      <RebakePanel currentId={bake.id} stamp={<BakedStamp bake={bake} />} />
-      <CodeBlock code={SHELL_SOURCE} file="bake.ts + actions.ts" />
+          cacheLife are visible in the bake.ts source, one drawer down in
+          the reference bar, which is the spec plate a reader who wants
+          identifiers actually opens. */}
+      <RebakePanel
+        currentId={bake.id}
+        references={
+          <ReferenceBar
+            docsHref="https://nextjs.org/docs/app/getting-started/caching"
+            sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/shell"
+          >
+            <CodeBlock
+              code={SHELL_SOURCE}
+              file="bake.ts + actions.ts"
+              variant="bar"
+            />
+          </ReferenceBar>
+        }
+        stamp={<BakedStamp bake={bake} />}
+      />
     </DemoSection>
   );
 }
