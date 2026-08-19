@@ -154,6 +154,10 @@ export function Footer() {
             </div>
           </PlusGridRow>
         </PlusGrid>
+        <div className="pb-10 text-center text-muted-foreground/80 text-xs/5">
+          hasToggle is an independent project, not affiliated with or endorsed
+          by Vercel. Next.js and Vercel are trademarks of Vercel, Inc.
+        </div>
       </Container>
     </footer>
   );

@@ -25,7 +25,7 @@ export function Hero() {
             deliberate, short enough that nobody waits on it. */}
         <div className="pt-20 pb-16 sm:pt-28 sm:pb-20 md:pt-36 md:pb-24">
           <p className="ht-enter mb-8 max-w-2xl font-medium text-foreground/70 text-lg/7 sm:text-xl/8">
-            The live playground for Next.js and Vercel.
+            The unofficial live playground for Next.js and Vercel.
           </p>
           <h1
             className="ht-enter max-w-4xl font-display font-medium text-6xl/[0.95] text-foreground tracking-tight sm:text-7xl/[0.95] md:text-8xl/[0.95]"

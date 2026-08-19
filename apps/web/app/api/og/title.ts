@@ -1,4 +1,5 @@
-export const DEFAULT_OG_TITLE = "The live playground for Next.js & Vercel";
+export const DEFAULT_OG_TITLE =
+  "The unofficial live playground for Next.js & Vercel";
 export const MAX_TITLE_LENGTH = 70;
 
 /**

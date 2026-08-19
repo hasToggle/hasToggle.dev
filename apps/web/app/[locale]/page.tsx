@@ -83,7 +83,7 @@ export const metadata: Metadata = {
       },
     ],
   },
-  title: "hasToggle — the live playground for Next.js & Vercel",
+  title: "hasToggle — the unofficial live playground for Next.js & Vercel",
   twitter: {
     card: "summary_large_image",
   },

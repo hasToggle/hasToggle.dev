@@ -15,6 +15,11 @@ const faqs: {
   },
   {
     answer:
+      "No. Vercel hasn’t endorsed this site, and nobody on the Next.js team sees an exhibit before it ships. The mistakes are ours, and so is the freedom to say which parts are confusing.",
+    question: "Is this official?",
+  },
+  {
+    answer:
       "The playground is free. Completely, permanently, no-asterisk free. The paid thing is coaching: small cohorts where you build production apps with me on exactly these topics, AI workflow included. The page teaches; the cohort makes it stick.",
     meta: "The playground doesn’t get better if you buy the cohort. It’s the same page either way.",
     question: "Is this free?",
