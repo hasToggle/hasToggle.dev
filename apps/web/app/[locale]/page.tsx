@@ -171,12 +171,14 @@ async function ShellDemo() {
           </p>
           <p>
             The stamp below is this page&rsquo;s own cache entry — one entry,
-            shared by every visitor. Press the button and it is gone, for all of
-            them, immediately.
+            shared by every visitor. Press the button and a fresh bake lands for
+            all of them, in the time it takes the label to change back. It feels
+            like one event.
           </p>
           <p>
-            Then fetch what is actually cached now. The fingerprint moves twice,
-            not once, and the gap between those two moves is where every
+            It is three. Flip the switch and run it again in slow motion — the
+            panel narrates each event as it happens. The fingerprint moves
+            twice, not once, and the gap between those two moves is where every
             &ldquo;but I already revalidated it&rdquo; ticket lives.
           </p>
         </>

@@ -1,5 +1,6 @@
 "use client";
 
+import { Switch } from "@repo/design-system/components/ui/switch";
 import { cn } from "@repo/design-system/lib/utils";
 import { useRouter } from "next/navigation";
 import { useCallback, useReducer, useState, useTransition } from "react";
@@ -75,9 +76,10 @@ interface RebakePanelProps {
 }
 
 /**
- * Expiring a tag and refilling it are separate events, so they get separate
- * buttons — and the button you can't press is doing as much teaching as the
- * one you can.
+ * One mechanism, two views, chosen by a switch. The simple view fuses the
+ * expiry and the refill into one press — the flow real apps ship. The
+ * machinery view gives the two events separate buttons, and the button you
+ * can't press is doing as much teaching as the one you can.
  *
  * Every slot in here is sized for its tallest and widest state, because a
  * demo about cache timing is unreadable if the thing you are watching hops
@@ -90,6 +92,7 @@ export function RebakePanel({ currentId }: RebakePanelProps) {
   const [isFetching, startFetch] = useTransition();
   const [rebakeFailed, setRebakeFailed] = useState(false);
 
+  const machinery = state.mode === "machinery";
   const rebakeLocked = !canRebake(state) || isRebaking;
   const fetchable = canFetch(state);
 
@@ -100,17 +103,48 @@ export function RebakePanel({ currentId }: RebakePanelProps) {
       return;
     }
     setRebakeFailed(false);
+    if (machinery) {
+      startRebake(async () => {
+        try {
+          const { rebakedAt } = await rebakeShell();
+          dispatch({ at: rebakedAt, type: "expired" });
+        } catch {
+          // The tag may well have been expired before the response died, so
+          // the copy promises nothing about what happened — it just says so.
+          setRebakeFailed(true);
+        }
+      });
+      return;
+    }
+    // The fused press: the same action, with the refill it implies chained
+    // into the same transition. The button stays "Re-baking…" across both
+    // halves, so the press reads as the one event it is pretending to be.
     startRebake(async () => {
       try {
-        const { rebakedAt } = await rebakeShell();
-        dispatch({ at: rebakedAt, type: "expired" });
+        await rebakeShell();
       } catch {
-        // The tag may well have been expired before the response died, so the
-        // copy promises nothing about what happened — it just says so.
         setRebakeFailed(true);
+        return;
       }
+      dispatch({ type: "fused" });
+      router.refresh();
     });
-  }, [rebakeLocked]);
+  }, [machinery, rebakeLocked, router]);
+
+  const handleToggle = useCallback(() => {
+    if (canFetch(state)) {
+      // Leaving the machinery view with an expiry unanswered: settle it on
+      // the way out — quietly finishing the round trip is exactly what real
+      // apps do — so the simple view never rests showing a render the cache
+      // refused to keep.
+      startFetch(() => {
+        dispatch({ type: "toggled" });
+        router.refresh();
+      });
+      return;
+    }
+    dispatch({ type: "toggled" });
+  }, [router, state]);
 
   const handleFetch = useCallback(() => {
     startFetch(() => {
@@ -144,7 +178,7 @@ export function RebakePanel({ currentId }: RebakePanelProps) {
           </div>
         </dl>
       </div>
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
         <MarketingButton
           aria-disabled={rebakeLocked}
           className={REBAKE_LOCKED_LOOK}
@@ -154,19 +188,43 @@ export function RebakePanel({ currentId }: RebakePanelProps) {
           <StableSlot value={rebakeLabel} variants={REBAKE_LABELS} />
         </MarketingButton>
         {/*
-          Rendered in every phase, hidden from sight and from the a11y tree
-          when it doesn't apply, so the row always reserves its exact
-          footprint. `invisible` also takes it out of the tab order.
+          Only the machinery view splits the flow, so only it has a second
+          button. Within that view it renders in every phase — hidden from
+          sight and from the a11y tree when it doesn't apply — so the row
+          keeps its exact footprint. `invisible` also takes it out of the
+          tab order.
         */}
-        <MarketingButton
-          aria-hidden={!fetchable}
-          className={fetchable ? undefined : "invisible"}
-          disabled={!fetchable || isFetching}
-          onClick={handleFetch}
-          variant="outline"
-        >
-          <StableSlot value={fetchLabel} variants={FETCH_LABELS} />
-        </MarketingButton>
+        {machinery && (
+          <MarketingButton
+            aria-hidden={!fetchable}
+            className={fetchable ? undefined : "invisible"}
+            disabled={!fetchable || isFetching}
+            onClick={handleFetch}
+            variant="outline"
+          >
+            <StableSlot value={fetchLabel} variants={FETCH_LABELS} />
+          </MarketingButton>
+        )}
+        {/*
+          Disabled while either transition is in flight: a machinery press
+          resolving after the switch flipped off would strand the simple view
+          mid-gap, and the reducer's ignore-rule is only the fallback for
+          that — see rebake-state.test.ts.
+        */}
+        <div className="flex items-center gap-2 sm:ml-auto">
+          <Switch
+            checked={machinery}
+            disabled={isRebaking || isFetching}
+            id="rebake-slow-motion"
+            onCheckedChange={handleToggle}
+          />
+          <label
+            className="cursor-pointer font-mono text-muted-foreground text-xs/5"
+            htmlFor="rebake-slow-motion"
+          >
+            slow motion
+          </label>
+        </div>
       </div>
       {/*
         Its own live region rather than the one above: the caption sits below

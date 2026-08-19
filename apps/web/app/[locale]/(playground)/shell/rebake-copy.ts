@@ -2,14 +2,20 @@ import { formatClock } from "../format";
 import type { RebakeState } from "./rebake-state";
 
 /**
- * The three captions are one causal arc. Idle names the handle the button is
- * wired to; expired explains why the private render cannot be the refill (the
- * expiry is a timestamp, and that hash predates it — verified on a preview
- * deploy in PR #364, since `next dev` hides this); revealed discloses that the
- * refill had no cache API in it at all. Each phase answers the question the
- * previous one raised.
+ * Two views, one arc. The simple captions describe the fused flow real apps
+ * ship — a press that expires and refills in one round trip — and, once the
+ * visitor has seen it work, hand them the switch. The machinery captions are
+ * the same story slowed down: idle names the handle the button is wired to;
+ * expired explains why the private render cannot be the refill (the expiry is
+ * a timestamp, and that hash predates it — verified on a preview deploy in
+ * PR #364, since `next dev` hides this); revealed discloses that the refill
+ * had no cache API in it at all.
  */
-const IDLE_CAPTION =
+const SIMPLE_IDLE_CAPTION =
+  "throws this page’s cache entry away and bakes a fresh one — for every visitor, immediately.";
+const SIMPLE_CYCLED_CAPTION =
+  "that worked — the bake above is what every visitor gets now. It felt like one event; it was three. The switch slows the next one down.";
+const MACHINERY_IDLE_CAPTION =
   'updateTag("landing-shell") expires the entry for everyone, instantly. Nothing refills it on its own.';
 const EXPIRED_CAPTION =
   "the hash above was rendered before your expiry landed, so the cache will not keep it. The refill is the first render that starts afterwards. Ask for it.";
@@ -32,8 +38,8 @@ interface Readout {
 const SERVED_DETAIL =
   "from the static shell — the same entry every visitor gets";
 
-const SERVED_READOUT: Readout = {
-  caption: IDLE_CAPTION,
+const MACHINERY_SERVED_READOUT: Readout = {
+  caption: MACHINERY_IDLE_CAPTION,
   detail: SERVED_DETAIL,
   label: "served",
 };
@@ -55,7 +61,8 @@ function revealedDetail(privateId: string, currentId: string): string {
 /**
  * Every string each slot could hold, for the panel to stack invisibly behind
  * the live one so the slot is always as tall as its worst case — at every
- * viewport, not just the ones someone measured.
+ * viewport, not just the ones someone measured. Captions from both views are
+ * reserved together, so flipping the switch doesn't move the page either.
  *
  * The placeholders are the same width as the real values (a clock is always
  * `HH:MM:SS`, a bake id always eight hex characters), so the ghosts wrap
@@ -66,7 +73,9 @@ const PLACEHOLDER_CLOCK = "00:00:00 UTC";
 const PLACEHOLDER_ID = "00000000";
 
 export const CAPTION_VARIANTS: readonly string[] = [
-  IDLE_CAPTION,
+  SIMPLE_IDLE_CAPTION,
+  SIMPLE_CYCLED_CAPTION,
+  MACHINERY_IDLE_CAPTION,
   EXPIRED_CAPTION,
   REVEALED_CAPTION,
   REBAKE_FAILED_CAPTION,
@@ -80,9 +89,19 @@ export const DETAIL_VARIANTS: readonly string[] = [
 
 /**
  * The provenance line, which is the only part of the demo that has to change
- * per phase — the stamp above states facts that survive all three.
+ * per phase — the stamp above states facts that survive every phase of both
+ * views.
  */
 export function readout(state: RebakeState, currentId: string): Readout {
+  if (state.mode === "simple") {
+    return {
+      caption: state.hasCompletedCycle
+        ? SIMPLE_CYCLED_CAPTION
+        : SIMPLE_IDLE_CAPTION,
+      detail: SERVED_DETAIL,
+      label: "served",
+    };
+  }
   if (state.phase === "expired") {
     return {
       caption: EXPIRED_CAPTION,
@@ -95,7 +114,7 @@ export function readout(state: RebakeState, currentId: string): Readout {
     // window between your expiry and your fetch, so the same id back is not
     // a bug — it's just nothing left to compare.
     if (state.privateId === currentId) {
-      return SERVED_READOUT;
+      return MACHINERY_SERVED_READOUT;
     }
     return {
       caption: REVEALED_CAPTION,
@@ -103,5 +122,5 @@ export function readout(state: RebakeState, currentId: string): Readout {
       label: "served",
     };
   }
-  return SERVED_READOUT;
+  return MACHINERY_SERVED_READOUT;
 }
