@@ -305,6 +305,21 @@ Number four is the one belief that arrives as advice rather than assumption,
 which is left deliberately: an API route is usually something a reviewer tells
 you to build, and converting it to a confession would cost the sting.
 
+From the exhibit-two redesign of 2026-08-19. Two rejections, neither
+anticipated by a rule above:
+
+| Standing | Shipped | Why |
+|---|---|---|
+| I cleared the cache, so the page is fresh now. | But I already revalidated it. | A belief that resolves its own drama doesn't hook — catch the believer after the belief has failed them |
+| The ritual: clear the cache, hard refresh, clear it again… (the aside) | In your app, the two renders behind one press would read the same database and agree… | Not wrong, not off-voice — obsoleted. The demo grew a slow-motion view that performs accidental refills, so an aside narrating them repeated the instrument |
+
+The first also showed where to look for the true utterance: it was already on
+the page, as the ticket line at the bottom of the intro. The second is a new
+failure mode the three passes don't catch on their own — a line that was
+accurate and in-voice the day it shipped, made redundant by the demo evolving
+underneath it. The passes check copy against the panel as it is, so run them
+again whenever the panel changes.
+
 ---
 
 ## 7. Time-hardening
