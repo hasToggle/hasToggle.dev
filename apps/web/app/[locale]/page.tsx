@@ -185,9 +185,10 @@ async function ShellDemo() {
       }
       meta={
         <>
-          The ritual: clear the cache, hard refresh, clear it again, open an
-          incognito window, ask a colleague to load it. Five steps, three of
-          which quietly refill the entry you just cleared.
+          In your app, the two renders behind one press would read the same
+          database and agree — no visitor would ever see the seam. The bake is a
+          random id precisely so two renders can never agree. Watching a cache
+          work requires caching something that never repeats.
         </>
       }
       sourcePath="apps/web/app/[locale]/(playground)/shell"
