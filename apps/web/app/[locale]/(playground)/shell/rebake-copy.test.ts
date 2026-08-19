@@ -72,7 +72,7 @@ describe("rebake readout", () => {
   test("expired explains why the private hash cannot be the refill", () => {
     expect(readout(MACHINERY_EXPIRED, CURRENT_ID)).toEqual({
       caption:
-        "the hash above was rendered before your expiry landed, so the cache will not keep it. The refill is the first render that starts afterwards. Ask for it.",
+        "the hash above was rendered before your expiry landed, so the cache will not keep it. The refill is the first render that starts afterwards — button two, a new tab, another visitor, whoever asks first. Ask for it.",
       detail:
         "at 15:05:35 UTC — the hash above was rendered for you and cached for nobody",
       label: "expired",
