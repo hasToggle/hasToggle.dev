@@ -163,12 +163,11 @@ async function ShellDemo() {
       intro={
         <>
           <p>
-            You cleared it. Nothing refilled it. Those are two different events,
-            and the page is only fresh after the second one.{" "}
+            You cleared it. Nothing refilled it.{" "}
             <InlineCode>use cache</InlineCode>&#32;bakes a component&rsquo;s
             output into the page&rsquo;s static shell. A cache tag is the handle
-            you pull to throw that entry away. Pulling it does not put anything
-            back.
+            you pull to throw that entry away — pulling it does not put anything
+            back, and the page is only fresh once something does.
           </p>
           <p>
             The stamp below is this page&rsquo;s own cache entry — one entry,
