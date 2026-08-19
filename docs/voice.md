@@ -40,6 +40,18 @@ then mechanism, then a pointer at the evidence — is his.
 > Safer than what? · You cleared it. Nothing refilled it. · Not any more. ·
 > You need a function. · You'll design one.
 
+### The walkthroughs — Brian Greene, *The Elegant Universe* (added 2026-08-19)
+
+For mechanism passages, where an intro must carry an abstraction. Escort the
+reader through it one step at a time: the concrete scene first, the abstract
+word only after its referent exists on screen, and the reader told where to
+look — watch, follow, notice. The scene extends the exhibit's own metaphor
+(the bake gets a shelf and an oven), never imports a foreign one. Take
+Greene's patience, not his scale: no cosmos, no wonder-hush, just the escort.
+The tell that this register is missing: two unintroduced terms meeting in one
+clause, asking the reader to solve a construction instead of watch a
+sequence.
+
 ### The asides — James Mickens, "The Night Watch", "The Slow Winter" (USENIX `;login:`)
 
 Steal the structure, never the voice — he is too distinctive to imitate without
