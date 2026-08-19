@@ -193,20 +193,14 @@ async function ShellDemo() {
       sourcePath="apps/web/app/[locale]/(playground)/shell"
       topic="caching & revalidation"
     >
-      <LivePanel
-        label="this page’s own cache"
-        readout={
-          <>
-            cacheTag(&quot;landing-shell&quot;) · cacheLife(&quot;days&quot;) ·
-            one entry, shared by every visitor
-          </>
-        }
-      >
-        <div className="flex flex-col gap-6">
-          <BakedStamp bake={bake} />
-          <RebakePanel currentId={bake.id} />
-        </div>
-      </LivePanel>
+      {/* The client panel owns the instrument chrome here, because the
+          header gauge and the display's pending treatment follow its
+          transitions. The stamp stays a Server Component, threaded through
+          as a prop — the composition exhibit one teaches. No label (the
+          intro names the subject once) and no readout strip: cacheTag and
+          cacheLife are visible in the bake.ts source below, which is the
+          spec plate a reader who wants identifiers actually opens. */}
+      <RebakePanel currentId={bake.id} stamp={<BakedStamp bake={bake} />} />
       <CodeBlock code={SHELL_SOURCE} file="bake.ts + actions.ts" />
     </DemoSection>
   );

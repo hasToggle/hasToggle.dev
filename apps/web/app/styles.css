@@ -244,6 +244,31 @@
   }
 }
 
+/* Instrument display — a value that just changed announces itself once.
+   Same mount-keyed mechanism as .mirror-flash: the wrapper's React key is
+   the value's identity, so a new value remounts it and the wash runs. The
+   panel skips the class on the very first mount, so arriving at the page
+   doesn't read as a change. */
+@keyframes ht-land {
+  from {
+    background-color: rgb(245 158 11 / 0.12);
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
+.ht-land {
+  border-radius: 0.375rem;
+  animation: ht-land 900ms ease-out 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ht-land {
+    animation: none;
+  }
+}
+
 .highlighted-line {
   padding: 2px 8px 2px 0;
   border-radius: 12px;
