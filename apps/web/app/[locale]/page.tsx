@@ -154,15 +154,15 @@ async function ShellDemo() {
 
   return (
     <DemoSection
-      belief="But I already revalidated it."
+      belief="It’s either cached or it isn’t."
       chapter="02"
       id="demo-02"
       intro={
         <>
           <p>
-            You did, and it worked: the entry was gone the instant you called
-            it, for every visitor at once. But a revalidation is a deletion with
-            a hopeful name. <InlineCode>use cache</InlineCode>&#32;bakes a
+            We believed it, too — hit or miss, there or not. But
+            &ldquo;cached&rdquo; is not a state a page is in; it is a bake with
+            a lifespan. <InlineCode>use cache</InlineCode>&#32;bakes a
             component&rsquo;s output into the page&rsquo;s static shell — one
             copy, served to everyone — and a cache tag is the handle you pull to
             throw that copy away. Pulling it empties the shelf and lights no
@@ -178,19 +178,23 @@ async function ShellDemo() {
           </p>
           <p>
             It is three. Flip the switch and run it again in slow motion — the
-            panel narrates each event as it happens. Watch the fingerprint: it
-            moves twice, not once, and the gap between those two moves is where
-            the argument happens — you insisting you already revalidated, the
-            page insisting it is stale, and both of you right.
+            panel narrates each event as it happens. Watch the color: it changes
+            twice, not once, and that gap is what your cache logs are naming.
+            Press the button here and the next request logs{" "}
+            <InlineCode>REVALIDATED</InlineCode> — reason:{" "}
+            <InlineCode>tag-based deletion</InlineCode> — because that request
+            was the refill. <InlineCode>STALE</InlineCode> is the same gap
+            handled softly: the old bake served while a fresh one is in the
+            oven.
           </p>
         </>
       }
       meta={
         <>
           In your app, the two renders behind one press would read the same
-          database and agree — no visitor would ever see the seam. The bake is a
-          random id precisely so two renders can never agree. Watching a cache
-          work requires caching something that never repeats.
+          database and agree — no visitor would ever see the seam. The bake here
+          is a random color value precisely so two renders can never agree.
+          Watching a cache work requires caching something that never repeats.
         </>
       }
       topic="caching & revalidation"
@@ -212,7 +216,7 @@ async function ShellDemo() {
           >
             <CodeBlock
               code={SHELL_SOURCE}
-              file="bake.ts + actions.ts"
+              file="bake.ts + actions.ts + the ask"
               variant="bar"
             />
           </ReferenceBar>
