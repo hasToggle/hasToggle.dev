@@ -7,10 +7,14 @@ import { getBake } from "./shell/bake";
 async function StreamedNow() {
   await connection();
   return (
-    <>
+    // .ht-land: the arrival is this line's entire message, so it announces
+    // itself with the same wash the bake stamp uses. Pure CSS on mount — it
+    // fires when the streamed HTML is inserted, before hydration, and again
+    // whenever a refresh re-streams the line with a new timestamp.
+    <span className="ht-land">
       this line streamed in just for you —{" "}
       <span className="tabular-nums">{formatStamp(new Date())}</span>
-    </>
+    </span>
   );
 }
 
@@ -50,7 +54,13 @@ export async function HeroReadout() {
       </p>
       <p className="h-6">
         <Suspense
-          fallback={<span className="opacity-50">waiting for the server…</span>}
+          fallback={
+            // Pulsing so it reads as in-flight, not as a finished sentence;
+            // reduced motion keeps the static half-opacity as the base.
+            <span className="opacity-50 motion-safe:animate-pulse">
+              waiting for the server…
+            </span>
+          }
         >
           <StreamedNow />
         </Suspense>
