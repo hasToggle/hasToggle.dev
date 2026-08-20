@@ -37,6 +37,12 @@ function Sitemap() {
         >
           Source on GitHub
         </SitemapLink>
+        <SitemapLink
+          href="https://github.com/hasToggle/hasToggle.dev-checkpoints"
+          target="_blank"
+        >
+          Prompts and checkpoints
+        </SitemapLink>
       </SitemapLinks>
     </div>
   );
