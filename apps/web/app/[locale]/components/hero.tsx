@@ -37,7 +37,14 @@ export function Hero() {
             style={{ "--ht-delay": "280ms" } as React.CSSProperties}
           >
             <MarketingButton href="#demo-01">Start poking</MarketingButton>
-            <MetaAside className="sm:max-w-xs">
+            {/* Block markers, not `//`: this one wraps to two lines, and a
+                line comment whose second line has no marker isn't a comment.
+                The exhibit asides wear this variant in comment-gray; the hero
+                keeps the meta-aside cyan, so only the markers change. */}
+            <MetaAside
+              className="text-ht-cyan-800/75 sm:max-w-xs dark:text-ht-cyan-300/85"
+              variant="comment"
+            >
               Nothing on this page is a mockup. We checked twice.
             </MetaAside>
           </div>

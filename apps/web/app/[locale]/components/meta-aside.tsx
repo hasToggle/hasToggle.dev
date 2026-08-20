@@ -17,16 +17,20 @@ export function MetaAside({
     // The exhibit asides, set the way they read: a note an engineer left in
     // this codebase. Comment-gray like the highlighted source's own comments,
     // wrapped in the block markers, no brand color asking for credit.
+    //
+    // The spaces beside the markers are U+00A0. A marker belongs to the text
+    // it wraps, and an ordinary space lets the closing marker wrap onto a line
+    // of its own, which is not a shape a comment ever has in an editor.
     return (
       <aside
         className={cn("font-mono text-muted-foreground text-sm/6", className)}
       >
         <span aria-hidden="true" className="select-none opacity-55">
-          {"/* "}
+          {"/* "}
         </span>
         {children}
         <span aria-hidden="true" className="select-none opacity-55">
-          {" */"}
+          {" */"}
         </span>
       </aside>
     );

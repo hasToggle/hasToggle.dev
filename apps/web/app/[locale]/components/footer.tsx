@@ -14,20 +14,61 @@ function SitemapLinks({ children }: { children: React.ReactNode }) {
   return <ul className="mt-6 space-y-4 text-sm/6">{children}</ul>;
 }
 
-function SitemapLink(props: React.ComponentPropsWithoutRef<typeof Link>) {
+function ExternalIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <path d="M15 3h6v6" />
+      <path d="M10 14 21 3" />
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6" />
+    </svg>
+  );
+}
+
+function SitemapLink({
+  children,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof Link>) {
+  // The icon is derived from `target`, not passed in, so a link can never
+  // open a tab without saying so.
+  const opensNewTab = props.target === "_blank";
+
   return (
     <li>
       <Link
         {...props}
         className="font-medium text-foreground hover:text-foreground/75"
-      />
+      >
+        {children}
+        {opensNewTab && (
+          <>
+            {/* Inline, not a flex child: the column is narrow enough that
+                these labels wrap, and a flex icon parks itself beside the
+                whole wrapped block instead of following the last word. */}
+            <ExternalIcon className="ml-1 inline size-3 align-[-0.08em] opacity-60" />
+            {/* The glyph is the sighted half of this; screen readers get the
+                same fact in words rather than a shrug. */}
+            <span className="sr-only">(opens in a new tab)</span>
+          </>
+        )}
+      </Link>
     </li>
   );
 }
 
 function Sitemap() {
+  // Two columns wide because the longest label plus its icon overflows one,
+  // and the columns beside it are empty — the extra width costs nothing.
   return (
-    <div>
+    <div className="col-span-2">
       <SitemapHeading>Playground</SitemapHeading>
       <SitemapLinks>
         <SitemapLink href="/#faq">FAQs</SitemapLink>
