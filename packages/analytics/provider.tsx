@@ -7,18 +7,24 @@ interface AnalyticsProviderProps {
   readonly children: ReactNode;
 }
 
-const { NEXT_PUBLIC_GA_MEASUREMENT_ID } = keys();
+const { NEXT_PUBLIC_GA_MEASUREMENT_ID, NEXT_PUBLIC_VERCEL_ANALYTICS } = keys();
 
-// Vercel Analytics fetches its script from /_vercel/insights/script.js, a path
-// only the Vercel edge serves. Anywhere else — a local production build, a
-// container, any self-hosted deploy — the tag renders, 404s, and logs a console
-// error while collecting nothing. Render it only where it can actually work.
-const isOnVercel = Boolean(process.env.VERCEL);
+/*
+ * Vercel Analytics loads its script from /_vercel/insights/script.js, which
+ * the platform serves only for projects with Web Analytics enabled. Being
+ * deployed on Vercel is not enough — this project has never had it enabled, so
+ * the tag rendered on every production page view, 404ed, and logged a console
+ * error while collecting nothing. PostHog is already doing the analytics.
+ *
+ * Enabling Web Analytics is a dashboard toggle; set NEXT_PUBLIC_VERCEL_ANALYTICS
+ * to "true" at the same time to turn the tag back on.
+ */
+const vercelAnalyticsEnabled = NEXT_PUBLIC_VERCEL_ANALYTICS === "true";
 
 export const AnalyticsProvider = ({ children }: AnalyticsProviderProps) => (
   <>
     {children}
-    {isOnVercel ? <VercelAnalytics /> : null}
+    {vercelAnalyticsEnabled ? <VercelAnalytics /> : null}
     {NEXT_PUBLIC_GA_MEASUREMENT_ID ? (
       <GoogleAnalytics gaId={NEXT_PUBLIC_GA_MEASUREMENT_ID} />
     ) : null}
