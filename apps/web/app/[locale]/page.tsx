@@ -5,10 +5,7 @@ import { DEFAULT_OG_TITLE } from "@/app/api/og/title";
 import { env } from "@/env";
 import { ClientCard } from "./(playground)/boundary/client-card";
 import { ServerCard } from "./(playground)/boundary/server-card";
-import {
-  CLIENT_CARD_SOURCE,
-  SERVER_CARD_SOURCE,
-} from "./(playground)/boundary/source";
+import { BOUNDARY_SOURCE } from "./(playground)/boundary/source";
 import { CodeBlock } from "./(playground)/code-block";
 import { DemoSection } from "./(playground)/demo-section";
 import { OgDemo } from "./(playground)/image/og-demo";
@@ -36,6 +33,7 @@ import {
   StreamRowsFallback,
 } from "./(playground)/stream/stream-rows";
 import { Container } from "./components/container";
+import { ContentsNav } from "./components/contents-nav";
 import { Digest } from "./components/digest";
 import { FrequentlyAskedQuestions } from "./components/faqs";
 import { Footer } from "./components/footer";
@@ -99,10 +97,6 @@ function BoundaryDemo() {
     <DemoSection
       belief="I’ll put “use client” on it, to be safe."
       chapter="01"
-      docs={{
-        href: "https://nextjs.org/docs/app/getting-started/server-and-client-components",
-        label: "Server and Client Components",
-      }}
       id="demo-01"
       intro={
         <>
@@ -118,9 +112,11 @@ function BoundaryDemo() {
             their phone.
           </p>
           <p>
-            One of these cards rendered in Node.js and arrived as finished HTML.
-            The other hydrated in your tab and is waiting for a click. Only one
-            of them knows what version of Node it is running on.
+            Watch the two cards below. One rendered in Node.js and arrived as
+            finished HTML — done before you got here. The other arrived as
+            JavaScript and woke up in your tab — the waking is called hydration
+            — and its button is waiting for a click. Only one of them is running
+            Node, and it prints the version to prove it.
           </p>
         </>
       }
@@ -131,20 +127,33 @@ function BoundaryDemo() {
           has no clicks to listen for.
         </>
       }
-      sourcePath="apps/web/app/[locale]/(playground)/boundary"
       topic="server & client components"
     >
       <LivePanel
-        label="two components, one page"
-        readout="boundary drawn at the import graph · props cross it as serialized data"
+        references={
+          <ReferenceBar
+            docsHref="https://nextjs.org/docs/app/getting-started/server-and-client-components"
+            sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/boundary"
+          >
+            <CodeBlock
+              code={BOUNDARY_SOURCE}
+              file="server-card.tsx + client-card.tsx"
+            />
+          </ReferenceBar>
+        }
       >
-        <div className="grid gap-4 sm:grid-cols-2">
-          <ServerCard />
-          <ClientCard />
+        <div className="flex flex-col gap-5">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <ServerCard />
+            <ClientCard />
+          </div>
+          {/* The seam, narrated: the one fact neither card can state alone. */}
+          <p className="font-mono text-muted-foreground text-xs/5">
+            props cross the boundary as serialized data — the import graph
+            decides which side a component runs on.
+          </p>
         </div>
       </LivePanel>
-      <CodeBlock code={SERVER_CARD_SOURCE} file="server-card.tsx" />
-      <CodeBlock code={CLIENT_CARD_SOURCE} file="client-card.tsx" />
     </DemoSection>
   );
 }
@@ -217,7 +226,6 @@ async function ShellDemo() {
             <CodeBlock
               code={SHELL_SOURCE}
               file="bake.ts + actions.ts + the ask"
-              variant="bar"
             />
           </ReferenceBar>
         }
@@ -232,18 +240,15 @@ function StreamDemo({ searchParams }: PageProps) {
     <DemoSection
       belief="I’ll fetch it all first, then render."
       chapter="03"
-      docs={{
-        href: "https://nextjs.org/docs/app/api-reference/file-conventions/loading",
-        label: "Streaming and loading UI",
-      }}
       id="demo-03"
       intro={
         <>
           <p>
-            Not any more. The static shell ships immediately, each slow part
-            shows its fallback, and the server streams finished HTML into place
-            over the same response as each part finishes. Nothing waits for
-            everything.
+            Not any more. The static shell ships immediately, and each slow part
+            leaves behind a fallback — the gray placeholder you&rsquo;ll watch
+            below. As each part finishes, the server streams its finished HTML
+            down the same response, and the placeholder gives way. The fast
+            parts don&rsquo;t wait for the slow ones.
           </p>
           <p>
             These three rows are slow on purpose. The delays are hardcoded — the
@@ -261,28 +266,31 @@ function StreamDemo({ searchParams }: PageProps) {
           file, and the whole segment gets a fallback.
         </>
       }
-      sourcePath="apps/web/app/[locale]/(playground)/stream"
       topic="streaming & suspense"
     >
+      {/* The rerun control keeps its own Suspense boundary (it reads the
+          URL, which is runtime data) so the deck can hold it while the rows
+          stream in the body — the rows' skeletons are the in-flight signal,
+          arriving in delay order. */}
       <LivePanel
-        label="the server, cooking"
-        readout="3 Suspense boundaries · re-keyed by ?stream= · the shell never waited for any of them"
-      >
-        <div className="flex flex-col gap-5">
-          <Suspense
-            fallback={
-              <>
-                <RerunButtonFallback />
-                <StreamRowsFallback />
-              </>
-            }
-          >
+        deck={
+          <Suspense fallback={<RerunButtonFallback />}>
             <RerunButton />
-            <StreamRows searchParams={searchParams} />
           </Suspense>
-        </div>
+        }
+        references={
+          <ReferenceBar
+            docsHref="https://nextjs.org/docs/app/api-reference/file-conventions/loading"
+            sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/stream"
+          >
+            <CodeBlock code={STREAM_SOURCE} file="slow-row.tsx" />
+          </ReferenceBar>
+        }
+      >
+        <Suspense fallback={<StreamRowsFallback />}>
+          <StreamRows searchParams={searchParams} />
+        </Suspense>
       </LivePanel>
-      <CodeBlock code={STREAM_SOURCE} file="slow-row.tsx" />
     </DemoSection>
   );
 }
@@ -292,10 +300,6 @@ function MutationDemo() {
     <DemoSection
       belief="You need an API route for that."
       chapter="04"
-      docs={{
-        href: "https://nextjs.org/docs/app/getting-started/updating-data",
-        label: "Updating data with Server Actions",
-      }}
       id="demo-04"
       intro={
         <>
@@ -303,13 +307,15 @@ function MutationDemo() {
             You need a function. A Server Action lives on the server and plugs
             straight into a form&rsquo;s <InlineCode>action</InlineCode>: no
             endpoint to design, no fetch to write, no JSON contract to keep in
-            sync. The form calls the function, the function mutates, and Next.js
-            re-renders the page around the result.
+            sync. Press the button below and follow the trip: the form calls the
+            function, the function adds one, and Next.js re-renders the page
+            around the new number.
           </p>
           <p>
-            This one increments a counter held in an httpOnly cookie, read back
-            by a Server Component. The JavaScript in your tab never touches that
-            value, and could not if it tried.
+            This one keeps its count in a cookie your browser carries but your
+            JavaScript cannot open — that is what httpOnly means — and a Server
+            Component reads it back. The JavaScript in your tab never touches
+            the value, and could not if it tried.
           </p>
         </>
       }
@@ -322,12 +328,24 @@ function MutationDemo() {
           number.
         </>
       }
-      sourcePath="apps/web/app/[locale]/(playground)/mutation"
       topic="server actions & cookies"
     >
+      {/* The form stays in the body: it is the specimen, not instrument
+          chrome — a form wired straight to a Server Action is the entire
+          lesson, and moving it into the deck would file the exhibit's
+          subject under controls. */}
       <LivePanel
-        label="your cookie, read server-side"
-        readout="httpOnly cookie · written by a Server Action · the page re-renders itself"
+        references={
+          <ReferenceBar
+            docsHref="https://nextjs.org/docs/app/getting-started/updating-data"
+            sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/mutation"
+          >
+            <CodeBlock
+              code={MUTATION_SOURCE}
+              file="actions.ts + press-form.tsx"
+            />
+          </ReferenceBar>
+        }
       >
         <div className="flex flex-col gap-6">
           <Suspense fallback={<PressCountFallback />}>
@@ -336,7 +354,6 @@ function MutationDemo() {
           <PressForm />
         </div>
       </LivePanel>
-      <CodeBlock code={MUTATION_SOURCE} file="actions.ts + press-form.tsx" />
     </DemoSection>
   );
 }
@@ -346,18 +363,15 @@ function ImageDemo() {
     <DemoSection
       belief="I’ll need to design a card for every page."
       chapter="05"
-      docs={{
-        href: "https://nextjs.org/docs/app/api-reference/functions/image-response",
-        label: "ImageResponse",
-      }}
       id="demo-05"
       intro={
         <>
           <p>
             You&rsquo;ll design one. <InlineCode>ImageResponse</InlineCode>
-            &#32;renders JSX to a PNG at request time, and it is a route handler
-            like any other — query in, image out. One file draws the card for
-            every page you will ever publish.
+            &#32;turns JSX — the same markup your components are made of — into
+            a PNG the moment a request asks, and it is a route handler like any
+            other: query in, image out. One file draws the card for every page
+            you will ever publish.
           </p>
           <p>
             Type a title and the server draws it. The same endpoint drew the
@@ -373,16 +387,21 @@ function ImageDemo() {
           update it, and now nobody has to.
         </>
       }
-      sourcePath="apps/web/app/api/og"
       topic="imageresponse & route handlers"
     >
-      <LivePanel
-        label="/api/og"
-        readout="route handler · JSX → Satori (flexbox only) → PNG · rendered per request, cached by nobody"
-      >
-        <OgDemo />
-      </LivePanel>
-      <CodeBlock code={OG_SOURCE} file="app/api/og/route.tsx" />
+      {/* OgDemo owns the instrument: the gauge follows its fetch state, the
+          title form is its deck. The reference bar threads through as a prop
+          because CodeBlock renders on the server. */}
+      <OgDemo
+        references={
+          <ReferenceBar
+            docsHref="https://nextjs.org/docs/app/api-reference/functions/image-response"
+            sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/api/og"
+          >
+            <CodeBlock code={OG_SOURCE} file="app/api/og/route.tsx" />
+          </ReferenceBar>
+        }
+      />
     </DemoSection>
   );
 }
@@ -455,8 +474,16 @@ function Roadmap() {
                 repo is public
               </a>
               , and the building is done with AI — Conductor orchestrating
-              Claude Code, with the process published alongside via Entire.io.
-              You get the playground and the making-of.
+              Claude Code, with{" "}
+              <a
+                className="underline decoration-ht-cyan-700/40 underline-offset-2 transition-colors hover:decoration-ht-cyan-700"
+                href="https://github.com/hasToggle/hasToggle.dev-checkpoints"
+                rel="noreferrer"
+                target="_blank"
+              >
+                every prompt and checkpoint published
+              </a>{" "}
+              as they happen. You get the playground and the making-of.
             </MetaAside>
           </div>
         </div>
@@ -547,15 +574,22 @@ export default function MarketingPage({ searchParams }: PageProps) {
     <div className="overflow-x-clip">
       <Hero />
       <main>
-        <BoundaryDemo />
-        <SectionDivider />
-        <ShellDemo />
-        <SectionDivider />
-        <StreamDemo searchParams={searchParams} />
-        <SectionDivider />
-        <MutationDemo />
-        <SectionDivider />
-        <ImageDemo />
+        {/* This wrapper is the contents bar's sticky bound: the bar pins to
+            the viewport while the visitor is among the exhibits and releases
+            when the wrapper ends after demo 05 — the roadmap onward scrolls
+            nav-free, with no JavaScript deciding anything. */}
+        <div>
+          <ContentsNav />
+          <BoundaryDemo />
+          <SectionDivider />
+          <ShellDemo />
+          <SectionDivider />
+          <StreamDemo searchParams={searchParams} />
+          <SectionDivider />
+          <MutationDemo />
+          <SectionDivider />
+          <ImageDemo />
+        </div>
         <PartDivider />
         <Roadmap />
         <SectionDivider />

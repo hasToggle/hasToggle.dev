@@ -332,6 +332,13 @@ accurate and in-voice the day it shipped, made redundant by the demo evolving
 underneath it. The passes check copy against the panel as it is, so run them
 again whenever the panel changes.
 
+From the hero footnote, 2026-08-20. Two rejections in one line, both novel:
+
+| Standing | Shipped | Why |
+|---|---|---|
+| You've opened a "live demo" that turned out to be an animated GIF. So have we. | (cut) | A manufactured shared experience — plausible, not lived. Second bite of the same failure as the exhibit-two title: invented relatability reads as marketing doing an impression of empathy. It also punched at third parties, which §1's audit already banned once |
+| Two sentences of replacement prose | everything below runs · the source is in every panel · even the prompts are public | The container sets the register. A hover card is a readout, not a paragraph — prose in a tooltip is the wrong instrument no matter how good the prose is |
+
 ---
 
 ## 7. Time-hardening

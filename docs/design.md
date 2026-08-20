@@ -82,15 +82,25 @@ it shipped — voice.md's three passes check a line against the panel *as it
 is*, so re-run them whenever the panel changes. (Evidence: voice.md §6,
 2026-08-19.)
 
-## 4. Migration state — 2026-08-19
+## 4. Migration state — complete, 2026-08-20
 
-Exhibit 02 (the rebake demo) is the reference implementation. Exhibits 01,
-03, 04, 05 are on the legacy shape: `LivePanel` `label`/`readout` props,
-standalone `CodeBlock`s, the old links row under the panel. Migration is
-mostly mechanical per demo: compose a `ReferenceBar` with `CodeBlock
-variant="bar"` into the panel's `references` slot, drop the label and
-readout, move any mode switches to `viewControls`. The eyebrow and comment
-asides are already global via `DemoSection`.
+All five exhibits are on the grammar; the legacy shapes (`LivePanel`
+`label`/`readout`, standalone `CodeBlock`, `DemoSection`'s links row) are
+deleted, not deprecated. Judgment calls worth keeping:
+
+- **The specimen is not a control.** Exhibit 04's form and exhibit 01's
+  click-me button stay in the body: a form wired to a Server Action is the
+  lesson, and filing the subject under controls would misrepresent it. The
+  deck holds instrument controls only (03's rerun, 05's title form — which
+  drives the instrument rather than being it).
+- **Unique readout facts became narration lines**; redundant readouts were
+  cut without replacement (03, 04 — their facts live in the intro, the
+  captions, or the source).
+- **The gauge is wired where a client owns the panel** (02, 05). 03's
+  in-flight signal is carried by the row skeletons and the rerun button's
+  pending label instead — honest, but not the gauge; wire it if the stream
+  panel ever gains a client owner. 01 and 04 have no client round trip to
+  gauge (04's form works with JavaScript off, which is its point).
 
 ## 5. Banked
 

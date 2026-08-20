@@ -9,17 +9,6 @@ interface LivePanelProps {
    */
   deck?: React.ReactNode;
   /**
-   * Legacy header caption. Demos migrating to the fixed grammar drop it: the
-   * prose above the panel names the subject once, and naming it again in the
-   * chrome bought nothing.
-   */
-  label?: string;
-  /**
-   * Legacy footer strip. Migrated demos concentrate their checkable facts in
-   * the captions and the source block instead of a fourth text fragment.
-   */
-  readout?: React.ReactNode;
-  /**
    * The bottom zone: a ReferenceBar holding the code drawer and the docs and
    * source links — the status bar every editor ends in. The exhibit's whole
    * engineering surface lives in one chassis.
@@ -47,8 +36,6 @@ export function LivePanel({
   children,
   className,
   deck,
-  label,
-  readout,
   references,
   status = "live",
   viewControls,
@@ -87,21 +74,12 @@ export function LivePanel({
           </span>
           {working ? "working" : "live"}
         </span>
-        {viewControls ?? (
-          <span className="truncate font-mono text-muted-foreground/70 text-xs">
-            {label}
-          </span>
-        )}
+        {viewControls}
       </figcaption>
       <div className="p-5 sm:p-6">{children}</div>
       {deck ? (
         <div className="border-foreground/10 border-t px-4 py-4 sm:px-5">
           {deck}
-        </div>
-      ) : null}
-      {readout ? (
-        <div className="border-foreground/10 border-t bg-muted/30 px-4 py-3 font-mono text-ht-cyan-800/85 text-xs/5 sm:px-5 dark:text-ht-cyan-300/85">
-          {readout}
         </div>
       ) : null}
       {references ? (

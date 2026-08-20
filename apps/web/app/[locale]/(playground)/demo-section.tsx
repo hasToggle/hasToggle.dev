@@ -1,12 +1,6 @@
 import { Container } from "../components/container";
 import { MetaAside } from "../components/meta-aside";
 import { Heading, Subheading } from "../components/text";
-import { SectionLink } from "./section-link";
-
-interface DemoLink {
-  href: string;
-  label: string;
-}
 
 interface DemoSectionProps {
   /**
@@ -17,20 +11,11 @@ interface DemoSectionProps {
   /** Build-order position, e.g. "02" — carried in the eyebrow, not a numeral. */
   chapter: string;
   children: React.ReactNode;
-  /**
-   * Legacy reference links, rendered below the panel. Migrated exhibits omit
-   * both and carry their references inside the instrument's reference bar.
-   */
-  docs?: DemoLink;
   id: string;
   intro: React.ReactNode;
   meta?: React.ReactNode;
-  /** Path inside this repo, relative to repo root, for the GitHub source link. */
-  sourcePath?: string;
   topic: string;
 }
-
-const GITHUB_BASE = "https://github.com/hasToggle/hasToggle.dev/tree/main/";
 
 /**
  * Editorial wrapper for one exhibit. It opens with a belief and answers it
@@ -47,11 +32,9 @@ export function DemoSection({
   belief,
   chapter,
   children,
-  docs,
   id,
   intro,
   meta,
-  sourcePath,
   topic,
 }: DemoSectionProps) {
   return (
@@ -87,15 +70,6 @@ export function DemoSection({
               {intro}
             </div>
             <div className="mt-10 max-w-3xl">{children}</div>
-            {docs && sourcePath ? (
-              <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-2">
-                <SectionLink href={docs.href} label={`docs: ${docs.label}`} />
-                <SectionLink
-                  href={`${GITHUB_BASE}${encodeURI(sourcePath)}`}
-                  label="source on GitHub"
-                />
-              </div>
-            ) : null}
             {meta ? (
               <MetaAside className="mt-8 max-w-2xl" variant="comment">
                 {meta}
