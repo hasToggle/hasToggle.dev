@@ -30,6 +30,7 @@ const MACHINERY_SERVED: RebakeState = {
 const MACHINERY_EXPIRED: RebakeState = {
   expiredAt: EXPIRED_AT,
   hasCompletedCycle: false,
+  idAtExpiry: "0a11ed",
   mode: "machinery",
   phase: "expired",
 };
