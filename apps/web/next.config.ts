@@ -13,6 +13,12 @@ export default async (): Promise<NextConfig> => {
   // cache`, streamed Suspense holes) — the flag is load-bearing content.
   nextConfig.cacheComponents = true;
 
+  // Tailwind's output for this site is small and render-blocking, and first
+  // paint was waiting on a whole round trip for it. Inlining trades a bigger
+  // HTML document for one less blocking request, which is the trade the docs
+  // recommend for atomic CSS.
+  nextConfig.experimental = { ...nextConfig.experimental, inlineCss: true };
+
   nextConfig.images?.remotePatterns?.push({
     hostname: "picsum.photos",
     protocol: "https",

@@ -170,7 +170,9 @@ export function Footer() {
             </div>
           </PlusGridRow>
         </PlusGrid>
-        <div className="pb-10 text-center text-muted-foreground/80 text-xs/5">
+        {/* Full-strength muted-foreground, not /80: at 12px the faded variant
+            lands on 4.26:1 against bg-muted, under the 4.5:1 floor. */}
+        <div className="pb-10 text-center text-muted-foreground text-xs/5">
           hasToggle is an independent project, not affiliated with or endorsed
           by Vercel. Next.js and Vercel are trademarks of Vercel, Inc.
         </div>
