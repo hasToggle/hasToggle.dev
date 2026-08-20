@@ -11,6 +11,12 @@ interface DemoSectionProps {
   /** Build-order position, e.g. "02" — carried in the eyebrow, not a numeral. */
   chapter: string;
   children: React.ReactNode;
+  /**
+   * "h1" on a chapter page, where the belief is the page's title; the landing
+   * page keeps the default "h2". The eyebrow drops to a non-heading element
+   * under an h1 so nothing outranks the title.
+   */
+  headingAs?: "h1" | "h2";
   id: string;
   intro: React.ReactNode;
   meta?: React.ReactNode;
@@ -32,6 +38,7 @@ export function DemoSection({
   belief,
   chapter,
   children,
+  headingAs = "h2",
   id,
   intro,
   meta,
@@ -47,7 +54,7 @@ export function DemoSection({
         <div className="grid gap-x-12 gap-y-8 lg:grid-cols-[7rem_minmax(0,1fr)]">
           <div aria-hidden="true" />
           <div className="ht-reveal">
-            <Subheading>
+            <Subheading as={headingAs === "h1" ? "div" : "h2"}>
               <span className="text-muted-foreground/60 tabular-nums">
                 {chapter}
               </span>
@@ -60,7 +67,7 @@ export function DemoSection({
               {topic}
             </Subheading>
             <Heading
-              as="h2"
+              as={headingAs}
               className="mt-3 max-w-2xl text-balance text-3xl/[1.1] sm:text-4xl/[1.1] md:text-5xl/[1.05]"
               id={`${id}-heading`}
             >

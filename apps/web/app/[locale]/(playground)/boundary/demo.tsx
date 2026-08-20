@@ -10,11 +10,16 @@ import { BOUNDARY_SOURCE } from "./source";
 
 const chapter = requireChapter("boundary");
 
-export function BoundaryDemo() {
+interface BoundaryDemoProps {
+  headingAs?: "h1" | "h2";
+}
+
+export function BoundaryDemo({ headingAs }: BoundaryDemoProps) {
   return (
     <DemoSection
       belief={chapter.belief}
       chapter={chapter.n}
+      headingAs={headingAs}
       id={`demo-${chapter.n}`}
       intro={
         <>

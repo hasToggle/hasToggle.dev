@@ -11,11 +11,16 @@ import { MUTATION_SOURCE } from "./source";
 
 const chapter = requireChapter("server-actions");
 
-export function MutationDemo() {
+interface MutationDemoProps {
+  headingAs?: "h1" | "h2";
+}
+
+export function MutationDemo({ headingAs }: MutationDemoProps) {
   return (
     <DemoSection
       belief={chapter.belief}
       chapter={chapter.n}
+      headingAs={headingAs}
       id={`demo-${chapter.n}`}
       intro={
         <>

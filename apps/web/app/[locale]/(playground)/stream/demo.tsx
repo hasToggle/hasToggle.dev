@@ -11,14 +11,16 @@ import { StreamRows, StreamRowsFallback } from "./stream-rows";
 const chapter = requireChapter("streaming");
 
 interface StreamDemoProps {
+  headingAs?: "h1" | "h2";
   searchParams: Promise<{ stream?: string }>;
 }
 
-export function StreamDemo({ searchParams }: StreamDemoProps) {
+export function StreamDemo({ headingAs, searchParams }: StreamDemoProps) {
   return (
     <DemoSection
       belief={chapter.belief}
       chapter={chapter.n}
+      headingAs={headingAs}
       id={`demo-${chapter.n}`}
       intro={
         <>

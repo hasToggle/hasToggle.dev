@@ -10,13 +10,18 @@ import { SHELL_SOURCE } from "./source";
 
 const chapter = requireChapter("caching");
 
-export async function ShellDemo() {
+interface ShellDemoProps {
+  headingAs?: "h1" | "h2";
+}
+
+export async function ShellDemo({ headingAs }: ShellDemoProps) {
   const bake = await getBake();
 
   return (
     <DemoSection
       belief={chapter.belief}
       chapter={chapter.n}
+      headingAs={headingAs}
       id={`demo-${chapter.n}`}
       intro={
         <>

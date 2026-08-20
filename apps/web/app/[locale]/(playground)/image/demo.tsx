@@ -8,11 +8,16 @@ import { OG_SOURCE } from "./source";
 
 const chapter = requireChapter("og-images");
 
-export function ImageDemo() {
+interface ImageDemoProps {
+  headingAs?: "h1" | "h2";
+}
+
+export function ImageDemo({ headingAs }: ImageDemoProps) {
   return (
     <DemoSection
       belief={chapter.belief}
       chapter={chapter.n}
+      headingAs={headingAs}
       id={`demo-${chapter.n}`}
       intro={
         <>
