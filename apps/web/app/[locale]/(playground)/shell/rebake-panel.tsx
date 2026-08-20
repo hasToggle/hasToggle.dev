@@ -90,6 +90,93 @@ function StepMark({ n }: { n: string }) {
   );
 }
 
+interface DeckProps {
+  askLabel: string;
+  fetchable: boolean;
+  isFetching: boolean;
+  machinery: boolean;
+  onFetch: () => void;
+  onRebake: () => void;
+  rebakeLabel: string;
+  rebakeLocked: boolean;
+  revealed: boolean;
+}
+
+/**
+ * Actions in execution order; the deck may end in a result chip — output,
+ * never input. The view switch lives in the chrome, not here.
+ *
+ * The chip is the diagram's output node: the badge the platform's own logs
+ * file the refill under. A rule, not a per-request claim — whichever request
+ * refilled the entry (yours, a new tab's, another visitor's) is the one
+ * logged REVALIDATED.
+ */
+function Deck({
+  askLabel,
+  fetchable,
+  isFetching,
+  machinery,
+  onFetch,
+  onRebake,
+  rebakeLabel,
+  rebakeLocked,
+  revealed,
+}: DeckProps) {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <MarketingButton
+        aria-disabled={rebakeLocked}
+        className={LOCKED_LOOK}
+        onClick={onRebake}
+        variant="outline"
+      >
+        {machinery ? <StepMark n="1" /> : null}
+        <StableSlot
+          value={rebakeLabel}
+          variants={machinery ? EXPIRE_LABELS : FUSED_LABELS}
+        />
+      </MarketingButton>
+      {machinery ? (
+        <>
+          <span
+            aria-hidden="true"
+            className="select-none font-mono text-muted-foreground/50"
+          >
+            →
+          </span>
+          <MarketingButton
+            disabled={!fetchable || isFetching}
+            onClick={onFetch}
+            variant="outline"
+          >
+            <StepMark n="2" />
+            <StableSlot value={askLabel} variants={ASK_LABELS} />
+          </MarketingButton>
+          {/* Reserved in every machinery phase so the reveal never moves the
+              row; `invisible` keeps it out of the a11y tree until it's true. */}
+          <span
+            aria-hidden={!revealed}
+            className={cn(
+              "flex items-center gap-3",
+              revealed ? undefined : "invisible"
+            )}
+          >
+            <span
+              aria-hidden="true"
+              className="select-none font-mono text-muted-foreground/50"
+            >
+              →
+            </span>
+            <span className="rounded-md border border-foreground/15 px-2 py-1 font-mono text-[0.65rem] text-muted-foreground uppercase tracking-wider">
+              revalidated · tag-based deletion
+            </span>
+          </span>
+        </>
+      ) : null}
+    </div>
+  );
+}
+
 interface RebakePanelProps {
   /** The fingerprint the server just rendered, whichever render that was. */
   currentId: string;
@@ -216,40 +303,18 @@ export function RebakePanel({
   const askLabel = isFetching ? ASK_LABELS[1] : ASK_LABELS[0];
   const captionText = rebakeFailed ? REBAKE_FAILED_CAPTION : caption;
 
-  // Actions only — the view switch lives in the chrome, not here.
   const deck = (
-    <div className="flex flex-wrap items-center gap-3">
-      <MarketingButton
-        aria-disabled={rebakeLocked}
-        className={LOCKED_LOOK}
-        onClick={handleRebake}
-        variant="outline"
-      >
-        {machinery && <StepMark n="1" />}
-        <StableSlot
-          value={rebakeLabel}
-          variants={machinery ? EXPIRE_LABELS : FUSED_LABELS}
-        />
-      </MarketingButton>
-      {machinery && (
-        <>
-          <span
-            aria-hidden="true"
-            className="select-none font-mono text-muted-foreground/50"
-          >
-            →
-          </span>
-          <MarketingButton
-            disabled={!fetchable || isFetching}
-            onClick={handleFetch}
-            variant="outline"
-          >
-            <StepMark n="2" />
-            <StableSlot value={askLabel} variants={ASK_LABELS} />
-          </MarketingButton>
-        </>
-      )}
-    </div>
+    <Deck
+      askLabel={askLabel}
+      fetchable={fetchable}
+      isFetching={isFetching}
+      machinery={machinery}
+      onFetch={handleFetch}
+      onRebake={handleRebake}
+      rebakeLabel={rebakeLabel}
+      rebakeLocked={rebakeLocked}
+      revealed={machinery && state.phase === "refetched"}
+    />
   );
 
   /*

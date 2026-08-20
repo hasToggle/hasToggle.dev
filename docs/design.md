@@ -43,7 +43,10 @@ them all:
   aligned table, one narration caption. All describing text in one place.
 - **Deck — actions only.** Execution order, left to right. When a flow has
   real sequence, the controls diagram it (numbered steps, an arrow, the later
-  step dark until the earlier one fires).
+  step dark until the earlier one fires). A deck may end in a **result chip —
+  output, never input** — when the platform's own label for the sequence's
+  outcome is knowable by rule (exhibit 02: `revalidated · tag-based
+  deletion`, the badge Vercel files the refill under).
 - **Reference bar — the status bar every editor ends in.** The code drawer's
   disclosure left (source opens inside the chassis, native `<details>`, zero
   JS); `docs` and `source` links pinned right, positioned so clicking them
@@ -105,7 +108,15 @@ asides are already global via `DemoSection`.
 
 `next dev` lies about cache semantics (`updateTag` entries survive reloads
 that die on Vercel) — preview deploys are the truth-bench for anything
-touching `use cache`. The React DevTools extension throws spurious "The
+touching `use cache`.
+
+The verified badge sequence for the rebake flow on Vercel (2026-08-20,
+preview logs): `PRERENDER` on first visit → `HIT` → `BYPASS` for the action
+POST → `REVALIDATED`, reason "Tag-based deletion", for the request that
+refills. `updateTag` never produces `STALE` (that badge is
+stale-while-revalidate: `revalidateTag` or a lapsed `cacheLife` window), and
+the tag-deletion miss is labeled `REVALIDATED`, not `MISS`. Copy that names
+log badges must match this. The React DevTools extension throws spurious "The
 children should not have changed if we pass in the same set." errors on
 transition commits here; stacks resolving to `chrome-extension://…` are the
 extension's mirror desyncing, not an app bug.

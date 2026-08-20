@@ -18,7 +18,7 @@ const SIMPLE_CYCLED_CAPTION =
 const MACHINERY_IDLE_CAPTION =
   'updateTag("landing-shell") expires the entry for everyone, instantly. Nothing refills it on its own.';
 const EXPIRED_CAPTION =
-  "the hash above was rendered before your expiry landed, so the cache will not keep it. The refill is the first render that starts afterwards — button two, a new tab, another visitor, whoever asks first. Ask for it.";
+  "the bake above was rendered before your expiry landed, so the cache will not keep it. The refill is the first render that starts afterwards — button two, a new tab, another visitor, whoever asks first. Ask for it.";
 const REVEALED_CAPTION =
   "the fetch ran no cache API — the page rendered again, and this time the cache kept it. Expiring an entry and refilling it are two different events. You just watched both.";
 
@@ -46,7 +46,7 @@ export const SETTLING_READOUT: Readout = {
   caption:
     "settling the expiry you left open — the same quiet refresh a mutation normally ends with.",
   detail:
-    "the hash above is still the private one — its replacement is in flight",
+    "the bake above is still the private one — its replacement is in flight",
   label: "asking",
 };
 
