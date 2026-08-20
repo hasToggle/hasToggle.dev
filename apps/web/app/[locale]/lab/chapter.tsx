@@ -91,6 +91,9 @@ function ChapterTurn({ slug }: { slug: string }) {
           ) : (
             <span aria-hidden="true" />
           )}
+          <Link className="transition-colors hover:text-foreground" href="/lab">
+            contents
+          </Link>
           {next ? (
             <Link
               className="transition-colors hover:text-foreground"
