@@ -38,8 +38,8 @@ import { Digest } from "./components/digest";
 import { FrequentlyAskedQuestions } from "./components/faqs";
 import { Footer } from "./components/footer";
 import { Hero } from "./components/hero";
-import { MarketingButton } from "./components/marketing-button";
 import { MetaAside } from "./components/meta-aside";
+import { SeatsCta } from "./components/seats-cta";
 import { Heading, Subheading } from "./components/text";
 
 function SectionDivider() {
@@ -512,9 +512,7 @@ function Cohort() {
               page.
             </p>
             <div className="mt-8 flex flex-col items-start gap-x-8 gap-y-4 sm:flex-row sm:items-center">
-              <MarketingButton href="#digest">
-                Tell me when seats open
-              </MarketingButton>
+              <SeatsCta>Tell me when seats open</SeatsCta>
               <MetaAside className="sm:max-w-xs">
                 Paid, small, and honest about both.
               </MetaAside>
