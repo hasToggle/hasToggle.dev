@@ -1,12 +1,12 @@
+import { SHIPPED } from "../lab/syllabus";
 import { Container } from "./container";
 
-const CHAPTERS: readonly { href: string; label: string; n: string }[] = [
-  { href: "#demo-01", label: "The boundary", n: "01" },
-  { href: "#demo-02", label: "The cache", n: "02" },
-  { href: "#demo-03", label: "The stream", n: "03" },
-  { href: "#demo-04", label: "The mutation", n: "04" },
-  { href: "#demo-05", label: "The image", n: "05" },
-];
+const CHAPTERS: readonly { href: string; label: string; n: string }[] =
+  SHIPPED.map((chapter) => ({
+    href: `#demo-${chapter.n}`,
+    label: chapter.navLabel,
+    n: chapter.n,
+  }));
 
 /**
  * The contents row, slim enough to pin. It sits where the hero's contents

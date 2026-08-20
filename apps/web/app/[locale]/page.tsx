@@ -41,6 +41,7 @@ import { Hero } from "./components/hero";
 import { MetaAside } from "./components/meta-aside";
 import { SeatsCta } from "./components/seats-cta";
 import { Heading, Subheading } from "./components/text";
+import { STILL_TO_BUILD } from "./lab/syllabus";
 
 function SectionDivider() {
   return (
@@ -406,26 +407,6 @@ function ImageDemo() {
   );
 }
 
-const UPCOMING: readonly string[] = [
-  "navigation & prefetching",
-  "dynamic routes & params",
-  "next/image, fonts & the asset pipeline",
-  "metadata, sitemaps & SEO",
-  "optimistic UI & useActionState",
-  "proxy, redirects & rewrites",
-  "error, not-found & recovery",
-  "parallel & intercepted routes",
-  "i18n & locale routing",
-  "view transitions",
-  "ISR & pages baked on demand",
-  "edge network & geolocation",
-  "feature flags & Edge Config",
-  "web vitals, measured live",
-  "preview deploys & instant rollback",
-  "cron, queues & background work",
-  "blob, key-value & Postgres",
-];
-
 function Roadmap() {
   return (
     <section aria-labelledby="roadmap-heading" id="roadmap">
@@ -450,7 +431,7 @@ function Roadmap() {
             </p>
 
             <ul className="mt-14 grid max-w-3xl grid-cols-1 gap-x-12 gap-y-3 font-mono text-muted-foreground text-sm/6 sm:grid-cols-2">
-              {UPCOMING.map((item) => (
+              {STILL_TO_BUILD.map((item) => (
                 <li className="flex items-baseline gap-3" key={item}>
                   <span
                     aria-hidden="true"
