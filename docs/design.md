@@ -157,7 +157,14 @@ POST → `REVALIDATED`, reason "Tag-based deletion", for the request that
 refills. `updateTag` never produces `STALE` (that badge is
 stale-while-revalidate: `revalidateTag` or a lapsed `cacheLife` window), and
 the tag-deletion miss is labeled `REVALIDATED`, not `MISS`. Copy that names
-log badges must match this. The React DevTools extension throws spurious "The
+log badges must match this.
+
+Build workers bake `use cache` entries independently (observed 2026-08-20,
+lab build): the landing shell and /lab's contents row each prerendered
+their own bake, so a fresh deploy can serve two fingerprints for "one
+shared entry" until the first tag revalidation or cacheLife expiry
+converges them at runtime. Copy must not claim cross-page agreement for
+the static shells of a fresh deploy. The React DevTools extension throws spurious "The
 children should not have changed if we pass in the same set." errors on
 transition commits here; stacks resolving to `chrome-extension://…` are the
 extension's mirror desyncing, not an app bug.
