@@ -13,6 +13,7 @@ import { Digest } from "./components/digest";
 import { FrequentlyAskedQuestions } from "./components/faqs";
 import { Footer } from "./components/footer";
 import { Hero } from "./components/hero";
+import { Link } from "./components/marketing-link";
 import { MetaAside } from "./components/meta-aside";
 import { SeatsCta } from "./components/seats-cta";
 import { Heading, Subheading } from "./components/text";
@@ -45,7 +46,7 @@ function PartDivider() {
 
 export const metadata: Metadata = {
   description:
-    "Every exhibit takes something developers are sure about and runs the real feature next to it: the server/client boundary, caching, streaming, Server Actions, generated images. Poke it, break it, read the code that did it. New exhibit every Monday.",
+    "Every chapter of the lab takes something developers are sure about and runs the real feature next to it: the server/client boundary, caching, streaming, Server Actions, generated images. Poke it, break it, read the code that did it. New chapter every Monday.",
   // Resolves the relative /api/og image below to an absolute URL in the
   // rendered og:image tag — crawlers don't do relative.
   metadataBase: new URL(env.NEXT_PUBLIC_WEB_URL),
@@ -87,7 +88,7 @@ function Roadmap() {
             </Heading>
             <p className="mt-6 max-w-2xl text-foreground/75 text-lg leading-8">
               The plan is everything Next.js can do, and as much of Vercel as
-              can be proved from inside a web page. One exhibit at a time, in
+              can be proved from inside a web page. One chapter at a time, in
               public.
             </p>
 
@@ -104,6 +105,15 @@ function Roadmap() {
                 </li>
               ))}
             </ul>
+
+            <p className="mt-10 font-mono text-sm/6">
+              <Link
+                className="text-foreground/70 transition-colors hover:text-foreground"
+                href="/lab"
+              >
+                the contents of the lab →
+              </Link>
+            </p>
 
             <MetaAside className="mt-16 max-w-2xl" variant="block">
               Built in the open: the{" "}
@@ -148,7 +158,7 @@ function Cohort() {
             <p className="mt-6 text-foreground/75 text-lg leading-8">
               I spent years as a lead web coach in bootcamps, watching the same
               walls catch everyone — hydration, caching, the boundary, all the
-              exhibits above. The playground shows you the wall. The cohort gets
+              chapters above. The playground shows you the wall. The cohort gets
               you over it: small paid groups, building production apps on
               exactly these topics, with the same AI workflow that built this
               page.
@@ -183,10 +193,10 @@ function DigestCTA() {
             className="mt-3 text-balance text-4xl sm:text-5xl"
             id="digest-heading"
           >
-            One new exhibit every Monday.
+            One new chapter every Monday.
           </Heading>
           <p className="mt-6 max-w-xl text-balance text-foreground/75 text-lg leading-8">
-            A new demo lands on this page. The write-up lands in your inbox:
+            A new chapter lands in the lab. The write-up lands in your inbox:
             what it shows, why it matters, when to reach for it.
           </p>
           <p className="mt-3 max-w-xl text-balance text-base text-foreground/55">

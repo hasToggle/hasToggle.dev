@@ -102,6 +102,33 @@ deleted, not deprecated. Judgment calls worth keeping:
   panel ever gains a client owner. 01 and 04 have no client round trip to
   gauge (04's form works with JavaScript off, which is its point).
 
+### The lab — site shape, 2026-08-20
+
+The collection outgrew the landing page (half the syllabus is made of
+routes — parallel/intercepted, not-found, params, view transitions — and
+cannot run inside one page), so the playground has a book shape: a
+contents page at `/lab`, one route segment per chapter at `/lab/<slug>`,
+`/latest` redirecting to the newest chapter. One registry
+(`apps/web/app/[locale]/lab/syllabus.ts`) drives every list — contents
+rows, the landing roadmap, the contents bar, page-turns, sitemap, OG
+titles — so shipping a chapter is one entry flip: planned → next →
+shipped, belief and navLabel added.
+
+- **Chapter pages** render the same demo wrapper the landing shows, with
+  the belief promoted to the page's h1 (the eyebrow demotes to a
+  non-heading element). The frame adds the making-of aside (the folder's
+  commit history + the checkpoints repo) and the page-turn row
+  (prev · contents · next), and `/api/og` draws each chapter's card from
+  its belief.
+- **Index readings.** A chapter may put one true value from its running
+  instrument on its contents row, each inside its own Suspense — the
+  index is itself a partial-prerender demonstration. Truth rule: a
+  per-visitor value says so ("your presses · 3"); a global-sounding
+  count would be the index's first lie.
+- **Vocabulary.** Visitor prose says *the lab* and *chapter* (voice.md
+  §6, 2026-08-20). "Exhibit" remains the working word in code comments
+  and these docs.
+
 ## 5. Banked
 
 - The bake fingerprint is six hex characters — literally a CSS color — and
@@ -113,6 +140,10 @@ deleted, not deprecated. Judgment calls worth keeping:
   width-reservation (`StableSlot`) grows a JSX-safe design.
 - Digest beats banked: the side-effect-runs-twice warning; the
   swatch-is-the-hash reveal.
+- Contents-row hover-prefetch readout: the lab's index rows already
+  prefetch on hover via next/link — chapter 06 (navigation &
+  prefetching) should claim that readout as its instrument in the site's
+  own chrome.
 
 ## 6. Verification
 

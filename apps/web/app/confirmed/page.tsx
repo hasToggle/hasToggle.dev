@@ -5,7 +5,7 @@ export default function Confirmed() {
         Confirmed.
       </h1>
       <p className="mt-6 max-w-md text-balance text-foreground/75 text-lg leading-8">
-        The next write-up lands in your inbox on Monday, alongside the exhibit
+        The next write-up lands in your inbox on Monday, alongside the chapter
         it belongs to. Until then, the playground is open.
       </p>
       <p className="mt-10">

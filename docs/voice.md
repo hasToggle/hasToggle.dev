@@ -339,6 +339,14 @@ From the hero footnote, 2026-08-20. Two rejections in one line, both novel:
 | You've opened a "live demo" that turned out to be an animated GIF. So have we. | (cut) | A manufactured shared experience — plausible, not lived. Second bite of the same failure as the exhibit-two title: invented relatability reads as marketing doing an impression of empathy. It also punched at third parties, which §1's audit already banned once |
 | Two sentences of replacement prose | everything below runs · the source is in every panel · even the prompts are public | The container sets the register. A hover card is a readout, not a paragraph — prose in a tooltip is the wrong instrument no matter how good the prose is |
 
+From the lab build of 2026-08-20. The playground got its multi-page home
+(`/lab`, one route per chapter) and the visitor vocabulary moved with it:
+
+| Standing | Shipped | Why |
+|---|---|---|
+| "exhibit", across the landing prose, FAQ and OG card | "chapter" for the unit, "the lab" for the place | Eric: the word exhibit "doesn't feel like a dev term I'd use." Museum register retired from visitor prose. The URL word /lab won over /exhibits, /poke and /proof on a new principle: **an address names a place, so it wants a noun — and "poking" stays the verb** the hero, CTA and footer own. The name was already in shipped copy: "the lab bench that belongs next to them." Code comments and these docs keep "exhibit" as internal working vocabulary; only what a visitor reads migrated. |
+| A new demo lands on this page. | A new chapter lands in the lab. | §7 predicted this one — "on this page" was a claim waiting to go stale the Monday a chapter shipped to its own page. Evidence the rule works; no new rule. |
+
 ---
 
 ## 7. Time-hardening
