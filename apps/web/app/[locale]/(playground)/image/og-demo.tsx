@@ -43,10 +43,58 @@ export function OgDemo({ references }: OgDemoProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const shownUrl = useRef<string | null>(null);
+  // Explicit `| null`, matching `shownUrl` above: without it biome types
+  // `.current` as always-present and flags the mount guard as dead code.
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const [armed, setArmed] = useState(false);
 
   const endpoint = `/api/og?title=${encodeURIComponent(title)}`;
 
+  /*
+   * The PNG this demo asks for is about 60 kB, and this exhibit sits a long
+   * way down the page. Fetching on mount meant every visitor paid for it
+   * during the initial load — competing for bandwidth with the bytes the
+   * first screen actually needed — whether or not they ever scrolled this
+   * far. Arm on approach instead; from that point the demo behaves exactly
+   * as it did, including on every later re-generate.
+   */
   useEffect(() => {
+    const node = panelRef.current;
+
+    // `=== null`, not truthiness — same biome quirk as `shownUrl` above.
+    if (node === null) {
+      return;
+    }
+
+    // No observer (very old browsers, some test environments): keep the old
+    // eager behaviour rather than leaving the panel stuck on its skeleton.
+    if (typeof IntersectionObserver === "undefined") {
+      setArmed(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setArmed(true);
+          observer.disconnect();
+        }
+      },
+      // Start a little before it lands, so the image is usually there by the
+      // time the panel is actually read.
+      { rootMargin: "300px" }
+    );
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!armed) {
+      return;
+    }
+
     let cancelled = false;
     setLoading(true);
     setError(null);
@@ -83,7 +131,7 @@ export function OgDemo({ references }: OgDemoProps) {
     return () => {
       cancelled = true;
     };
-  }, [title]);
+  }, [title, armed]);
 
   useEffect(
     () => () => {
@@ -140,7 +188,7 @@ export function OgDemo({ references }: OgDemoProps) {
       references={references}
       status={loading ? "working" : "live"}
     >
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4" ref={panelRef}>
         <p className="truncate font-mono text-muted-foreground text-xs">
           GET {endpoint}
         </p>
