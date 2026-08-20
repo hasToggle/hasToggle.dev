@@ -53,14 +53,22 @@ function ThemeOption({
           // 34px-wide icon chips, and `py-1` left them 22px tall — under the
           // 24px floor WCAG 2.5.8 puts on a touch target.
           "flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1.5 font-mono font-semibold text-[0.7rem] uppercase tracking-[0.16em] transition-colors",
-          "peer-focus-visible:outline-2 peer-focus-visible:outline-ht-cyan-600 peer-focus-visible:outline-offset-2 dark:peer-focus-visible:outline-ht-cyan-400",
+          // cyan-700 in light, not the 600 this started on: 600 measures
+          // 2.32:1 against a white page, under the 3:1 WCAG 1.4.11 asks of a
+          // focus indicator. 700 is the first step that clears it (3.22:1)
+          // and still reads as the brand cyan — 800 passes wider but goes
+          // teal. Dark keeps 400, which is already 13.95:1 on this page.
+          "peer-focus-visible:outline-2 peer-focus-visible:outline-ht-cyan-700 peer-focus-visible:outline-offset-2 dark:peer-focus-visible:outline-ht-cyan-400",
           selected
-            ? // The active chip is the filled one, and the pill behind it
-              // takes the page colour. Filling it with `bg-background`
-              // instead reads as raised in light mode and sunken in dark,
-              // where the page is darker than `bg-muted` rather than
-              // lighter.
-              "bg-muted text-foreground"
+            ? // Inverted, not a tinted fill. `--muted` sits 1.09:1 from
+              // `--background`, so every subtle grey this palette can make
+              // leaves the selected state under the 3:1 WCAG 1.4.11 wants —
+              // `foreground/30` tops out at 2.05:1. Inverting clears it at
+              // 19.8:1 and borrows the treatment MarketingButton already
+              // uses: a black pill in light, a white one in dark. It matters
+              // most below `sm`, where the labels are hidden and the fill is
+              // most of what says which mode is on.
+              "bg-foreground text-background"
             : "text-muted-foreground hover:text-foreground"
         )}
       >
