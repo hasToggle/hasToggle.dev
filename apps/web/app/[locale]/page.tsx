@@ -5,10 +5,7 @@ import { DEFAULT_OG_TITLE } from "@/app/api/og/title";
 import { env } from "@/env";
 import { ClientCard } from "./(playground)/boundary/client-card";
 import { ServerCard } from "./(playground)/boundary/server-card";
-import {
-  CLIENT_CARD_SOURCE,
-  SERVER_CARD_SOURCE,
-} from "./(playground)/boundary/source";
+import { BOUNDARY_SOURCE } from "./(playground)/boundary/source";
 import { CodeBlock } from "./(playground)/code-block";
 import { DemoSection } from "./(playground)/demo-section";
 import { OgDemo } from "./(playground)/image/og-demo";
@@ -21,6 +18,7 @@ import {
 } from "./(playground)/mutation/press-count";
 import { PressForm } from "./(playground)/mutation/press-form";
 import { MUTATION_SOURCE } from "./(playground)/mutation/source";
+import { ReferenceBar } from "./(playground)/reference-bar";
 import { getBake } from "./(playground)/shell/bake";
 import { BakedStamp } from "./(playground)/shell/baked-stamp";
 import { RebakePanel } from "./(playground)/shell/rebake-panel";
@@ -35,12 +33,13 @@ import {
   StreamRowsFallback,
 } from "./(playground)/stream/stream-rows";
 import { Container } from "./components/container";
+import { ContentsNav } from "./components/contents-nav";
 import { Digest } from "./components/digest";
 import { FrequentlyAskedQuestions } from "./components/faqs";
 import { Footer } from "./components/footer";
 import { Hero } from "./components/hero";
-import { MarketingButton } from "./components/marketing-button";
 import { MetaAside } from "./components/meta-aside";
+import { SeatsCta } from "./components/seats-cta";
 import { Heading, Subheading } from "./components/text";
 
 function SectionDivider() {
@@ -70,7 +69,7 @@ function PartDivider() {
 
 export const metadata: Metadata = {
   description:
-    "Interactive demos of Next.js and Vercel — caching, streaming, server actions, generated images. Press the buttons, break the cache, read the code that did it. New exhibit every Monday.",
+    "Every exhibit takes something developers are sure about and runs the real feature next to it: the server/client boundary, caching, streaming, Server Actions, generated images. Poke it, break it, read the code that did it. New exhibit every Monday.",
   // Resolves the relative /api/og image below to an absolute URL in the
   // rendered og:image tag — crawlers don't do relative.
   metadataBase: new URL(env.NEXT_PUBLIC_WEB_URL),
@@ -83,7 +82,7 @@ export const metadata: Metadata = {
       },
     ],
   },
-  title: "hasToggle — the live playground for Next.js & Vercel",
+  title: "hasToggle — the unofficial live playground for Next.js & Vercel",
   twitter: {
     card: "summary_large_image",
   },
@@ -96,50 +95,65 @@ interface PageProps {
 function BoundaryDemo() {
   return (
     <DemoSection
+      belief="I’ll put “use client” on it, to be safe."
       chapter="01"
-      docs={{
-        href: "https://nextjs.org/docs/app/getting-started/server-and-client-components",
-        label: "Server and Client Components",
-      }}
-      hook="Two components walk into a page."
       id="demo-01"
       intro={
         <>
           <p>
-            Every component in the App Router runs on the server unless you say
-            otherwise. One directive —{" "}
-            <InlineCode>&quot;use client&quot;</InlineCode>&#32;— moves a
-            subtree into the browser. Everything else follows from that split:
-            what can read secrets, what can hold state, what ships JavaScript
-            and what arrives as finished HTML.
+            Safer than what? We reached for it the same way, for about a year,
+            before anyone made us say what it was protecting against. Every
+            component in the App Router already runs on the server.{" "}
+            <InlineCode>&quot;use client&quot;</InlineCode>&#32;is not a
+            precaution, it&rsquo;s a purchase — for that file and everything it
+            imports. You buy useState, useEffect and onClick. You pay with the
+            database call you can no longer make from here, the API key you can
+            no longer read, and however much React your visitor downloads on
+            their phone.
           </p>
           <p>
-            One of these cards rendered in Node.js and arrived as finished HTML.
-            The other hydrated in your tab and is waiting for you to click it.
+            Watch the two cards below. One rendered in Node.js and arrived as
+            finished HTML — done before you got here. The other arrived as
+            JavaScript and woke up in your tab — the waking is called hydration
+            — and its button is waiting for a click. Only one of them is running
+            Node, and it prints the version to prove it.
           </p>
         </>
       }
       meta={
         <>
           The error that sends everyone here is &ldquo;useState only works in a
-          Client Component&rdquo;. Now you know why: the server has no clicks to
-          listen for.
+          Client Component&rdquo;. The server isn&rsquo;t being difficult. It
+          has no clicks to listen for.
         </>
       }
-      sourcePath="apps/web/app/[locale]/(playground)/boundary"
       topic="server & client components"
     >
       <LivePanel
-        label="two components, one page"
-        readout="boundary drawn at the import graph · props cross it as serialized data"
+        references={
+          <ReferenceBar
+            docsHref="https://nextjs.org/docs/app/getting-started/server-and-client-components"
+            sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/boundary"
+          >
+            <CodeBlock
+              code={BOUNDARY_SOURCE}
+              file="server-card.tsx + client-card.tsx"
+            />
+          </ReferenceBar>
+        }
       >
-        <div className="grid gap-4 sm:grid-cols-2">
-          <ServerCard />
-          <ClientCard />
+        <div className="flex flex-col gap-5">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <ServerCard />
+            <ClientCard />
+          </div>
+          {/* The seam, narrated: the one fact neither card can state alone. */}
+          <p className="font-mono text-muted-foreground text-xs/5">
+            props cross the boundary as serialized data — the import graph
+            decides which side a component runs on.
+          </p>
         </div>
       </LivePanel>
-      <CodeBlock code={SERVER_CARD_SOURCE} file="server-card.tsx" />
-      <CodeBlock code={CLIENT_CARD_SOURCE} file="client-card.tsx" />
     </DemoSection>
   );
 }
@@ -149,60 +163,74 @@ async function ShellDemo() {
 
   return (
     <DemoSection
+      belief="It’s either cached or it isn’t."
       chapter="02"
-      docs={{
-        href: "https://nextjs.org/docs/app/getting-started/caching",
-        label: "Caching",
-      }}
-      hook="This page was baked before you arrived."
       id="demo-02"
       intro={
         <>
           <p>
-            Static doesn&apos;t mean written by hand, and dynamic doesn&apos;t
-            mean every visitor pays full price.{" "}
-            <InlineCode>use cache</InlineCode>&#32;bakes a component&apos;s
-            output into the page&apos;s static shell; a cache tag gives you a
-            handle to expire it on demand.
+            We believed it, too — hit or miss, there or not. But
+            &ldquo;cached&rdquo; is not a state a page is in; it is a bake with
+            a lifespan. <InlineCode>use cache</InlineCode>&#32;bakes a
+            component&rsquo;s output into the page&rsquo;s static shell — one
+            copy, served to everyone — and a cache tag is the handle you pull to
+            throw that copy away. Pulling it empties the shelf and lights no
+            oven. The fresh page is baked when the next request asks for one,
+            and not a moment before.
           </p>
           <p>
-            The stamp below is this page&apos;s cache entry. Press the button
-            and it expires — for every visitor, instantly. Nobody ever lets you
-            press this button. Go on.
+            The stamp below is that copy — this page&rsquo;s own cache entry,
+            wearing a six-character fingerprint so you can tell one bake from
+            the next. Press the button and a fresh bake lands for every visitor,
+            in the time it takes the label to change back. It feels like one
+            event.
           </p>
           <p>
-            Then fetch what&apos;s actually cached. The fingerprint changes
-            twice, not once: expiring an entry and refilling it are two
-            different events, and the gap between them is where &ldquo;why is my
-            page still stale&rdquo; lives.
+            It is three. Flip the switch and run it again in slow motion — the
+            panel narrates each event as it happens. Watch the color: it changes
+            twice, not once, and that gap is what your cache logs are naming.
+            Press the button here and the next request logs{" "}
+            <InlineCode>REVALIDATED</InlineCode> — reason:{" "}
+            <InlineCode>tag-based deletion</InlineCode> — because that request
+            was the refill. <InlineCode>STALE</InlineCode> is the same gap
+            handled softly: the old bake served while a fresh one is in the
+            oven.
           </p>
         </>
       }
       meta={
         <>
-          &ldquo;Why is my page stale&rdquo; and &ldquo;why is my page
-          slow&rdquo; are the same question read from opposite ends. This demo
-          is both answers.
+          In your app, the two renders behind one press would read the same
+          database and agree — no visitor would ever see the seam. The bake here
+          is a random color value precisely so two renders can never agree.
+          Watching a cache work requires caching something that never repeats.
         </>
       }
-      sourcePath="apps/web/app/[locale]/(playground)/shell"
       topic="caching & revalidation"
     >
-      <LivePanel
-        label="this page's own cache"
-        readout={
-          <>
-            cacheTag(&quot;landing-shell&quot;) · cacheLife(&quot;days&quot;) ·
-            one entry, shared by every visitor
-          </>
+      {/* The client panel owns the instrument chrome here, because the
+          header gauge and the display's pending treatment follow its
+          transitions. The stamp stays a Server Component, threaded through
+          as a prop — the composition exhibit one teaches. No label (the
+          intro names the subject once) and no readout strip: cacheTag and
+          cacheLife are visible in the bake.ts source, one drawer down in
+          the reference bar, which is the spec plate a reader who wants
+          identifiers actually opens. */}
+      <RebakePanel
+        currentId={bake.id}
+        references={
+          <ReferenceBar
+            docsHref="https://nextjs.org/docs/app/getting-started/caching"
+            sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/shell"
+          >
+            <CodeBlock
+              code={SHELL_SOURCE}
+              file="bake.ts + actions.ts + the ask"
+            />
+          </ReferenceBar>
         }
-      >
-        <div className="flex flex-col gap-6">
-          <BakedStamp bake={bake} />
-          <RebakePanel currentId={bake.id} />
-        </div>
-      </LivePanel>
-      <CodeBlock code={SHELL_SOURCE} file="bake.ts + actions.ts" />
+        stamp={<BakedStamp bake={bake} />}
+      />
     </DemoSection>
   );
 }
@@ -210,55 +238,59 @@ async function ShellDemo() {
 function StreamDemo({ searchParams }: PageProps) {
   return (
     <DemoSection
+      belief="I’ll fetch it all first, then render."
       chapter="03"
-      docs={{
-        href: "https://nextjs.org/docs/app/api-reference/file-conventions/loading",
-        label: "Streaming and loading UI",
-      }}
-      hook="The page refused to wait."
       id="demo-03"
       intro={
         <>
           <p>
-            Slow data used to hold the whole page hostage. With Suspense, the
-            static shell ships immediately, every slow part shows its fallback,
-            and the server streams finished HTML into place — over the same
-            response — whenever each part is done.
+            Not any more. The static shell ships immediately, and each slow part
+            leaves behind a fallback — the gray placeholder you&rsquo;ll watch
+            below. As each part finishes, the server streams its finished HTML
+            down the same response, and the placeholder gives way. The fast
+            parts don&rsquo;t wait for the slow ones.
           </p>
           <p>
-            These three rows are slow on purpose. Watch the skeletons resolve in
-            delay order — fastest first, slowest last. Then make it do it again.
+            These three rows are slow on purpose. The delays are hardcoded — the
+            only faked thing on this page — but the streaming is not: each row
+            is a Server Component that genuinely finishes on the server and
+            lands when it is done. Run it again and watch the order hold. What
+            you are seeing is the server finishing, not an animation pretending
+            to.
           </p>
         </>
       }
       meta={
         <>
-          loading.tsx is this exact mechanism wearing route-sized clothes. One
-          file, and your whole segment gets a fallback.
+          loading.tsx is this same mechanism wearing route-sized clothes. One
+          file, and the whole segment gets a fallback.
         </>
       }
-      sourcePath="apps/web/app/[locale]/(playground)/stream"
       topic="streaming & suspense"
     >
+      {/* The rerun control keeps its own Suspense boundary (it reads the
+          URL, which is runtime data) so the deck can hold it while the rows
+          stream in the body — the rows' skeletons are the in-flight signal,
+          arriving in delay order. */}
       <LivePanel
-        label="the server, cooking"
-        readout="3 Suspense boundaries · re-keyed by ?stream= · the shell never waited for any of them"
-      >
-        <div className="flex flex-col gap-5">
-          <Suspense
-            fallback={
-              <>
-                <RerunButtonFallback />
-                <StreamRowsFallback />
-              </>
-            }
-          >
+        deck={
+          <Suspense fallback={<RerunButtonFallback />}>
             <RerunButton />
-            <StreamRows searchParams={searchParams} />
           </Suspense>
-        </div>
+        }
+        references={
+          <ReferenceBar
+            docsHref="https://nextjs.org/docs/app/api-reference/file-conventions/loading"
+            sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/stream"
+          >
+            <CodeBlock code={STREAM_SOURCE} file="slow-row.tsx" />
+          </ReferenceBar>
+        }
+      >
+        <Suspense fallback={<StreamRowsFallback />}>
+          <StreamRows searchParams={searchParams} />
+        </Suspense>
       </LivePanel>
-      <CodeBlock code={STREAM_SOURCE} file="slow-row.tsx" />
     </DemoSection>
   );
 }
@@ -266,41 +298,54 @@ function StreamDemo({ searchParams }: PageProps) {
 function MutationDemo() {
   return (
     <DemoSection
+      belief="You need an API route for that."
       chapter="04"
-      docs={{
-        href: "https://nextjs.org/docs/app/getting-started/updating-data",
-        label: "Updating data with Server Actions",
-      }}
-      hook="A form with no API route."
       id="demo-04"
       intro={
         <>
           <p>
-            A Server Action is a function that lives on the server and plugs
-            straight into a form&apos;s <InlineCode>action</InlineCode>. No
-            endpoint to design, no fetch, no JSON contract — the form invokes
-            the function, the function mutates, and Next.js re-renders the page
-            with the result.
+            You need a function. A Server Action lives on the server and plugs
+            straight into a form&rsquo;s <InlineCode>action</InlineCode>: no
+            endpoint to design, no fetch to write, no JSON contract to keep in
+            sync. Press the button below and follow the trip: the form calls the
+            function, the function adds one, and Next.js re-renders the page
+            around the new number.
           </p>
           <p>
-            This one increments a counter stored in an httpOnly cookie. The
-            number is read back by a Server Component — the JavaScript in your
-            tab never touches it, and couldn&apos;t if it tried.
+            This one keeps its count in a cookie your browser carries but your
+            JavaScript cannot open — that is what httpOnly means — and a Server
+            Component reads it back. The JavaScript in your tab never touches
+            the value, and could not if it tried.
           </p>
         </>
       }
       meta={
         <>
-          Somewhere, a 2019 tutorial is still teaching you to build{" "}
-          <InlineCode>/api/increment</InlineCode>. It can rest now.
+          Somewhere a tutorial is teaching you to build{" "}
+          <InlineCode>/api/increment</InlineCode>. It will teach you to validate
+          the request body, handle the 405, and write a fetch wrapper with a
+          retry. All of it correct. All of it in service of adding one to a
+          number.
         </>
       }
-      sourcePath="apps/web/app/[locale]/(playground)/mutation"
       topic="server actions & cookies"
     >
+      {/* The form stays in the body: it is the specimen, not instrument
+          chrome — a form wired straight to a Server Action is the entire
+          lesson, and moving it into the deck would file the exhibit's
+          subject under controls. */}
       <LivePanel
-        label="your cookie, read server-side"
-        readout="httpOnly cookie · written by a Server Action · the page re-renders itself"
+        references={
+          <ReferenceBar
+            docsHref="https://nextjs.org/docs/app/getting-started/updating-data"
+            sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/mutation"
+          >
+            <CodeBlock
+              code={MUTATION_SOURCE}
+              file="actions.ts + press-form.tsx"
+            />
+          </ReferenceBar>
+        }
       >
         <div className="flex flex-col gap-6">
           <Suspense fallback={<PressCountFallback />}>
@@ -309,7 +354,6 @@ function MutationDemo() {
           <PressForm />
         </div>
       </LivePanel>
-      <CodeBlock code={MUTATION_SOURCE} file="actions.ts + press-form.tsx" />
     </DemoSection>
   );
 }
@@ -317,111 +361,131 @@ function MutationDemo() {
 function ImageDemo() {
   return (
     <DemoSection
+      belief="I’ll need to design a card for every page."
       chapter="05"
-      docs={{
-        href: "https://nextjs.org/docs/app/api-reference/functions/image-response",
-        label: "ImageResponse",
-      }}
-      hook="An image that didn't exist a second ago."
       id="demo-05"
       intro={
         <>
           <p>
-            <InlineCode>ImageResponse</InlineCode>&#32;turns JSX into a PNG at
-            request time — it&apos;s how sites generate a link-preview card per
-            page instead of per designer. Under the hood it&apos;s a route
-            handler like any other: query in, image out.
+            You&rsquo;ll design one. <InlineCode>ImageResponse</InlineCode>
+            &#32;turns JSX — the same markup your components are made of — into
+            a PNG the moment a request asks, and it is a route handler like any
+            other: query in, image out. One file draws the card for every page
+            you will ever publish.
           </p>
           <p>
-            Type a title and the server draws your card. The same endpoint makes
-            the link preview for this page — and the pattern carries to every
-            page you&apos;ll ever need a card for.
+            Type a title and the server draws it. The same endpoint drew the
+            link preview for this page — paste the URL into Slack and check us
+            against it.
           </p>
         </>
       }
       meta={
         <>
-          The fine print: it looks like CSS, but the renderer (Satori) only
-          understands flexbox. Grid users will be shown the door, politely, at
-          build time.
+          Every repo has an og-image-final-v2.png in it somewhere, quietly out
+          of date since the last time the headline changed. Nobody is coming to
+          update it, and now nobody has to.
         </>
       }
-      sourcePath="apps/web/app/api/og"
       topic="imageresponse & route handlers"
     >
-      <LivePanel
-        label="/api/og"
-        readout="route handler · JSX → Satori → PNG · rendered per request, cached by nobody"
-      >
-        <OgDemo />
-      </LivePanel>
-      <CodeBlock code={OG_SOURCE} file="app/api/og/route.tsx" />
+      {/* OgDemo owns the instrument: the gauge follows its fetch state, the
+          title form is its deck. The reference bar threads through as a prop
+          because CodeBlock renders on the server. */}
+      <OgDemo
+        references={
+          <ReferenceBar
+            docsHref="https://nextjs.org/docs/app/api-reference/functions/image-response"
+            sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/api/og"
+          >
+            <CodeBlock code={OG_SOURCE} file="app/api/og/route.tsx" />
+          </ReferenceBar>
+        }
+      />
     </DemoSection>
   );
 }
 
 const UPCOMING: readonly string[] = [
+  "navigation & prefetching",
   "dynamic routes & params",
   "next/image, fonts & the asset pipeline",
+  "metadata, sitemaps & SEO",
+  "optimistic UI & useActionState",
   "proxy, redirects & rewrites",
   "error, not-found & recovery",
   "parallel & intercepted routes",
-  "ISR at scale",
+  "i18n & locale routing",
+  "view transitions",
+  "ISR & pages baked on demand",
   "edge network & geolocation",
+  "feature flags & Edge Config",
+  "web vitals, measured live",
   "preview deploys & instant rollback",
   "cron, queues & background work",
-  "blob, KV & Postgres",
+  "blob, key-value & Postgres",
 ];
 
 function Roadmap() {
   return (
     <section aria-labelledby="roadmap-heading" id="roadmap">
       <Container className="py-24 sm:py-32">
-        <div className="mb-14 max-w-2xl">
-          <Subheading>The syllabus grows</Subheading>
-          <Heading
-            as="h2"
-            className="mt-3 text-balance text-4xl sm:text-5xl md:text-6xl"
-            id="roadmap-heading"
-          >
-            Five exhibits. Dozens to go.
-          </Heading>
-          <p className="mt-6 text-foreground/75 text-lg leading-8">
-            The plan is everything Next.js has to offer — and as much of the
-            Vercel platform as can be demonstrated from inside a web page. One
-            exhibit at a time, in public.
-          </p>
-        </div>
-
-        <ul className="grid max-w-3xl grid-cols-1 gap-x-12 gap-y-3 font-mono text-muted-foreground text-sm/6 sm:grid-cols-2">
-          {UPCOMING.map((item) => (
-            <li className="flex items-baseline gap-3" key={item}>
-              <span
-                aria-hidden="true"
-                className="select-none text-ht-cyan-700/60 dark:text-ht-cyan-300/60"
-              >
-                +
-              </span>
-              {item}
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-16 max-w-2xl">
-          <MetaAside variant="block">
-            Built in the open: the{" "}
-            <a
-              className="underline decoration-ht-cyan-700/40 underline-offset-2 hover:decoration-ht-cyan-700"
-              href="https://github.com/hasToggle/hasToggle.dev"
-              rel="noreferrer"
-              target="_blank"
+        {/* The empty rail keeps the page on one left edge without numbering a
+            section that isn't an exhibit. */}
+        <div className="grid gap-x-12 gap-y-8 lg:grid-cols-[7rem_minmax(0,1fr)]">
+          <div aria-hidden="true" />
+          <div className="ht-reveal">
+            <Subheading>The syllabus grows</Subheading>
+            <Heading
+              as="h2"
+              className="mt-3 max-w-2xl text-balance text-4xl sm:text-5xl md:text-6xl"
+              id="roadmap-heading"
             >
-              repo is public
-            </a>
-            , and the building is done with AI — Conductor orchestrating Claude
-            Code, with the process published alongside via Entire.io. You get
-            the playground and the making-of.
-          </MetaAside>
+              Still to build.
+            </Heading>
+            <p className="mt-6 max-w-2xl text-foreground/75 text-lg leading-8">
+              The plan is everything Next.js can do, and as much of Vercel as
+              can be proved from inside a web page. One exhibit at a time, in
+              public.
+            </p>
+
+            <ul className="mt-14 grid max-w-3xl grid-cols-1 gap-x-12 gap-y-3 font-mono text-muted-foreground text-sm/6 sm:grid-cols-2">
+              {UPCOMING.map((item) => (
+                <li className="flex items-baseline gap-3" key={item}>
+                  <span
+                    aria-hidden="true"
+                    className="select-none text-ht-cyan-700/60 dark:text-ht-cyan-300/60"
+                  >
+                    +
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+
+            <MetaAside className="mt-16 max-w-2xl" variant="block">
+              Built in the open: the{" "}
+              <a
+                className="underline decoration-ht-cyan-700/40 underline-offset-2 transition-colors hover:decoration-ht-cyan-700"
+                href="https://github.com/hasToggle/hasToggle.dev"
+                rel="noreferrer"
+                target="_blank"
+              >
+                repo is public
+              </a>
+              , and the building is done with AI — Conductor orchestrating
+              Claude Code, with{" "}
+              <a
+                className="underline decoration-ht-cyan-700/40 underline-offset-2 transition-colors hover:decoration-ht-cyan-700"
+                href="https://github.com/hasToggle/hasToggle.dev-checkpoints"
+                rel="noreferrer"
+                target="_blank"
+              >
+                every prompt and checkpoint published
+              </a>{" "}
+              as they happen. You get the playground and the making-of.
+            </MetaAside>
+          </div>
         </div>
       </Container>
     </section>
@@ -434,7 +498,7 @@ function Cohort() {
       <Container className="py-24 sm:py-32">
         <div className="grid gap-x-12 gap-y-6 lg:grid-cols-[7rem_minmax(0,1fr)]">
           <div aria-hidden="true" />
-          <div className="max-w-2xl">
+          <div className="ht-reveal max-w-2xl">
             <Subheading id="cohort-heading">The cohort</Subheading>
             <Heading as="h2" className="mt-3 text-balance text-4xl sm:text-5xl">
               Some things move faster with a coach.
@@ -444,12 +508,11 @@ function Cohort() {
               walls catch everyone — hydration, caching, the boundary, all the
               exhibits above. The playground shows you the wall. The cohort gets
               you over it: small paid groups, building production apps on
-              exactly these topics, AI workflow included.
+              exactly these topics, with the same AI workflow that built this
+              page.
             </p>
             <div className="mt-8 flex flex-col items-start gap-x-8 gap-y-4 sm:flex-row sm:items-center">
-              <MarketingButton href="#digest">
-                Get first dibs on seats
-              </MarketingButton>
+              <SeatsCta>Tell me when seats open</SeatsCta>
               <MetaAside className="sm:max-w-xs">
                 Paid, small, and honest about both.
               </MetaAside>
@@ -469,7 +532,7 @@ function DigestCTA() {
       id="digest"
     >
       <Container>
-        <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
+        <div className="ht-reveal mx-auto flex max-w-2xl flex-col items-center text-center">
           <Subheading className="text-ht-cyan-800/80 dark:text-ht-cyan-300/80">
             The weekly build
           </Subheading>
@@ -491,8 +554,8 @@ function DigestCTA() {
             <Digest />
           </div>
           <MetaAside className="mt-6">
-            The fact that you&apos;re reading the fine print under an email form
-            says something about you. Something good.
+            One email a week. Unsubscribing is one click, and it works the first
+            time.
           </MetaAside>
         </div>
       </Container>
@@ -501,21 +564,33 @@ function DigestCTA() {
 }
 
 export default function MarketingPage({ searchParams }: PageProps) {
+  // `overflow-x-clip`, not `overflow-hidden`: clipping stops the full-bleed
+  // rules from widening the page, but unlike `hidden` it does not turn this
+  // element into a scroll container — which is what the scroll-driven reveals
+  // resolve against. See `.ht-reveal` in app/styles.css.
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-x-clip">
       <Hero />
       <main>
-        <BoundaryDemo />
-        <SectionDivider />
-        <ShellDemo />
-        <SectionDivider />
-        <StreamDemo searchParams={searchParams} />
-        <SectionDivider />
-        <MutationDemo />
-        <SectionDivider />
-        <ImageDemo />
+        {/* This wrapper is the contents bar's sticky bound: the bar pins to
+            the viewport while the visitor is among the exhibits and releases
+            when the wrapper ends after demo 05 — the roadmap onward scrolls
+            nav-free, with no JavaScript deciding anything. */}
+        <div>
+          <ContentsNav />
+          <BoundaryDemo />
+          <SectionDivider />
+          <ShellDemo />
+          <SectionDivider />
+          <StreamDemo searchParams={searchParams} />
+          <SectionDivider />
+          <MutationDemo />
+          <SectionDivider />
+          <ImageDemo />
+        </div>
         <PartDivider />
         <Roadmap />
+        <SectionDivider />
         <Cohort />
         <DigestCTA />
         <FrequentlyAskedQuestions />

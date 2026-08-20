@@ -19,7 +19,7 @@ export async function PressCount() {
         </span>
       </p>
       <p className="font-mono text-muted-foreground text-xs/5">
-        read server-side from an httpOnly cookie — your JavaScript can&apos;t
+        read server-side from an httpOnly cookie — your JavaScript can&rsquo;t
         even see it
       </p>
     </div>

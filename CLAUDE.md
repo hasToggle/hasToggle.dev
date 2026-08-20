@@ -173,7 +173,32 @@ Core infrastructure packages:
 - `turbo.json` - Turborepo task pipeline configuration
 - `biome.jsonc` - Linter/formatter configuration (extends ultracite presets)
 - `packages/database/types.ts` - Database document types
+- `docs/voice.md` - The writing voice for anything a visitor reads
+- `docs/design.md` - The instrument design grammar for the playground demos
 - Root `package.json` - Monorepo scripts, workspace configuration, and CLI entry point (`dist/index.js`)
+
+## Writing copy
+
+Any user-facing prose in `apps/web` or `packages/email` — exhibit titles, demo
+prose, asides, panel labels, FAQ answers, digest copy — follows `docs/voice.md`.
+Read it before drafting, and edit against its three passes (§5) before calling
+copy done. It is short on purpose; do not skim it.
+
+Do not add rules to it casually. A rejected line that an existing rule already
+predicted means the guide worked and needs no edit — see §9.
+
+## Designing demos
+
+Demo UI follows `docs/design.md` — the fixed instrument grammar (state gauge,
+view controls, specimen, deck, reference bar), the feedback rules, and the
+current migration state. Read it before building or reshaping an exhibit.
+Copy and demo co-evolve: when a panel gains a capability, re-run voice.md's
+three passes over the exhibit's prose, because the instrument may have
+obsoleted lines that were accurate when they shipped.
+
+Design rounds in this repo run on proposals: present options with a clear
+recommendation and the trade-offs named, get an explicit yes, then build.
+Project knowledge belongs in the repo — these docs, not external notes.
 
 ## Development Notes
 

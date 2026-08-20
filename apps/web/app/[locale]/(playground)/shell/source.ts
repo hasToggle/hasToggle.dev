@@ -6,7 +6,7 @@ export async function getBake() {
   cacheLife("days");
   return {
     bakedAt: new Date().toISOString(),
-    id: crypto.randomUUID().slice(0, 8), // the fingerprint
+    id: crypto.randomUUID().slice(0, 6), // the fingerprint — and a CSS color
   };
 }
 
@@ -19,4 +19,8 @@ export async function rebakeShell() {
   // this response was cached for nobody. The next request makes the real one.
   return { rebakedAt: new Date().toISOString() };
 }
+
+// rebake-panel.tsx — button two, the "ask"
+router.refresh(); // no cache API anywhere — one more request for the page,
+                  // indistinguishable from a new tab or another visitor
 `;

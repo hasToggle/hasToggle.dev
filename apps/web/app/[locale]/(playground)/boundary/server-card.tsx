@@ -44,7 +44,7 @@ export async function ServerCard() {
         </p>
         <p className="text-foreground/75 text-sm/6">
           at {formatStamp(new Date(facts.renderedAt))}, then cached. Refresh the
-          page — this card doesn&apos;t re-render, it gets re-served.
+          page — this card doesn&rsquo;t re-render, it gets re-served.
         </p>
       </div>
     </BoundaryCard>

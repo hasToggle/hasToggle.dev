@@ -1,3 +1,4 @@
+import { BakeSwatch } from "../bake-swatch";
 import { formatStamp } from "../format";
 import type { Bake } from "./bake";
 
@@ -15,7 +16,7 @@ export function BakedStamp({ bake }: BakedStampProps) {
   return (
     <div className="flex flex-col gap-4">
       <p className="font-display font-medium text-4xl text-foreground tracking-tight sm:text-5xl">
-        bake{" "}
+        bake <BakeSwatch className="mr-1 align-[0.02em]" id={bake.id} />
         <span className="text-ht-cyan-700 dark:text-ht-cyan-300">
           #{bake.id}
         </span>

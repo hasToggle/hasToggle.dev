@@ -4,7 +4,7 @@ interface MetaAsideProps {
   children: React.ReactNode;
   className?: string;
   noMarker?: boolean;
-  variant?: "inline" | "block";
+  variant?: "comment" | "inline" | "block";
 }
 
 export function MetaAside({
@@ -13,6 +13,25 @@ export function MetaAside({
   noMarker = false,
   variant = "inline",
 }: MetaAsideProps) {
+  if (variant === "comment") {
+    // The exhibit asides, set the way they read: a note an engineer left in
+    // this codebase. Comment-gray like the highlighted source's own comments,
+    // wrapped in the block markers, no brand color asking for credit.
+    return (
+      <aside
+        className={cn("font-mono text-muted-foreground text-sm/6", className)}
+      >
+        <span aria-hidden="true" className="select-none opacity-55">
+          {"/* "}
+        </span>
+        {children}
+        <span aria-hidden="true" className="select-none opacity-55">
+          {" */"}
+        </span>
+      </aside>
+    );
+  }
+
   if (variant === "block") {
     return (
       <aside

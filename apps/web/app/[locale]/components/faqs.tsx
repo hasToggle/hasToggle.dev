@@ -4,7 +4,7 @@ import { MetaAside } from "./meta-aside";
 import { Heading, Subheading } from "./text";
 
 const faqs: {
-  answer: string;
+  answer: React.ReactNode;
   meta?: string;
   question: string;
 }[] = [
@@ -15,8 +15,13 @@ const faqs: {
   },
   {
     answer:
+      "No. Vercel hasn’t endorsed this site, and nobody on the Next.js team sees an exhibit before it ships. The mistakes are ours, and so is the freedom to say which parts are confusing.",
+    question: "Is this official?",
+  },
+  {
+    answer:
       "The playground is free. Completely, permanently, no-asterisk free. The paid thing is coaching: small cohorts where you build production apps with me on exactly these topics, AI workflow included. The page teaches; the cohort makes it stick.",
-    meta: "See? We told you what we’re selling. Most landing pages hide that part.",
+    meta: "The playground doesn’t get better if you buy the cohort. It’s the same page either way.",
     question: "Is this free?",
   },
   {
@@ -30,14 +35,37 @@ const faqs: {
     question: "Why not just read the docs?",
   },
   {
-    answer:
-      "In public, with AI. The repo is on GitHub. The building happens in Conductor, with Claude Code doing the typing, and the process — prompts, checkpoints, wrong turns included — is being published alongside via Entire.io. This site is its own biggest demo.",
-    meta: "The AI writes the code. The judgment about what ships stays human. That division of labor is the actual curriculum.",
+    answer: (
+      <>
+        In public, with AI. The{" "}
+        <a
+          className="underline decoration-ht-cyan-700/40 underline-offset-2 transition-colors hover:decoration-ht-cyan-700"
+          href="https://github.com/hasToggle/hasToggle.dev"
+          rel="noreferrer"
+          target="_blank"
+        >
+          repo is on GitHub
+        </a>
+        . The building happens in Conductor, with Claude Code doing the typing,
+        and Entire.io publishes the process — prompts, checkpoints, wrong turns
+        included — to{" "}
+        <a
+          className="underline decoration-ht-cyan-700/40 underline-offset-2 transition-colors hover:decoration-ht-cyan-700"
+          href="https://github.com/hasToggle/hasToggle.dev-checkpoints"
+          rel="noreferrer"
+          target="_blank"
+        >
+          a second public repo
+        </a>
+        . This site is its own biggest demo.
+      </>
+    ),
+    meta: "The AI writes the code. Someone still has to decide what ships, and that part hasn’t been automated.",
     question: "How is this site built?",
   },
   {
     answer:
-      "One new exhibit and its write-up: what it shows, why it matters, when to reach for it. Five minutes, no filler, and unsubscribing stays one click away.",
+      "One new exhibit and the write-up that goes with it. Five minutes, no filler, and nothing you have to read on a schedule.",
     question: "What lands in my inbox on Monday?",
   },
 ];
@@ -48,7 +76,7 @@ function FaqItem({
   meta,
 }: {
   question: string;
-  answer: string;
+  answer: React.ReactNode;
   meta?: string;
 }) {
   return (
@@ -78,7 +106,7 @@ export function FrequentlyAskedQuestions() {
             as="h2"
             className="mt-3 text-balance text-4xl sm:text-5xl md:text-6xl"
           >
-            Your questions answered.
+            Before you poke anything.
           </Heading>
         </div>
 

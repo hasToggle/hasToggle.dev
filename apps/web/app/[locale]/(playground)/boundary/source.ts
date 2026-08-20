@@ -34,3 +34,13 @@ export function ClientCard() {
   );
 }
 `;
+
+/**
+ * The two cards joined for the reference bar's single drawer, each under its
+ * filename the way the shell demo joins bake.ts and actions.ts.
+ */
+export const BOUNDARY_SOURCE = `// server-card.tsx
+${SERVER_CARD_SOURCE.trim()}
+
+// client-card.tsx
+${CLIENT_CARD_SOURCE.trim()}`;

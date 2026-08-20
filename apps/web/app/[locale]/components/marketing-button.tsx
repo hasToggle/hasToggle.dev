@@ -20,7 +20,7 @@ const variants = {
     "inline-flex items-center justify-center px-4 py-[calc(0.5rem-1px)]",
     "rounded-full border border-transparent bg-primary shadow-md",
     "whitespace-nowrap font-medium text-base text-primary-foreground",
-    "hover:bg-primary/90 disabled:opacity-40"
+    "transition-colors duration-200 hover:bg-primary/90 disabled:opacity-40"
   ),
   secondary: cn(
     "relative inline-flex items-center justify-center px-4 py-[calc(0.5rem-1px)]",
