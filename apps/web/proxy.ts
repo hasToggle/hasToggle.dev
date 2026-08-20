@@ -1,4 +1,5 @@
 import { authMiddleware } from "@repo/auth/middleware";
+import { isToolbarEnabled } from "@repo/feature-flags/lib/toolbar-enabled";
 import { internationalizationMiddleware } from "@repo/internationalization/middleware";
 import { parseError } from "@repo/observability/error";
 import { secure } from "@repo/security";
@@ -20,7 +21,10 @@ export const config = {
   ],
 };
 
-const securityHeaders = env.FLAGS_SECRET
+// Only widen the CSP where the toolbar actually renders. Keying this on
+// FLAGS_SECRET alone meant production carried vercel.live allowances for a
+// toolbar it no longer loads.
+const securityHeaders = isToolbarEnabled()
   ? securityMiddleware(noseconeOptionsWithToolbar)
   : securityMiddleware(noseconeOptions);
 
