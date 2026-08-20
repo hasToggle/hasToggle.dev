@@ -1,6 +1,7 @@
 import { Logo } from "./logo";
 import { Link } from "./marketing-link";
 import { PlusGrid, PlusGridItem, PlusGridRow } from "./plus-grid";
+import { ThemeSwitch } from "./theme-switch";
 
 const links: { href: string; label: string }[] = [];
 
@@ -50,7 +51,11 @@ export function Navbar({
               </div>
             ) : null}
           </div>
-          <DesktopNav variant={variant} />
+          {/* The corner every editor keeps its view switches in. */}
+          <div className="relative flex items-center gap-6">
+            <DesktopNav variant={variant} />
+            <ThemeSwitch variant={variant} />
+          </div>
         </PlusGridRow>
       </PlusGrid>
     </header>
