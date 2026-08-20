@@ -4,7 +4,7 @@ import { MetaAside } from "./meta-aside";
 import { Heading, Subheading } from "./text";
 
 const faqs: {
-  answer: string;
+  answer: React.ReactNode;
   meta?: string;
   question: string;
 }[] = [
@@ -35,8 +35,31 @@ const faqs: {
     question: "Why not just read the docs?",
   },
   {
-    answer:
-      "In public, with AI. The repo is on GitHub. The building happens in Conductor, with Claude Code doing the typing, and the process — prompts, checkpoints, wrong turns included — is being published alongside via Entire.io. This site is its own biggest demo.",
+    answer: (
+      <>
+        In public, with AI. The{" "}
+        <a
+          className="underline decoration-ht-cyan-700/40 underline-offset-2 transition-colors hover:decoration-ht-cyan-700"
+          href="https://github.com/hasToggle/hasToggle.dev"
+          rel="noreferrer"
+          target="_blank"
+        >
+          repo is on GitHub
+        </a>
+        . The building happens in Conductor, with Claude Code doing the typing,
+        and Entire.io publishes the process — prompts, checkpoints, wrong turns
+        included — to{" "}
+        <a
+          className="underline decoration-ht-cyan-700/40 underline-offset-2 transition-colors hover:decoration-ht-cyan-700"
+          href="https://github.com/hasToggle/hasToggle.dev-checkpoints"
+          rel="noreferrer"
+          target="_blank"
+        >
+          a second public repo
+        </a>
+        . This site is its own biggest demo.
+      </>
+    ),
     meta: "The AI writes the code. Someone still has to decide what ships, and that part hasn’t been automated.",
     question: "How is this site built?",
   },
@@ -53,7 +76,7 @@ function FaqItem({
   meta,
 }: {
   question: string;
-  answer: string;
+  answer: React.ReactNode;
   meta?: string;
 }) {
   return (
