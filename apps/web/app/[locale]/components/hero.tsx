@@ -42,7 +42,7 @@ export function Hero() {
                 The exhibit asides wear this variant in comment-gray; the hero
                 keeps the meta-aside cyan, so only the markers change. */}
             <MetaAside
-              className="text-ht-cyan-800/75 sm:max-w-xs dark:text-ht-cyan-300/85"
+              className="text-ht-cyan-900 sm:max-w-xs dark:text-ht-cyan-300/85"
               variant="comment"
             >
               Nothing on this page is a mockup. We checked twice.

@@ -6,7 +6,9 @@ import { PlusGrid, PlusGridItem, PlusGridRow } from "./plus-grid";
 
 function SitemapHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="font-medium text-foreground/50 text-sm/6">{children}</h3>
+    // `/60`, not `/50`: the sitemap label sits on the footer's `bg-muted`
+    // band, where `/50` measures 3.67:1 at 14px against the 4.5:1 floor.
+    <h3 className="font-medium text-foreground/60 text-sm/6">{children}</h3>
   );
 }
 
@@ -206,7 +208,10 @@ export function Footer() {
               </PlusGridItem>
             </div>
             <div>
-              <div className="py-3 text-center text-muted-foreground text-sm/6">
+              {/* `text-foreground/60`, not `text-muted-foreground`: that
+                  token is tuned for the page background, and on this muted
+                  band it lands at 4.35:1 — just under the floor. */}
+              <div className="py-3 text-center text-foreground/60 text-sm/6">
                 Come back Monday. There&rsquo;ll be something new to poke.
               </div>
             </div>
@@ -217,9 +222,11 @@ export function Footer() {
             </div>
           </PlusGridRow>
         </PlusGrid>
-        {/* Full-strength muted-foreground, not /80: at 12px the faded variant
-            lands on 4.26:1 against bg-muted, under the 4.5:1 floor. */}
-        <div className="pb-10 text-center text-muted-foreground text-xs/5">
+        {/* Was full-strength `muted-foreground`, chosen over `/80` to clear
+            the 4.5:1 floor. It did not: measured against this band the solid
+            token is 4.35:1, so the earlier fix moved in the right direction
+            and stopped short. `text-foreground/60` is 5.11:1. */}
+        <div className="pb-10 text-center text-foreground/60 text-xs/5">
           hasToggle is an independent project, not affiliated with or endorsed
           by Vercel. Next.js and Vercel are trademarks of Vercel, Inc.
         </div>
