@@ -24,6 +24,8 @@ export type RebakeState =
   | {
       expiredAt: string;
       hasCompletedCycle: boolean;
+      /** The fingerprint that was on screen when the press happened. */
+      idAtExpiry: string;
       mode: "machinery";
       phase: "expired";
     }
@@ -36,7 +38,7 @@ export type RebakeState =
     };
 
 export type RebakeAction =
-  | { at: string; type: "expired" }
+  | { at: string; idAtExpiry: string; type: "expired" }
   | { privateId: string; type: "refetched" }
   | { type: "fused" }
   | { type: "toggled" };
@@ -88,6 +90,7 @@ export function rebakeReducer(
     return {
       expiredAt: action.at,
       hasCompletedCycle: state.hasCompletedCycle,
+      idAtExpiry: action.idAtExpiry,
       mode: "machinery",
       phase: "expired",
     };
@@ -110,10 +113,15 @@ export function canRebake(state: RebakeState): boolean {
 }
 
 /**
- * The fetch button exists only when there is something to fetch. The panel
- * also uses this to know that flipping the switch off must settle the gap
- * with a refresh.
+ * The ask button lights only when there is something to fetch AND the
+ * private render has landed — the fingerprint on screen has moved off the
+ * one that was there at expiry. Asking earlier would capture the old shared
+ * fingerprint as the private one, and the comparison would claim a public
+ * bake had been yours alone.
+ *
+ * (The settle-on-toggle-off path checks `phase === "expired"` directly: any
+ * open gap owes a refresh, landed or not.)
  */
-export function canFetch(state: RebakeState): boolean {
-  return state.phase === "expired";
+export function canFetch(state: RebakeState, currentId: string): boolean {
+  return state.phase === "expired" && state.idAtExpiry !== currentId;
 }

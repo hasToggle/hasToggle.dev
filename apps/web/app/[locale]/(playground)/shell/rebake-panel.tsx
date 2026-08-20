@@ -215,7 +215,7 @@ export function RebakePanel({
   const machinery = state.mode === "machinery";
   const working = isRebaking || isFetching;
   const rebakeLocked = !canRebake(state) || isRebaking;
-  const fetchable = canFetch(state);
+  const fetchable = canFetch(state, currentId);
 
   const handleRebake = useCallback(() => {
     // Guards the same lock the button's `aria-disabled` shows, since that
@@ -225,10 +225,12 @@ export function RebakePanel({
     }
     setRebakeFailed(false);
     if (machinery) {
+      // `currentId` closes over the fingerprint on screen at press time —
+      // the ask stays dark until the private render has moved it.
       startRebake(async () => {
         try {
           const { rebakedAt } = await rebakeShell();
-          dispatch({ at: rebakedAt, type: "expired" });
+          dispatch({ at: rebakedAt, idAtExpiry: currentId, type: "expired" });
         } catch {
           // The tag may well have been expired before the response died, so
           // the copy promises nothing about what happened — it just says so.
@@ -250,7 +252,7 @@ export function RebakePanel({
       dispatch({ type: "fused" });
       router.refresh();
     });
-  }, [machinery, rebakeLocked, router]);
+  }, [currentId, machinery, rebakeLocked, router]);
 
   const handleFetch = useCallback(() => {
     startFetch(() => {
@@ -263,7 +265,9 @@ export function RebakePanel({
   }, [currentId, router]);
 
   const handleToggle = useCallback(() => {
-    const leavesGapOpen = canFetch(state);
+    // Any open gap owes a refresh on the way out — landed or not, so this
+    // checks the phase directly rather than the ask-button's stricter gate.
+    const leavesGapOpen = state.phase === "expired";
     // The flip itself stays OUT of the transition: it is client-owned state,
     // and inside one it would not paint until router.refresh() resolved —
     // the switch sat frozen for the whole round trip. Only the server sync

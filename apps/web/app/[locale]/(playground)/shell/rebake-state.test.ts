@@ -9,10 +9,15 @@ import {
 
 const EXPIRED_AT = "2026-08-10T15:05:35.000Z";
 const LATER = "2026-08-10T15:09:00.000Z";
+const ID_AT_EXPIRY = "01dbake";
 const PRIVATE_ID = "1e472b";
 
 function expire(state: RebakeState, at = EXPIRED_AT): RebakeState {
-  return rebakeReducer(state, { at, type: "expired" });
+  return rebakeReducer(state, {
+    at,
+    idAtExpiry: ID_AT_EXPIRY,
+    type: "expired",
+  });
 }
 
 function refetch(state: RebakeState, privateId = PRIVATE_ID): RebakeState {
@@ -38,7 +43,7 @@ describe("rebake state", () => {
       phase: "served",
     });
     expect(canRebake(state)).toBe(true);
-    expect(canFetch(state)).toBe(false);
+    expect(canFetch(state, ID_AT_EXPIRY)).toBe(false);
   });
 
   test("a fused press lands back where it started, with the cycle behind it", () => {
@@ -65,11 +70,21 @@ describe("rebake state", () => {
     expect(state).toEqual({
       expiredAt: EXPIRED_AT,
       hasCompletedCycle: false,
+      idAtExpiry: ID_AT_EXPIRY,
       mode: "machinery",
       phase: "expired",
     });
     expect(canRebake(state)).toBe(false);
-    expect(canFetch(state)).toBe(true);
+  });
+
+  test("the ask stays dark until the private render has landed", () => {
+    // Clicking ask before the action's re-render arrives would capture the
+    // old shared fingerprint as the private one, and the comparison would
+    // claim a public bake had been yours alone. The gate: the fingerprint
+    // on screen must have moved off the one that was there at expiry.
+    const state = expire(MACHINERY_SERVED);
+    expect(canFetch(state, ID_AT_EXPIRY)).toBe(false);
+    expect(canFetch(state, PRIVATE_ID)).toBe(true);
   });
 
   test("fetching hands back the comparison, frees the button, and counts as a cycle", () => {
@@ -82,7 +97,7 @@ describe("rebake state", () => {
       privateId: PRIVATE_ID,
     });
     expect(canRebake(state)).toBe(true);
-    expect(canFetch(state)).toBe(false);
+    expect(canFetch(state, PRIVATE_ID)).toBe(false);
   });
 
   test("switching off mid-gap settles into the simple view, cycle complete", () => {
@@ -120,10 +135,11 @@ describe("rebake state", () => {
     expect(state).toEqual({
       expiredAt: LATER,
       hasCompletedCycle: true,
+      idAtExpiry: ID_AT_EXPIRY,
       mode: "machinery",
       phase: "expired",
     });
-    expect(canFetch(state)).toBe(true);
+    expect(canFetch(state, PRIVATE_ID)).toBe(true);
   });
 
   test("the simple view ignores the machinery's actions", () => {
