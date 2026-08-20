@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { env } from "@/env";
+import { BoundaryIndexValue } from "../(playground)/boundary/index-value";
+import { ImageIndexValue } from "../(playground)/image/index-value";
+import { MutationIndexValue } from "../(playground)/mutation/index-value";
+import { ShellIndexValue } from "../(playground)/shell/index-value";
+import { StreamIndexValue } from "../(playground)/stream/index-value";
 import { Container } from "../components/container";
 import { Digest } from "../components/digest";
 import { Footer } from "../components/footer";
@@ -30,6 +36,29 @@ export const metadata: Metadata = {
 const planned = SYLLABUS.filter(
   (entry): entry is PlannedTopic => entry.status === "planned"
 );
+
+/**
+ * Live readings are opt-in per chapter: one true value from the running
+ * exhibit, or nothing. Each renders inside its own Suspense boundary, so a
+ * per-visitor reading (the press count) streams in without costing the rest
+ * of the page its prerender.
+ */
+const INDEX_VALUES: Partial<Record<string, () => React.ReactNode>> = {
+  boundary: BoundaryIndexValue,
+  caching: ShellIndexValue,
+  "og-images": ImageIndexValue,
+  "server-actions": MutationIndexValue,
+  streaming: StreamIndexValue,
+};
+
+function IndexValueFallback() {
+  return (
+    <span
+      aria-hidden="true"
+      className="inline-block h-3 w-16 self-center rounded bg-foreground/10 motion-safe:animate-pulse"
+    />
+  );
+}
 
 /**
  * The lab's contents page: the syllabus made navigable. Shipped chapters
@@ -63,27 +92,38 @@ export default function LabContentsPage() {
               </p>
 
               <ol aria-label="Chapters" className="mt-14 max-w-3xl">
-                {SHIPPED.map((chapter) => (
-                  <li
-                    className="border-foreground/10 border-b first:border-t"
-                    key={chapter.slug}
-                  >
-                    <Link
-                      className="group grid grid-cols-[2.5rem_minmax(0,1fr)] items-baseline gap-x-4 py-5 sm:grid-cols-[2.5rem_minmax(0,1fr)_auto]"
-                      href={`/lab/${chapter.slug}`}
+                {SHIPPED.map((chapter) => {
+                  const IndexValue = INDEX_VALUES[chapter.slug];
+
+                  return (
+                    <li
+                      className="border-foreground/10 border-b first:border-t"
+                      key={chapter.slug}
                     >
-                      <span className="font-mono text-muted-foreground text-xs tabular-nums transition-colors group-hover:text-ht-cyan-700 dark:group-hover:text-ht-cyan-300">
-                        {chapter.n}
-                      </span>
-                      <span className="font-medium text-foreground text-xl tracking-tight underline decoration-1 decoration-transparent underline-offset-[6px] transition-[text-decoration-color] duration-300 group-hover:decoration-ht-cyan-700/70 dark:group-hover:decoration-ht-cyan-300/70">
-                        {chapter.belief}
-                      </span>
-                      <span className="col-start-2 font-mono text-muted-foreground/80 text-xs sm:col-start-3 sm:justify-self-end">
-                        {chapter.topic}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
+                      <Link
+                        className="group grid grid-cols-[2.5rem_minmax(0,1fr)] items-baseline gap-x-4 py-5 sm:grid-cols-[2.5rem_minmax(0,1fr)_auto]"
+                        href={`/lab/${chapter.slug}`}
+                      >
+                        <span className="font-mono text-muted-foreground text-xs tabular-nums transition-colors group-hover:text-ht-cyan-700 dark:group-hover:text-ht-cyan-300">
+                          {chapter.n}
+                        </span>
+                        <span className="font-medium text-foreground text-xl tracking-tight underline decoration-1 decoration-transparent underline-offset-[6px] transition-[text-decoration-color] duration-300 group-hover:decoration-ht-cyan-700/70 dark:group-hover:decoration-ht-cyan-300/70">
+                          {chapter.belief}
+                        </span>
+                        {IndexValue ? (
+                          <span className="hidden font-mono text-muted-foreground text-xs sm:inline-flex sm:justify-self-end">
+                            <Suspense fallback={<IndexValueFallback />}>
+                              <IndexValue />
+                            </Suspense>
+                          </span>
+                        ) : null}
+                        <span className="col-start-2 mt-1 font-mono text-muted-foreground/80 text-xs">
+                          {chapter.topic}
+                        </span>
+                      </Link>
+                    </li>
+                  );
+                })}
                 {NEXT_UP ? (
                   <li className="border-foreground/10 border-b">
                     {/* No belief yet — a chapter states its belief when it
