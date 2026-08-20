@@ -110,20 +110,31 @@
   --animate-highlight: highlight 1s ease-in-out 1;
   --animate-shimmer: shimmer 2s infinite;
 
-  /* Switzer font (loaded via CDN in marketing layout) */
-  --font-switzer: "Switzer", system-ui, sans-serif;
+  /* Switzer, self-hosted via next/font (see app/fonts). The root layout puts
+     --font-switzer-sans on <html>; the fallbacks here cover the gap before it
+     resolves. */
+  --font-switzer: var(--font-switzer-sans), system-ui, sans-serif;
+
+  /* This app's faces are Switzer and JetBrains Mono, not the design system's
+     Geist. Overriding the two tokens here (the design-system import above
+     points them at --font-geist-*) means `font-sans` and `font-mono` resolve
+     to the marketing faces everywhere in `web`, so no Geist file is ever
+     requested. */
+  --font-sans: var(--font-switzer-sans), system-ui, sans-serif;
+  --font-mono:
+    var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, monospace;
 }
 
-/* JetBrains Mono (loaded via Google Fonts in marketing layout) for the
-   meta-layer voice. The design system sets --font-mono to Geist Mono for
-   app-wide consistency; marketing uses a dedicated editorial face. This
-   override is scoped to the .font-switzer wrapper so it only affects the
-   marketing route tree. */
+/* JetBrains Mono, self-hosted via next/font, for the meta-layer voice. The
+   design system sets --font-mono to Geist Mono for app-wide consistency;
+   marketing uses a dedicated editorial face. This override is scoped to the
+   .font-switzer wrapper so it only affects the marketing route tree. */
 .font-switzer .font-mono,
 .font-switzer.font-mono {
   font-family:
-    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    monospace;
+    var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, monospace;
 }
 
 /* ── Entrance choreography ──────────────────────────────────────────────
@@ -148,6 +159,27 @@
   .ht-enter {
     animation: ht-rise 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
     animation-delay: var(--ht-delay, 0ms);
+  }
+}
+
+/* The headline joins the same movement but never starts transparent. It is the
+   largest thing in the hero, so while it fades it is not a paint the browser
+   will count, and Largest Contentful Paint waits out the whole 700ms for a
+   headline that was already in the HTML. Sliding it in at full opacity keeps
+   the choreography and lets the paint count immediately. */
+@media (prefers-reduced-motion: no-preference) {
+  .ht-enter-opaque {
+    animation: ht-slide 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--ht-delay, 0ms);
+  }
+}
+
+@keyframes ht-slide {
+  from {
+    transform: translateY(0.75rem);
+  }
+  to {
+    transform: none;
   }
 }
 

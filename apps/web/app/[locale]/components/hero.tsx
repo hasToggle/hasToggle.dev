@@ -20,7 +20,7 @@ export function Hero() {
             The unofficial live playground for Next.js and Vercel.
           </p>
           <h1
-            className="ht-enter max-w-4xl font-display font-medium text-6xl/[0.95] text-foreground tracking-tight sm:text-7xl/[0.95] md:text-8xl/[0.95]"
+            className="ht-enter-opaque max-w-4xl font-display font-medium text-6xl/[0.95] text-foreground tracking-tight sm:text-7xl/[0.95] md:text-8xl/[0.95]"
             style={{ "--ht-delay": "80ms" } as React.CSSProperties}
           >
             Watch it run.
