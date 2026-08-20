@@ -83,7 +83,7 @@ describe("rebake readout", () => {
   test("refetched discloses that the refill was a render, not an API call", () => {
     expect(readout(MACHINERY_REFETCHED, CURRENT_ID)).toEqual({
       caption:
-        "the fetch ran no cache API — the page rendered again, and this time the cache kept it. Expiring an entry and refilling it are two different events. You just watched both.",
+        "the fetch ran no cache API — the page rendered again, and this time the cache kept it. Expiring an entry and refilling it are two different events.",
       detail: `#${CURRENT_ID} is the bake above, and every visitor gets it. #${PRIVATE_ID} was yours alone, and is gone`,
       label: "served",
     });

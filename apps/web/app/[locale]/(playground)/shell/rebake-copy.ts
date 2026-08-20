@@ -20,7 +20,7 @@ const MACHINERY_IDLE_CAPTION =
 const EXPIRED_CAPTION =
   "the bake above was rendered before your expiry landed, so the cache will not keep it. The refill is the first render that starts afterwards — button two, a new tab, another visitor, whoever asks first. Ask for it.";
 const REVEALED_CAPTION =
-  "the fetch ran no cache API — the page rendered again, and this time the cache kept it. Expiring an entry and refilling it are two different events. You just watched both.";
+  "the fetch ran no cache API — the page rendered again, and this time the cache kept it. Expiring an entry and refilling it are two different events.";
 
 /**
  * Replaces the caption when the action never came back, so a failure lands in
