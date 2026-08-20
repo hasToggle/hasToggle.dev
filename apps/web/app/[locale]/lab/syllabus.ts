@@ -131,6 +131,15 @@ export function chapterBySlug(slug: string): ShippedChapter | undefined {
   return SHIPPED.find((chapter) => chapter.slug === slug);
 }
 
+/** For call sites that hold a slug the registry must know — a typo is a build-time crash, not a silent gap. */
+export function requireChapter(slug: string): ShippedChapter {
+  const chapter = chapterBySlug(slug);
+  if (!chapter) {
+    throw new Error(`syllabus: no shipped chapter with slug "${slug}"`);
+  }
+  return chapter;
+}
+
 /** Reading-order neighbors among shipped chapters only. */
 export function prevNext(slug: string): {
   next?: ShippedChapter;
