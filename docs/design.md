@@ -108,15 +108,17 @@ deleted, not deprecated. Judgment calls worth keeping:
   finishes turning); in narrate mode the card flips to its own source —
   Shiki-rendered on the server through the same cached pipeline as the
   reference drawers, zero highlighter in the browser — and the client
-  walks one CSS class down the pre-rendered `.line` spans, writing
-  annotations whose values were read live: the closure's stale read from
-  inside the handler, the render number from the module tally at fire
-  time. The back face carries the honesty label ("the last click,
-  replayed slow · values real") and the aside repeats it. The card takes
-  the panel's render pass as a prop so the React Compiler cannot memoize
-  the deck's re-render away. The local-variable card is **not** in this
-  chapter — Eric's call: it belongs to the /learn state lesson — and sits
-  banked in the state folder (var-card.tsx), working and tested.
+  walks one CSS class down the pre-rendered `.line` spans **top to
+  bottom, every code line, the way a render re-runs the component**
+  (Eric's correction: no jumping to the onClick first — that is not how
+  code is processed). Annotations land on the call, the kept value, and
+  the paint, with values read live at fire time. The back face carries
+  the honesty label ("the last click, replayed slow · values real") and
+  the aside repeats it. The card takes the panel's render pass as a prop
+  so the React Compiler cannot memoize the deck's re-render away. The
+  local-variable card is **not** in this chapter — it belongs to the
+  /learn state lesson — and sits banked in the state folder
+  (var-card.tsx), working and tested.
 
 ### The lab — site shape, 2026-08-20
 

@@ -3,8 +3,8 @@
 import { cn } from "@repo/design-system/lib/utils";
 import { useEffect, useRef, useState } from "react";
 import { StateCardShell } from "./card";
-import { stepPaints, stepPress, stepRender, stepReturns } from "./copy";
-import { REPLAY_LINES } from "./source";
+import { stepPaints, stepRender, stepReturns } from "./copy";
+import { REPLAY_NOTES, REPLAY_WALK } from "./source";
 
 // The render tally lives outside the component on purpose: a value inside
 // would be re-declared by the very renders it is meant to count. Written to
@@ -13,9 +13,12 @@ import { REPLAY_LINES } from "./source";
 // is honest in production.)
 let renderTally = 0;
 
-// The replay's rhythm: one flip out, four narrated landings, one flip back.
+// The replay's rhythm: flip out, then the walk — quick over plain lines,
+// dwelling where an annotation lands — then flip back.
 const FLIP_MS = 550;
-const STEP_MS = 1050;
+const SWEEP_MS = 240;
+const NOTE_MS = 1000;
+const NOTE_LINES: ReadonlySet<number> = new Set(Object.values(REPLAY_NOTES));
 
 interface StateCardProps {
   /** Narrate mode: a press turns the card over and replays itself. */
@@ -91,58 +94,57 @@ export function StateCard({ narrate, panelPass, replayCode }: StateCardProps) {
     }
     const next = count + 1;
     setCount(next);
-    // Read *after* the setter on purpose: the closure's `count` still holds
-    // the old value, because the new one does not exist until the next
-    // render does. The replay's first annotation reports that read.
-    const closureRead = count;
 
     if (!narrate) {
       return;
     }
 
+    // Read at fire time: the render an annotation names has happened by the
+    // time its timeout runs.
+    const noteFor = (line: number): string | null => {
+      if (line === REPLAY_NOTES.fn) {
+        return stepRender(renderTally);
+      }
+      if (line === REPLAY_NOTES.useState) {
+        return stepReturns(next);
+      }
+      if (line === REPLAY_NOTES.paint) {
+        return stepPaints(next);
+      }
+      return null;
+    };
+
     replayingRef.current = true;
     timeoutsRef.current = [];
     setFlipped(true);
-    schedule(() => {
-      setActiveLine(REPLAY_LINES.press);
-      writeNote(stepPress(next, closureRead));
-    }, FLIP_MS);
-    schedule(() => {
-      // Read at fire time: the render this step names has happened by now.
-      setActiveLine(REPLAY_LINES.fn);
-      writeNote(stepRender(renderTally));
-    }, FLIP_MS + STEP_MS);
-    schedule(
-      () => {
-        setActiveLine(REPLAY_LINES.useState);
-        writeNote(stepReturns(next));
-      },
-      FLIP_MS + 2 * STEP_MS
-    );
-    schedule(
-      () => {
-        setActiveLine(REPLAY_LINES.paint);
-        writeNote(stepPaints(next));
-      },
-      FLIP_MS + 3 * STEP_MS
-    );
-    schedule(
-      () => {
-        setFlipped(false);
-        setActiveLine(null);
-        writeNote("");
-        // The paint happened while the card was turned; the wash marks its
-        // reveal (re-triggered by hand — a keyed remount already played it
-        // behind the card's back).
-        if (numberRef.current) {
-          numberRef.current.classList.remove("ht-land");
-          void numberRef.current.offsetWidth;
-          numberRef.current.classList.add("ht-land");
+    // The walk re-runs the component the way a render does: top to bottom,
+    // every line with code on it. An annotation holds until the next one
+    // replaces it, so the sweep reads as one continuous execution.
+    let at = FLIP_MS;
+    for (const line of REPLAY_WALK) {
+      schedule(() => {
+        setActiveLine(line);
+        const note = noteFor(line);
+        if (note !== null) {
+          writeNote(note);
         }
-        replayingRef.current = false;
-      },
-      FLIP_MS + 4 * STEP_MS
-    );
+      }, at);
+      at += NOTE_LINES.has(line) ? NOTE_MS : SWEEP_MS;
+    }
+    schedule(() => {
+      setFlipped(false);
+      setActiveLine(null);
+      writeNote("");
+      // The paint happened while the card was turned; the wash marks its
+      // reveal (re-triggered by hand — a keyed remount already played it
+      // behind the card's back).
+      if (numberRef.current) {
+        numberRef.current.classList.remove("ht-land");
+        void numberRef.current.offsetWidth;
+        numberRef.current.classList.add("ht-land");
+      }
+      replayingRef.current = false;
+    }, at);
   };
 
   return (
@@ -163,34 +165,36 @@ export function StateCard({ narrate, panelPass, replayCode }: StateCardProps) {
             flipped && "[transform:rotateY(180deg)]"
           )}
         >
-          {/* Front: the counter. */}
+          {/* Front: the counter — one control, two segments. The button
+              presses; the count answers. A hairline seam keeps them honest
+              as separate elements while the shared pill makes them one. */}
           <div
             aria-hidden={flipped}
             className={cn(
-              "flex flex-col justify-center gap-2 [backface-visibility:hidden] [grid-area:1/1]",
+              "flex flex-col items-center justify-center gap-3 [backface-visibility:hidden] [grid-area:1/1]",
               flipped && "pointer-events-none"
             )}
           >
-            <div className="flex items-center gap-4">
+            <div className="inline-flex items-stretch overflow-hidden rounded-full border border-foreground/15 shadow-md">
               <button
-                className="inline-flex items-center justify-center rounded-full border border-transparent bg-primary px-4 py-[calc(0.5rem-1px)] font-medium text-base text-primary-foreground shadow-md hover:bg-primary/90"
+                className="bg-primary px-5 py-[calc(0.5rem-1px)] font-medium text-base text-primary-foreground transition-colors hover:bg-primary/90"
                 onClick={handleClick}
                 type="button"
               >
                 +1
               </button>
               <p
-                className="ht-land font-display font-medium text-2xl text-foreground tabular-nums tracking-tight"
+                className="ht-land flex min-w-14 items-center justify-center border-foreground/15 border-l bg-background px-5 font-display font-medium text-foreground text-xl tabular-nums tracking-tight"
                 key={count}
                 ref={numberRef}
               >
                 {count}
               </p>
-              <span
-                className="ml-auto font-mono text-[0.65rem] text-muted-foreground/70"
-                ref={badgeRef}
-              />
             </div>
+            <span
+              className="font-mono text-[0.65rem] text-muted-foreground/70"
+              ref={badgeRef}
+            />
           </div>
           {/* Back: the source, walked line by line. Pointer events off while
               hidden — an invisible backface still sits over the button. */}

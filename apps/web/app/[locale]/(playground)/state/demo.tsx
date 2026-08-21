@@ -36,12 +36,12 @@ export function StateDemo({ headingAs }: StateDemoProps) {
           <p>
             Press +1 and the number moves, the way counters always have. Now
             flip narrate and press again: the card turns over and replays the
-            click against its own source, slowly — the press, where the closure
-            still reads the old value; the fresh call to StateCard(); useState
-            handing back the value React kept; the paint. Then it turns back,
-            and the number has moved. Everything in the replay happened before
-            the card finished turning. It is slowed, not simulated, and the
-            values in it were read live.
+            render against its own source — React runs StateCard() again, top to
+            bottom, useState hands back the value it kept, and the line that
+            paints the count paints the new one. Then the card turns back, and
+            the number has moved. Everything in the replay happened before the
+            card finished turning. It is slowed, not simulated, and the values
+            in it were read live.
           </p>
           <p>
             Kept where? Press &ldquo;Re-render the panel&rdquo; in the deck: the

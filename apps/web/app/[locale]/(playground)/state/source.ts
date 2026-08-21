@@ -43,11 +43,18 @@ export const REPLAY_SOURCE = `function StateCard() {
   );
 }`;
 
-/** The replay's landing lines, by index into REPLAY_SOURCE. */
-export const REPLAY_LINES = {
+/**
+ * The walk: every line with code on it, in order — the way a render
+ * re-runs the component top to bottom. Blank line 2 is skipped.
+ */
+export const REPLAY_WALK: readonly number[] = [
+  0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+];
+
+/** Where annotations land during the walk, by index into REPLAY_SOURCE. */
+export const REPLAY_NOTES = {
   fn: 0,
   paint: 8,
-  press: 5,
   useState: 1,
 } as const;
 

@@ -5,22 +5,17 @@
  * here where a test can hold them still.
  */
 
-/** Step 1 · the button line: the ask, with the closure's stale read. */
-export function stepPress(asked: number, closureRead: number): string {
-  return `you pressed · setCount(${asked}) — count here still reads ${closureRead}`;
-}
-
-/** Step 2 · the function line: React calls the component again. */
+/** The function line, where the walk begins: React runs it all again. */
 export function stepRender(renderNumber: number): string {
-  return `render #${renderNumber} · React calls StateCard() again`;
+  return `render #${renderNumber} · React runs StateCard() again, top to bottom`;
 }
 
-/** Step 3 · the useState line: the kept value comes back. */
+/** The useState line: the kept value comes back. */
 export function stepReturns(asked: number): string {
   return `useState returns ${asked} — the value React kept`;
 }
 
-/** Step 4 · the JSX line: the paint. */
+/** The JSX line that paints the count. */
 export function stepPaints(asked: number): string {
   return `paints ${asked}`;
 }

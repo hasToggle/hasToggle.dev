@@ -2,7 +2,6 @@ import { describe, expect, test } from "bun:test";
 import {
   RERENDER_CHIP,
   stepPaints,
-  stepPress,
   stepRender,
   stepReturns,
   varProofClicked,
@@ -10,14 +9,10 @@ import {
 } from "./copy";
 
 describe("state exhibit replay steps", () => {
-  test("the press step carries the stale closure read", () => {
-    expect(stepPress(4, 3)).toBe(
-      "you pressed · setCount(4) — count here still reads 3"
+  test("the render step opens the top-to-bottom re-run", () => {
+    expect(stepRender(6)).toBe(
+      "render #6 · React runs StateCard() again, top to bottom"
     );
-  });
-
-  test("the render step names the call that follows", () => {
-    expect(stepRender(6)).toBe("render #6 · React calls StateCard() again");
   });
 
   test("the return step reports the kept value", () => {
