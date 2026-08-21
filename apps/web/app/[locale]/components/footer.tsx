@@ -73,6 +73,8 @@ function Sitemap() {
     <div className="col-span-2">
       <SitemapHeading>Playground</SitemapHeading>
       <SitemapLinks>
+        <SitemapLink href="/lab">The lab</SitemapLink>
+        <SitemapLink href="/blog">Blog</SitemapLink>
         <SitemapLink href="/#faq">FAQs</SitemapLink>
         <SitemapLink
           href="https://github.com/hasToggle/hasToggle.dev"
