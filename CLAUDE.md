@@ -85,16 +85,15 @@ The repository uses **Bun workspaces** with two main directories:
    - Cron jobs in `app/cron/`
    - Development includes Stripe webhook listener (requires Stripe CLI)
 
-4. **docs** - Documentation site (Mintlify)
-5. **email** - Email templates (React Email)
-6. **storybook** (`apps/storybook`) - Component development environment.
+4. **email** - Email templates (React Email)
+5. **storybook** (`apps/storybook`) - Component development environment.
    Its package name is `@repo/storybook`, **not** `storybook`: Bun links every
    workspace package into the root `node_modules` by name, so a workspace named
    `storybook` shadows the real `storybook` npm package and every addon that
    imports `storybook/internal/*` fails to resolve. Turbo filter is
    `--filter=@repo/storybook`. Never name a workspace after one of its own
    dependencies.
-7. **studio** - Database management UI (stale Prisma Studio wrapper; non-functional since the MongoDB migration)
+6. **studio** - Database management UI (stale Prisma Studio wrapper; non-functional since the MongoDB migration)
 
 ### Shared Packages (packages/)
 

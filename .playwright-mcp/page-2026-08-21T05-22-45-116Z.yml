@@ -1,0 +1,158 @@
+- generic [active] [ref=f2e1]:
+  - generic [ref=f2e3]:
+    - banner [ref=f2e5]:
+      - generic [ref=f2e7]:
+        - link [ref=f2e23] [cursor=pointer]:
+          - /url: /
+          - img "hasToggle" [ref=f2e24]
+        - generic [ref=f2e27]:
+          - navigation
+          - radiogroup "Theme" [ref=f2e33]:
+            - generic [ref=f2e34] [cursor=pointer]:
+              - radio "light" [ref=f2e35]
+              - generic [ref=f2e36]: light
+            - generic [ref=f2e44] [cursor=pointer]:
+              - radio "dark" [ref=f2e45]
+              - generic [ref=f2e46]: dark
+            - generic [ref=f2e50] [cursor=pointer]:
+              - radio "system" [checked] [ref=f2e51]
+              - generic [ref=f2e52]: system
+    - main [ref=f2e56]:
+      - generic [ref=f2e60]:
+        - generic [ref=f2e61]: The lab
+        - heading "Contents." [level=1] [ref=f2e62]
+        - paragraph [ref=f2e63]: The plan is everything Next.js can do, and as much of Vercel as can be proved from inside a web page. One chapter at a time, in public.
+        - list "Chapters" [ref=f2e64]:
+          - listitem [ref=f2e65]:
+            - link "01 I’ll put “use client” on it, to be safe. node v26.2.0 server & client components" [ref=f2e66] [cursor=pointer]:
+              - /url: /lab/boundary
+              - generic [ref=f2e67]: "01"
+              - generic [ref=f2e68]: I’ll put “use client” on it, to be safe.
+              - generic [ref=f2e69]: node v26.2.0
+              - generic [ref=f2e71]: server & client components
+          - listitem [ref=f2e72]:
+            - 'link "02 It’s either cached or it isn’t. bake #de6078 caching & revalidation" [ref=f2e73] [cursor=pointer]':
+              - /url: /lab/caching
+              - generic [ref=f2e74]: "02"
+              - generic [ref=f2e75]: It’s either cached or it isn’t.
+              - generic [ref=f2e76]: "bake #de6078"
+              - generic [ref=f2e79]: caching & revalidation
+          - listitem [ref=f2e80]:
+            - link "03 I’ll fetch it all first, then render. 400ms · 1100ms · 1900ms streaming & suspense" [ref=f2e81] [cursor=pointer]:
+              - /url: /lab/streaming
+              - generic [ref=f2e82]: "03"
+              - generic [ref=f2e83]: I’ll fetch it all first, then render.
+              - generic [ref=f2e84]: 400ms · 1100ms · 1900ms
+              - generic [ref=f2e86]: streaming & suspense
+          - listitem [ref=f2e87]:
+            - link "04 You need an API route for that. server actions & cookies" [ref=f2e88] [cursor=pointer]:
+              - /url: /lab/server-actions
+              - generic [ref=f2e89]: "04"
+              - generic [ref=f2e90]: You need an API route for that.
+              - generic [ref=f2e93]: server actions & cookies
+          - listitem [ref=f2e94]:
+            - link "05 I’ll need to design a card for every page. 1200 × 630 · png imageresponse & route handlers" [ref=f2e95] [cursor=pointer]:
+              - /url: /lab/og-images
+              - generic [ref=f2e96]: "05"
+              - generic [ref=f2e97]: I’ll need to design a card for every page.
+              - generic [ref=f2e98]: 1200 × 630 · png
+              - generic [ref=f2e100]: imageresponse & route handlers
+          - listitem [ref=f2e101]:
+            - generic [ref=f2e102]:
+              - generic [ref=f2e103]: "06"
+              - generic [ref=f2e104]: navigation & prefetching
+              - generic [ref=f2e105]: lands Monday
+        - list [ref=f2e106]:
+          - listitem [ref=f2e107]:
+            - generic [ref=f2e108]: +
+            - text: dynamic routes & params
+          - listitem [ref=f2e109]:
+            - generic [ref=f2e110]: +
+            - text: next/image, fonts & the asset pipeline
+          - listitem [ref=f2e111]:
+            - generic [ref=f2e112]: +
+            - text: metadata, sitemaps & SEO
+          - listitem [ref=f2e113]:
+            - generic [ref=f2e114]: +
+            - text: optimistic UI & useActionState
+          - listitem [ref=f2e115]:
+            - generic [ref=f2e116]: +
+            - text: proxy, redirects & rewrites
+          - listitem [ref=f2e117]:
+            - generic [ref=f2e118]: +
+            - text: error, not-found & recovery
+          - listitem [ref=f2e119]:
+            - generic [ref=f2e120]: +
+            - text: parallel & intercepted routes
+          - listitem [ref=f2e121]:
+            - generic [ref=f2e122]: +
+            - text: i18n & locale routing
+          - listitem [ref=f2e123]:
+            - generic [ref=f2e124]: +
+            - text: view transitions
+          - listitem [ref=f2e125]:
+            - generic [ref=f2e126]: +
+            - text: ISR & pages baked on demand
+          - listitem [ref=f2e127]:
+            - generic [ref=f2e128]: +
+            - text: edge network & geolocation
+          - listitem [ref=f2e129]:
+            - generic [ref=f2e130]: +
+            - text: feature flags & Edge Config
+          - listitem [ref=f2e131]:
+            - generic [ref=f2e132]: +
+            - text: web vitals, measured live
+          - listitem [ref=f2e133]:
+            - generic [ref=f2e134]: +
+            - text: preview deploys & instant rollback
+          - listitem [ref=f2e135]:
+            - generic [ref=f2e136]: +
+            - text: cron, queues & background work
+          - listitem [ref=f2e137]:
+            - generic [ref=f2e138]: +
+            - text: blob, key-value & Postgres
+        - generic [ref=f2e139]:
+          - generic [ref=f2e140]: The weekly build
+          - paragraph [ref=f2e141]: A new chapter every Monday. The write-up lands in your inbox.
+          - generic [ref=f2e143]:
+            - generic [ref=f2e144]:
+              - generic [ref=f2e145]: Email address
+              - textbox "Email address" [ref=f2e146]:
+                - /placeholder: you@example.com
+            - button "Add me" [ref=f2e147] [cursor=pointer]
+    - contentinfo [ref=f2e148]:
+      - generic [ref=f2e149]:
+        - generic [ref=f2e150]:
+          - generic [ref=f2e155]:
+            - img "hasToggle" [ref=f2e162]
+            - generic [ref=f2e166]:
+              - heading "Playground" [level=3] [ref=f2e167]
+              - list [ref=f2e168]:
+                - listitem [ref=f2e169]:
+                  - link "FAQs" [ref=f2e170] [cursor=pointer]:
+                    - /url: /#faq
+                - listitem [ref=f2e171]:
+                  - link "Source on GitHub (opens in a new tab)" [ref=f2e172] [cursor=pointer]:
+                    - /url: https://github.com/hasToggle/hasToggle.dev
+                    - text: Source on GitHub
+                    - generic [ref=f2e177]: (opens in a new tab)
+                - listitem [ref=f2e178]:
+                  - link "Prompts and checkpoints (opens in a new tab)" [ref=f2e179] [cursor=pointer]:
+                    - /url: https://github.com/hasToggle/hasToggle.dev-checkpoints
+                    - text: Prompts and checkpoints
+                    - generic [ref=f2e184]: (opens in a new tab)
+          - generic [ref=f2e185]:
+            - generic [ref=f2e191]: © 2026 hasToggle.
+            - generic [ref=f2e202]: Come back Monday. There’ll be something new to poke.
+            - generic [ref=f2e205]:
+              - link "Read the hasToggle source on GitHub" [ref=f2e214] [cursor=pointer]:
+                - /url: https://github.com/hasToggle/hasToggle.dev
+              - link "Visit Eric on YouTube" [ref=f2e217] [cursor=pointer]:
+                - /url: https://www.youtube.com/@hastoggle
+              - link "DM Eric on X" [ref=f2e220] [cursor=pointer]:
+                - /url: https://x.com/hasToggle
+              - link "Connect with Eric on LinkedIn" [ref=f2e223] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/ernst-stolz
+        - generic [ref=f2e226]: hasToggle is an independent project, not affiliated with or endorsed by Vercel. Next.js and Vercel are trademarks of Vercel, Inc.
+  - region "Notifications alt+T"
+  - alert [ref=f2e227]

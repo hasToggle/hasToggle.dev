@@ -144,6 +144,14 @@ shipped, belief and navLabel added.
   prefetch on hover via next/link — chapter 06 (navigation &
   prefetching) should claim that readout as its instrument in the site's
   own chrome.
+- The Hazel counter (`apps/web/app/[locale]/(counter)/`, plus its private
+  `components/ui/boundary` + `ping`): the old site's useState/re-render
+  lesson — useReducer-scripted story beats, per-press code snapshots,
+  re-render boundaries made visible. Unrouted on purpose, kept through
+  the 2026-08-21 boilerplate sweep. Revive it either as a /learn lesson
+  beside ref-vs-state or as the opening specimen of the optimistic UI &
+  useActionState chapter; it does not join the lab as-is (pre-dates the
+  instrument grammar).
 
 ## 6. Verification
 

@@ -1,0 +1,468 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e5]:
+      - banner [ref=e6]:
+        - generic [ref=e8]:
+          - link [ref=e24] [cursor=pointer]:
+            - /url: /
+            - img "hasToggle" [ref=e25]
+          - generic [ref=e28]:
+            - navigation
+            - radiogroup "Theme" [ref=e34]:
+              - generic [ref=e35] [cursor=pointer]:
+                - radio "light" [ref=e36]
+                - generic [ref=e37]: light
+              - generic [ref=e45] [cursor=pointer]:
+                - radio "dark" [ref=e46]
+                - generic [ref=e47]: dark
+              - generic [ref=e51] [cursor=pointer]:
+                - radio "system" [checked] [ref=e52]
+                - generic [ref=e53]: system
+      - generic [ref=e57]:
+        - paragraph [ref=e58]: The unofficial live playground for Next.js and Vercel.
+        - heading [level=1] [ref=e59]:
+          - text: Watch it run.
+          - superscript [ref=e60]: "*"
+        - paragraph [ref=e61]: For developers who learn by poking things.
+        - generic [ref=e62]:
+          - link "Start poking" [ref=e63] [cursor=pointer]:
+            - /url: "#demo-01"
+          - complementary [ref=e64]: /* Nothing on this page is a mockup. We checked twice. */
+        - complementary [ref=e66]:
+          - paragraph [ref=e67]:
+            - text: bake
+            - generic [ref=e69]: "#160305"
+            - text: ·20 Aug 2026, 19:47:42 UTC
+          - paragraph [ref=e70]:
+            - generic [ref=e71]: this line streamed in just for you — 20 Aug 2026, 19:47:55 UTC
+    - main [ref=e72]:
+      - generic [ref=e73]:
+        - navigation "Contents" [ref=e74]:
+          - generic [ref=e76]:
+            - generic [ref=e77]: contents
+            - list [ref=e79]:
+              - listitem [ref=e80]:
+                - link "01 The boundary" [ref=e81] [cursor=pointer]:
+                  - /url: "#demo-01"
+                  - generic [ref=e82]: "01"
+                  - generic [ref=e83]: The boundary
+              - listitem [ref=e84]:
+                - link "02 The cache" [ref=e85] [cursor=pointer]:
+                  - /url: "#demo-02"
+                  - generic [ref=e86]: "02"
+                  - generic [ref=e87]: The cache
+              - listitem [ref=e88]:
+                - link "03 The stream" [ref=e89] [cursor=pointer]:
+                  - /url: "#demo-03"
+                  - generic [ref=e90]: "03"
+                  - generic [ref=e91]: The stream
+              - listitem [ref=e92]:
+                - link "04 The mutation" [ref=e93] [cursor=pointer]:
+                  - /url: "#demo-04"
+                  - generic [ref=e94]: "04"
+                  - generic [ref=e95]: The mutation
+              - listitem [ref=e96]:
+                - link "05 The image" [ref=e97] [cursor=pointer]:
+                  - /url: "#demo-05"
+                  - generic [ref=e98]: "05"
+                  - generic [ref=e99]: The image
+              - listitem [ref=e100]:
+                - link "The lab" [ref=e101] [cursor=pointer]:
+                  - /url: /lab
+                  - generic [ref=e102]: →
+        - region [ref=e104]:
+          - generic [ref=e108]:
+            - heading "01server & client components" [level=2] [ref=e109]: 01·server & client components
+            - heading "I’ll put “use client” on it, to be safe." [level=2] [ref=e110]
+            - generic [ref=e111]:
+              - paragraph [ref=e112]:
+                - text: Safer than what? We reached for it the same way, for about a year, before anyone made us say what it was protecting against. Every component in the App Router already runs on the server.
+                - code [ref=e113]: "\"use client\""
+                - text: is not a precaution, it’s a purchase — for that file and everything it imports. You buy useState, useEffect and onClick. You pay with the database call you can no longer make from here, the API key you can no longer read, and however much React your visitor downloads on their phone.
+              - paragraph [ref=e114]: Watch the two cards below. One rendered in Node.js and arrived as finished HTML — done before you got here. The other arrived as JavaScript and woke up in your tab — the waking is called hydration — and its button is waiting for a click. Only one of them is running Node, and it prints the version to prove it.
+            - figure "live" [ref=e116]:
+              - generic [ref=e123]:
+                - generic [ref=e124]:
+                  - generic [ref=e125]:
+                    - generic [ref=e126]:
+                      - generic [ref=e127]: server
+                      - generic [ref=e128]: server-card.tsx
+                    - generic [ref=e130]:
+                      - paragraph [ref=e131]: Rendered in Node.js v26.2.0
+                      - paragraph [ref=e132]: at 20 Aug 2026, 19:47:42 UTC, then cached. Refresh the page — this card doesn’t re-render, it gets re-served.
+                    - list [ref=e133]:
+                      - listitem [ref=e134]:
+                        - generic [ref=e135]: –
+                        - text: can query databases, read secrets
+                      - listitem [ref=e136]:
+                        - generic [ref=e137]: –
+                        - text: ships 0 kB of JavaScript
+                      - listitem [ref=e138]:
+                        - generic [ref=e139]: –
+                        - text: cannot use state or onClick
+                  - generic [ref=e140]:
+                    - generic [ref=e141]:
+                      - generic [ref=e142]: client
+                      - generic [ref=e143]: client-card.tsx
+                    - generic [ref=e145]:
+                      - generic [ref=e146]:
+                        - button "Click me" [ref=e147] [cursor=pointer]
+                        - paragraph [ref=e148]: "0"
+                      - paragraph [ref=e149]: This button works because this component hydrated in your browser.
+                    - list [ref=e150]:
+                      - listitem [ref=e151]:
+                        - generic [ref=e152]: –
+                        - text: can use state, effects, onClick
+                      - listitem [ref=e153]:
+                        - generic [ref=e154]: –
+                        - text: ships JavaScript (that’s the deal)
+                      - listitem [ref=e155]:
+                        - generic [ref=e156]: –
+                        - text: cannot read secrets — it lives in your tab
+                - paragraph [ref=e157]: props cross the boundary as serialized data — the import graph decides which side a component runs on.
+              - generic [ref=e159]:
+                - group [ref=e160]:
+                  - generic "server-card.tsx + client-card.tsx" [ref=e161] [cursor=pointer]:
+                    - generic [ref=e162]: ▸
+                    - text: server-card.tsx + client-card.tsx
+                - generic [ref=e163]:
+                  - link "docs" [ref=e164] [cursor=pointer]:
+                    - /url: https://nextjs.org/docs/app/getting-started/server-and-client-components
+                    - generic [ref=e165]: ↗
+                    - text: docs
+                  - link "source" [ref=e166] [cursor=pointer]:
+                    - /url: https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/boundary
+                    - generic [ref=e167]: ↗
+                    - text: source
+            - complementary [ref=e168]: /* The error that sends everyone here is “useState only works in a Client Component”. The server isn’t being difficult. It has no clicks to listen for. */
+        - region [ref=e170]:
+          - generic [ref=e174]:
+            - heading "02caching & revalidation" [level=2] [ref=e175]: 02·caching & revalidation
+            - heading "It’s either cached or it isn’t." [level=2] [ref=e176]
+            - generic [ref=e177]:
+              - paragraph [ref=e178]:
+                - text: We believed it, too — hit or miss, there or not. But “cached” is not a state a page is in; it is a bake with a lifespan.
+                - code [ref=e179]: use cache
+                - text: bakes a component’s output into the page’s static shell — one copy, served to everyone — and a cache tag is the handle you pull to throw that copy away. Pulling it empties the shelf and lights no oven. The fresh page is baked when the next request asks for one, and not a moment before.
+              - paragraph [ref=e180]: The stamp below is that copy — this page’s own cache entry, wearing a six-character fingerprint so you can tell one bake from the next. Press the button and a fresh bake lands for every visitor, in the time it takes the label to change back. It feels like one event.
+              - paragraph [ref=e181]:
+                - text: "It is three. Flip the switch and run it again in slow motion — the panel narrates each event as it happens. Watch the color: it changes twice, not once, and that gap is what your cache logs are naming. Press the button here and the next request logs"
+                - code [ref=e182]: REVALIDATED
+                - text: "— reason:"
+                - code [ref=e183]: tag-based deletion
+                - text: — because that request was the refill.
+                - code [ref=e184]: STALE
+                - text: "is the same gap handled softly: the old bake served while a fresh one is in the oven."
+            - figure [ref=e186]:
+              - generic [ref=e187]:
+                - generic [ref=e188]: live
+                - generic [ref=e192]:
+                  - generic [ref=e193] [cursor=pointer]: slow motion
+                  - switch "slow motion" [ref=e194] [cursor=pointer]
+              - generic [ref=e196]:
+                - generic [ref=e197]:
+                  - generic [ref=e200]:
+                    - paragraph [ref=e201]:
+                      - text: bake
+                      - generic [ref=e203]: "#160305"
+                    - generic [ref=e205]:
+                      - term [ref=e206]: baked
+                      - definition [ref=e207]: 20 Aug 2026, 19:47:42 UTC
+                  - status [ref=e208]:
+                    - generic [ref=e210]:
+                      - term [ref=e211]: served
+                      - definition [ref=e212]:
+                        - generic [ref=e213]: from the static shell — the same entry every visitor gets
+                - paragraph [ref=e215]:
+                  - generic [ref=e216]: throws this page’s cache entry away and bakes a fresh one — for every visitor, immediately.
+              - button "Re-bake this page" [ref=e220] [cursor=pointer]
+              - generic [ref=e224]:
+                - group [ref=e225]:
+                  - generic "bake.ts + actions.ts + the ask" [ref=e226] [cursor=pointer]:
+                    - generic [ref=e227]: ▸
+                    - text: bake.ts + actions.ts + the ask
+                - generic [ref=e228]:
+                  - link "docs" [ref=e229] [cursor=pointer]:
+                    - /url: https://nextjs.org/docs/app/getting-started/caching
+                    - generic [ref=e230]: ↗
+                    - text: docs
+                  - link "source" [ref=e231] [cursor=pointer]:
+                    - /url: https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/shell
+                    - generic [ref=e232]: ↗
+                    - text: source
+            - complementary [ref=e233]: /* In your app, the two renders behind one press would read the same database and agree — no visitor would ever see the seam. The bake here is a random color value precisely so two renders can never agree. Watching a cache work requires caching something that never repeats. */
+        - region [ref=e235]:
+          - generic [ref=e239]:
+            - heading "03streaming & suspense" [level=2] [ref=e240]: 03·streaming & suspense
+            - heading "I’ll fetch it all first, then render." [level=2] [ref=e241]
+            - generic [ref=e242]:
+              - paragraph [ref=e243]: Not any more. The static shell ships immediately, and each slow part leaves behind a fallback — the gray placeholder you’ll watch below. As each part finishes, the server streams its finished HTML down the same response, and the placeholder gives way. The fast parts don’t wait for the slow ones.
+              - paragraph [ref=e244]: "These three rows are slow on purpose. The delays are hardcoded — the only faked thing on this page — but the streaming is not: each row is a Server Component that genuinely finishes on the server and lands when it is done. Run it again and watch the order hold. What you are seeing is the server finishing, not an animation pretending to."
+            - figure "live" [ref=e246]:
+              - generic [ref=e253]:
+                - generic [ref=e254]:
+                  - paragraph [ref=e255]: a quick database query
+                  - paragraph [ref=e256]: 400 ms · landed 19:47:55 UTC
+                - generic [ref=e257]:
+                  - paragraph [ref=e258]: a third-party API with opinions
+                  - paragraph [ref=e259]: 1100 ms · landed 19:47:56 UTC
+                - paragraph [ref=e262]: cooking (~1900 ms)
+              - generic [ref=e264]:
+                - button "Run it again" [ref=e265] [cursor=pointer]
+                - paragraph [ref=e266]: "run #0 · via ?stream= in the URL"
+              - generic [ref=e268]:
+                - group [ref=e269]:
+                  - generic "slow-row.tsx" [ref=e270] [cursor=pointer]:
+                    - generic [ref=e271]: ▸
+                    - text: slow-row.tsx
+                - generic [ref=e272]:
+                  - link "docs" [ref=e273] [cursor=pointer]:
+                    - /url: https://nextjs.org/docs/app/api-reference/file-conventions/loading
+                    - generic [ref=e274]: ↗
+                    - text: docs
+                  - link "source" [ref=e275] [cursor=pointer]:
+                    - /url: https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/stream
+                    - generic [ref=e276]: ↗
+                    - text: source
+            - complementary [ref=e277]: /* loading.tsx is this same mechanism wearing route-sized clothes. One file, and the whole segment gets a fallback. */
+        - region [ref=e279]:
+          - generic [ref=e283]:
+            - heading "04server actions & cookies" [level=2] [ref=e284]: 04·server actions & cookies
+            - heading "You need an API route for that." [level=2] [ref=e285]
+            - generic [ref=e286]:
+              - paragraph [ref=e287]:
+                - text: You need a function. A Server Action lives on the server and plugs straight into a form’s
+                - code [ref=e288]: action
+                - text: ": no endpoint to design, no fetch to write, no JSON contract to keep in sync. Press the button below and follow the trip: the form calls the function, the function adds one, and Next.js re-renders the page around the new number."
+              - paragraph [ref=e289]: This one keeps its count in a cookie your browser carries but your JavaScript cannot open — that is what httpOnly means — and a Server Component reads it back. The JavaScript in your tab never touches the value, and could not if it tried.
+            - figure "live" [ref=e291]:
+              - generic [ref=e298]:
+                - generic [ref=e299]:
+                  - paragraph [ref=e300]: 0presses
+                  - paragraph [ref=e301]: read server-side from an httpOnly cookie — your JavaScript can’t even see it
+                - generic [ref=e302]:
+                  - button "Press the button" [ref=e304] [cursor=pointer]
+                  - paragraph [ref=e305]: works with JavaScript switched off — try it, we’ll wait
+              - generic [ref=e307]:
+                - group [ref=e308]:
+                  - generic "actions.ts + press-form.tsx" [ref=e309] [cursor=pointer]:
+                    - generic [ref=e310]: ▸
+                    - text: actions.ts + press-form.tsx
+                - generic [ref=e311]:
+                  - link "docs" [ref=e312] [cursor=pointer]:
+                    - /url: https://nextjs.org/docs/app/getting-started/updating-data
+                    - generic [ref=e313]: ↗
+                    - text: docs
+                  - link "source" [ref=e314] [cursor=pointer]:
+                    - /url: https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/mutation
+                    - generic [ref=e315]: ↗
+                    - text: source
+            - complementary [ref=e316]:
+              - text: /* Somewhere a tutorial is teaching you to build
+              - code [ref=e317]: /api/increment
+              - text: . It will teach you to validate the request body, handle the 405, and write a fetch wrapper with a retry. All of it correct. All of it in service of adding one to a number. */
+        - region [ref=e319]:
+          - generic [ref=e323]:
+            - heading "05imageresponse & route handlers" [level=2] [ref=e324]: 05·imageresponse & route handlers
+            - heading "I’ll need to design a card for every page." [level=2] [ref=e325]
+            - generic [ref=e326]:
+              - paragraph [ref=e327]:
+                - text: You’ll design one.
+                - code [ref=e328]: ImageResponse
+                - text: "turns JSX — the same markup your components are made of — into a PNG the moment a request asks, and it is a route handler like any other: query in, image out. One file draws the card for every page you will ever publish."
+              - paragraph [ref=e329]: Type a title and the server draws it. The same endpoint drew the link preview for this page — paste the URL into Slack and check us against it.
+            - figure "working" [ref=e331]:
+              - generic [ref=e338]:
+                - paragraph [ref=e339]: GET /api/og?title=The%20unofficial%20live%20playground%20for%20Next.js%20%26%20Vercel
+                - generic [ref=e340]: asking the server for a PNG…
+                - generic [ref=e344]:
+                  - generic [ref=e345]: og.png · 1200 × 630
+                  - link "open the file ↗" [ref=e346] [cursor=pointer]:
+                    - /url: /api/og?title=The%20unofficial%20live%20playground%20for%20Next.js%20%26%20Vercel
+                - paragraph [ref=e347]: JSX → Satori (flexbox only) → PNG · rendered per request, cached by nobody
+              - generic [ref=e349]:
+                - generic [ref=e350]:
+                  - generic [ref=e351]: Title for the generated image
+                  - textbox "Title for the generated image" [ref=e352]:
+                    - /placeholder: The unofficial live playground for Next.js & Vercel
+                - button "Rendering…" [disabled]
+              - generic [ref=e354]:
+                - group [ref=e355]:
+                  - generic "app/api/og/route.tsx" [ref=e356] [cursor=pointer]:
+                    - generic [ref=e357]: ▸
+                    - text: app/api/og/route.tsx
+                - generic [ref=e358]:
+                  - link "docs" [ref=e359] [cursor=pointer]:
+                    - /url: https://nextjs.org/docs/app/api-reference/functions/image-response
+                    - generic [ref=e360]: ↗
+                    - text: docs
+                  - link "source" [ref=e361] [cursor=pointer]:
+                    - /url: https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/api/og
+                    - generic [ref=e362]: ↗
+                    - text: source
+            - complementary [ref=e363]: /* Every repo has an og-image-final-v2.png in it somewhere, quietly out of date since the last time the headline changed. Nobody is coming to update it, and now nobody has to. */
+      - generic [ref=e364]: §
+      - region [ref=e367]:
+        - generic [ref=e371]:
+          - heading "The syllabus grows" [level=2] [ref=e372]
+          - heading "Still to build." [level=2] [ref=e373]
+          - paragraph [ref=e374]: The plan is everything Next.js can do, and as much of Vercel as can be proved from inside a web page. One chapter at a time, in public.
+          - list [ref=e375]:
+            - listitem [ref=e376]:
+              - generic [ref=e377]: +
+              - text: navigation & prefetching
+            - listitem [ref=e378]:
+              - generic [ref=e379]: +
+              - text: dynamic routes & params
+            - listitem [ref=e380]:
+              - generic [ref=e381]: +
+              - text: next/image, fonts & the asset pipeline
+            - listitem [ref=e382]:
+              - generic [ref=e383]: +
+              - text: metadata, sitemaps & SEO
+            - listitem [ref=e384]:
+              - generic [ref=e385]: +
+              - text: optimistic UI & useActionState
+            - listitem [ref=e386]:
+              - generic [ref=e387]: +
+              - text: proxy, redirects & rewrites
+            - listitem [ref=e388]:
+              - generic [ref=e389]: +
+              - text: error, not-found & recovery
+            - listitem [ref=e390]:
+              - generic [ref=e391]: +
+              - text: parallel & intercepted routes
+            - listitem [ref=e392]:
+              - generic [ref=e393]: +
+              - text: i18n & locale routing
+            - listitem [ref=e394]:
+              - generic [ref=e395]: +
+              - text: view transitions
+            - listitem [ref=e396]:
+              - generic [ref=e397]: +
+              - text: ISR & pages baked on demand
+            - listitem [ref=e398]:
+              - generic [ref=e399]: +
+              - text: edge network & geolocation
+            - listitem [ref=e400]:
+              - generic [ref=e401]: +
+              - text: feature flags & Edge Config
+            - listitem [ref=e402]:
+              - generic [ref=e403]: +
+              - text: web vitals, measured live
+            - listitem [ref=e404]:
+              - generic [ref=e405]: +
+              - text: preview deploys & instant rollback
+            - listitem [ref=e406]:
+              - generic [ref=e407]: +
+              - text: cron, queues & background work
+            - listitem [ref=e408]:
+              - generic [ref=e409]: +
+              - text: blob, key-value & Postgres
+          - paragraph [ref=e410]:
+            - link "the contents of the lab →" [ref=e411] [cursor=pointer]:
+              - /url: /lab
+          - complementary [ref=e412]:
+            - text: "Built in the open: the"
+            - link "repo is public" [ref=e413] [cursor=pointer]:
+              - /url: https://github.com/hasToggle/hasToggle.dev
+            - text: ", and the building is done with AI — Conductor orchestrating Claude Code, with"
+            - link "every prompt and checkpoint published" [ref=e414] [cursor=pointer]:
+              - /url: https://github.com/hasToggle/hasToggle.dev-checkpoints
+            - text: as they happen. You get the playground and the making-of.
+      - region [ref=e416]:
+        - generic [ref=e420]:
+          - heading "The cohort" [level=2] [ref=e421]
+          - heading "Some things move faster with a coach." [level=2] [ref=e422]
+          - paragraph [ref=e423]: "I spent years as a lead web coach in bootcamps, watching the same walls catch everyone — hydration, caching, the boundary, all the chapters above. The playground shows you the wall. The cohort gets you over it: small paid groups, building production apps on exactly these topics, with the same AI workflow that built this page."
+          - generic [ref=e424]:
+            - link "Tell me when seats open" [ref=e425] [cursor=pointer]:
+              - /url: "#digest"
+            - paragraph [ref=e426]: //Paid, small, and honest about both.
+      - region [ref=e427]:
+        - generic [ref=e429]:
+          - heading "The weekly build" [level=2] [ref=e430]
+          - heading "One new chapter every Monday." [level=3] [ref=e431]
+          - paragraph [ref=e432]: "A new chapter lands in the lab. The write-up lands in your inbox: what it shows, why it matters, when to reach for it."
+          - paragraph [ref=e433]: Cohort seats open to the list first.
+          - generic [ref=e435]:
+            - generic [ref=e436]:
+              - generic [ref=e437]: Email address
+              - textbox "Email address" [ref=e438]:
+                - /placeholder: you@example.com
+            - button "Add me" [ref=e439] [cursor=pointer]
+          - paragraph [ref=e440]: //One email a week. Unsubscribing is one click, and it works the first time.
+      - region [ref=e441]:
+        - generic [ref=e442]:
+          - generic [ref=e443]:
+            - heading "Frequently asked questions" [level=2] [ref=e444]
+            - heading "Before you poke anything." [level=2] [ref=e445]
+          - generic [ref=e446]:
+            - generic [ref=e448]:
+              - heading "What exactly am I looking at?" [level=3] [ref=e449]
+              - paragraph [ref=e451]: A place to find out what happens when you press things. Each chapter pairs a demo with its source — press the button, watch the cache expire, read the code that did it. The plan is to cover everything Next.js and Vercel can do, one chapter at a time. The official docs are good; this is the lab bench that belongs next to them.
+            - generic [ref=e453]:
+              - heading "Is this official?" [level=3] [ref=e454]
+              - paragraph [ref=e456]: No. Vercel hasn’t endorsed this site, and nobody on the Next.js team sees a chapter before it ships. The mistakes are ours, and so is the freedom to say which parts are confusing.
+            - generic [ref=e458]:
+              - heading "Is this free?" [level=3] [ref=e459]
+              - generic [ref=e460]:
+                - paragraph [ref=e461]: "The playground is free. Completely, permanently, no-asterisk free. The paid thing is coaching: small cohorts where you build production apps with me on exactly these topics, AI workflow included. The page teaches; the cohort makes it stick."
+                - paragraph [ref=e462]: //The playground doesn’t get better if you buy the cohort. It’s the same page either way.
+            - generic [ref=e464]:
+              - heading "Who is this for?" [level=3] [ref=e465]
+              - paragraph [ref=e467]: Anyone from “I want to build things but don’t code yet” to “I have opinions about caching strategies”. If you’ve ever refreshed a page wondering why your update didn’t show up, or sprinkled “use client” everywhere just to be safe, you’re the audience. Beginners get footing. Seniors get a reference they can poke.
+            - generic [ref=e469]:
+              - heading "Why not just read the docs?" [level=3] [ref=e470]
+              - paragraph [ref=e472]: Do read the docs — we link them from every chapter, on purpose. But reading about streaming and watching three skeletons resolve in delay order are different kinds of knowing. Docs tell you how it works. A playground lets you find out what happens.
+            - generic [ref=e474]:
+              - heading "How is this site built?" [level=3] [ref=e475]
+              - generic [ref=e476]:
+                - paragraph [ref=e477]:
+                  - text: In public, with AI. The
+                  - link "repo is on GitHub" [ref=e478] [cursor=pointer]:
+                    - /url: https://github.com/hasToggle/hasToggle.dev
+                  - text: . The building happens in Conductor, with Claude Code doing the typing, and Entire.io publishes the process — prompts, checkpoints, wrong turns included — to
+                  - link "a second public repo" [ref=e479] [cursor=pointer]:
+                    - /url: https://github.com/hasToggle/hasToggle.dev-checkpoints
+                  - text: . This site is its own biggest demo.
+                - paragraph [ref=e480]: //The AI writes the code. Someone still has to decide what ships, and that part hasn’t been automated.
+            - generic [ref=e482]:
+              - heading "What lands in my inbox on Monday?" [level=3] [ref=e483]
+              - paragraph [ref=e485]: One new chapter and the write-up that goes with it. Five minutes, no filler, and nothing you have to read on a schedule.
+    - contentinfo [ref=e486]:
+      - generic [ref=e487]:
+        - generic [ref=e488]:
+          - generic [ref=e493]:
+            - img "hasToggle" [ref=e500]
+            - generic [ref=e504]:
+              - heading "Playground" [level=3] [ref=e505]
+              - list [ref=e506]:
+                - listitem [ref=e507]:
+                  - link "FAQs" [ref=e508] [cursor=pointer]:
+                    - /url: /#faq
+                - listitem [ref=e509]:
+                  - link "Source on GitHub (opens in a new tab)" [ref=e510] [cursor=pointer]:
+                    - /url: https://github.com/hasToggle/hasToggle.dev
+                    - text: Source on GitHub
+                    - generic [ref=e515]: (opens in a new tab)
+                - listitem [ref=e516]:
+                  - link "Prompts and checkpoints (opens in a new tab)" [ref=e517] [cursor=pointer]:
+                    - /url: https://github.com/hasToggle/hasToggle.dev-checkpoints
+                    - text: Prompts and checkpoints
+                    - generic [ref=e522]: (opens in a new tab)
+          - generic [ref=e523]:
+            - generic [ref=e529]: © 2026 hasToggle.
+            - generic [ref=e540]: Come back Monday. There’ll be something new to poke.
+            - generic [ref=e543]:
+              - link "Read the hasToggle source on GitHub" [ref=e552] [cursor=pointer]:
+                - /url: https://github.com/hasToggle/hasToggle.dev
+              - link "Visit Eric on YouTube" [ref=e555] [cursor=pointer]:
+                - /url: https://www.youtube.com/@hastoggle
+              - link "DM Eric on X" [ref=e558] [cursor=pointer]:
+                - /url: https://x.com/hasToggle
+              - link "Connect with Eric on LinkedIn" [ref=e561] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/ernst-stolz
+        - generic [ref=e564]: hasToggle is an independent project, not affiliated with or endorsed by Vercel. Next.js and Vercel are trademarks of Vercel, Inc.
+  - region "Notifications alt+T"
+  - alert [ref=e565]
