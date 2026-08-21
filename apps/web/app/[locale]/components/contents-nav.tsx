@@ -1,13 +1,28 @@
 import { SHIPPED } from "../lab/syllabus";
 import { Container } from "./container";
-import { Link } from "./marketing-link";
+
+/**
+ * The landing page renders exactly these five exhibits inline (the demo
+ * imports in page.tsx are the source of truth); chapters shipped after 05
+ * live in the lab only. With site navigation in the top nav, this bar is
+ * pure in-page anchors — the shop window's own contents.
+ */
+const LANDING_SLUGS: ReadonlySet<string> = new Set([
+  "boundary",
+  "caching",
+  "og-images",
+  "server-actions",
+  "streaming",
+]);
 
 const CHAPTERS: readonly { href: string; label: string; n: string }[] =
-  SHIPPED.map((chapter) => ({
-    href: `#demo-${chapter.n}`,
-    label: chapter.navLabel,
-    n: chapter.n,
-  }));
+  SHIPPED.filter((chapter) => LANDING_SLUGS.has(chapter.slug)).map(
+    (chapter) => ({
+      href: `#demo-${chapter.n}`,
+      label: chapter.navLabel,
+      n: chapter.n,
+    })
+  );
 
 /**
  * The contents row, slim enough to pin. It sits where the hero's contents
@@ -63,25 +78,6 @@ export function ContentsNav() {
                   </a>
                 </li>
               ))}
-              {/* The row's one page link: the chapters above are anchors into
-                  this page; the lab is where the collection lives. next/link,
-                  so hovering it prefetches — which is on-message. */}
-              <li className="shrink-0">
-                <Link
-                  className="group flex items-baseline gap-2 text-foreground/70 transition-colors hover:text-foreground"
-                  href="/lab"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="font-mono text-muted-foreground text-xs transition-colors group-hover:text-ht-cyan-700 dark:group-hover:text-ht-cyan-300"
-                  >
-                    →
-                  </span>
-                  <span className="font-display text-sm tracking-tight underline decoration-1 decoration-transparent underline-offset-[6px] transition-[text-decoration-color] duration-300 group-hover:decoration-ht-cyan-700/70 dark:group-hover:decoration-ht-cyan-300/70">
-                    The lab
-                  </span>
-                </Link>
-              </li>
             </ol>
           </div>
         </div>
