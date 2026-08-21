@@ -3,6 +3,7 @@ import { Container } from "./container";
 import { Logo } from "./logo";
 import { Link } from "./marketing-link";
 import { PlusGrid, PlusGridItem, PlusGridRow } from "./plus-grid";
+import { ThemeSwitch } from "./theme-switch";
 
 function SitemapHeading({ children }: { children: React.ReactNode }) {
   return (
@@ -218,7 +219,10 @@ export function Footer() {
               </div>
             </div>
             <div className="flex">
-              <PlusGridItem className="flex items-center gap-8 py-3">
+              {/* The utility corner: the theme pill boards the social row —
+                  controls beside pointers, none of it in the top nav. */}
+              <PlusGridItem className="flex items-center gap-6 py-3">
+                <ThemeSwitch />
                 <SocialLinks />
               </PlusGridItem>
             </div>

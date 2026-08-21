@@ -1,7 +1,6 @@
 import { Logo } from "./logo";
 import { Link } from "./marketing-link";
 import { PlusGrid, PlusGridItem, PlusGridRow } from "./plus-grid";
-import { ThemeSwitch } from "./theme-switch";
 
 const links: { href: string; label: string }[] = [
   { href: "/lab", label: "The lab" },
@@ -9,15 +8,16 @@ const links: { href: string; label: string }[] = [
 ];
 
 function Nav({ variant }: { variant: "light" | "dark" }) {
-  // Hidden on phones: at 390px the two labels wrap and stack the logo —
-  // the crowding this layout exists to avoid. The footer's sitemap carries
-  // The lab and Blog there.
+  // The items sit adjacent on purpose: the plus grid frames a unit the way
+  // it frames the logo only when neighbors touch — the first item takes the
+  // leading corners and the chain shares the rest. A gap breaks the frame
+  // into stray marks.
   return (
-    <nav className="relative hidden sm:flex">
+    <nav className="relative flex">
       {links.map(({ href, label }) => (
         <PlusGridItem className="relative flex" key={href} variant={variant}>
           <Link
-            className={`flex items-center whitespace-nowrap px-4 py-3 font-medium text-base ${variant === "dark" ? "text-white" : "text-foreground"} bg-blend-multiply hover:bg-black/2.5`}
+            className={`flex items-center whitespace-nowrap px-3 py-3 font-medium text-sm sm:px-4 sm:text-base ${variant === "dark" ? "text-white" : "text-foreground"} bg-blend-multiply hover:bg-black/2.5`}
             href={href}
           >
             {label}
@@ -42,11 +42,8 @@ export function Navbar({
           className="relative flex justify-between"
           variant={variant}
         >
-          {/* Navigation travels with the identity: destinations on the left,
-              beside the logo — never sharing the corner with the controls,
-              which keeps the two hierarchies apart by geography. */}
-          <div className="relative flex items-center gap-2 sm:gap-4">
-            <PlusGridItem className="shrink-0 py-3" variant={variant}>
+          <div className="relative flex gap-6">
+            <PlusGridItem className="py-3" variant={variant}>
               <Link href="/" title="Home">
                 <Logo
                   className="inline-block h-6"
@@ -54,17 +51,15 @@ export function Navbar({
                 />
               </Link>
             </PlusGridItem>
-            <Nav variant={variant} />
             {banner ? (
               <div className="relative hidden items-center py-3 lg:flex">
                 {banner}
               </div>
             ) : null}
           </div>
-          {/* The corner every editor keeps its view switches in. */}
-          <div className="relative flex items-center">
-            <ThemeSwitch variant={variant} />
-          </div>
+          {/* Destinations hold the right edge; the theme control lives in
+              the footer's utility row now, so nothing shares this corner. */}
+          <Nav variant={variant} />
         </PlusGridRow>
       </PlusGrid>
     </header>
