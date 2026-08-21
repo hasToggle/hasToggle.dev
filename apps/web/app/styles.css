@@ -408,3 +408,18 @@
 .ht-replay-note.ht-lit:not(:empty)::before {
   content: "●" / "";
 }
+
+/* The typography plugin dresses .prose inline code in literal backticks and
+   bold (its `code::before/::after { content: "`" }` defaults) — which reads
+   as backticks the author forgot to remove. Articles wear the site's
+   InlineCode look instead (same utilities as (playground)/inline-code.tsx).
+   The :not(pre *) guard leaves Shiki's fenced blocks untouched, and :where
+   keeps specificity flat so the unlayered rule wins the cascade. */
+.prose :where(code):not(:where(pre *))::before,
+.prose :where(code):not(:where(pre *))::after {
+  content: none;
+}
+
+.prose :where(code):not(:where(pre *)) {
+  @apply whitespace-nowrap rounded-md border border-foreground/10 bg-muted/60 px-1.5 py-0.5 font-mono font-normal text-[0.85em] text-foreground;
+}
