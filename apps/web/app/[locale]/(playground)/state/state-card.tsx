@@ -20,6 +20,13 @@ const SWEEP_MS = 240;
 const NOTE_MS = 1000;
 const NOTE_LINES: ReadonlySet<number> = new Set(Object.values(REPLAY_NOTES));
 
+/** Which history slot a landing line lights, in reading order. */
+const NOTE_INDEX: Readonly<Record<number, number>> = {
+  [REPLAY_NOTES.fn]: 0,
+  [REPLAY_NOTES.useState]: 1,
+  [REPLAY_NOTES.paint]: 2,
+};
+
 interface StateCardProps {
   /** Narrate mode: a press turns the card over and replays itself. */
   narrate: boolean;
@@ -47,7 +54,7 @@ export function StateCard({ narrate, panelPass, replayCode }: StateCardProps) {
 
   const badgeRef = useRef<HTMLSpanElement>(null);
   const codeRef = useRef<HTMLDivElement>(null);
-  const noteRef = useRef<HTMLParagraphElement>(null);
+  const notesRef = useRef<HTMLOListElement>(null);
   const numberRef = useRef<HTMLParagraphElement>(null);
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const replayingRef = useRef(false);
@@ -82,9 +89,20 @@ export function StateCard({ narrate, panelPass, replayCode }: StateCardProps) {
     timeoutsRef.current.push(setTimeout(fn, ms));
   };
 
-  const writeNote = (text: string) => {
-    if (noteRef.current) {
-      noteRef.current.textContent = text;
+  const noteItems = (): HTMLLIElement[] =>
+    notesRef.current ? [...notesRef.current.querySelectorAll("li")] : [];
+
+  const lightNote = (index: number | undefined) => {
+    if (index === undefined) {
+      return;
+    }
+    noteItems()[index]?.classList.add("ht-lit");
+  };
+
+  const clearNotes = () => {
+    for (const item of noteItems()) {
+      item.textContent = "";
+      item.classList.remove("ht-lit");
     }
   };
 
@@ -99,42 +117,42 @@ export function StateCard({ narrate, panelPass, replayCode }: StateCardProps) {
       return;
     }
 
-    // Read at fire time: the render an annotation names has happened by the
-    // time its timeout runs.
-    const noteFor = (line: number): string | null => {
-      if (line === REPLAY_NOTES.fn) {
-        return stepRender(renderTally);
-      }
-      if (line === REPLAY_NOTES.useState) {
-        return stepReturns(next);
-      }
-      if (line === REPLAY_NOTES.paint) {
-        return stepPaints(next);
-      }
-      return null;
-    };
-
     replayingRef.current = true;
     timeoutsRef.current = [];
     setFlipped(true);
+    // The whole record is on the card before the walk begins — all three
+    // annotations, dimmed — so a reader can take them in at their own pace.
+    // Values are read at fire time; the render this history names has
+    // happened by mid-flip.
+    schedule(
+      () => {
+        const texts = [
+          stepRender(renderTally),
+          stepReturns(next),
+          stepPaints(next),
+        ];
+        noteItems().forEach((item, index) => {
+          item.textContent = texts[index] ?? "";
+          item.classList.remove("ht-lit");
+        });
+      },
+      Math.round(FLIP_MS / 2)
+    );
     // The walk re-runs the component the way a render does: top to bottom,
-    // every line with code on it. An annotation holds until the next one
-    // replaces it, so the sweep reads as one continuous execution.
+    // every line with code on it — dwelling where a history line lights up,
+    // and each stays lit once lit.
     let at = FLIP_MS;
     for (const line of REPLAY_WALK) {
       schedule(() => {
         setActiveLine(line);
-        const note = noteFor(line);
-        if (note !== null) {
-          writeNote(note);
-        }
+        lightNote(NOTE_INDEX[line]);
       }, at);
       at += NOTE_LINES.has(line) ? NOTE_MS : SWEEP_MS;
     }
     schedule(() => {
       setFlipped(false);
       setActiveLine(null);
-      writeNote("");
+      clearNotes();
       // The paint happened while the card was turned; the wash marks its
       // reveal (re-triggered by hand — a keyed remount already played it
       // behind the card's back).
@@ -175,16 +193,23 @@ export function StateCard({ narrate, panelPass, replayCode }: StateCardProps) {
               flipped && "pointer-events-none"
             )}
           >
-            <div className="inline-flex items-stretch overflow-hidden rounded-full border border-foreground/15 shadow-md">
+            {/* One dark pill: the button is the long segment; the count sits
+                behind a short hairline pipe, not a full-height seam — output
+                riding on the same control it answers. */}
+            <div className="inline-flex items-stretch overflow-hidden rounded-full bg-primary shadow-md">
               <button
-                className="bg-primary px-5 py-[calc(0.5rem-1px)] font-medium text-base text-primary-foreground transition-colors hover:bg-primary/90"
+                className="px-8 py-[calc(0.5rem-1px)] font-medium text-base text-primary-foreground transition-colors hover:bg-primary-foreground/10"
                 onClick={handleClick}
                 type="button"
               >
                 +1
               </button>
+              <span
+                aria-hidden="true"
+                className="my-1.5 w-px self-stretch bg-primary-foreground/25"
+              />
               <p
-                className="ht-land flex min-w-14 items-center justify-center border-foreground/15 border-l bg-background px-5 font-display font-medium text-foreground text-xl tabular-nums tracking-tight"
+                className="ht-land flex min-w-12 items-center justify-center px-4 font-display font-medium text-base text-primary-foreground tabular-nums tracking-tight"
                 key={count}
                 ref={numberRef}
               >
@@ -206,11 +231,18 @@ export function StateCard({ narrate, panelPass, replayCode }: StateCardProps) {
             )}
           >
             <div ref={codeRef}>{replayCode}</div>
-            <p
+            {/* The history, whole from the start: three dimmed lines that
+                light as the walk reaches them and stay lit — a record to
+                read at your own pace, not a ticker. */}
+            <ol
               aria-live="polite"
-              className="mt-2 min-h-5 font-mono text-ht-cyan-700 text-xs/5 dark:text-ht-cyan-300"
-              ref={noteRef}
-            />
+              className="mt-2 grid gap-1 font-mono text-xs/5"
+              ref={notesRef}
+            >
+              <li className="ht-replay-note min-h-5" />
+              <li className="ht-replay-note min-h-5" />
+              <li className="ht-replay-note min-h-5" />
+            </ol>
             <p className="mt-1 font-mono text-[0.65rem] text-muted-foreground/70">
               the last click, replayed slow · values real
             </p>
