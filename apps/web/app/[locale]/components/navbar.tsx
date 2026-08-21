@@ -17,7 +17,7 @@ function Nav({ variant }: { variant: "light" | "dark" }) {
       {links.map(({ href, label }) => (
         <PlusGridItem className="relative flex" key={href} variant={variant}>
           <Link
-            className={`flex items-center whitespace-nowrap px-3 py-3 font-medium text-sm sm:px-4 sm:text-base ${variant === "dark" ? "text-white" : "text-foreground"} bg-blend-multiply hover:bg-black/2.5`}
+            className={`flex items-center whitespace-nowrap px-3 py-3 font-medium text-sm transition-colors sm:px-4 sm:text-base ${variant === "dark" ? "text-white" : "text-foreground"} hover:bg-black/2.5 dark:hover:bg-white/5`}
             href={href}
           >
             {label}

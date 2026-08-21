@@ -68,29 +68,37 @@ function SitemapLink({
 }
 
 function Sitemap() {
-  // Two columns wide because the longest label plus its icon overflows one,
-  // and the columns beside it are empty — the extra width costs nothing.
+  // Two categories, two columns each on lg (the longest label plus its icon
+  // overflows a single subgrid column): where the site goes, and how it is
+  // made. "Built in the open" is the roadmap aside's own phrase.
   return (
-    <div className="col-span-2">
-      <SitemapHeading>Playground</SitemapHeading>
-      <SitemapLinks>
-        <SitemapLink href="/lab">The lab</SitemapLink>
-        <SitemapLink href="/blog">Blog</SitemapLink>
-        <SitemapLink href="/#faq">FAQs</SitemapLink>
-        <SitemapLink
-          href="https://github.com/hasToggle/hasToggle.dev"
-          target="_blank"
-        >
-          Source on GitHub
-        </SitemapLink>
-        <SitemapLink
-          href="https://github.com/hasToggle/hasToggle.dev-checkpoints"
-          target="_blank"
-        >
-          Prompts and checkpoints
-        </SitemapLink>
-      </SitemapLinks>
-    </div>
+    <>
+      <div className="lg:col-span-2">
+        <SitemapHeading>Playground</SitemapHeading>
+        <SitemapLinks>
+          <SitemapLink href="/lab">The lab</SitemapLink>
+          <SitemapLink href="/blog">Blog</SitemapLink>
+          <SitemapLink href="/#faq">FAQs</SitemapLink>
+        </SitemapLinks>
+      </div>
+      <div className="lg:col-span-2">
+        <SitemapHeading>Built in the open</SitemapHeading>
+        <SitemapLinks>
+          <SitemapLink
+            href="https://github.com/hasToggle/hasToggle.dev"
+            target="_blank"
+          >
+            Source on GitHub
+          </SitemapLink>
+          <SitemapLink
+            href="https://github.com/hasToggle/hasToggle.dev-checkpoints"
+            target="_blank"
+          >
+            Prompts and checkpoints
+          </SitemapLink>
+        </SitemapLinks>
+      </div>
+    </>
   );
 }
 
@@ -220,9 +228,13 @@ export function Footer() {
             </div>
             <div className="flex">
               {/* The utility corner: the theme pill boards the social row —
-                  controls beside pointers, none of it in the top nav. */}
-              <PlusGridItem className="flex items-center gap-6 py-3">
+                  controls beside pointers, none of it in the top nav. Two
+                  adjacent items, so the grid draws its shared corners
+                  between them: the pluses are the separator. */}
+              <PlusGridItem className="flex items-center py-3 pr-5">
                 <ThemeSwitch />
+              </PlusGridItem>
+              <PlusGridItem className="flex items-center gap-8 py-3 pl-5">
                 <SocialLinks />
               </PlusGridItem>
             </div>

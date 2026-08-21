@@ -123,7 +123,11 @@ export function ThemeSwitch() {
     // gives the arrow keys their behaviour, so nothing is lost here.
     <div
       aria-label="Theme"
-      className="flex items-center rounded-full border border-foreground/10 bg-background p-0.5"
+      // Border only, no fill: the pill sits on the footer's muted band, and
+      // a background-colored fill popped against it in both themes. The
+      // active chip's inverted fill carries the state; the outline is
+      // enough to say "control".
+      className="flex items-center rounded-full border border-foreground/10 p-0.5"
       role="radiogroup"
     >
       {OPTIONS.map((option) => (
