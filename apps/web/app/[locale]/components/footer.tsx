@@ -231,10 +231,10 @@ export function Footer() {
                   controls beside pointers, none of it in the top nav. Two
                   adjacent items, so the grid draws its shared corners
                   between them: the pluses are the separator. */}
-              <PlusGridItem className="flex items-center py-3 pr-5">
+              <PlusGridItem className="flex items-center px-5 py-3">
                 <ThemeSwitch />
               </PlusGridItem>
-              <PlusGridItem className="flex items-center gap-8 py-3 pl-5">
+              <PlusGridItem className="flex items-center gap-8 px-5 py-3">
                 <SocialLinks />
               </PlusGridItem>
             </div>
