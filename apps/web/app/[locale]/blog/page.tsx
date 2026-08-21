@@ -11,7 +11,7 @@ import { Heading, Subheading } from "../components/text";
 
 export const metadata: Metadata = {
   description:
-    "Web development, told as stories — with props, a professor or two, and at least one avocado. Fundamentals are welcome here.",
+    "Stories about building for the web, told from experience — wrong turns included. Nothing is too fundamental to deserve a story.",
   metadataBase: new URL(env.NEXT_PUBLIC_WEB_URL),
   openGraph: {
     images: [
@@ -62,8 +62,8 @@ export default function BlogIndexPage() {
                 Articles.
               </Heading>
               <p className="mt-6 max-w-2xl text-foreground/75 text-lg leading-8">
-                Web development, told as stories — with props, a professor or
-                two, and at least one avocado. Fundamentals are welcome here.
+                Stories about building for the web, told from experience — wrong
+                turns included. Nothing is too fundamental to deserve a story.
               </p>
 
               <ul className="mt-14 max-w-3xl">

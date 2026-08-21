@@ -453,3 +453,15 @@ policy.** Founding rejection (2026-08-21): "Their own narratives about web
 development — fundamentals and peripherals welcome." as the index
 standfirst — accurate, and pure editorial meta, the direction notes read
 aloud. The shipped standfirst performs the lane instead of describing it.
+
+Second rejection, same day: "…with props, a professor or two, and at
+least one avocado." — in character, and overfit. It promoted one
+article's props into the surface's permanent chrome, which reads as a
+promise that future articles feature avocados and professors. They
+don't have to: the moves above are structural — props, a remembered
+scene, timing — not required furniture. **The chrome performs the
+register with material of its own; the articles' props belong to the
+articles.** The personal perspective is carried structurally instead:
+articles are narrated from the author's experience, and the page says
+so — the author sits in the article's metadata beside published and
+reading time.
