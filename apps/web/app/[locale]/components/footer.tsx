@@ -245,8 +245,29 @@ export function Footer() {
             token is 4.35:1, so the earlier fix moved in the right direction
             and stopped short. `text-foreground/60` is 5.11:1. */}
         <div className="pb-10 text-center text-foreground/60 text-xs/5">
-          hasToggle is an independent project, not affiliated with or endorsed
-          by Vercel. Next.js and Vercel are trademarks of Vercel, Inc.
+          {/* The imprint must be reachable from every page (§ 5 DDG: easily
+              recognizable, directly accessible) — this footer is that path. */}
+          <p>
+            <Link
+              className="transition-colors hover:text-foreground"
+              href="/legal/imprint"
+            >
+              Imprint
+            </Link>
+            <span aria-hidden="true" className="px-2">
+              ·
+            </span>
+            <Link
+              className="transition-colors hover:text-foreground"
+              href="/legal/privacy"
+            >
+              Privacy
+            </Link>
+          </p>
+          <p className="mt-2">
+            hasToggle is an independent project, not affiliated with or endorsed
+            by Vercel. Next.js and Vercel are trademarks of Vercel, Inc.
+          </p>
         </div>
       </Container>
     </footer>
