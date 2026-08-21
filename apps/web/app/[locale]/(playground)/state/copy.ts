@@ -20,9 +20,6 @@ export function stepPaints(asked: number): string {
   return `paints ${asked}`;
 }
 
-/** The deck's result chip: what the re-render action provably did. */
-export const RERENDER_CHIP = "re-rendered · count kept";
-
 /**
  * Banked with var-card.tsx for the /learn state lesson (design.md §5) —
  * the local-variable half of the story lives on the learning path, not in

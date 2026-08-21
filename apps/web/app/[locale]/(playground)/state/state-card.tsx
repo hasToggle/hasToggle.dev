@@ -30,8 +30,6 @@ const NOTE_INDEX: Readonly<Record<number, number>> = {
 interface StateCardProps {
   /** Narrate mode: a press turns the card over and replays itself. */
   narrate: boolean;
-  /** Threads the deck's re-render through the React Compiler's memoization. */
-  panelPass: number;
   /** The card's back face — the source, Shiki-highlighted on the server. */
   replayCode: React.ReactNode;
 }
@@ -45,7 +43,7 @@ interface StateCardProps {
  * not simulated; every value in the annotations was read live. Then it
  * turns back, and the number has moved.
  */
-export function StateCard({ narrate, panelPass, replayCode }: StateCardProps) {
+export function StateCard({ narrate, replayCode }: StateCardProps) {
   renderTally += 1;
   const renderNumber = renderTally;
 
@@ -170,10 +168,9 @@ export function StateCard({ narrate, panelPass, replayCode }: StateCardProps) {
       facts={[
         "setCount stores the value where React keeps it",
         "then React calls the component again",
-        "survives the panel re-rendering — that’s the job",
       ]}
       pill="useState"
-      title={`state-card.tsx · pass ${panelPass}`}
+      title="state-card.tsx"
       tone="state"
     >
       <div className="[perspective:1200px]">

@@ -111,14 +111,15 @@ deleted, not deprecated. Judgment calls worth keeping:
   walks one CSS class down the pre-rendered `.line` spans **top to
   bottom, every code line, the way a render re-runs the component**
   (Eric's correction: no jumping to the onClick first — that is not how
-  code is processed). Annotations land on the call, the kept value, and
-  the paint, with values read live at fire time. The back face carries
+  code is processed). The full three-line history sits on the card from
+  mid-flip, dimmed, each line lighting (○ → ●, the gauge-dot vocabulary
+  at list scale) as the walk reaches it and staying lit — a record, not
+  a ticker — with values read live at fire time. The back face carries
   the honesty label ("the last click, replayed slow · values real") and
-  the aside repeats it. The card takes the panel's render pass as a prop
-  so the React Compiler cannot memoize the deck's re-render away. The
-  local-variable card is **not** in this chapter — it belongs to the
-  /learn state lesson — and sits banked in the state folder
-  (var-card.tsx), working and tested.
+  the aside repeats it. No deck: the re-render beat was a var-demo
+  artifact and left with it (2026-08-21). The local-variable card is
+  **not** in this chapter — it belongs to the /learn state lesson — and
+  sits banked in the state folder (var-card.tsx), working and tested.
 
 ### The lab — site shape, 2026-08-20
 

@@ -43,13 +43,6 @@ export function StateDemo({ headingAs }: StateDemoProps) {
             card finished turning. It is slowed, not simulated, and the values
             in it were read live.
           </p>
-          <p>
-            Kept where? Press &ldquo;Re-render the panel&rdquo; in the deck: the
-            component runs again — watch the render badge tick — and the count
-            comes back unchanged. A plain variable would have been re-declared
-            at zero by that same render. The state variable is stored with
-            React, outside the call, which is why a re-render cannot touch it.
-          </p>
         </>
       }
       meta={

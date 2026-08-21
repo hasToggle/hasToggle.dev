@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import {
-  RERENDER_CHIP,
   stepPaints,
   stepRender,
   stepReturns,
@@ -22,10 +21,6 @@ describe("state exhibit replay steps", () => {
   test("the paint step closes the loop", () => {
     expect(stepPaints(4)).toBe("paints 4");
   });
-
-  test("the deck chip states the provable outcome", () => {
-    expect(RERENDER_CHIP).toBe("re-rendered · count kept");
-  });
 });
 
 describe("banked var-card narration (the learning path's half)", () => {
@@ -39,6 +34,5 @@ describe("banked var-card narration (the learning path's half)", () => {
 
   test("prose apostrophes are typographic (voice.md §8)", () => {
     expect(varProofClicked(1)).not.toContain("'");
-    expect(RERENDER_CHIP).not.toContain("'");
   });
 });

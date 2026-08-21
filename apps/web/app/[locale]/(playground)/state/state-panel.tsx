@@ -1,11 +1,8 @@
 "use client";
 
 import { Switch } from "@repo/design-system/components/ui/switch";
-import { cn } from "@repo/design-system/lib/utils";
 import { useState } from "react";
-import { MarketingButton } from "../../components/marketing-button";
 import { LivePanel } from "../live-panel";
-import { RERENDER_CHIP } from "./copy";
 import { StateCard } from "./state-card";
 
 interface StatePanelProps {
@@ -17,15 +14,11 @@ interface StatePanelProps {
 /**
  * The client owner of the state exhibit's chrome. The gauge stays `live`:
  * nothing here makes a server round trip — every event is a client render,
- * which is the exhibit's whole subject. The deck's one action re-renders
- * the panel: the component runs again (the render badge ticks) and the
- * count comes back unchanged, which the result chip files.
+ * which is the exhibit's whole subject. No deck: the exhibit's one action
+ * is the +1, and that is the specimen, not a control.
  */
 export function StatePanel({ references, replayCode }: StatePanelProps) {
   const [narrate, setNarrate] = useState(false);
-  const [pass, setPass] = useState(1);
-
-  const revealed = pass > 1;
 
   const viewControls = (
     <div className="flex items-center gap-2.5">
@@ -43,46 +36,11 @@ export function StatePanel({ references, replayCode }: StatePanelProps) {
     </div>
   );
 
-  const deck = (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
-      <MarketingButton
-        onClick={() => setPass((current) => current + 1)}
-        type="button"
-        variant="outline"
-      >
-        Re-render the panel
-      </MarketingButton>
-      {/* Reserved so the reveal never moves the row; `invisible` keeps it
-          out of the a11y tree until it's true (the rebake deck's pattern). */}
-      <span
-        aria-hidden={!revealed}
-        className={cn(
-          "flex items-center gap-3",
-          revealed ? undefined : "invisible"
-        )}
-      >
-        <span
-          aria-hidden="true"
-          className="select-none font-mono text-muted-foreground/50"
-        >
-          →
-        </span>
-        <span className="rounded-md border border-foreground/15 px-2 py-1 font-mono text-[0.65rem] text-muted-foreground tracking-wider">
-          {RERENDER_CHIP}
-        </span>
-      </span>
-    </div>
-  );
-
   return (
-    <LivePanel deck={deck} references={references} viewControls={viewControls}>
+    <LivePanel references={references} viewControls={viewControls}>
       <div className="flex flex-col gap-5">
         <div className="mx-auto w-full max-w-xl">
-          <StateCard
-            narrate={narrate}
-            panelPass={pass}
-            replayCode={replayCode}
-          />
+          <StateCard narrate={narrate} replayCode={replayCode} />
         </div>
         {/* The seam, narrated: the one fact the replay acts out. */}
         <p className="font-mono text-muted-foreground text-xs/5">

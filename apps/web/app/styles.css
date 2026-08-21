@@ -393,3 +393,18 @@
 .dark .ht-replay-note.ht-lit {
   color: var(--color-ht-cyan-300);
 }
+
+/* The history's markers: the gauge-dot vocabulary at list scale. Hollow
+   before the walk reaches a line, filled once it has — a second channel
+   beside the dim→lit color, so the state survives color-blindness. The
+   empty-alt syntax keeps screen readers on the text, and :not(:empty)
+   keeps markers off cleared slots. */
+.ht-replay-note:not(:empty)::before {
+  display: inline-block;
+  width: 1.1em;
+  content: "○" / "";
+}
+
+.ht-replay-note.ht-lit:not(:empty)::before {
+  content: "●" / "";
+}
