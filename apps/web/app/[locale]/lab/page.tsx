@@ -12,7 +12,14 @@ import { Footer } from "../components/footer";
 import { Link } from "../components/marketing-link";
 import { Navbar } from "../components/navbar";
 import { Heading, Subheading } from "../components/text";
-import { NEXT_UP, type PlannedTopic, SHIPPED, SYLLABUS } from "./syllabus";
+import {
+  type NextChapter,
+  type PlannedTopic,
+  SECTIONS,
+  type Section,
+  type ShippedChapter,
+  sectionEntries,
+} from "./syllabus";
 
 export const metadata: Metadata = {
   description:
@@ -32,10 +39,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
   },
 };
-
-const planned = SYLLABUS.filter(
-  (entry): entry is PlannedTopic => entry.status === "planned"
-);
 
 /**
  * Live readings are opt-in per chapter: one true value from the running
@@ -60,12 +63,112 @@ function IndexValueFallback() {
   );
 }
 
+function ChapterRow({ chapter }: { chapter: ShippedChapter }) {
+  const IndexValue = INDEX_VALUES[chapter.slug];
+
+  return (
+    <li className="border-foreground/10 border-b first:border-t">
+      <Link
+        className="group grid grid-cols-[2.5rem_minmax(0,1fr)] items-baseline gap-x-4 py-5 sm:grid-cols-[2.5rem_minmax(0,1fr)_auto]"
+        href={`/lab/${chapter.slug}`}
+      >
+        <span className="font-mono text-muted-foreground text-xs tabular-nums transition-colors group-hover:text-ht-cyan-700 dark:group-hover:text-ht-cyan-300">
+          {chapter.n}
+        </span>
+        <span className="font-medium text-foreground text-xl tracking-tight underline decoration-1 decoration-transparent underline-offset-[6px] transition-[text-decoration-color] duration-300 group-hover:decoration-ht-cyan-700/70 dark:group-hover:decoration-ht-cyan-300/70">
+          {chapter.belief}
+        </span>
+        {IndexValue ? (
+          <span className="hidden font-mono text-muted-foreground text-xs sm:inline-flex sm:justify-self-end">
+            <Suspense fallback={<IndexValueFallback />}>
+              <IndexValue />
+            </Suspense>
+          </span>
+        ) : null}
+        <span className="col-start-2 mt-1 font-mono text-muted-foreground/80 text-xs">
+          {chapter.topic}
+        </span>
+      </Link>
+    </li>
+  );
+}
+
+function NextRow({ entry }: { entry: NextChapter }) {
+  return (
+    <li className="border-foreground/10 border-b first:border-t">
+      {/* No belief yet — a chapter states its belief when it ships. Until
+          Monday the row is just the topic. */}
+      <div className="grid grid-cols-[2.5rem_minmax(0,1fr)] items-baseline gap-x-4 py-5 sm:grid-cols-[2.5rem_minmax(0,1fr)_auto]">
+        <span className="font-mono text-muted-foreground/60 text-xs tabular-nums">
+          {entry.n}
+        </span>
+        <span className="font-medium text-foreground/60 text-xl tracking-tight">
+          {entry.topic}
+        </span>
+        <span className="col-start-2 font-mono text-ht-cyan-700 text-xs sm:col-start-3 sm:justify-self-end dark:text-ht-cyan-300">
+          lands Monday
+        </span>
+      </div>
+    </li>
+  );
+}
+
+/**
+ * One shelf of the collection. Ship order is historical — the shelves are
+ * the structure, carved the way the React / Next.js / Vercel docs carve
+ * the territory — so chapters keep their accession numbers while sitting
+ * with their kin.
+ */
+function Shelf({ section }: { section: Section }) {
+  const entries = sectionEntries(section.id);
+  const chapters = entries.filter(
+    (entry): entry is NextChapter | ShippedChapter => entry.status !== "planned"
+  );
+  const planned = entries.filter(
+    (entry): entry is PlannedTopic => entry.status === "planned"
+  );
+
+  return (
+    <section aria-labelledby={`shelf-${section.id}`} className="mt-12">
+      <Subheading as="h2" id={`shelf-${section.id}`}>
+        {section.label}
+      </Subheading>
+      {chapters.length > 0 ? (
+        <ol className="mt-3 max-w-3xl">
+          {chapters.map((entry) =>
+            entry.status === "shipped" ? (
+              <ChapterRow chapter={entry} key={entry.slug} />
+            ) : (
+              <NextRow entry={entry} key={entry.slug} />
+            )
+          )}
+        </ol>
+      ) : null}
+      {planned.length > 0 ? (
+        <ul className="mt-4 grid max-w-3xl grid-cols-1 gap-x-12 gap-y-3 font-mono text-muted-foreground text-sm/6 sm:grid-cols-2">
+          {planned.map((entry) => (
+            <li className="flex items-baseline gap-3" key={entry.topic}>
+              <span
+                aria-hidden="true"
+                className="select-none text-ht-cyan-700/60 dark:text-ht-cyan-300/60"
+              >
+                +
+              </span>
+              {entry.topic}
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </section>
+  );
+}
+
 /**
  * The lab's contents page: the syllabus made navigable. Shipped chapters
  * are rows whose link text is the belief — an index of things you were
- * sure about — with the topic identifier alongside. The chapter landing
- * next Monday sits below them, then the still-to-build topics in the same
- * `+` rows the landing roadmap renders. One list, one source of truth.
+ * sure about — with the topic identifier alongside; the chapter landing
+ * next Monday sits with its shelf, and the still-to-build topics keep the
+ * roadmap's + rows. One registry, one source of truth.
  */
 export default function LabContentsPage() {
   return (
@@ -91,71 +194,9 @@ export default function LabContentsPage() {
                 public.
               </p>
 
-              <ol aria-label="Chapters" className="mt-14 max-w-3xl">
-                {SHIPPED.map((chapter) => {
-                  const IndexValue = INDEX_VALUES[chapter.slug];
-
-                  return (
-                    <li
-                      className="border-foreground/10 border-b first:border-t"
-                      key={chapter.slug}
-                    >
-                      <Link
-                        className="group grid grid-cols-[2.5rem_minmax(0,1fr)] items-baseline gap-x-4 py-5 sm:grid-cols-[2.5rem_minmax(0,1fr)_auto]"
-                        href={`/lab/${chapter.slug}`}
-                      >
-                        <span className="font-mono text-muted-foreground text-xs tabular-nums transition-colors group-hover:text-ht-cyan-700 dark:group-hover:text-ht-cyan-300">
-                          {chapter.n}
-                        </span>
-                        <span className="font-medium text-foreground text-xl tracking-tight underline decoration-1 decoration-transparent underline-offset-[6px] transition-[text-decoration-color] duration-300 group-hover:decoration-ht-cyan-700/70 dark:group-hover:decoration-ht-cyan-300/70">
-                          {chapter.belief}
-                        </span>
-                        {IndexValue ? (
-                          <span className="hidden font-mono text-muted-foreground text-xs sm:inline-flex sm:justify-self-end">
-                            <Suspense fallback={<IndexValueFallback />}>
-                              <IndexValue />
-                            </Suspense>
-                          </span>
-                        ) : null}
-                        <span className="col-start-2 mt-1 font-mono text-muted-foreground/80 text-xs">
-                          {chapter.topic}
-                        </span>
-                      </Link>
-                    </li>
-                  );
-                })}
-                {NEXT_UP ? (
-                  <li className="border-foreground/10 border-b">
-                    {/* No belief yet — a chapter states its belief when it
-                        ships. Until Monday the row is just the topic. */}
-                    <div className="grid grid-cols-[2.5rem_minmax(0,1fr)] items-baseline gap-x-4 py-5 sm:grid-cols-[2.5rem_minmax(0,1fr)_auto]">
-                      <span className="font-mono text-muted-foreground/60 text-xs tabular-nums">
-                        {NEXT_UP.n}
-                      </span>
-                      <span className="font-medium text-foreground/60 text-xl tracking-tight">
-                        {NEXT_UP.topic}
-                      </span>
-                      <span className="col-start-2 font-mono text-ht-cyan-700 text-xs sm:col-start-3 sm:justify-self-end dark:text-ht-cyan-300">
-                        lands Monday
-                      </span>
-                    </div>
-                  </li>
-                ) : null}
-              </ol>
-
-              <ul className="mt-10 grid max-w-3xl grid-cols-1 gap-x-12 gap-y-3 font-mono text-muted-foreground text-sm/6 sm:grid-cols-2">
-                {planned.map((entry) => (
-                  <li className="flex items-baseline gap-3" key={entry.topic}>
-                    <span
-                      aria-hidden="true"
-                      className="select-none text-ht-cyan-700/60 dark:text-ht-cyan-300/60"
-                    >
-                      +
-                    </span>
-                    {entry.topic}
-                  </li>
-                ))}
-              </ul>
+              {SECTIONS.map((section) => (
+                <Shelf key={section.id} section={section} />
+              ))}
 
               <div className="mt-20 max-w-3xl border-foreground/10 border-t pt-10">
                 <Subheading as="div">The weekly build</Subheading>

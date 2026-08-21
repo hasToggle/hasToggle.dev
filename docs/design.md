@@ -138,6 +138,13 @@ shipped, belief and navLabel added.
 - **Vocabulary.** Visitor prose says *the lab* and *chapter* (voice.md
   §6, 2026-08-20). "Exhibit" remains the working word in code comments
   and these docs.
+- **Shelves (2026-08-21).** Ship order is historical — "assume we've
+  covered everything, and the order we covered it in becomes
+  irrelevant" — so the contents page displays the collection by section
+  instead: components & state / data & caching / routing & navigation /
+  metadata & assets / the platform, carved the way the React / Next.js /
+  Vercel docs carve the territory. Accession numbers never change when a
+  shelf does; the landing roadmap stays flat.
 
 ## 5. Banked
 

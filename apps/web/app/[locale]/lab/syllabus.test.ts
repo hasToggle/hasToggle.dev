@@ -4,9 +4,11 @@ import {
   LATEST,
   NEXT_UP,
   prevNext,
+  SECTIONS,
   SHIPPED,
   STILL_TO_BUILD,
   SYLLABUS,
+  sectionEntries,
 } from "./syllabus";
 
 /**
@@ -112,6 +114,25 @@ describe("still to build", () => {
 
   test("leads with the chapter that lands next", () => {
     expect(NEXT_UP?.topic).toBe(STILL_TO_BUILD[0]);
+  });
+});
+
+describe("shelves", () => {
+  test("the shelves partition the whole syllabus, none empty", () => {
+    const total = SECTIONS.reduce(
+      (sum, section) => sum + sectionEntries(section.id).length,
+      0
+    );
+    expect(total).toBe(SYLLABUS.length);
+    for (const section of SECTIONS) {
+      expect(sectionEntries(section.id).length).toBeGreaterThan(0);
+    }
+  });
+
+  test("a shelf keeps its entries in accession/registry order", () => {
+    const routing = sectionEntries("routing").map((entry) => entry.topic);
+    expect(routing[0]).toBe("navigation & prefetching");
+    expect(routing).toContain("view transitions");
   });
 });
 
