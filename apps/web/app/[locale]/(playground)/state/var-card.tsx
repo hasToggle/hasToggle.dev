@@ -1,5 +1,14 @@
 "use client";
 
+/**
+ * BANKED — not rendered by chapter 06. Eric's call (2026-08-21): the lab
+ * is not the place for the local-variable demo; it belongs to the /learn
+ * state lesson, where the narrative runs variables → state change vs.
+ * rendering in an SPA → useState as the solution to both. This card is
+ * that lesson's first specimen, kept working and tested beside the
+ * chapter whose counterpart it is (design.md §5).
+ */
+
 import { useEffect, useRef } from "react";
 import { StateCardShell } from "./card";
 import { varProofClicked, varProofDeclared } from "./copy";

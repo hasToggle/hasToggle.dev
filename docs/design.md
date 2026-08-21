@@ -103,14 +103,20 @@ deleted, not deprecated. Judgment calls worth keeping:
   gauge (04's form works with JavaScript off, which is its point). 06 has
   a client owner but no server round trip at all — its gauge stays `live`,
   because every event is a client render, which is the subject.
-- **06's narration is written by the mechanism, not staged.** The ask line
-  is written from inside the click handler (where the closure still reads
-  the old value) and the render line from an effect after the paint —
-  two genuinely different moments, no timers pretending. The var card's
-  proof line goes to the DOM by hand because React was never told; the
-  aside confesses the trick, which is the exhibit's own point. Both cards
-  take the panel's render pass as a prop so the React Compiler cannot
-  memoize the deck's re-render away — the wipe is the lesson.
+- **06's replay is slowed, not simulated — and labeled as such.** A press
+  updates state immediately (the new number exists before the card
+  finishes turning); in narrate mode the card flips to its own source —
+  Shiki-rendered on the server through the same cached pipeline as the
+  reference drawers, zero highlighter in the browser — and the client
+  walks one CSS class down the pre-rendered `.line` spans, writing
+  annotations whose values were read live: the closure's stale read from
+  inside the handler, the render number from the module tally at fire
+  time. The back face carries the honesty label ("the last click,
+  replayed slow · values real") and the aside repeats it. The card takes
+  the panel's render pass as a prop so the React Compiler cannot memoize
+  the deck's re-render away. The local-variable card is **not** in this
+  chapter — Eric's call: it belongs to the /learn state lesson — and sits
+  banked in the state folder (var-card.tsx), working and tested.
 
 ### The lab — site shape, 2026-08-20
 

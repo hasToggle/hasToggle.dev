@@ -3,6 +3,7 @@ import { CodeBlock } from "../code-block";
 import { DemoSection } from "../demo-section";
 import { InlineCode } from "../inline-code";
 import { ReferenceBar } from "../reference-bar";
+import { ReplayCode } from "./replay-code";
 import { STATE_SOURCE } from "./source";
 import { StatePanel } from "./state-panel";
 
@@ -25,57 +26,56 @@ export function StateDemo({ headingAs }: StateDemoProps) {
             You don&rsquo;t — for the counting. A component is a function:
             render means React calls it and paints what it returns. A{" "}
             <InlineCode>let</InlineCode> inside that function is born in the
-            call and dies with it, so &ldquo;add one to count&rdquo; works every
-            time you press — and changes nothing on screen, because changing a
-            value and repainting the screen are two different jobs, and the
-            variable only ever had the first one.
+            call and dies with it, so adding one to it works — and changes
+            nothing on screen, because changing a value and repainting the
+            screen are two different jobs. <InlineCode>useState</InlineCode>
+            &#32;is how a counter gets both: the setter stores the value where
+            React keeps it between calls, and it schedules the call — the render
+            — that paints it.
           </p>
           <p>
-            Watch the left card. Press +1 and the small line reports the
-            variable faithfully going up — written to the DOM by hand, because
-            React was never told and is not coming back. The big number is what
-            React painted the last time it ran the function: zero. Now press
-            &ldquo;Re-render the panel&rdquo; below and watch the same line —
-            the fresh call re-declares the variable, and your threes and fours
-            are simply gone.
+            Press +1 and the number moves, the way counters always have. Now
+            flip narrate and press again: the card turns over and replays the
+            click against its own source, slowly — the press, where the closure
+            still reads the old value; the fresh call to StateCard(); useState
+            handing back the value React kept; the paint. Then it turns back,
+            and the number has moved. Everything in the replay happened before
+            the card finished turning. It is slowed, not simulated, and the
+            values in it were read live.
           </p>
           <p>
-            The right card asks <InlineCode>useState</InlineCode> for its count.
-            The setter does both jobs at once: it stores the value where React
-            keeps it between calls, and it schedules the next call — the render
-            — that paints it. Flip narrate and press +1 again: the two events
-            report themselves in order, including the part nobody believes until
-            they see it — inside the click that asked for 4, the variable still
-            reads 3. The new value doesn&rsquo;t exist until the next render
-            does.
+            Kept where? Press &ldquo;Re-render the panel&rdquo; in the deck: the
+            component runs again — watch the render badge tick — and the count
+            comes back unchanged. A plain variable would have been re-declared
+            at zero by that same render. The state variable is stored with
+            React, outside the call, which is why a re-render cannot touch it.
           </p>
         </>
       }
       meta={
         <>
-          The fine print: to show you a variable React won&rsquo;t render, this
-          page writes the small line to the DOM by hand — the demo has to sneak
-          past React to report what React ignores. The workaround is the
-          exhibit.
+          The fine print: the card can&rsquo;t actually slow React down — the
+          new number existed before the card finished turning. What you&rsquo;re
+          watching is a millisecond, replayed with the values it happened with.
         </>
       }
       topic={chapter.topic}
     >
       {/* The client panel owns the instrument: narrate mode and the
-          re-render pass are its view state, and the +1 buttons stay in the
-          cards — they are the specimen, not controls (design.md §4). */}
+          re-render pass are its view state, and the +1 button stays in the
+          card — it is the specimen, not a control (design.md §4). The
+          replay's source arrives server-highlighted through props, so no
+          highlighter ships to the browser. */}
       <StatePanel
         references={
           <ReferenceBar
             docsHref="https://react.dev/learn/state-a-components-memory"
             sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/state"
           >
-            <CodeBlock
-              code={STATE_SOURCE}
-              file="var-card.tsx + state-card.tsx"
-            />
+            <CodeBlock code={STATE_SOURCE} file="state-card.tsx" />
           </ReferenceBar>
         }
+        replayCode={<ReplayCode />}
       />
     </DemoSection>
   );
