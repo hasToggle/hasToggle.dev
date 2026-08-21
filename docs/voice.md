@@ -409,3 +409,47 @@ guides drift apart, and the drift is invisible until two surfaces contradict
 each other in front of a reader. If a surface genuinely needs different rules —
 the digest email, the docs, the cohort materials — add a subsection here rather
 than a second file.
+
+---
+
+## 10. The blog articles
+
+Synthesized 2026-08-21 from the one article shipped ("This is bananas: why
+you don't get arrays") — a sample of one, on purpose. Extend this section
+by evidence as articles ship, never by invention.
+
+A fifth register: **the performer** — Julia Evans' zines and Randall
+Munroe's *What If*: a silly prop carrying a real mechanism, with the
+narrator's own past confusion on stage. Where a lab chapter opens by
+rebutting a belief, an article opens by handing the reader a prop
+("I'm looking for the avocado 🥑. Help me find it."). No misconception
+frame here — the article invites; the confrontation lives at the lab.
+
+Its moves, all evidenced in the shipped article:
+
+- **Props and participation.** The reader is in the bit: handed the
+  avocado, blindfolded by monkeys 🙈, allowed to keep the avocado at the
+  end ("Keep it. It's yours." — the close gives the reader something).
+  Emoji are props here, never decoration — banned everywhere else on the
+  site, working for a living in articles.
+- **The remembered scene.** The professor anecdote is the Ford stance in
+  story form: the narrator's younger self is the one who didn't get it.
+- **Staged dialogue.** The mechanism personified into two lines
+  ("**Array:** *Don't know. Go search for it.*") — allowed here, never
+  in exhibit prose.
+- **Timing by paragraph.** "Well." A one-word paragraph is a beat, and
+  the beats are load-bearing.
+- **The big claim through the silly thing.** An avocado earns "the single
+  most important problem in computer science." Escalation is the
+  article's shape the way understatement is the lab's.
+
+What still binds: the truth pass (every technical claim checkable), the
+competent reader, and the stance — the narrator is never above the
+confusion. What stays out: the instrument register (except inside real
+code blocks) and the belief-title frame.
+
+**The blog's chrome speaks in character, never about the editorial
+policy.** Founding rejection (2026-08-21): "Their own narratives about web
+development — fundamentals and peripherals welcome." as the index
+standfirst — accurate, and pure editorial meta, the direction notes read
+aloud. The shipped standfirst performs the lane instead of describing it.

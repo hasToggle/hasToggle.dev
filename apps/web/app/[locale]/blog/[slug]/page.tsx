@@ -1,21 +1,20 @@
+import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import {
   getBlogPost,
   getBlogPosts,
   getBlogSlugs,
   mdxComponents,
+  TableOfContents,
 } from "@repo/cms";
 import { JsonLd } from "@repo/seo/json-ld";
 import { createMetadata } from "@repo/seo/metadata";
 import type { Metadata } from "next";
 import { cacheLife, cacheTag } from "next/cache";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Sidebar } from "@/components/sidebar";
 import { env } from "@/env";
-import { Container } from "../../components/container";
-import { Footer } from "../../components/footer";
-import { Link } from "../../components/marketing-link";
-import { Navbar } from "../../components/navbar";
-import { Heading, Subheading } from "../../components/text";
 
 const protocol = env.VERCEL_PROJECT_PRODUCTION_URL?.startsWith("https")
   ? "https"
@@ -51,8 +50,6 @@ export const generateMetadata = async ({
 
 export const generateStaticParams = (): { slug: string }[] =>
   getBlogSlugs().map((slug) => ({ slug }));
-
-const formatDate = (iso: string) => new Date(iso).toISOString().slice(0, 10);
 
 /**
  * The MDX pipeline (evaluate + Shiki) is expensive and calls timers
@@ -91,51 +88,47 @@ async function Article({ slug }: { slug: string }) {
           },
         }}
       />
-      <Container className="pt-16 pb-20 sm:pt-24 sm:pb-24">
-        <div className="grid gap-x-12 gap-y-8 lg:grid-cols-[7rem_minmax(0,1fr)]">
-          <div aria-hidden="true" />
-          <article className="max-w-2xl">
-            <Subheading as="div">
-              <Link
-                className="transition-colors hover:text-foreground"
-                href="/blog"
-              >
-                ← the blog
-              </Link>
-              <span aria-hidden="true" className="px-2 opacity-50">
-                ·
-              </span>
-              {formatDate(post.date)}
-              <span aria-hidden="true" className="px-2 opacity-50">
-                ·
-              </span>
-              {post.readingTime} min read
-            </Subheading>
-            <Heading
-              as="h1"
-              className="mt-3 text-balance text-4xl/[1.1] sm:text-5xl/[1.05]"
-            >
-              {post.title}
-            </Heading>
-            <p className="mt-6 text-foreground/75 text-lg leading-8">
-              {post.description}
-            </p>
-            {post.image ? (
-              <Image
-                alt={post.imageAlt}
-                className="my-12 h-full w-full rounded-xl"
-                height={400}
-                priority
-                src={post.image}
-                width={800}
-              />
-            ) : null}
-            <div className="prose prose-neutral dark:prose-invert mt-12">
-              <Content components={mdxComponents} />
+      <div className="container mx-auto py-16">
+        <Link
+          className="mb-4 inline-flex items-center gap-1 text-muted-foreground text-sm focus:underline focus:outline-none"
+          href="/blog"
+        >
+          <ArrowLeftIcon className="h-4 w-4" />
+          Back to Blog
+        </Link>
+        <div className="mt-16 flex flex-col items-start gap-8 sm:flex-row">
+          <div className="sm:flex-1">
+            <div className="prose prose-neutral dark:prose-invert max-w-none">
+              <h1 className="scroll-m-20 text-balance font-extrabold text-4xl tracking-tight lg:text-5xl">
+                {post.title}
+              </h1>
+              <p className="not-first:mt-6 text-balance leading-7">
+                {post.description}
+              </p>
+              {post.image ? (
+                <Image
+                  alt={post.imageAlt}
+                  className="my-16 h-full w-full rounded-xl"
+                  height={400}
+                  priority
+                  src={post.image}
+                  width={800}
+                />
+              ) : null}
+              <div className="mx-auto max-w-prose">
+                <Content components={mdxComponents} />
+              </div>
             </div>
-          </article>
+          </div>
+          <div className="sticky top-24 hidden shrink-0 md:block">
+            <Sidebar
+              date={new Date(post.date)}
+              readingTime={`${post.readingTime} min read`}
+              toc={<TableOfContents entries={post.toc} />}
+            />
+          </div>
         </div>
-      </Container>
+      </div>
     </>
   );
 }
@@ -147,17 +140,7 @@ const BlogPostPage = async ({ params }: BlogPostProperties) => {
     notFound();
   }
 
-  return (
-    <div className="overflow-x-clip">
-      <Container>
-        <Navbar variant="light" />
-      </Container>
-      <main>
-        <Article slug={slug} />
-      </main>
-      <Footer />
-    </div>
-  );
+  return <Article slug={slug} />;
 };
 
 export default BlogPostPage;

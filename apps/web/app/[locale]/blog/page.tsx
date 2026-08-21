@@ -11,13 +11,13 @@ import { Heading, Subheading } from "../components/text";
 
 export const metadata: Metadata = {
   description:
-    "Their own narratives about web development — fundamentals and peripherals welcome. The lab runs the mechanisms; an article gets to take the long way around.",
+    "Web development, told as stories — with props, a professor or two, and at least one avocado. Fundamentals are welcome here.",
   metadataBase: new URL(env.NEXT_PUBLIC_WEB_URL),
   openGraph: {
     images: [
       {
         height: 630,
-        url: `/api/og?title=${encodeURIComponent("Articles, with their own story to tell.")}`,
+        url: `/api/og?title=${encodeURIComponent("Web development, told as stories.")}`,
         width: 1200,
       },
     ],
@@ -62,9 +62,8 @@ export default function BlogIndexPage() {
                 Articles.
               </Heading>
               <p className="mt-6 max-w-2xl text-foreground/75 text-lg leading-8">
-                Their own narratives about web development — fundamentals and
-                peripherals welcome. The lab runs the mechanisms; an article
-                gets to take the long way around.
+                Web development, told as stories — with props, a professor or
+                two, and at least one avocado. Fundamentals are welcome here.
               </p>
 
               <ul className="mt-14 max-w-3xl">
