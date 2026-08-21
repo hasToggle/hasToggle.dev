@@ -288,3 +288,4 @@ packages/database/generated
 
 # Superpowers brainstorming companion
 .superpowers/
+.playwright-mcp/
