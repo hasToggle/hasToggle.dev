@@ -36,12 +36,13 @@ const LEGACY_UPCOMING: readonly string[] = [
 
 const URL_SAFE_SLUG = /^[a-z][a-z0-9-]*$/;
 
-const LEGACY_CHAPTERS: readonly { label: string; n: string }[] = [
+const EXPECTED_CHAPTERS: readonly { label: string; n: string }[] = [
   { label: "The boundary", n: "01" },
   { label: "The cache", n: "02" },
   { label: "The stream", n: "03" },
   { label: "The mutation", n: "04" },
   { label: "The image", n: "05" },
+  { label: "The state", n: "06" },
 ];
 
 describe("syllabus order", () => {
@@ -90,17 +91,17 @@ describe("shipped chapters", () => {
     }
   });
 
-  test("nav labels and numbers match what the contents bar always showed", () => {
+  test("nav labels and numbers match the contents bar", () => {
     const chapters = SHIPPED.map((chapter) => ({
       label: chapter.navLabel,
       n: chapter.n,
     }));
-    expect(chapters).toEqual([...LEGACY_CHAPTERS]);
+    expect(chapters).toEqual([...EXPECTED_CHAPTERS]);
   });
 
-  test("the latest shipped chapter is the image exhibit", () => {
-    expect(LATEST.slug).toBe("og-images");
-    expect(LATEST.n).toBe("05");
+  test("the latest shipped chapter is the state exhibit", () => {
+    expect(LATEST.slug).toBe("state");
+    expect(LATEST.n).toBe("06");
   });
 });
 
@@ -131,8 +132,12 @@ describe("chapter lookup", () => {
       prev: chapterBySlug("caching"),
     });
     expect(prevNext("og-images")).toEqual({
-      next: undefined,
+      next: chapterBySlug("state"),
       prev: chapterBySlug("server-actions"),
+    });
+    expect(prevNext("state")).toEqual({
+      next: undefined,
+      prev: chapterBySlug("og-images"),
     });
     expect(prevNext("navigation")).toEqual({});
   });

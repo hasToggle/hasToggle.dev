@@ -83,7 +83,15 @@ export const SYLLABUS: readonly SyllabusEntry[] = [
     topic: "imageresponse & route handlers",
   },
   {
+    belief: "I don’t need state for a simple counter.",
     n: "06",
+    navLabel: "The state",
+    slug: "state",
+    status: "shipped",
+    topic: "useState & re-renders",
+  },
+  {
+    n: "07",
     slug: "navigation",
     status: "next",
     topic: "navigation & prefetching",

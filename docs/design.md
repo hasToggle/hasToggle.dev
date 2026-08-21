@@ -100,7 +100,17 @@ deleted, not deprecated. Judgment calls worth keeping:
   in-flight signal is carried by the row skeletons and the rerun button's
   pending label instead — honest, but not the gauge; wire it if the stream
   panel ever gains a client owner. 01 and 04 have no client round trip to
-  gauge (04's form works with JavaScript off, which is its point).
+  gauge (04's form works with JavaScript off, which is its point). 06 has
+  a client owner but no server round trip at all — its gauge stays `live`,
+  because every event is a client render, which is the subject.
+- **06's narration is written by the mechanism, not staged.** The ask line
+  is written from inside the click handler (where the closure still reads
+  the old value) and the render line from an effect after the paint —
+  two genuinely different moments, no timers pretending. The var card's
+  proof line goes to the DOM by hand because React was never told; the
+  aside confesses the trick, which is the exhibit's own point. Both cards
+  take the panel's render pass as a prop so the React Compiler cannot
+  memoize the deck's re-render away — the wipe is the lesson.
 
 ### The lab — site shape, 2026-08-20
 
@@ -144,14 +154,12 @@ shipped, belief and navLabel added.
   prefetch on hover via next/link — chapter 06 (navigation &
   prefetching) should claim that readout as its instrument in the site's
   own chrome.
-- The Hazel counter (`apps/web/app/[locale]/(counter)/`, plus its private
-  `components/ui/boundary` + `ping`): the old site's useState/re-render
-  lesson — useReducer-scripted story beats, per-press code snapshots,
-  re-render boundaries made visible. Unrouted on purpose, kept through
-  the 2026-08-21 boilerplate sweep. Revive it either as a /learn lesson
-  beside ref-vs-state or as the opening specimen of the optimistic UI &
-  useActionState chapter; it does not join the lab as-is (pre-dates the
-  instrument grammar).
+- The Hazel counter: superseded 2026-08-21 by chapter 06 (useState &
+  re-renders), its reimagining on the instrument grammar; the old code
+  (`(counter)/`, `components/ui/boundary` + `ping`) is deleted — git
+  history keeps it. The narrative /learn lesson (variables in JS → state
+  change vs. rendering in an SPA → useState as the solution to both)
+  remains a path-layer candidate that reuses chapter 06's cards.
 
 ## 6. Verification
 
