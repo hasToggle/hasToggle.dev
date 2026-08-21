@@ -347,6 +347,12 @@ From the lab build of 2026-08-20. The playground got its multi-page home
 | "exhibit", across the landing prose, FAQ and OG card | "chapter" for the unit, "the lab" for the place | Eric: the word exhibit "doesn't feel like a dev term I'd use." Museum register retired from visitor prose. The URL word /lab won over /exhibits, /poke and /proof on a new principle: **an address names a place, so it wants a noun — and "poking" stays the verb** the hero, CTA and footer own. The name was already in shipped copy: "the lab bench that belongs next to them." Code comments and these docs keep "exhibit" as internal working vocabulary; only what a visitor reads migrated. |
 | A new demo lands on this page. | A new chapter lands in the lab. | §7 predicted this one — "on this page" was a claim waiting to go stale the Monday a chapter shipped to its own page. Evidence the rule works; no new rule. |
 
+From the /lab contents page, 2026-08-21. A rejection no rule predicted:
+
+| Standing | Shipped | Why |
+|---|---|---|
+| The plan is everything Next.js can do… One chapter at a time, in public. (the whole standfirst) | Every chapter opens on something developers say — to ourselves, or to each other — and runs the real feature next to it. (then the plan sentence) | Eric, arriving on /lab cold: the belief titles read as odd quotes in mixed persons. Beside a running exhibit a title explains itself; as a bare index it does not — **an index of beliefs states its titling frame once**, in the standfirst, still without labeling anyone wrong ("to ourselves, or to each other" is the Ford stance carrying the I/You mix). And building-in-public talk was misplaced here — it belongs where the making-of lives, on the landing roadmap. |
+
 ---
 
 ## 7. Time-hardening

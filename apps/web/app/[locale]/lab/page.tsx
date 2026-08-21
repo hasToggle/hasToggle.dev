@@ -189,9 +189,10 @@ export default function LabContentsPage() {
                 Contents.
               </Heading>
               <p className="mt-6 max-w-2xl text-foreground/75 text-lg leading-8">
-                The plan is everything Next.js can do, and as much of Vercel as
-                can be proved from inside a web page. One chapter at a time, in
-                public.
+                Every chapter opens on something developers say — to ourselves,
+                or to each other — and runs the real feature next to it. The
+                plan is everything Next.js can do, and as much of Vercel as can
+                be proved from inside a web page.
               </p>
 
               {SECTIONS.map((section) => (
