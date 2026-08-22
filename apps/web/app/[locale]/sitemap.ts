@@ -2,6 +2,7 @@ import fs from "node:fs";
 import { getBlogSlugs, getLegalSlugs } from "@repo/cms";
 import type { MetadataRoute } from "next";
 import { env } from "@/env";
+import { SHIPPED } from "./lab/syllabus";
 
 const appFolders = fs.readdirSync("app", { withFileTypes: true });
 const pages = appFolders
@@ -24,6 +25,16 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => [
   ...pages.map((page) => ({
     lastModified: new Date(),
     url: new URL(page, url).href,
+  })),
+  {
+    lastModified: new Date(),
+    url: new URL("lab", url).href,
+  },
+  // The chapter routes live under [locale], which the folder scan above
+  // skips — the registry is their source of truth anyway.
+  ...SHIPPED.map((chapter) => ({
+    lastModified: new Date(),
+    url: new URL(`lab/${chapter.slug}`, url).href,
   })),
   ...blogs.map((blogSlug) => ({
     lastModified: new Date(),

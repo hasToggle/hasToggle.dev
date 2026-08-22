@@ -339,6 +339,20 @@ From the hero footnote, 2026-08-20. Two rejections in one line, both novel:
 | You've opened a "live demo" that turned out to be an animated GIF. So have we. | (cut) | A manufactured shared experience — plausible, not lived. Second bite of the same failure as the exhibit-two title: invented relatability reads as marketing doing an impression of empathy. It also punched at third parties, which §1's audit already banned once |
 | Two sentences of replacement prose | everything below runs · the source is in every panel · even the prompts are public | The container sets the register. A hover card is a readout, not a paragraph — prose in a tooltip is the wrong instrument no matter how good the prose is |
 
+From the lab build of 2026-08-20. The playground got its multi-page home
+(`/lab`, one route per chapter) and the visitor vocabulary moved with it:
+
+| Standing | Shipped | Why |
+|---|---|---|
+| "exhibit", across the landing prose, FAQ and OG card | "chapter" for the unit, "the lab" for the place | Eric: the word exhibit "doesn't feel like a dev term I'd use." Museum register retired from visitor prose. The URL word /lab won over /exhibits, /poke and /proof on a new principle: **an address names a place, so it wants a noun — and "poking" stays the verb** the hero, CTA and footer own. The name was already in shipped copy: "the lab bench that belongs next to them." Code comments and these docs keep "exhibit" as internal working vocabulary; only what a visitor reads migrated. |
+| A new demo lands on this page. | A new chapter lands in the lab. | §7 predicted this one — "on this page" was a claim waiting to go stale the Monday a chapter shipped to its own page. Evidence the rule works; no new rule. |
+
+From the /lab contents page, 2026-08-21. A rejection no rule predicted:
+
+| Standing | Shipped | Why |
+|---|---|---|
+| The plan is everything Next.js can do… One chapter at a time, in public. (the whole standfirst) | Every chapter opens on something developers say — to ourselves, or to each other — and runs the real feature next to it. (then the plan sentence) | Eric, arriving on /lab cold: the belief titles read as odd quotes in mixed persons. Beside a running exhibit a title explains itself; as a bare index it does not — **an index of beliefs states its titling frame once**, in the standfirst, still without labeling anyone wrong ("to ourselves, or to each other" is the Ford stance carrying the I/You mix). And building-in-public talk was misplaced here — it belongs where the making-of lives, on the landing roadmap. |
+
 ---
 
 ## 7. Time-hardening
@@ -401,3 +415,59 @@ guides drift apart, and the drift is invisible until two surfaces contradict
 each other in front of a reader. If a surface genuinely needs different rules —
 the digest email, the docs, the cohort materials — add a subsection here rather
 than a second file.
+
+---
+
+## 10. The blog articles
+
+Synthesized 2026-08-21 from the one article shipped ("This is bananas: why
+you don't get arrays") — a sample of one, on purpose. Extend this section
+by evidence as articles ship, never by invention.
+
+A fifth register: **the performer** — Julia Evans' zines and Randall
+Munroe's *What If*: a silly prop carrying a real mechanism, with the
+narrator's own past confusion on stage. Where a lab chapter opens by
+rebutting a belief, an article opens by handing the reader a prop
+("I'm looking for the avocado 🥑. Help me find it."). No misconception
+frame here — the article invites; the confrontation lives at the lab.
+
+Its moves, all evidenced in the shipped article:
+
+- **Props and participation.** The reader is in the bit: handed the
+  avocado, blindfolded by monkeys 🙈, allowed to keep the avocado at the
+  end ("Keep it. It's yours." — the close gives the reader something).
+  Emoji are props here, never decoration — banned everywhere else on the
+  site, working for a living in articles.
+- **The remembered scene.** The professor anecdote is the Ford stance in
+  story form: the narrator's younger self is the one who didn't get it.
+- **Staged dialogue.** The mechanism personified into two lines
+  ("**Array:** *Don't know. Go search for it.*") — allowed here, never
+  in exhibit prose.
+- **Timing by paragraph.** "Well." A one-word paragraph is a beat, and
+  the beats are load-bearing.
+- **The big claim through the silly thing.** An avocado earns "the single
+  most important problem in computer science." Escalation is the
+  article's shape the way understatement is the lab's.
+
+What still binds: the truth pass (every technical claim checkable), the
+competent reader, and the stance — the narrator is never above the
+confusion. What stays out: the instrument register (except inside real
+code blocks) and the belief-title frame.
+
+**The blog's chrome speaks in character, never about the editorial
+policy.** Founding rejection (2026-08-21): "Their own narratives about web
+development — fundamentals and peripherals welcome." as the index
+standfirst — accurate, and pure editorial meta, the direction notes read
+aloud. The shipped standfirst performs the lane instead of describing it.
+
+Second rejection, same day: "…with props, a professor or two, and at
+least one avocado." — in character, and overfit. It promoted one
+article's props into the surface's permanent chrome, which reads as a
+promise that future articles feature avocados and professors. They
+don't have to: the moves above are structural — props, a remembered
+scene, timing — not required furniture. **The chrome performs the
+register with material of its own; the articles' props belong to the
+articles.** The personal perspective is carried structurally instead:
+articles are narrated from the author's experience, and the page says
+so — the author sits in the article's metadata beside published and
+reading time.

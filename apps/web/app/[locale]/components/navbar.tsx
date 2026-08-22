@@ -1,17 +1,23 @@
 import { Logo } from "./logo";
 import { Link } from "./marketing-link";
 import { PlusGrid, PlusGridItem, PlusGridRow } from "./plus-grid";
-import { ThemeSwitch } from "./theme-switch";
 
-const links: { href: string; label: string }[] = [];
+const links: { href: string; label: string }[] = [
+  { href: "/lab", label: "The lab" },
+  { href: "/blog", label: "Blog" },
+];
 
-function DesktopNav({ variant }: { variant: "light" | "dark" }) {
+function Nav({ variant }: { variant: "light" | "dark" }) {
+  // The items sit adjacent on purpose: the plus grid frames a unit the way
+  // it frames the logo only when neighbors touch — the first item takes the
+  // leading corners and the chain shares the rest. A gap breaks the frame
+  // into stray marks.
   return (
-    <nav className="relative hidden lg:flex">
+    <nav className="relative flex">
       {links.map(({ href, label }) => (
         <PlusGridItem className="relative flex" key={href} variant={variant}>
           <Link
-            className={`flex items-center px-4 py-3 font-medium text-base ${variant === "dark" ? "text-white" : "text-foreground"} bg-blend-multiply hover:bg-black/2.5`}
+            className={`flex items-center whitespace-nowrap px-3 py-3 font-medium text-sm transition-colors sm:px-4 sm:text-base ${variant === "dark" ? "text-white" : "text-foreground"} hover:bg-black/2.5 dark:hover:bg-white/5`}
             href={href}
           >
             {label}
@@ -51,11 +57,9 @@ export function Navbar({
               </div>
             ) : null}
           </div>
-          {/* The corner every editor keeps its view switches in. */}
-          <div className="relative flex items-center gap-6">
-            <DesktopNav variant={variant} />
-            <ThemeSwitch variant={variant} />
-          </div>
+          {/* Destinations hold the right edge; the theme control lives in
+              the footer's utility row now, so nothing shares this corner. */}
+          <Nav variant={variant} />
         </PlusGridRow>
       </PlusGrid>
     </header>

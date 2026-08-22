@@ -10,12 +10,12 @@ const faqs: {
 }[] = [
   {
     answer:
-      "A place to find out what happens when you press things. Each exhibit pairs a demo with its source — press the button, watch the cache expire, read the code that did it. The plan is to cover everything Next.js and Vercel can do, one exhibit at a time. The official docs are good; this is the lab bench that belongs next to them.",
+      "A place to find out what happens when you press things. Each chapter pairs a demo with its source — press the button, watch the cache expire, read the code that did it. The plan is to cover everything Next.js and Vercel can do, one chapter at a time. The official docs are good; this is the lab bench that belongs next to them.",
     question: "What exactly am I looking at?",
   },
   {
     answer:
-      "No. Vercel hasn’t endorsed this site, and nobody on the Next.js team sees an exhibit before it ships. The mistakes are ours, and so is the freedom to say which parts are confusing.",
+      "No. Vercel hasn’t endorsed this site, and nobody on the Next.js team sees a chapter before it ships. The mistakes are ours, and so is the freedom to say which parts are confusing.",
     question: "Is this official?",
   },
   {
@@ -31,7 +31,7 @@ const faqs: {
   },
   {
     answer:
-      "Do read the docs — we link them from every exhibit, on purpose. But reading about streaming and watching three skeletons resolve in delay order are different kinds of knowing. Docs tell you how it works. A playground lets you find out what happens.",
+      "Do read the docs — we link them from every chapter, on purpose. But reading about streaming and watching three skeletons resolve in delay order are different kinds of knowing. Docs tell you how it works. A playground lets you find out what happens.",
     question: "Why not just read the docs?",
   },
   {
@@ -65,7 +65,7 @@ const faqs: {
   },
   {
     answer:
-      "One new exhibit and the write-up that goes with it. Five minutes, no filler, and nothing you have to read on a schedule.",
+      "One new chapter and the write-up that goes with it. Five minutes, no filler, and nothing you have to read on a schedule.",
     question: "What lands in my inbox on Monday?",
   },
 ];

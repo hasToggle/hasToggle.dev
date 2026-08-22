@@ -356,3 +356,70 @@
 
   @apply inline-block w-4 mr-8 text-muted-foreground text-right;
 }
+
+/* The state chapter's replay (chapter 06): Shiki renders the source on the
+   server; the client walks this class down the pre-rendered lines. */
+.ht-replay .line {
+  border-radius: 0.25rem;
+  transition: background-color 300ms ease;
+}
+
+.ht-replay .line.ht-replay-active {
+  background-color: color-mix(
+    in oklab,
+    var(--color-ht-cyan-500) 16%,
+    transparent
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ht-replay .line {
+    transition: none;
+  }
+}
+
+/* Chapter 06's replay history: all three annotations are on the card from
+   the start of the walk, dimmed; each lights as its moment arrives and
+   stays lit — a record, not a ticker. */
+.ht-replay-note {
+  color: color-mix(in oklab, var(--color-muted-foreground) 55%, transparent);
+  transition: color 300ms ease;
+}
+
+.ht-replay-note.ht-lit {
+  color: var(--color-ht-cyan-700);
+}
+
+.dark .ht-replay-note.ht-lit {
+  color: var(--color-ht-cyan-300);
+}
+
+/* The history's markers: the gauge-dot vocabulary at list scale. Hollow
+   before the walk reaches a line, filled once it has — a second channel
+   beside the dim→lit color, so the state survives color-blindness. The
+   empty-alt syntax keeps screen readers on the text, and :not(:empty)
+   keeps markers off cleared slots. */
+.ht-replay-note:not(:empty)::before {
+  display: inline-block;
+  width: 1.1em;
+  content: "○" / "";
+}
+
+.ht-replay-note.ht-lit:not(:empty)::before {
+  content: "●" / "";
+}
+
+/* The typography plugin dresses .prose inline code in literal backticks and
+   bold (its `code::before/::after { content: "`" }` defaults) — which reads
+   as backticks the author forgot to remove. Articles wear the site's
+   InlineCode look instead (same utilities as (playground)/inline-code.tsx).
+   The :not(pre *) guard leaves Shiki's fenced blocks untouched, and :where
+   keeps specificity flat so the unlayered rule wins the cascade. */
+.prose :where(code):not(:where(pre *))::before,
+.prose :where(code):not(:where(pre *))::after {
+  content: none;
+}
+
+.prose :where(code):not(:where(pre *)) {
+  @apply whitespace-nowrap rounded-md border border-foreground/10 bg-muted/60 px-1.5 py-0.5 font-mono font-normal text-[0.85em] text-foreground;
+}

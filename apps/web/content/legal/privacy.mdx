@@ -1,32 +1,173 @@
 ---
 title: "Privacy Policy"
-description: "How we handle your data"
+description: "What this site processes, why, on which legal basis, and the rights you have — under the GDPR and the German TDDDG."
 ---
 
-## Overview
+{/* PLACEHOLDERS: fill every [bracketed] value before this ships. Sections
+    marked "delete if…" describe services that may not be active — the
+    policy must always match what the site actually runs. */}
 
-This Privacy Policy describes how has-toggle ("we", "us", or "our") collects, uses, and shares your personal information when you use our services.
+Last updated: [date]
 
-## Information We Collect
+## Controller
 
-We collect information you provide directly, such as when you create an account, use our services, or contact us for support.
+The controller responsible for processing on this website
+(hastoggle.dev) is:
 
-### Account Information
+**[Full name]**<br />
+[Street and house number]<br />
+[Postal code] [City]<br />
+Germany
 
-When you create an account, we collect your name, email address, and password.
+Email: [email address]
 
-### Usage Data
+## The short version
 
-We automatically collect information about how you interact with our services, including pages visited, features used, and actions taken.
+This site has no accounts, no advertising, and no cross-site tracking.
+Most of it is static pages with running demos. What does get processed:
+server logs when pages are delivered, cookieless usage statistics, error
+reports when something breaks, an email address if you sign up for the
+Monday digest, and whatever you write us through the contact form. One
+demo sets one cookie, and it says so right next to the button. The
+details, legal bases and your rights follow below.
 
-## How We Use Your Information
+## Legal bases
 
-We use your information to:
+Where this policy names a legal basis, it refers to Art. 6 (1) GDPR:
 
-- Provide, maintain, and improve our services
-- Send you technical notices and support messages
-- Respond to your comments and questions
+- **(a) consent** — you actively agreed, and can withdraw at any time;
+- **(b) contract** — processing is needed to do the thing you asked for;
+- **(f) legitimate interest** — running this site securely and reliably.
 
-## Contact Us
+For storing or reading information on your device (cookies, local
+storage), § 25 TDDDG applies; this site only uses storage that is
+strictly necessary for a function you use (§ 25 (2) TDDDG), so no
+consent banner is required.
 
-If you have questions about this Privacy Policy, please contact us at privacy@hastoggle.dev.
+## Hosting
+
+This site is hosted by **Vercel Inc.**, 650 California St, San
+Francisco, CA 94108, USA. When you open a page, Vercel processes the
+technical data every web server needs: your IP address, the requested
+URL, date and time, transferred data volume, referrer, and user-agent.
+This happens in server logs, on the legal basis of our legitimate
+interest (Art. 6 (1) (f) GDPR) in delivering the site securely.
+Server-side functions run in Vercel's Frankfurt region; static content
+is delivered by Vercel's global edge network. Vercel is certified under
+the EU–US Data Privacy Framework; a data processing agreement is in
+place. [Verify: link Vercel's DPA]
+
+## Rate limiting and security
+
+To keep automated abuse off the site, requests are screened by
+**Arcjet, Inc.** [Arcjet address], which processes the IP address and
+technical request characteristics for the moment of the decision. Legal
+basis: legitimate interest (Art. 6 (1) (f) GDPR) in protecting the
+service. [Verify: Arcjet DPA / transfer mechanism; delete this section
+if Arcjet is not active in production.]
+
+## Error monitoring
+
+When something on the site crashes, an error report is sent to
+**Sentry** (Functional Software, Inc., 45 Fremont Street, San
+Francisco, CA 94105, USA), containing the technical context of the
+error — which may include your IP address, user-agent, and the state of
+the page at the time. Legal basis: legitimate interest
+(Art. 6 (1) (f) GDPR) in finding and fixing defects. IP addresses are
+not used to identify visitors. [Verify: Sentry data region + DPA;
+Sentry offers EU data residency — state which is configured.]
+
+## Usage statistics
+
+This site uses **Vercel Web Analytics**, which counts page views and
+interactions without cookies and without persistent identifiers:
+visitors are distinguished by a short-lived hash that cannot be traced
+across sites or days. No advertising IDs, no cross-site profiles. Legal
+basis: legitimate interest (Art. 6 (1) (f) GDPR) in knowing which pages
+are read.
+
+{/* GOOGLE ANALYTICS — the codebase can load GA when
+    NEXT_PUBLIC_GA_MEASUREMENT_ID is set. If it is set in production, a GA
+    section with consent handling (Art. 6 (1) (a), § 25 (1) TDDDG) is
+    REQUIRED here — and a consent banner with it, because GA is not
+    "strictly necessary". If GA stays off, leave this comment as a warning
+    and ship no GA section. As of 2026-08-21 the provider only renders GA
+    when the key exists. */}
+
+## Cookies and local storage
+
+This site sets exactly one cookie: `playground-presses`, an `httpOnly`
+cookie holding the press count of the Server Actions demo — it exists
+so the demo can prove a point about cookies your JavaScript cannot
+read, and it is functional storage under § 25 (2) TDDDG. It expires
+[verify: session / max-age] and identifies nothing but a number.
+
+Your theme choice (light, dark, or system) is kept in your browser's
+local storage, never sent to us. Fonts are self-hosted; no requests go
+to font CDNs.
+
+## The Monday digest
+
+If you sign up for the weekly email, we process your email address —
+nothing else — to send you the digest. Signup is double opt-in: you get
+a confirmation email, and only a confirmed address is ever written to
+the list. We store the address, the confirmation status, and its
+timestamps in our database ([verify: MongoDB Atlas, Frankfurt/EU
+region]); emails are sent through **Resend** ([Resend Inc. address],
+USA) as our processor. Legal basis: your consent (Art. 6 (1) (a)
+GDPR). Every email contains an unsubscribe link; unsubscribing is one
+click, it works the first time, and your address is then deleted from
+the list. [Verify: deletion vs. suppression-list retention.]
+
+## Contact form
+
+If you write to us through the contact form, we process the data you
+enter (name, email address, your message) to answer you. Legal basis:
+Art. 6 (1) (b) GDPR where your message concerns a contract or
+pre-contractual question, otherwise our legitimate interest in
+answering (Art. 6 (1) (f) GDPR). Messages are retained as long as the
+conversation requires, then deleted. [Verify: where contact messages
+land — inbox provider — and name it here as a processor if applicable.]
+
+## Recipients and transfers to third countries
+
+The processors named above (Vercel, Sentry, Resend, Arcjet) act on our
+behalf under data processing agreements. Where they process data in
+the United States, transfers rest on the EU–US Data Privacy Framework
+and/or EU standard contractual clauses. [Verify each provider's current
+certification status and link their DPAs.] We do not sell personal
+data, and no data is shared for advertising.
+
+## Storage duration
+
+Server logs and error reports are kept for the technical retention
+periods of the respective provider [verify and state concretely], the
+digest address until you unsubscribe, and contact messages for the
+duration of the conversation. Beyond that, personal data is deleted
+when the purpose it was collected for ends.
+
+## Your rights
+
+Under the GDPR you have the right to:
+
+- **access** the personal data we hold about you (Art. 15),
+- **rectification** of inaccurate data (Art. 16),
+- **erasure** (Art. 17) and **restriction of processing** (Art. 18),
+- **data portability** (Art. 20),
+- **object** to processing based on legitimate interest (Art. 21),
+- **withdraw consent** at any time with effect for the future
+  (Art. 7 (3)) — for the digest, the unsubscribe link is exactly that.
+
+To exercise any of these, one email to [email address] is enough.
+
+You also have the right to lodge a complaint with a data protection
+supervisory authority, in particular in the member state of your
+habitual residence. The authority responsible for us is:
+[competent supervisory authority of your Bundesland, address, link].
+
+## Changes to this policy
+
+This policy is updated when the site's processing changes — for
+example, when a new chapter of the lab genuinely needs a new mechanism.
+The current version always lives at this address; the date at the top
+says when it last moved.

@@ -21,8 +21,13 @@ export function PlusGridRow({
   variant?: ColorVariant;
   children: React.ReactNode;
 }) {
+  // "light"/"dark" name the section band behind the grid, not the theme —
+  // so the light band's furniture still needs dark-theme values, or the
+  // lines vanish the moment the theme flips.
   const borderColor =
-    variant === "light" ? "border-black/5" : "border-white/10";
+    variant === "light"
+      ? "border-black/5 dark:border-white/10"
+      : "border-white/10";
 
   return (
     <div
@@ -99,7 +104,8 @@ export function PlusGridIcon({
   const [yAxis, xAxis] = placement.split(" ");
   const yClass = yAxis === "top" ? "-top-2" : "-bottom-2";
   const xClass = xAxis === "left" ? "-left-2" : "-right-2";
-  const fillColor = variant === "light" ? "fill-black/10" : "fill-white/20";
+  const fillColor =
+    variant === "light" ? "fill-black/10 dark:fill-white/20" : "fill-white/20";
 
   return (
     <svg
