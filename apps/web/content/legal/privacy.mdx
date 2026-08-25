@@ -3,23 +3,19 @@ title: "Privacy Policy"
 description: "What this site processes, why, on which legal basis, and the rights you have — under the GDPR and the German TDDDG."
 ---
 
-{/* PLACEHOLDERS: fill every [bracketed] value before this ships. Sections
-    marked "delete if…" describe services that may not be active — the
-    policy must always match what the site actually runs. */}
-
-Last updated: [date]
+Last updated: 21 August 2026
 
 ## Controller
 
 The controller responsible for processing on this website
 (hastoggle.dev) is:
 
-**[Full name]**<br />
-[Street and house number]<br />
-[Postal code] [City]<br />
+**Ernst Stolz**<br />
+Limberger Straße 40<br />
+49080 Osnabrück<br />
 Germany
 
-Email: [email address]
+Email: support@spiritsdontfly.com
 
 ## The short version
 
@@ -54,17 +50,8 @@ This happens in server logs, on the legal basis of our legitimate
 interest (Art. 6 (1) (f) GDPR) in delivering the site securely.
 Server-side functions run in Vercel's Frankfurt region; static content
 is delivered by Vercel's global edge network. Vercel is certified under
-the EU–US Data Privacy Framework; a data processing agreement is in
-place. [Verify: link Vercel's DPA]
-
-## Rate limiting and security
-
-To keep automated abuse off the site, requests are screened by
-**Arcjet, Inc.** [Arcjet address], which processes the IP address and
-technical request characteristics for the moment of the decision. Legal
-basis: legitimate interest (Art. 6 (1) (f) GDPR) in protecting the
-service. [Verify: Arcjet DPA / transfer mechanism; delete this section
-if Arcjet is not active in production.]
+the EU–US Data Privacy Framework, and a data processing agreement is in
+place ([vercel.com/legal/dpa](https://vercel.com/legal/dpa)).
 
 ## Error monitoring
 
@@ -72,10 +59,12 @@ When something on the site crashes, an error report is sent to
 **Sentry** (Functional Software, Inc., 45 Fremont Street, San
 Francisco, CA 94105, USA), containing the technical context of the
 error — which may include your IP address, user-agent, and the state of
-the page at the time. Legal basis: legitimate interest
+the page at the time. Our Sentry project uses EU data residency, so
+error data is processed within the European Union; a data processing
+agreement is in place. Legal basis: legitimate interest
 (Art. 6 (1) (f) GDPR) in finding and fixing defects. IP addresses are
-not used to identify visitors. [Verify: Sentry data region + DPA;
-Sentry offers EU data residency — state which is configured.]
+not used to identify visitors, and error events are retained for 90
+days.
 
 ## Usage statistics
 
@@ -86,13 +75,12 @@ across sites or days. No advertising IDs, no cross-site profiles. Legal
 basis: legitimate interest (Art. 6 (1) (f) GDPR) in knowing which pages
 are read.
 
-{/* GOOGLE ANALYTICS — the codebase can load GA when
-    NEXT_PUBLIC_GA_MEASUREMENT_ID is set. If it is set in production, a GA
-    section with consent handling (Art. 6 (1) (a), § 25 (1) TDDDG) is
-    REQUIRED here — and a consent banner with it, because GA is not
-    "strictly necessary". If GA stays off, leave this comment as a warning
-    and ship no GA section. As of 2026-08-21 the provider only renders GA
-    when the key exists. */}
+{/* GOOGLE ANALYTICS — Eric's call, 2026-08-21: no GA. The codebase can
+    load GA when NEXT_PUBLIC_GA_MEASUREMENT_ID is set; if that key is ever
+    set in production, a GA section with consent handling
+    (Art. 6 (1) (a), § 25 (1) TDDDG) and a consent banner become
+    MANDATORY, because GA is not "strictly necessary". Until then this
+    comment is the guard. */}
 
 ## Cookies and local storage
 
@@ -112,39 +100,46 @@ If you sign up for the weekly email, we process your email address —
 nothing else — to send you the digest. Signup is double opt-in: you get
 a confirmation email, and only a confirmed address is ever written to
 the list. We store the address, the confirmation status, and its
-timestamps in our database ([verify: MongoDB Atlas, Frankfurt/EU
-region]); emails are sent through **Resend** ([Resend Inc. address],
-USA) as our processor. Legal basis: your consent (Art. 6 (1) (a)
-GDPR). Every email contains an unsubscribe link; unsubscribing is one
-click, it works the first time, and your address is then deleted from
-the list. [Verify: deletion vs. suppression-list retention.]
+timestamps in our database, hosted in the EU (MongoDB Atlas, Frankfurt
+region); emails are sent through **Resend** (Plus Five Five, Inc.,
+2261 Market Street #5039, San Francisco, CA 94114, USA) as our
+processor. Legal basis: your consent (Art. 6 (1) (a) GDPR). Every
+digest email contains an unsubscribe link; unsubscribing is one click,
+and your address is then deleted from the list.
+
+{/* BEFORE THE FIRST DIGEST SENDS: the unsubscribe flow described above
+    does not exist in the codebase yet — the subscriber model carries an
+    `unsubscribed` flag, but no endpoint and no link in the email
+    templates. It must ship before email one, and it should hard-delete
+    (or at minimum suppress and anonymize) to keep this paragraph true. */}
 
 ## Contact form
 
-If you write to us through the contact form, we process the data you
-enter (name, email address, your message) to answer you. Legal basis:
-Art. 6 (1) (b) GDPR where your message concerns a contract or
-pre-contractual question, otherwise our legitimate interest in
-answering (Art. 6 (1) (f) GDPR). Messages are retained as long as the
-conversation requires, then deleted. [Verify: where contact messages
-land — inbox provider — and name it here as a processor if applicable.]
+If you write to us through the [contact form](/contact), we process the
+data you enter — name, email address, and your message — to answer you.
+Your message reaches us as an email, delivered through Resend to our
+support inbox. Legal basis: Art. 6 (1) (b) GDPR where your message
+concerns a contract or pre-contractual question, otherwise our
+legitimate interest in answering (Art. 6 (1) (f) GDPR). Messages are
+retained as long as the conversation requires, then deleted.
 
 ## Recipients and transfers to third countries
 
-The processors named above (Vercel, Sentry, Resend, Arcjet) act on our
-behalf under data processing agreements. Where they process data in
-the United States, transfers rest on the EU–US Data Privacy Framework
-and/or EU standard contractual clauses. [Verify each provider's current
-certification status and link their DPAs.] We do not sell personal
-data, and no data is shared for advertising.
+The processors named above — Vercel, Sentry, and Resend — act on our
+behalf under data processing agreements. Where processing touches the
+United States, transfers rest on the EU–US Data Privacy Framework
+(Vercel and Resend are certified participants) and, where applicable,
+EU standard contractual clauses; Sentry keeps this site's error data in
+the EU. We do not sell personal data, and no data is shared for
+advertising.
 
 ## Storage duration
 
-Server logs and error reports are kept for the technical retention
-periods of the respective provider [verify and state concretely], the
-digest address until you unsubscribe, and contact messages for the
-duration of the conversation. Beyond that, personal data is deleted
-when the purpose it was collected for ends.
+Server logs are kept for the hosting provider's technical retention
+period, error events for 90 days, the digest address until you
+unsubscribe, and contact messages for the duration of the conversation.
+Beyond that, personal data is deleted when the purpose it was collected
+for ends.
 
 ## Your rights
 
@@ -158,12 +153,17 @@ Under the GDPR you have the right to:
 - **withdraw consent** at any time with effect for the future
   (Art. 7 (3)) — for the digest, the unsubscribe link is exactly that.
 
-To exercise any of these, one email to [email address] is enough.
+To exercise any of these, one email to support@spiritsdontfly.com is
+enough.
 
 You also have the right to lodge a complaint with a data protection
 supervisory authority, in particular in the member state of your
 habitual residence. The authority responsible for us is:
-[competent supervisory authority of your Bundesland, address, link].
+
+Die Landesbeauftragte für den Datenschutz Niedersachsen<br />
+Prinzenstraße 5<br />
+30159 Hannover, Germany<br />
+[lfd.niedersachsen.de](https://lfd.niedersachsen.de)
 
 ## Changes to this policy
 
