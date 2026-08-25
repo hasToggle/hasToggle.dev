@@ -8,6 +8,7 @@ import {
   Hr,
   Html,
   Img,
+  Link,
   Preview,
   Section,
   Text,
@@ -22,6 +23,13 @@ interface DigestEmailProps {
     part: number;
   };
   title: string;
+  /**
+   * Required on purpose: a digest without an unsubscribe link must not
+   * compile. Points at /api/unsubscribe with the recipient's durable
+   * token — our endpoint, which deletes, not Resend's hosted one, which
+   * only suppresses.
+   */
+  unsubscribeUrl: string;
 }
 
 const baseUrl = process.env.NEXT_PUBLIC_APEX_URL ?? "https://hastoggle.dev";
@@ -32,6 +40,7 @@ function DigestEmail({
   content,
   series,
   archiveUrl,
+  unsubscribeUrl,
 }: DigestEmailProps): ReactElement {
   return (
     <Html>
@@ -66,7 +75,11 @@ function DigestEmail({
           <Hr style={hr} />
           <Text style={footer}>
             You&apos;re receiving this because you subscribed to the hasToggle
-            weekly digest.
+            weekly digest.{" "}
+            <Link href={unsubscribeUrl} style={footerLink}>
+              Unsubscribe
+            </Link>{" "}
+            &mdash; one click, and it works the first time.
           </Text>
         </Container>
       </Body>
@@ -80,6 +93,7 @@ DigestEmail.PreviewProps = {
   misconception: "AI writes all the code for me",
   series: { name: "The AI Toolchain", part: 1 },
   title: "You don't need to learn to code",
+  unsubscribeUrl: "https://hastoggle.dev/api/unsubscribe?token=preview-only",
 } satisfies DigestEmailProps;
 
 export default DigestEmail;
@@ -154,4 +168,9 @@ const footer = {
   color: "#9ca3af",
   fontSize: "12px",
   lineHeight: "1.5",
+};
+
+const footerLink = {
+  color: "#6b7280",
+  textDecoration: "underline" as const,
 };

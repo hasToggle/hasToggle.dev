@@ -30,6 +30,9 @@ export default async function DigestPreviewPage({ params }: PreviewPageProps) {
       misconception: digest.misconception,
       series: digest.series,
       title: digest.title,
+      // The real send renders each recipient's durable token; the preview
+      // shows the link the way subscribers will see it.
+      unsubscribeUrl: "https://hastoggle.dev/api/unsubscribe?token=preview",
     })
   );
 

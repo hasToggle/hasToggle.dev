@@ -3,7 +3,7 @@ import { resend } from "@repo/email";
 import { parseError } from "@repo/observability/error";
 import { after, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
-import { generateTokenHash } from "@/lib/token";
+import { generateToken, generateTokenHash } from "@/lib/token";
 
 export async function GET(request: NextRequest) {
   try {
@@ -33,7 +33,17 @@ export async function GET(request: NextRequest) {
       ? Promise.resolve()
       : database.subscriber.updateOne(
           { _id: subscriber._id },
-          { $set: { emailVerified: new Date(), tokenExpiresAt: null } }
+          {
+            $set: {
+              emailVerified: new Date(),
+              tokenExpiresAt: null,
+              // The durable unsubscribe capability, minted the moment the
+              // address becomes a list member — every digest email links
+              // /api/unsubscribe with it. Stored in the clear on purpose;
+              // see the Subscriber type.
+              unsubscribeToken: generateToken().token,
+            },
+          }
         );
 
     const contactPromise = resend.contacts.create({
