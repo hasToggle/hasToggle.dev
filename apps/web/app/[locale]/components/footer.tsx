@@ -79,6 +79,7 @@ function Sitemap() {
           <SitemapLink href="/lab">The lab</SitemapLink>
           <SitemapLink href="/blog">Blog</SitemapLink>
           <SitemapLink href="/#faq">FAQs</SitemapLink>
+          <SitemapLink href="/contact">Contact</SitemapLink>
         </SitemapLinks>
       </div>
       <div className="lg:col-span-2">
