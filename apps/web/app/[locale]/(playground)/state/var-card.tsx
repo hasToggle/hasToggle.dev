@@ -84,6 +84,7 @@ export function VarCard({ panelPass }: VarCardProps) {
         <div className="flex items-center gap-4">
           <button
             className="inline-flex items-center justify-center rounded-full border border-transparent bg-primary px-4 py-[calc(0.5rem-1px)] font-medium text-base text-primary-foreground shadow-md hover:bg-primary/90"
+            // biome-ignore lint/performance/noJsxPropsBind: this handler must be reborn every render — it closes over the render's own `let count`, which is the whole demonstration. A memoized one would increment a variable from a render that is over.
             onClick={handleClick}
             type="button"
           >

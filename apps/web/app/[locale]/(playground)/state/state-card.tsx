@@ -159,10 +159,14 @@ export function StateCard({ narrate, replayCode }: StateCardProps) {
       clearNotes();
       // The paint happened while the card was turned; the wash marks its
       // reveal (re-triggered by hand — a keyed remount already played it
-      // behind the card's back).
+      // behind the card's back). The class comes off, the layout read
+      // flushes that removal, and the class goes back on: without the read
+      // in the middle the browser coalesces both mutations into one frame
+      // and the animation never restarts. getAnimations() is no help here —
+      // a finished fill:none animation is gone from it by the time we ask.
       if (numberRef.current !== null) {
         numberRef.current.classList.remove("ht-land");
-        void numberRef.current.offsetWidth;
+        numberRef.current.getBoundingClientRect();
         numberRef.current.classList.add("ht-land");
       }
       replayingRef.current = false;
@@ -202,6 +206,7 @@ export function StateCard({ narrate, replayCode }: StateCardProps) {
             <div className="inline-flex items-stretch overflow-hidden rounded-full bg-primary shadow-md">
               <button
                 className="px-8 py-[calc(0.5rem-1px)] font-medium text-base text-primary-foreground transition-colors hover:bg-primary-foreground/10"
+                // biome-ignore lint/performance/noJsxPropsBind: the handler goes to a host element, which has no props to compare — memoizing it would buy nothing and cost a dep array that changes on every press anyway.
                 onClick={handleClick}
                 type="button"
               >
