@@ -58,8 +58,8 @@ export async function GET(request: Request): Promise<ImageResponse> {
   // The site's own card already says the tagline up top — don't say it twice.
   const footer =
     title === DEFAULT_OG_TITLE
-      ? "press the demos · read the source · new exhibit every Monday"
-      : "the playground for Next.js & Vercel — new exhibit every Monday";
+      ? "press the demos · read the source · new chapter every Monday"
+      : "the playground for Next.js & Vercel — new chapter every Monday";
 
   return new ImageResponse(
     <div

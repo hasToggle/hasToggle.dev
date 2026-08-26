@@ -16,7 +16,12 @@ const baseUrl = process.env.NEXT_PUBLIC_APEX_URL
   ? `https://${process.env.NEXT_PUBLIC_APEX_URL}`
   : "";
 
-const WelcomeEmail = (): ReactElement => (
+interface WelcomeEmailProps {
+  /** The recipient's one-click out — rendered whenever the sender has it. */
+  unsubscribeUrl?: string;
+}
+
+const WelcomeEmail = ({ unsubscribeUrl }: WelcomeEmailProps): ReactElement => (
   <Html>
     <Head />
     <Preview>
@@ -78,6 +83,14 @@ const WelcomeEmail = (): ReactElement => (
               — Eric
             </Text>
             <Hr className="my-5 border-[#e6ebf1]" />
+            {unsubscribeUrl ? (
+              <Text className="text-[#8898aa] text-xs leading-4">
+                <a className="text-[#8898aa] underline" href={unsubscribeUrl}>
+                  Unsubscribe
+                </a>{" "}
+                &mdash; one click, and it works the first time.
+              </Text>
+            ) : null}
             <Text className="text-[#8898aa] text-xs leading-4">
               hasToggle, Limberger Straße 40, 49080 Osnabrück, Germany
             </Text>

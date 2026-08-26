@@ -104,7 +104,7 @@ function LaneRow({
           {lane.mono} · court: {lane.court}
         </p>
       </div>
-      <p className="mt-0.5 font-mono text-[10px] text-muted-foreground/70 italic">
+      <p className="mt-0.5 font-mono text-[10px] text-muted-foreground italic">
         {lane.tense}
       </p>
       <div className="mt-2 grid grid-cols-3 gap-2">

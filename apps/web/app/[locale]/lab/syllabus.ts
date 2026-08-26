@@ -1,0 +1,306 @@
+/**
+ * The syllabus registry — the single source of truth for the lab's shape.
+ *
+ * One entry per chapter, in arrival order: shipped chapters first (the
+ * array order is the ship order), then the one landing next Monday, then
+ * the topics still to build. Everything that lists chapters derives from
+ * here — the contents bar, the landing roadmap, prev/next, the sitemap,
+ * per-page metadata — so shipping a chapter is one entry flip: planned →
+ * next → shipped, belief and navLabel added, nothing else to keep in sync.
+ *
+ * Arrival order is an artifact of which week a chapter got built, so no
+ * numeral derived from it is shown anywhere: the digest extends the
+ * syllabus in whatever order the work happens, and neither the Next.js
+ * nor the Vercel docs have a chapter 04 to match. The array position
+ * still answers "what shipped last" for /latest, and nothing else.
+ *
+ * The order a reader is offered is the shelf order instead — SECTIONS,
+ * then registry order within a shelf — which is a learning arc rather
+ * than a build log. READING_ORDER is that sequence; prev/next walks it.
+ *
+ * Beliefs are prose held in TS strings, so typographic marks are written
+ * directly (voice.md §8): U+2019 apostrophes, U+201C/U+201D quotes.
+ */
+
+export type SectionId =
+  | "components"
+  | "data"
+  | "interface"
+  | "platform"
+  | "routing";
+
+export interface Section {
+  readonly id: SectionId;
+  readonly label: string;
+}
+
+/**
+ * The contents page's shelves, in learning-arc order: what a component is
+ * and where it runs, then data, then the router, then what a page wears,
+ * then the platform under all of it.
+ */
+export const SECTIONS: readonly Section[] = [
+  { id: "components", label: "components & state" },
+  { id: "data", label: "data & caching" },
+  { id: "routing", label: "routing & navigation" },
+  { id: "interface", label: "metadata & assets" },
+  { id: "platform", label: "the platform" },
+];
+
+interface ChapterCore {
+  /** The shelf the contents page files this under — display structure, not ship order. */
+  readonly section: SectionId;
+  /** The chapter's URL segment under /lab — short, topical, stable forever. */
+  readonly slug: string;
+  /** The eyebrow identifier, lowercase: "caching & revalidation". */
+  readonly topic: string;
+}
+
+export interface ShippedChapter extends ChapterCore {
+  /** The exhibit title — a belief the reader holds, in their words. */
+  readonly belief: string;
+  /** The short label the contents bar and prev/next links wear. */
+  readonly navLabel: string;
+  readonly status: "shipped";
+}
+
+export interface NextChapter extends ChapterCore {
+  /**
+   * The Monday it lands, ISO. Held here rather than derived from "the next
+   * Monday", because this is a commitment, not a calculation: if a week
+   * slips the row should say the date that was promised, not roll silently
+   * to the following one.
+   */
+  readonly lands: string;
+  readonly status: "next";
+}
+
+export interface PlannedTopic {
+  readonly section: SectionId;
+  readonly status: "planned";
+  readonly topic: string;
+}
+
+export type SyllabusEntry = NextChapter | PlannedTopic | ShippedChapter;
+
+export const SYLLABUS: readonly SyllabusEntry[] = [
+  {
+    belief: "I’ll put “use client” on it, to be safe.",
+    navLabel: "The boundary",
+    section: "components",
+    slug: "boundary",
+    status: "shipped",
+    topic: "server & client components",
+  },
+  {
+    belief: "It’s either cached or it isn’t.",
+    navLabel: "The cache",
+    section: "data",
+    slug: "caching",
+    status: "shipped",
+    topic: "caching & revalidation",
+  },
+  {
+    belief: "I’ll fetch it all first, then render.",
+    navLabel: "The stream",
+    section: "data",
+    slug: "streaming",
+    status: "shipped",
+    topic: "streaming & suspense",
+  },
+  {
+    belief: "You need an API route for that.",
+    navLabel: "The mutation",
+    section: "data",
+    slug: "server-actions",
+    status: "shipped",
+    topic: "server actions & cookies",
+  },
+  {
+    belief: "I’ll need to design a card for every page.",
+    navLabel: "The image",
+    section: "interface",
+    slug: "og-images",
+    status: "shipped",
+    topic: "imageresponse & route handlers",
+  },
+  {
+    belief: "I don’t need state for a simple counter.",
+    navLabel: "The state",
+    section: "components",
+    slug: "state",
+    status: "shipped",
+    topic: "useState & re-renders",
+  },
+  {
+    lands: "2026-08-31",
+    section: "routing",
+    slug: "navigation",
+    status: "next",
+    topic: "navigation & prefetching",
+  },
+  { section: "routing", status: "planned", topic: "dynamic routes & params" },
+  {
+    section: "interface",
+    status: "planned",
+    topic: "next/image, fonts & the asset pipeline",
+  },
+  {
+    section: "interface",
+    status: "planned",
+    topic: "metadata, sitemaps & SEO",
+  },
+  {
+    section: "data",
+    status: "planned",
+    topic: "optimistic UI & useActionState",
+  },
+  {
+    section: "routing",
+    status: "planned",
+    topic: "proxy, redirects & rewrites",
+  },
+  {
+    section: "routing",
+    status: "planned",
+    topic: "error, not-found & recovery",
+  },
+  {
+    section: "routing",
+    status: "planned",
+    topic: "parallel & intercepted routes",
+  },
+  { section: "routing", status: "planned", topic: "i18n & locale routing" },
+  { section: "routing", status: "planned", topic: "view transitions" },
+  { section: "data", status: "planned", topic: "ISR & pages baked on demand" },
+  {
+    section: "platform",
+    status: "planned",
+    topic: "edge network & geolocation",
+  },
+  {
+    section: "platform",
+    status: "planned",
+    topic: "feature flags & Edge Config",
+  },
+  {
+    section: "platform",
+    status: "planned",
+    topic: "web vitals, measured live",
+  },
+  {
+    section: "platform",
+    status: "planned",
+    topic: "preview deploys & instant rollback",
+  },
+  {
+    section: "platform",
+    status: "planned",
+    topic: "cron, queues & background work",
+  },
+  {
+    section: "platform",
+    status: "planned",
+    topic: "blob, key-value & Postgres",
+  },
+];
+
+const WEEKDAYS = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
+const MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+/**
+ * The landing date as the contents row wears it: "Monday · 31 Aug".
+ *
+ * Formatted by hand from the ISO parts in UTC, not through Intl: the row is
+ * prerendered, so a date that formatted itself against the server's locale
+ * and then again against the visitor's would be two different strings for
+ * one static row.
+ */
+export function landsOn(iso: string): string {
+  const [year, month, day] = iso.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+
+  return `${WEEKDAYS[date.getUTCDay()]} · ${date.getUTCDate()} ${MONTHS[date.getUTCMonth()]}`;
+}
+
+export const SHIPPED: readonly ShippedChapter[] = SYLLABUS.filter(
+  (entry): entry is ShippedChapter => entry.status === "shipped"
+);
+
+export const NEXT_UP: NextChapter | undefined = SYLLABUS.find(
+  (entry): entry is NextChapter => entry.status === "next"
+);
+
+/** Topics not yet shipped, in syllabus order — the landing roadmap list. */
+export const STILL_TO_BUILD: readonly string[] = SYLLABUS.flatMap((entry) =>
+  entry.status === "shipped" ? [] : [entry.topic]
+);
+
+/** One shelf of the contents page, in the registry's arrival order. */
+export function sectionEntries(id: SectionId): readonly SyllabusEntry[] {
+  return SYLLABUS.filter((entry) => entry.section === id);
+}
+
+/**
+ * The shipped chapters in shelf order — exactly the sequence the contents
+ * page reads top to bottom. This is the book's spine: prev/next walks it,
+ * so the page-turn follows the learning arc instead of the build log.
+ */
+export const READING_ORDER: readonly ShippedChapter[] = SECTIONS.flatMap(
+  (section) => SHIPPED.filter((chapter) => chapter.section === section.id)
+);
+
+const lastShipped = SHIPPED.at(-1);
+if (!lastShipped) {
+  throw new Error("syllabus: no shipped chapters — the lab has no contents");
+}
+
+/** The newest shipped chapter — what /latest points at. */
+export const LATEST: ShippedChapter = lastShipped;
+
+export function chapterBySlug(slug: string): ShippedChapter | undefined {
+  return SHIPPED.find((chapter) => chapter.slug === slug);
+}
+
+/** For call sites that hold a slug the registry must know — a typo is a build-time crash, not a silent gap. */
+export function requireChapter(slug: string): ShippedChapter {
+  const chapter = chapterBySlug(slug);
+  if (!chapter) {
+    throw new Error(`syllabus: no shipped chapter with slug "${slug}"`);
+  }
+  return chapter;
+}
+
+/** Shelf-order neighbors among shipped chapters only. */
+export function prevNext(slug: string): {
+  next?: ShippedChapter;
+  prev?: ShippedChapter;
+} {
+  const index = READING_ORDER.findIndex((chapter) => chapter.slug === slug);
+  if (index === -1) {
+    return {};
+  }
+  return { next: READING_ORDER[index + 1], prev: READING_ORDER[index - 1] };
+}

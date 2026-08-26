@@ -50,7 +50,7 @@ export function RerunButtonFallback() {
       <MarketingButton disabled variant="outline">
         Run it again
       </MarketingButton>
-      <p className="font-mono text-muted-foreground/60 text-xs">
+      <p className="font-mono text-muted-foreground text-xs">
         run #0 · via ?stream= in the URL
       </p>
     </div>

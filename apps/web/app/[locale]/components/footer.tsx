@@ -3,12 +3,13 @@ import { Container } from "./container";
 import { Logo } from "./logo";
 import { Link } from "./marketing-link";
 import { PlusGrid, PlusGridItem, PlusGridRow } from "./plus-grid";
+import { ThemeSwitch } from "./theme-switch";
 
 function SitemapHeading({ children }: { children: React.ReactNode }) {
   return (
     // `/60`, not `/50`: the sitemap label sits on the footer's `bg-muted`
     // band, where `/50` measures 3.67:1 at 14px against the 4.5:1 floor.
-    <h3 className="font-medium text-foreground/60 text-sm/6">{children}</h3>
+    <h2 className="font-medium text-foreground/60 text-sm/6">{children}</h2>
   );
 }
 
@@ -67,27 +68,38 @@ function SitemapLink({
 }
 
 function Sitemap() {
-  // Two columns wide because the longest label plus its icon overflows one,
-  // and the columns beside it are empty — the extra width costs nothing.
+  // Two categories, two columns each on lg (the longest label plus its icon
+  // overflows a single subgrid column): where the site goes, and how it is
+  // made. "Built in the open" is the roadmap aside's own phrase.
   return (
-    <div className="col-span-2">
-      <SitemapHeading>Playground</SitemapHeading>
-      <SitemapLinks>
-        <SitemapLink href="/#faq">FAQs</SitemapLink>
-        <SitemapLink
-          href="https://github.com/hasToggle/hasToggle.dev"
-          target="_blank"
-        >
-          Source on GitHub
-        </SitemapLink>
-        <SitemapLink
-          href="https://github.com/hasToggle/hasToggle.dev-checkpoints"
-          target="_blank"
-        >
-          Prompts and checkpoints
-        </SitemapLink>
-      </SitemapLinks>
-    </div>
+    <>
+      <div className="lg:col-span-2">
+        <SitemapHeading>Playground</SitemapHeading>
+        <SitemapLinks>
+          <SitemapLink href="/lab">The lab</SitemapLink>
+          <SitemapLink href="/blog">Blog</SitemapLink>
+          <SitemapLink href="/#faq">FAQs</SitemapLink>
+          <SitemapLink href="/contact">Contact</SitemapLink>
+        </SitemapLinks>
+      </div>
+      <div className="lg:col-span-2">
+        <SitemapHeading>Built in the open</SitemapHeading>
+        <SitemapLinks>
+          <SitemapLink
+            href="https://github.com/hasToggle/hasToggle.dev"
+            target="_blank"
+          >
+            Source on GitHub
+          </SitemapLink>
+          <SitemapLink
+            href="https://github.com/hasToggle/hasToggle.dev-checkpoints"
+            target="_blank"
+          >
+            Prompts and checkpoints
+          </SitemapLink>
+        </SitemapLinks>
+      </div>
+    </>
   );
 }
 
@@ -189,12 +201,15 @@ export function Footer() {
           <PlusGridRow>
             <div className="grid grid-cols-2 gap-y-10 pb-6 lg:grid-cols-6 lg:gap-8">
               <div className="col-span-2 flex">
-                <PlusGridItem className="pt-6 lg:pb-6">
+                {/* A plain div, not a PlusGridItem — same call as the navbar:
+                    lone corner marks around the wordmark read as an
+                    unfinished frame, so the logo keeps the rules alone. */}
+                <div className="pt-6 lg:pb-6">
                   <Logo
                     className="inline-block h-6 text-foreground"
                     fill="currentColor"
                   />
-                </PlusGridItem>
+                </div>
               </div>
               <div className="col-span-2 grid grid-cols-2 gap-x-8 gap-y-12 lg:col-span-4 lg:grid-cols-subgrid lg:pt-6">
                 <Sitemap />
@@ -202,8 +217,12 @@ export function Footer() {
             </div>
           </PlusGridRow>
           <PlusGridRow className="flex justify-between">
-            <div>
-              <PlusGridItem className="py-3">
+            {/* `flex` + stretching item: the theme pill makes its box 56px
+                tall, and a content-sized copyright box (48px) would hang its
+                bottom pluses 8px above the rules the taller boxes sit on —
+                the misalignment is item height, so the fix is height. */}
+            <div className="flex">
+              <PlusGridItem className="flex items-center py-3">
                 <Copyright />
               </PlusGridItem>
             </div>
@@ -216,7 +235,14 @@ export function Footer() {
               </div>
             </div>
             <div className="flex">
-              <PlusGridItem className="flex items-center gap-8 py-3">
+              {/* The utility corner: the theme pill boards the social row —
+                  controls beside pointers, none of it in the top nav. Two
+                  adjacent items, so the grid draws its shared corners
+                  between them: the pluses are the separator. */}
+              <PlusGridItem className="flex items-center px-5 py-3">
+                <ThemeSwitch />
+              </PlusGridItem>
+              <PlusGridItem className="flex items-center gap-8 px-5 py-3">
                 <SocialLinks />
               </PlusGridItem>
             </div>
@@ -227,8 +253,29 @@ export function Footer() {
             token is 4.35:1, so the earlier fix moved in the right direction
             and stopped short. `text-foreground/60` is 5.11:1. */}
         <div className="pb-10 text-center text-foreground/60 text-xs/5">
-          hasToggle is an independent project, not affiliated with or endorsed
-          by Vercel. Next.js and Vercel are trademarks of Vercel, Inc.
+          {/* The imprint must be reachable from every page (§ 5 DDG: easily
+              recognizable, directly accessible) — this footer is that path. */}
+          <p>
+            <Link
+              className="transition-colors hover:text-foreground"
+              href="/legal/imprint"
+            >
+              Imprint
+            </Link>
+            <span aria-hidden="true" className="px-2">
+              ·
+            </span>
+            <Link
+              className="transition-colors hover:text-foreground"
+              href="/legal/privacy"
+            >
+              Privacy
+            </Link>
+          </p>
+          <p className="mt-2">
+            hasToggle is an independent project, not affiliated with or endorsed
+            by Vercel. Next.js and Vercel are trademarks of Vercel, Inc.
+          </p>
         </div>
       </Container>
     </footer>

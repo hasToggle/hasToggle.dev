@@ -21,6 +21,12 @@ const RootLayout = ({ children }: RootLayoutProperties) => (
       jetbrainsMono.variable,
       "touch-manipulation scroll-smooth font-sans antialiased"
     )}
+    // The attribute must accompany scroll-smooth: the router only suppresses
+    // smooth scrolling during route-transition scroll resets when it sees it
+    // (it won't pay getComputedStyle to find out). Without it, every page
+    // navigation animates its scroll-to-top from the old position. Hash
+    // scrolls are exempt from the suppression, so anchors keep the glide.
+    data-scroll-behavior="smooth"
     lang="en"
     suppressHydrationWarning
   >

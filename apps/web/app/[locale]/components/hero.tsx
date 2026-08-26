@@ -36,7 +36,9 @@ export function Hero() {
             className="ht-enter mt-12 flex flex-col items-start gap-x-8 gap-y-4 sm:flex-row sm:flex-wrap sm:items-center"
             style={{ "--ht-delay": "280ms" } as React.CSSProperties}
           >
-            <MarketingButton href="#demo-01">Start poking</MarketingButton>
+            <MarketingButton href="#demo-boundary">
+              Start poking
+            </MarketingButton>
             {/* Block markers, not `//`: this one wraps to two lines, and a
                 line comment whose second line has no marker isn't a comment.
                 The exhibit asides wear this variant in comment-gray; the hero

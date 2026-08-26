@@ -2,6 +2,8 @@ import { capitalize } from "@repo/design-system/lib/utils";
 import type { ReactNode } from "react";
 
 interface SidebarProperties {
+  /** Byline, name-only: articles are personal narration, and the page says so. */
+  readonly authors?: readonly { name: string }[];
   readonly date: Date;
   readonly readingTime: string;
   readonly tags?: string[];
@@ -9,12 +11,23 @@ interface SidebarProperties {
 }
 
 export const Sidebar = async ({
+  authors,
   date,
   readingTime,
   tags,
   toc: Toc,
 }: SidebarProperties) => (
   <div className="col-span-4 flex w-72 flex-col items-start gap-8 border-foreground/10 border-l px-6 lg:col-span-2">
+    {authors && authors.length > 0 ? (
+      <div className="grid gap-2">
+        <p className="text-muted-foreground text-sm">
+          {authors.length > 1 ? "Authors" : "Author"}
+        </p>
+        <p className="rounded-sm text-foreground text-sm">
+          {authors.map((author) => author.name).join(", ")}
+        </p>
+      </div>
+    ) : null}
     <div className="grid gap-2">
       <p className="text-muted-foreground text-sm">Published</p>
       <p className="rounded-sm text-foreground text-sm">

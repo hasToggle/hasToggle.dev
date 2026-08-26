@@ -35,7 +35,7 @@ function StepTab({ active, onSelect, step }: StepTabProps) {
           {step.label}
         </span>
         {step.vibe ? (
-          <span className="mt-0.5 block font-mono text-[10px] text-muted-foreground/70 tracking-wide">
+          <span className="mt-0.5 block font-mono text-[10px] text-muted-foreground tracking-wide">
             {step.vibe}
           </span>
         ) : null}

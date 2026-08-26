@@ -56,10 +56,10 @@ What the grammar deliberately lacks: a panel label (the intro prose names the
 subject once) and a readout footer (the source in the drawer is the spec
 plate — a reader who wants identifiers is the reader who opens it).
 
-Outside the chassis: exhibit order rides in the eyebrow (`02 · caching &
-revalidation`) where engineers read identifiers — no watermark chapter
-numerals. Asides are set as `/* code comments */` in comment-gray mono,
-because that is what they are.
+Outside the chassis: the eyebrow names the chapter and its topic (`the
+cache · caching & revalidation`) where engineers read identifiers — two
+names, no numeral. Asides are set as `/* code comments */` in comment-gray
+mono, because that is what they are.
 
 ## 2. Feedback
 
@@ -67,6 +67,17 @@ Anything in flight says so three ways: the gauge flips to `working`, the
 specimen dims and pulses, and when the new value lands it takes one amber
 wash (`.ht-land` — key-remount, skips first paint, reduced-motion safe) and
 settles. No silent updates, ever.
+
+A change spent behind a turning card was never spent. Where a demo hides
+its own output while narrating — the state card flips to its source and
+back — the face holds the old value for the length of the replay and
+changes it only when the front is square to the reader again. The state
+itself updates on the click frame, as it always did; what waits is the
+display, and the aside under the card is where that gap is stated. The
+reveal wears both marks at once, from the one commit: the landing wash
+(the value is the key, so the remount plays it) and `.ht-settle`, 420ms,
+the digits alone rising a hair into place. The eye's last movement is to
+the thing that moved.
 
 The React rule underneath: **client-owned state paints on the click frame;
 only the server sync lives in a transition.** A mode flip inside the same
@@ -100,7 +111,92 @@ deleted, not deprecated. Judgment calls worth keeping:
   in-flight signal is carried by the row skeletons and the rerun button's
   pending label instead — honest, but not the gauge; wire it if the stream
   panel ever gains a client owner. 01 and 04 have no client round trip to
-  gauge (04's form works with JavaScript off, which is its point).
+  gauge (04's form works with JavaScript off, which is its point). 06 has
+  a client owner but no server round trip at all — its gauge stays `live`,
+  because every event is a client render, which is the subject.
+- **06's replay is slowed, not simulated — and labeled as such.** A press
+  updates state immediately (the new number exists before the card
+  finishes turning); in narrate mode the card flips to its own source —
+  Shiki-rendered on the server through the same cached pipeline as the
+  reference drawers, zero highlighter in the browser — and the client
+  walks one CSS class down the pre-rendered `.line` spans **top to
+  bottom, every code line, the way a render re-runs the component**
+  (Eric's correction: no jumping to the onClick first — that is not how
+  code is processed). The full three-line history sits on the card from
+  mid-flip, dimmed, each line lighting (○ → ●, the gauge-dot vocabulary
+  at list scale) as the walk reaches it and staying lit — a record, not
+  a ticker — with values read live at fire time. The back face carries
+  the honesty label ("the last click, replayed slow · values real") and
+  the aside repeats it. No deck: the re-render beat was a var-demo
+  artifact and left with it (2026-08-21). The local-variable card is
+  **not** in this chapter — it belongs to the /learn state lesson — and
+  sits banked in the state folder (var-card.tsx), working and tested.
+
+### The lab — site shape, 2026-08-20
+
+The collection outgrew the landing page (half the syllabus is made of
+routes — parallel/intercepted, not-found, params, view transitions — and
+cannot run inside one page), so the playground has a book shape: a
+contents page at `/lab`, one route segment per chapter at `/lab/<slug>`,
+`/latest` redirecting to the newest chapter. One registry
+(`apps/web/app/[locale]/lab/syllabus.ts`) drives every list — contents
+rows, the landing roadmap, the contents bar, page-turns, sitemap, OG
+titles — so shipping a chapter is one entry flip: planned → next →
+shipped, belief and navLabel added.
+
+- **Chapter pages** render the same demo wrapper the landing shows, with
+  the belief promoted to the page's h1 (the eyebrow demotes to a
+  non-heading element). The frame adds the making-of aside (the folder's
+  commit history + the checkpoints repo) and the page-turn row
+  (prev · contents · next), and `/api/og` draws each chapter's card from
+  its belief.
+- **Index readings.** A chapter may put one true value from its running
+  instrument on its contents row, each inside its own Suspense — the
+  index is itself a partial-prerender demonstration. Truth rule: a
+  per-visitor value says so ("your presses · 3"); a global-sounding
+  count would be the index's first lie.
+- **Vocabulary.** Visitor prose says *the lab* and *chapter* (voice.md
+  §6, 2026-08-20). "Exhibit" remains the working word in code comments
+  and these docs.
+- **Shelves (2026-08-21).** Ship order is historical — "assume we've
+  covered everything, and the order we covered it in becomes
+  irrelevant" — so the contents page displays the collection by section
+  instead: components & state / data & caching / routing & navigation /
+  metadata & assets / the platform, carved the way the React / Next.js /
+  Vercel docs carve the territory. The landing roadmap stays flat.
+- **Chapter previews (2026-08-26).** A chapter that hasn't shipped can
+  carry an index reading too, where the site itself already runs the
+  feature it will be about: the next-up row counts the routes this page
+  has prefetched while you read it. Three rules. It measures the site's
+  own chrome, never a mockup of the chapter — a preview that simulates is
+  an advertisement. It is keyed by the chapter's slug in `INDEX_VALUES`
+  and lives in the chapter's own folder, so shipping changes the status
+  and not the instrument. And it stays optional: where nothing true can
+  be read from the running site — view transitions, cron, error recovery
+  — the row is the topic and the date, because a slot that must be filled
+  gets filled with something invented.
+  - The correction that came with it: `next/link` prefetches on
+    **viewport**, not hover, and not at all in `next dev`. The old bank
+    note here said hover; five routes were already fetched before the
+    pointer moved.
+
+- **No ordinals (2026-08-26).** The numerals went with the ship order they
+  encoded. A chapter's number only ever said which week it got built —
+  arbitrary, since the digest extends the syllabus in whatever order the
+  work happens, and there is no chapter 04 in the Next.js or Vercel docs
+  to match it against. So nothing derived from arrival order reaches a
+  page: not the contents rows, not the eyebrow, not the page-turn, not
+  the anchors (`#demo-caching`, keyed by slug, which also survives a
+  chapter changing shelves). The registry's array position still answers
+  "what shipped last" for `/latest`, and nothing else.
+  - **The page-turn walks shelf order** (`READING_ORDER`), so the book's
+    spine is the learning arc the contents page displays rather than the
+    build log.
+  - **The row gutter keeps its column** and carries a status glyph in
+    place of the numeral: a hairline rule for a chapter that is here, a
+    `+` for one that isn't yet — the same `+` the still-to-build rows
+    wear, so the next-Monday row reads as what it is, a planned topic
+    with a date.
 
 ## 5. Banked
 
@@ -113,6 +209,12 @@ deleted, not deprecated. Judgment calls worth keeping:
   width-reservation (`StableSlot`) grows a JSX-safe design.
 - Digest beats banked: the side-effect-runs-twice warning; the
   swatch-is-the-hash reveal.
+- The Hazel counter: superseded 2026-08-21 by the state chapter (useState
+  & re-renders), its reimagining on the instrument grammar; the old code
+  (`(counter)/`, `components/ui/boundary` + `ping`) is deleted — git
+  history keeps it. The narrative /learn lesson (variables in JS → state
+  change vs. rendering in an SPA → useState as the solution to both)
+  remains a path-layer candidate that reuses the state chapter's cards.
 
 ## 6. Verification
 
@@ -126,7 +228,25 @@ POST → `REVALIDATED`, reason "Tag-based deletion", for the request that
 refills. `updateTag` never produces `STALE` (that badge is
 stale-while-revalidate: `revalidateTag` or a lapsed `cacheLife` window), and
 the tag-deletion miss is labeled `REVALIDATED`, not `MISS`. Copy that names
-log badges must match this. The React DevTools extension throws spurious "The
+log badges must match this.
+
+An accessibility audit here reports on one theme and one scroll position,
+so a single green run proves less than it looks (2026-08-26). Two traps,
+both caught on this site: axe skips elements it computes as invisible, and
+every `.ht-reveal` block sits at `opacity: 0` until scrolled into view — so
+the landing scored 100 while its five exhibits, roadmap, cohort and digest
+were never examined, and the same defect was flagged on a chapter page
+where the exhibit is above the fold. And the run inherits the browser's
+colour scheme: the dim text tokens failed in light and passed in dark, so
+a dark-mode run called the site clean. Audit both schemes, and read a 100
+as "the part that was visible passed".
+
+Build workers bake `use cache` entries independently (observed 2026-08-20,
+lab build): the landing shell and /lab's contents row each prerendered
+their own bake, so a fresh deploy can serve two fingerprints for "one
+shared entry" until the first tag revalidation or cacheLife expiry
+converges them at runtime. Copy must not claim cross-page agreement for
+the static shells of a fresh deploy. The React DevTools extension throws spurious "The
 children should not have changed if we pass in the same set." errors on
 transition commits here; stacks resolving to `chrome-extension://…` are the
 extension's mirror desyncing, not an app bug.

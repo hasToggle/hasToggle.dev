@@ -122,6 +122,7 @@ async function Article({ slug }: { slug: string }) {
           </div>
           <div className="sticky top-24 hidden shrink-0 md:block">
             <Sidebar
+              authors={post.authors}
               date={new Date(post.date)}
               readingTime={`${post.readingTime} min read`}
               toc={<TableOfContents entries={post.toc} />}
