@@ -42,19 +42,27 @@ interface StateCardProps {
  * read), the fresh call, the kept value coming back, the paint. Slowed,
  * not simulated; every value in the annotations was read live. Then it
  * turns back, and the number has moved.
+ *
+ * Two values, one truth: `count` is the state, updated on the click frame
+ * and read by every annotation; `shown` is what the face displays. Outside
+ * narrate mode they move together. Inside it the face holds the old digit
+ * until the card turns back, because a reveal the reader watched happen
+ * before the turn is not a reveal — the aside under the card is where that
+ * gap is stated, and the replay's own annotations name the real value
+ * throughout.
  */
 export function StateCard({ narrate, replayCode }: StateCardProps) {
   renderTally += 1;
   const renderNumber = renderTally;
 
   const [count, setCount] = useState(0);
+  const [shown, setShown] = useState(0);
+  const [settling, setSettling] = useState(false);
   const [flipped, setFlipped] = useState(false);
 
   const badgeRef = useRef<HTMLSpanElement | null>(null);
   const codeRef = useRef<HTMLDivElement | null>(null);
   const notesRef = useRef<HTMLOListElement | null>(null);
-  const numberRef = useRef<HTMLParagraphElement | null>(null);
-  const digitsRef = useRef<HTMLSpanElement | null>(null);
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const replayingRef = useRef<boolean>(false);
 
@@ -117,8 +125,10 @@ export function StateCard({ narrate, replayCode }: StateCardProps) {
     }
     const next = count + 1;
     setCount(next);
+    setSettling(false);
 
     if (!narrate) {
+      setShown(next);
       return;
     }
 
@@ -158,30 +168,20 @@ export function StateCard({ narrate, replayCode }: StateCardProps) {
       setFlipped(false);
       setActiveLine(null);
       clearNotes();
-      // The paint happened while the card was turned; the wash marks its
-      // reveal (re-triggered by hand — a keyed remount already played it
-      // behind the card's back). The class comes off, the layout read
-      // flushes that removal, and the class goes back on: without the read
-      // in the middle the browser coalesces both mutations into one frame
-      // and the animation never restarts. getAnimations() is no help here —
-      // a finished fill:none animation is gone from it by the time we ask.
-      if (numberRef.current !== null) {
-        numberRef.current.classList.remove("ht-land");
-        numberRef.current.getBoundingClientRect();
-        numberRef.current.classList.add("ht-land");
-      }
-      replayingRef.current = false;
     }, at);
-    // One flip later the front face is square to the reader again — where
-    // the wash, half-spent by then, was never really seen. The digits
-    // settle once here: the last cue, pointing at the one thing the whole
-    // replay was about.
+    // One flip later the front is square to the reader again, and only then
+    // does the face catch up with the state it has been holding: the number
+    // changes in view, rather than behind a turning card where the reveal
+    // would be spent on nobody. Both marks ride the same commit — the wash
+    // comes from the remount (the number is keyed by this value) and the
+    // rise from the class the fresh digits mount with.
     schedule(() => {
-      if (digitsRef.current !== null) {
-        digitsRef.current.classList.remove("ht-settle");
-        digitsRef.current.getBoundingClientRect();
-        digitsRef.current.classList.add("ht-settle");
-      }
+      setShown(next);
+      setSettling(true);
+      // The replay is not over until the value is shown: a press landing in
+      // the half-second the card spends turning back would set a newer
+      // count, and this reveal would then paint the older one over it.
+      replayingRef.current = false;
     }, at + FLIP_MS);
   };
 
@@ -230,10 +230,9 @@ export function StateCard({ narrate, replayCode }: StateCardProps) {
               />
               <p
                 className="ht-land flex min-w-12 items-center justify-center px-4 font-display font-medium text-base text-primary-foreground tabular-nums tracking-tight"
-                key={count}
-                ref={numberRef}
+                key={shown}
               >
-                <span ref={digitsRef}>{count}</span>
+                <span className={cn(settling && "ht-settle")}>{shown}</span>
               </p>
             </div>
             <span

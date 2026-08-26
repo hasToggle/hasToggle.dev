@@ -301,12 +301,14 @@
   }
 }
 
-/* The value's last word. When a card turns back from a replay the number
-   has already changed, so nothing arrives — the digits rise a hair into
-   place instead, and the eye's last movement is to the thing that moved.
-   Applied by hand, to the digits alone: the pill and its wash hold still.
-   Not part of the class the JSX carries, so an ordinary press (no replay,
-   no flip) still lands with the wash and nothing else. */
+/* The value's arrival. A card that hides its own output while narrating
+   (the state card turns to its source and back) holds the old digit on its
+   face until the turn is done, then changes it in view: the digits mount
+   wearing this class and rise a hair into place, so the eye's last
+   movement is to the thing that moved. Motion only, and on the digits
+   alone — the pill and its landing wash hold still. Worn only for the
+   commit that reveals, so an ordinary press (no narrate, no flip) still
+   lands with the wash and nothing else. */
 @keyframes ht-settle {
   from {
     transform: translateY(0.14em) scale(0.94);

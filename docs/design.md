@@ -68,13 +68,16 @@ specimen dims and pulses, and when the new value lands it takes one amber
 wash (`.ht-land` — key-remount, skips first paint, reduced-motion safe) and
 settles. No silent updates, ever.
 
-A cue spent behind a turning card was never spent. Where a demo hides its
-own output while narrating — the state card flips to its source and back —
-the landing wash burns down against the card's back face, so the value
-gets one more mark when the front is square to the reader again: the
-digits alone rise a hair into place (`.ht-settle`, 420ms, applied by hand
-at flip-back, not carried in the JSX). The eye's last movement is to the
-thing that moved.
+A change spent behind a turning card was never spent. Where a demo hides
+its own output while narrating — the state card flips to its source and
+back — the face holds the old value for the length of the replay and
+changes it only when the front is square to the reader again. The state
+itself updates on the click frame, as it always did; what waits is the
+display, and the aside under the card is where that gap is stated. The
+reveal wears both marks at once, from the one commit: the landing wash
+(the value is the key, so the remount plays it) and `.ht-settle`, 420ms,
+the digits alone rising a hair into place. The eye's last movement is to
+the thing that moved.
 
 The React rule underneath: **client-owned state paints on the click frame;
 only the server sync lives in a transition.** A mode flip inside the same
