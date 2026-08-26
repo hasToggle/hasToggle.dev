@@ -16,9 +16,8 @@ export function ImageDemo({ headingAs }: ImageDemoProps) {
   return (
     <DemoSection
       belief={chapter.belief}
-      chapter={chapter.n}
       headingAs={headingAs}
-      id={`demo-${chapter.n}`}
+      id={`demo-${chapter.slug}`}
       intro={
         <>
           <p>
@@ -42,6 +41,7 @@ export function ImageDemo({ headingAs }: ImageDemoProps) {
           update it, and now nobody has to.
         </>
       }
+      navLabel={chapter.navLabel}
       topic={chapter.topic}
     >
       {/* OgDemo owns the instrument: the gauge follows its fetch state, the

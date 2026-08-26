@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * BANKED — not rendered by chapter 06. Eric's call (2026-08-21): the lab
+ * BANKED — not rendered by the state chapter. Eric's call (2026-08-21): the lab
  * is not the place for the local-variable demo; it belongs to the /learn
  * state lesson, where the narrative runs variables → state change vs.
  * rendering in an SPA → useState as the solution to both. This card is

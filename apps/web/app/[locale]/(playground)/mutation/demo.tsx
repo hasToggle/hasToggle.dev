@@ -19,9 +19,8 @@ export function MutationDemo({ headingAs }: MutationDemoProps) {
   return (
     <DemoSection
       belief={chapter.belief}
-      chapter={chapter.n}
       headingAs={headingAs}
-      id={`demo-${chapter.n}`}
+      id={`demo-${chapter.slug}`}
       intro={
         <>
           <p>
@@ -49,6 +48,7 @@ export function MutationDemo({ headingAs }: MutationDemoProps) {
           number.
         </>
       }
+      navLabel={chapter.navLabel}
       topic={chapter.topic}
     >
       {/* The form stays in the body: it is the specimen, not instrument

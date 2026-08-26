@@ -17,9 +17,8 @@ export function StateDemo({ headingAs }: StateDemoProps) {
   return (
     <DemoSection
       belief={chapter.belief}
-      chapter={chapter.n}
       headingAs={headingAs}
-      id={`demo-${chapter.n}`}
+      id={`demo-${chapter.slug}`}
       intro={
         <>
           <p>
@@ -52,6 +51,7 @@ export function StateDemo({ headingAs }: StateDemoProps) {
           watching is a millisecond, replayed with the values it happened with.
         </>
       }
+      navLabel={chapter.navLabel}
       topic={chapter.topic}
     >
       {/* The client panel owns the instrument: narrate mode and the

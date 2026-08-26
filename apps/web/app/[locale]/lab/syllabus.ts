@@ -1,17 +1,22 @@
 /**
  * The syllabus registry — the single source of truth for the lab's shape.
  *
- * One entry per chapter, in accession order: shipped chapters first (the
+ * One entry per chapter, in arrival order: shipped chapters first (the
  * array order is the ship order), then the one landing next Monday, then
  * the topics still to build. Everything that lists chapters derives from
  * here — the contents bar, the landing roadmap, prev/next, the sitemap,
  * per-page metadata — so shipping a chapter is one entry flip: planned →
  * next → shipped, belief and navLabel added, nothing else to keep in sync.
  *
- * Ship order is historical; the contents page displays the collection by
- * section instead, shelved the way the React / Next.js / Vercel docs
- * carve the territory. An entry's accession number never changes when its
- * shelf does.
+ * Arrival order is an artifact of which week a chapter got built, so no
+ * numeral derived from it is shown anywhere: the digest extends the
+ * syllabus in whatever order the work happens, and neither the Next.js
+ * nor the Vercel docs have a chapter 04 to match. The array position
+ * still answers "what shipped last" for /latest, and nothing else.
+ *
+ * The order a reader is offered is the shelf order instead — SECTIONS,
+ * then registry order within a shelf — which is a learning arc rather
+ * than a build log. READING_ORDER is that sequence; prev/next walks it.
  *
  * Beliefs are prose held in TS strings, so typographic marks are written
  * directly (voice.md §8): U+2019 apostrophes, U+201C/U+201D quotes.
@@ -43,8 +48,6 @@ export const SECTIONS: readonly Section[] = [
 ];
 
 interface ChapterCore {
-  /** Accession number: assigned when a chapter enters the numbered queue, never reused. */
-  readonly n: string;
   /** The shelf the contents page files this under — display structure, not ship order. */
   readonly section: SectionId;
   /** The chapter's URL segment under /lab — short, topical, stable forever. */
@@ -76,7 +79,6 @@ export type SyllabusEntry = NextChapter | PlannedTopic | ShippedChapter;
 export const SYLLABUS: readonly SyllabusEntry[] = [
   {
     belief: "I’ll put “use client” on it, to be safe.",
-    n: "01",
     navLabel: "The boundary",
     section: "components",
     slug: "boundary",
@@ -85,7 +87,6 @@ export const SYLLABUS: readonly SyllabusEntry[] = [
   },
   {
     belief: "It’s either cached or it isn’t.",
-    n: "02",
     navLabel: "The cache",
     section: "data",
     slug: "caching",
@@ -94,7 +95,6 @@ export const SYLLABUS: readonly SyllabusEntry[] = [
   },
   {
     belief: "I’ll fetch it all first, then render.",
-    n: "03",
     navLabel: "The stream",
     section: "data",
     slug: "streaming",
@@ -103,7 +103,6 @@ export const SYLLABUS: readonly SyllabusEntry[] = [
   },
   {
     belief: "You need an API route for that.",
-    n: "04",
     navLabel: "The mutation",
     section: "data",
     slug: "server-actions",
@@ -112,7 +111,6 @@ export const SYLLABUS: readonly SyllabusEntry[] = [
   },
   {
     belief: "I’ll need to design a card for every page.",
-    n: "05",
     navLabel: "The image",
     section: "interface",
     slug: "og-images",
@@ -121,7 +119,6 @@ export const SYLLABUS: readonly SyllabusEntry[] = [
   },
   {
     belief: "I don’t need state for a simple counter.",
-    n: "06",
     navLabel: "The state",
     section: "components",
     slug: "state",
@@ -129,7 +126,6 @@ export const SYLLABUS: readonly SyllabusEntry[] = [
     topic: "useState & re-renders",
   },
   {
-    n: "07",
     section: "routing",
     slug: "navigation",
     status: "next",
@@ -214,10 +210,19 @@ export const STILL_TO_BUILD: readonly string[] = SYLLABUS.flatMap((entry) =>
   entry.status === "shipped" ? [] : [entry.topic]
 );
 
-/** One shelf of the contents page, in the registry's accession order. */
+/** One shelf of the contents page, in the registry's arrival order. */
 export function sectionEntries(id: SectionId): readonly SyllabusEntry[] {
   return SYLLABUS.filter((entry) => entry.section === id);
 }
+
+/**
+ * The shipped chapters in shelf order — exactly the sequence the contents
+ * page reads top to bottom. This is the book's spine: prev/next walks it,
+ * so the page-turn follows the learning arc instead of the build log.
+ */
+export const READING_ORDER: readonly ShippedChapter[] = SECTIONS.flatMap(
+  (section) => SHIPPED.filter((chapter) => chapter.section === section.id)
+);
 
 const lastShipped = SHIPPED.at(-1);
 if (!lastShipped) {
@@ -240,14 +245,14 @@ export function requireChapter(slug: string): ShippedChapter {
   return chapter;
 }
 
-/** Reading-order neighbors among shipped chapters only. */
+/** Shelf-order neighbors among shipped chapters only. */
 export function prevNext(slug: string): {
   next?: ShippedChapter;
   prev?: ShippedChapter;
 } {
-  const index = SHIPPED.findIndex((chapter) => chapter.slug === slug);
+  const index = READING_ORDER.findIndex((chapter) => chapter.slug === slug);
   if (index === -1) {
     return {};
   }
-  return { next: SHIPPED[index + 1], prev: SHIPPED[index - 1] };
+  return { next: READING_ORDER[index + 1], prev: READING_ORDER[index - 1] };
 }

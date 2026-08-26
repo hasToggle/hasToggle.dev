@@ -56,10 +56,10 @@ What the grammar deliberately lacks: a panel label (the intro prose names the
 subject once) and a readout footer (the source in the drawer is the spec
 plate — a reader who wants identifiers is the reader who opens it).
 
-Outside the chassis: exhibit order rides in the eyebrow (`02 · caching &
-revalidation`) where engineers read identifiers — no watermark chapter
-numerals. Asides are set as `/* code comments */` in comment-gray mono,
-because that is what they are.
+Outside the chassis: the eyebrow names the chapter and its topic (`the
+cache · caching & revalidation`) where engineers read identifiers — two
+names, no numeral. Asides are set as `/* code comments */` in comment-gray
+mono, because that is what they are.
 
 ## 2. Feedback
 
@@ -152,8 +152,24 @@ shipped, belief and navLabel added.
   irrelevant" — so the contents page displays the collection by section
   instead: components & state / data & caching / routing & navigation /
   metadata & assets / the platform, carved the way the React / Next.js /
-  Vercel docs carve the territory. Accession numbers never change when a
-  shelf does; the landing roadmap stays flat.
+  Vercel docs carve the territory. The landing roadmap stays flat.
+- **No ordinals (2026-08-26).** The numerals went with the ship order they
+  encoded. A chapter's number only ever said which week it got built —
+  arbitrary, since the digest extends the syllabus in whatever order the
+  work happens, and there is no chapter 04 in the Next.js or Vercel docs
+  to match it against. So nothing derived from arrival order reaches a
+  page: not the contents rows, not the eyebrow, not the page-turn, not
+  the anchors (`#demo-caching`, keyed by slug, which also survives a
+  chapter changing shelves). The registry's array position still answers
+  "what shipped last" for `/latest`, and nothing else.
+  - **The page-turn walks shelf order** (`READING_ORDER`), so the book's
+    spine is the learning arc the contents page displays rather than the
+    build log.
+  - **The row gutter keeps its column** and carries a status glyph in
+    place of the numeral: a hairline rule for a chapter that is here, a
+    `+` for one that isn't yet — the same `+` the still-to-build rows
+    wear, so the next-Monday row reads as what it is, a planned topic
+    with a date.
 
 ## 5. Banked
 
@@ -167,15 +183,14 @@ shipped, belief and navLabel added.
 - Digest beats banked: the side-effect-runs-twice warning; the
   swatch-is-the-hash reveal.
 - Contents-row hover-prefetch readout: the lab's index rows already
-  prefetch on hover via next/link — chapter 06 (navigation &
-  prefetching) should claim that readout as its instrument in the site's
-  own chrome.
-- The Hazel counter: superseded 2026-08-21 by chapter 06 (useState &
-  re-renders), its reimagining on the instrument grammar; the old code
+  prefetch on hover via next/link — the navigation chapter should claim
+  that readout as its instrument in the site's own chrome.
+- The Hazel counter: superseded 2026-08-21 by the state chapter (useState
+  & re-renders), its reimagining on the instrument grammar; the old code
   (`(counter)/`, `components/ui/boundary` + `ping`) is deleted — git
   history keeps it. The narrative /learn lesson (variables in JS → state
   change vs. rendering in an SPA → useState as the solution to both)
-  remains a path-layer candidate that reuses chapter 06's cards.
+  remains a path-layer candidate that reuses the state chapter's cards.
 
 ## 6. Verification
 

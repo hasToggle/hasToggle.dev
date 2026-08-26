@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { env } from "@/env";
 import { Container } from "../components/container";
 import { Footer } from "../components/footer";
+import { Link } from "../components/marketing-link";
 import { MetaAside } from "../components/meta-aside";
 import { Navbar } from "../components/navbar";
 import { Heading, Subheading } from "../components/text";
@@ -56,7 +57,14 @@ export default function ContactPage() {
 
               <MetaAside className="mt-8 max-w-xl" variant="comment">
                 The form is a Server Action wired straight to an email inbox —
-                chapter 04&rsquo;s lesson, doing its day job.
+                the lesson from{" "}
+                <Link
+                  className="underline decoration-ht-cyan-700/40 underline-offset-2 transition-colors hover:decoration-ht-cyan-700"
+                  href="/lab/server-actions"
+                >
+                  the mutation chapter
+                </Link>
+                , doing its day job.
               </MetaAside>
             </div>
           </div>

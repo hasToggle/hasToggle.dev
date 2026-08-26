@@ -18,9 +18,8 @@ export function BoundaryDemo({ headingAs }: BoundaryDemoProps) {
   return (
     <DemoSection
       belief={chapter.belief}
-      chapter={chapter.n}
       headingAs={headingAs}
-      id={`demo-${chapter.n}`}
+      id={`demo-${chapter.slug}`}
       intro={
         <>
           <p>
@@ -50,6 +49,7 @@ export function BoundaryDemo({ headingAs }: BoundaryDemoProps) {
           has no clicks to listen for.
         </>
       }
+      navLabel={chapter.navLabel}
       topic={chapter.topic}
     >
       <LivePanel

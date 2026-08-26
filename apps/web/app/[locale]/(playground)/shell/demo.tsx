@@ -20,9 +20,8 @@ export async function ShellDemo({ headingAs }: ShellDemoProps) {
   return (
     <DemoSection
       belief={chapter.belief}
-      chapter={chapter.n}
       headingAs={headingAs}
-      id={`demo-${chapter.n}`}
+      id={`demo-${chapter.slug}`}
       intro={
         <>
           <p>
@@ -63,6 +62,7 @@ export async function ShellDemo({ headingAs }: ShellDemoProps) {
           Watching a cache work requires caching something that never repeats.
         </>
       }
+      navLabel={chapter.navLabel}
       topic={chapter.topic}
     >
       {/* The client panel owns the instrument chrome here, because the

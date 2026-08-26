@@ -69,7 +69,7 @@ function MakingOf({ commitsHref }: { commitsHref: string }) {
   );
 }
 
-/** The book's page-turn: neighbors in reading order, shipped chapters only. */
+/** The book's page-turn: shelf-order neighbors, shipped chapters only. */
 function ChapterTurn({ slug }: { slug: string }) {
   const { next, prev } = prevNext(slug);
 
@@ -86,7 +86,7 @@ function ChapterTurn({ slug }: { slug: string }) {
               className="transition-colors hover:text-foreground"
               href={`/lab/${prev.slug}`}
             >
-              ← {prev.n} · {prev.navLabel}
+              ← {prev.navLabel}
             </Link>
           ) : (
             <span aria-hidden="true" />
@@ -99,7 +99,7 @@ function ChapterTurn({ slug }: { slug: string }) {
               className="transition-colors hover:text-foreground"
               href={`/lab/${next.slug}`}
             >
-              {next.n} · {next.navLabel} →
+              {next.navLabel} →
             </Link>
           ) : (
             <span aria-hidden="true" />

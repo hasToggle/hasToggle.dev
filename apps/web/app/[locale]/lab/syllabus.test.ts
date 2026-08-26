@@ -4,6 +4,7 @@ import {
   LATEST,
   NEXT_UP,
   prevNext,
+  READING_ORDER,
   SECTIONS,
   SHIPPED,
   STILL_TO_BUILD,
@@ -38,13 +39,23 @@ const LEGACY_UPCOMING: readonly string[] = [
 
 const URL_SAFE_SLUG = /^[a-z][a-z0-9-]*$/;
 
-const EXPECTED_CHAPTERS: readonly { label: string; n: string }[] = [
-  { label: "The boundary", n: "01" },
-  { label: "The cache", n: "02" },
-  { label: "The stream", n: "03" },
-  { label: "The mutation", n: "04" },
-  { label: "The image", n: "05" },
-  { label: "The state", n: "06" },
+const EXPECTED_CHAPTERS: readonly string[] = [
+  "The boundary",
+  "The cache",
+  "The stream",
+  "The mutation",
+  "The image",
+  "The state",
+];
+
+/** Shelf order — SECTIONS, then registry order inside a shelf. */
+const EXPECTED_READING_ORDER: readonly string[] = [
+  "boundary",
+  "state",
+  "caching",
+  "streaming",
+  "server-actions",
+  "og-images",
 ];
 
 describe("syllabus order", () => {
@@ -63,14 +74,11 @@ describe("syllabus order", () => {
     expect(nextEntries).toHaveLength(1);
   });
 
-  test("accession numbers are zero-padded and strictly sequential", () => {
-    const numbered = SYLLABUS.flatMap((entry) =>
-      entry.status === "planned" ? [] : [entry.n]
-    );
-    const expected = numbered.map((_, index) =>
-      String(index + 1).padStart(2, "0")
-    );
-    expect(numbered).toEqual(expected);
+  test("no entry carries a displayable ordinal", () => {
+    // Arrival order is an artifact; nothing derived from it reaches a page.
+    for (const entry of SYLLABUS) {
+      expect(Object.keys(entry)).not.toContain("n");
+    }
   });
 
   test("slugs are unique and url-safe", () => {
@@ -93,17 +101,13 @@ describe("shipped chapters", () => {
     }
   });
 
-  test("nav labels and numbers match the contents bar", () => {
-    const chapters = SHIPPED.map((chapter) => ({
-      label: chapter.navLabel,
-      n: chapter.n,
-    }));
-    expect(chapters).toEqual([...EXPECTED_CHAPTERS]);
+  test("nav labels match the contents bar, in arrival order", () => {
+    const labels = SHIPPED.map((chapter) => chapter.navLabel);
+    expect(labels).toEqual([...EXPECTED_CHAPTERS]);
   });
 
   test("the latest shipped chapter is the state exhibit", () => {
     expect(LATEST.slug).toBe("state");
-    expect(LATEST.n).toBe("06");
   });
 });
 
@@ -136,29 +140,54 @@ describe("shelves", () => {
   });
 });
 
+describe("reading order", () => {
+  test("is shelf order, not arrival order", () => {
+    expect(READING_ORDER.map((chapter) => chapter.slug)).toEqual([
+      ...EXPECTED_READING_ORDER,
+    ]);
+  });
+
+  test("holds every shipped chapter exactly once", () => {
+    expect(READING_ORDER).toHaveLength(SHIPPED.length);
+    expect(new Set(READING_ORDER).size).toBe(SHIPPED.length);
+  });
+
+  test("groups each shelf contiguously, in SECTIONS order", () => {
+    const shelves = READING_ORDER.map((chapter) => chapter.section);
+    const firstSeen = [...new Set(shelves)];
+    expect(firstSeen).toEqual(
+      SECTIONS.map((section) => section.id).filter((id) => shelves.includes(id))
+    );
+    // Contiguous: a shelf id never reappears after another one intervenes.
+    expect(shelves).toEqual(
+      firstSeen.flatMap((id) => shelves.filter((shelf) => shelf === id))
+    );
+  });
+});
+
 describe("chapter lookup", () => {
   test("finds shipped chapters by slug", () => {
-    expect(chapterBySlug("caching")?.n).toBe("02");
+    expect(chapterBySlug("caching")?.navLabel).toBe("The cache");
     expect(chapterBySlug("navigation")).toBeUndefined();
     expect(chapterBySlug("nope")).toBeUndefined();
   });
 
-  test("prev/next walk the shipped chapters only", () => {
+  test("prev/next walk shelf order, shipped chapters only", () => {
     expect(prevNext("boundary")).toEqual({
-      next: chapterBySlug("caching"),
+      next: chapterBySlug("state"),
       prev: undefined,
+    });
+    expect(prevNext("state")).toEqual({
+      next: chapterBySlug("caching"),
+      prev: chapterBySlug("boundary"),
     });
     expect(prevNext("streaming")).toEqual({
       next: chapterBySlug("server-actions"),
       prev: chapterBySlug("caching"),
     });
     expect(prevNext("og-images")).toEqual({
-      next: chapterBySlug("state"),
-      prev: chapterBySlug("server-actions"),
-    });
-    expect(prevNext("state")).toEqual({
       next: undefined,
-      prev: chapterBySlug("og-images"),
+      prev: chapterBySlug("server-actions"),
     });
     expect(prevNext("navigation")).toEqual({});
   });

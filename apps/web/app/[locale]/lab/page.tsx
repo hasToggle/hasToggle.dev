@@ -72,9 +72,10 @@ function ChapterRow({ chapter }: { chapter: ShippedChapter }) {
         className="group grid grid-cols-[2.5rem_minmax(0,1fr)] items-baseline gap-x-4 py-5 sm:grid-cols-[2.5rem_minmax(0,1fr)_auto]"
         href={`/lab/${chapter.slug}`}
       >
-        <span className="font-mono text-muted-foreground text-xs tabular-nums transition-colors group-hover:text-ht-cyan-700 dark:group-hover:text-ht-cyan-300">
-          {chapter.n}
-        </span>
+        <span
+          aria-hidden="true"
+          className="mb-1.5 h-px w-4 bg-foreground/25 transition-colors group-hover:bg-ht-cyan-700 dark:group-hover:bg-ht-cyan-300"
+        />
         <span className="font-medium text-foreground text-xl tracking-tight underline decoration-1 decoration-transparent underline-offset-[6px] transition-[text-decoration-color] duration-300 group-hover:decoration-ht-cyan-700/70 dark:group-hover:decoration-ht-cyan-300/70">
           {chapter.belief}
         </span>
@@ -99,8 +100,11 @@ function NextRow({ entry }: { entry: NextChapter }) {
       {/* No belief yet — a chapter states its belief when it ships. Until
           Monday the row is just the topic. */}
       <div className="grid grid-cols-[2.5rem_minmax(0,1fr)] items-baseline gap-x-4 py-5 sm:grid-cols-[2.5rem_minmax(0,1fr)_auto]">
-        <span className="font-mono text-muted-foreground/60 text-xs tabular-nums">
-          {entry.n}
+        <span
+          aria-hidden="true"
+          className="select-none font-mono text-ht-cyan-700/60 text-xs dark:text-ht-cyan-300/60"
+        >
+          +
         </span>
         <span className="font-medium text-foreground/60 text-xl tracking-tight">
           {entry.topic}
@@ -114,10 +118,11 @@ function NextRow({ entry }: { entry: NextChapter }) {
 }
 
 /**
- * One shelf of the collection. Ship order is historical — the shelves are
- * the structure, carved the way the React / Next.js / Vercel docs carve
- * the territory — so chapters keep their accession numbers while sitting
- * with their kin.
+ * One shelf of the collection. Ship order is historical and unshown — the
+ * shelves are the structure, carved the way the React / Next.js / Vercel
+ * docs carve the territory. The gutter carries a status glyph instead of a
+ * numeral: an em dash for a chapter that is here, a + for one that isn't
+ * yet, the same + the still-to-build rows wear.
  */
 function Shelf({ section }: { section: Section }) {
   const entries = sectionEntries(section.id);

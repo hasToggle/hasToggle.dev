@@ -3,8 +3,8 @@ import { Container } from "./container";
 
 /**
  * The landing page renders exactly these five exhibits inline (the demo
- * imports in page.tsx are the source of truth); chapters shipped after 05
- * live in the lab only. With site navigation in the top nav, this bar is
+ * imports in page.tsx are the source of truth); chapters that shipped
+ * later live in the lab only. With site navigation in the top nav, this bar is
  * pure in-page anchors — the shop window's own contents.
  */
 const LANDING_SLUGS: ReadonlySet<string> = new Set([
@@ -15,19 +15,19 @@ const LANDING_SLUGS: ReadonlySet<string> = new Set([
   "streaming",
 ]);
 
-const CHAPTERS: readonly { href: string; label: string; n: string }[] =
+const CHAPTERS: readonly { href: string; label: string; slug: string }[] =
   SHIPPED.filter((chapter) => LANDING_SLUGS.has(chapter.slug)).map(
     (chapter) => ({
-      href: `#demo-${chapter.n}`,
+      href: `#demo-${chapter.slug}`,
       label: chapter.navLabel,
-      n: chapter.n,
+      slug: chapter.slug,
     })
   );
 
 /**
  * The contents row, slim enough to pin. It sits where the hero's contents
  * grid used to and sticks to the viewport top while the visitor is among
- * the exhibits — its parent in page.tsx ends after demo 05, so sticky
+ * the exhibits — its parent in page.tsx ends after the last exhibit, so sticky
  * positioning releases it there and the roadmap onward scrolls nav-free.
  * Zero JavaScript: it is simply there, then pinned, then gone.
  *
@@ -43,8 +43,8 @@ export function ContentsNav() {
     >
       <Container>
         {/* The same rail grid the exhibits sit in: the label drifts into the
-            gutter the ghost numerals used to hold (right-aligned toward the
-            content, like they were), and the first link takes the content
+            gutter the exhibit rail leaves empty, right-aligned toward the
+            content, and the first link takes the content
             column's left edge — links are the row; the label is margin
             furniture. The nav keeps its accessible name on mobile, where the
             rail collapses and the label with it. */}
@@ -62,14 +62,11 @@ export function ContentsNav() {
               the content overflows. */}
             <ol className="flex flex-1 items-baseline gap-x-7 md:justify-between">
               {CHAPTERS.map((chapter) => (
-                <li className="shrink-0" key={chapter.n}>
+                <li className="shrink-0" key={chapter.slug}>
                   <a
                     className="group flex items-baseline gap-2 text-foreground/70 transition-colors hover:text-foreground"
                     href={chapter.href}
                   >
-                    <span className="font-mono text-muted-foreground text-xs tabular-nums transition-colors group-hover:text-ht-cyan-700 dark:group-hover:text-ht-cyan-300">
-                      {chapter.n}
-                    </span>
                     {/* The rule draws itself in on hover — the same movement
                       the reveals use, at link scale. */}
                     <span className="font-display text-sm tracking-tight underline decoration-1 decoration-transparent underline-offset-[6px] transition-[text-decoration-color] duration-300 group-hover:decoration-ht-cyan-700/70 dark:group-hover:decoration-ht-cyan-300/70">

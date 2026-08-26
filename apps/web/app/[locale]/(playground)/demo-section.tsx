@@ -8,8 +8,6 @@ interface DemoSectionProps {
    * exhibit's heading. Everything below it is the answer.
    */
   belief: string;
-  /** Build-order position, e.g. "02" — carried in the eyebrow, not a numeral. */
-  chapter: string;
   children: React.ReactNode;
   /**
    * "h1" on a chapter page, where the belief is the page's title; the landing
@@ -20,6 +18,8 @@ interface DemoSectionProps {
   id: string;
   intro: React.ReactNode;
   meta?: React.ReactNode;
+  /** The chapter's short name, e.g. "The boundary" — the eyebrow's first half. */
+  navLabel: string;
   topic: string;
 }
 
@@ -28,20 +28,21 @@ interface DemoSectionProps {
  * with a running instrument — the same shape the weekly digest uses, so the
  * page and the email teach in one voice.
  *
- * The build order rides in the eyebrow (`02 · caching & revalidation`), the
- * way engineers read identifiers — the watermark chapter numeral read as
- * course furniture and is retired. The empty rail column keeps the page on
- * one left edge. The aside is set as a code comment, because that is what
- * it is: a note an engineer left in this codebase.
+ * The eyebrow names the chapter and its topic (`the cache · caching &
+ * revalidation`) — two identifiers, no numeral. Build order is an artifact
+ * of which week the work happened and is shown nowhere. The empty rail
+ * column keeps the page on one left edge. The aside is set as a code
+ * comment, because that is what it is: a note an engineer left in this
+ * codebase.
  */
 export function DemoSection({
   belief,
-  chapter,
   children,
   headingAs = "h2",
   id,
   intro,
   meta,
+  navLabel,
   topic,
 }: DemoSectionProps) {
   return (
@@ -55,9 +56,7 @@ export function DemoSection({
           <div aria-hidden="true" />
           <div className="ht-reveal">
             <Subheading as={headingAs === "h1" ? "div" : "h2"}>
-              <span className="text-muted-foreground/60 tabular-nums">
-                {chapter}
-              </span>
+              <span className="text-muted-foreground/60">{navLabel}</span>
               <span
                 aria-hidden="true"
                 className="px-2 text-muted-foreground/40"

@@ -226,7 +226,7 @@ export default function MarketingPage({ searchParams }: PageProps) {
       <main>
         {/* This wrapper is the contents bar's sticky bound: the bar pins to
             the viewport while the visitor is among the exhibits and releases
-            when the wrapper ends after demo 05 — the roadmap onward scrolls
+            when the wrapper ends after the last exhibit — the roadmap onward scrolls
             nav-free, with no JavaScript deciding anything. */}
         <div>
           <ContentsNav />

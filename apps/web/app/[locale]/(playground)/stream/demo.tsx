@@ -19,9 +19,8 @@ export function StreamDemo({ headingAs, searchParams }: StreamDemoProps) {
   return (
     <DemoSection
       belief={chapter.belief}
-      chapter={chapter.n}
       headingAs={headingAs}
-      id={`demo-${chapter.n}`}
+      id={`demo-${chapter.slug}`}
       intro={
         <>
           <p>
@@ -47,6 +46,7 @@ export function StreamDemo({ headingAs, searchParams }: StreamDemoProps) {
           file, and the whole segment gets a fallback.
         </>
       }
+      navLabel={chapter.navLabel}
       topic={chapter.topic}
     >
       {/* The rerun control keeps its own Suspense boundary (it reads the
