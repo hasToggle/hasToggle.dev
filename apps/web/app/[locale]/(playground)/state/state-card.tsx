@@ -50,15 +50,19 @@ export function StateCard({ narrate, replayCode }: StateCardProps) {
   const [count, setCount] = useState(0);
   const [flipped, setFlipped] = useState(false);
 
-  const badgeRef = useRef<HTMLSpanElement>(null);
-  const codeRef = useRef<HTMLDivElement>(null);
-  const notesRef = useRef<HTMLOListElement>(null);
-  const numberRef = useRef<HTMLParagraphElement>(null);
+  const badgeRef = useRef<HTMLSpanElement | null>(null);
+  const codeRef = useRef<HTMLDivElement | null>(null);
+  const notesRef = useRef<HTMLOListElement | null>(null);
+  const numberRef = useRef<HTMLParagraphElement | null>(null);
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
-  const replayingRef = useRef(false);
+  const replayingRef = useRef<boolean>(false);
 
+  // Ref guards compare against null, and the replay flag against true,
+  // rather than testing truthiness: Biome's noUnnecessaryConditions reads
+  // useRef's initializer as the whole type, so `if (ref.current)` is
+  // reported as always falsy.
   useEffect(() => {
-    if (badgeRef.current) {
+    if (badgeRef.current !== null) {
       badgeRef.current.textContent = `render #${renderNumber}`;
     }
   });
@@ -88,7 +92,9 @@ export function StateCard({ narrate, replayCode }: StateCardProps) {
   };
 
   const noteItems = (): HTMLLIElement[] =>
-    notesRef.current ? [...notesRef.current.querySelectorAll("li")] : [];
+    notesRef.current === null
+      ? []
+      : [...notesRef.current.querySelectorAll("li")];
 
   const lightNote = (index: number | undefined) => {
     if (index === undefined) {
@@ -105,7 +111,7 @@ export function StateCard({ narrate, replayCode }: StateCardProps) {
   };
 
   const handleClick = () => {
-    if (replayingRef.current) {
+    if (replayingRef.current === true) {
       return;
     }
     const next = count + 1;
@@ -154,7 +160,7 @@ export function StateCard({ narrate, replayCode }: StateCardProps) {
       // The paint happened while the card was turned; the wash marks its
       // reveal (re-triggered by hand — a keyed remount already played it
       // behind the card's back).
-      if (numberRef.current) {
+      if (numberRef.current !== null) {
         numberRef.current.classList.remove("ht-land");
         void numberRef.current.offsetWidth;
         numberRef.current.classList.add("ht-land");

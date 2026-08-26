@@ -43,24 +43,28 @@ export function VarCard({ panelPass }: VarCardProps) {
   // fresh one at zero — including the renders the deck button causes.
   let count = 0;
 
-  const proofRef = useRef<HTMLSpanElement>(null);
-  const badgeRef = useRef<HTMLSpanElement>(null);
+  const proofRef = useRef<HTMLSpanElement | null>(null);
+  const badgeRef = useRef<HTMLSpanElement | null>(null);
 
   // After every paint, the instruments report this render honestly: the
   // badge names the pass, the proof line reads the variable as the render
   // left it — freshly re-declared to 0.
+  //
+  // The ref guards compare against null rather than testing truthiness:
+  // Biome's noUnnecessaryConditions reads useRef's initializer as the
+  // whole type, so `if (ref.current)` is reported as always falsy.
   useEffect(() => {
-    if (badgeRef.current) {
+    if (badgeRef.current !== null) {
       badgeRef.current.textContent = `render #${renderNumber}`;
     }
-    if (proofRef.current) {
+    if (proofRef.current !== null) {
       proofRef.current.textContent = varProofDeclared(renderNumber);
     }
   });
 
   const handleClick = () => {
     count += 1;
-    if (proofRef.current) {
+    if (proofRef.current !== null) {
       proofRef.current.textContent = varProofClicked(count);
     }
   };
