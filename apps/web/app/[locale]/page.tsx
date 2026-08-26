@@ -185,7 +185,7 @@ function DigestCTA() {
     >
       <Container>
         <div className="ht-reveal mx-auto flex max-w-2xl flex-col items-center text-center">
-          <Subheading className="text-ht-cyan-800/80 dark:text-ht-cyan-300/80">
+          <Subheading className="text-ht-cyan-900 dark:text-ht-cyan-300/80">
             The weekly build
           </Subheading>
           <Heading
