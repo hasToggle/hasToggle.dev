@@ -80,7 +80,7 @@ export default function BlogIndexPage() {
                       href={`/blog/${post.slug}`}
                     >
                       <div className="min-w-0 flex-1">
-                        <p className="font-mono text-muted-foreground/80 text-xs">
+                        <p className="font-mono text-muted-foreground text-xs">
                           {formatDate(post.date)}
                         </p>
                         <h2 className="mt-2 font-medium text-2xl text-foreground tracking-tight underline decoration-1 decoration-transparent underline-offset-[6px] transition-[text-decoration-color] duration-300 group-hover:decoration-ht-cyan-700/70 dark:group-hover:decoration-ht-cyan-300/70">

@@ -83,7 +83,7 @@ function StepMark({ n }: { n: string }) {
   return (
     <span
       aria-hidden="true"
-      className="mr-2 select-none font-mono text-muted-foreground/60 text-xs"
+      className="mr-2 select-none font-mono text-muted-foreground text-xs"
     >
       {n}
     </span>
@@ -379,7 +379,7 @@ export function RebakePanel({
           <div aria-live="polite" className="mt-1" role="status">
             <dl className="grid gap-1 font-mono text-muted-foreground text-sm/6">
               <div className="flex gap-3">
-                <dt className="w-16 shrink-0 text-muted-foreground/60">
+                <dt className="w-16 shrink-0 text-muted-foreground">
                   {statusLabel}
                 </dt>
                 <dd className="min-w-0 flex-1">

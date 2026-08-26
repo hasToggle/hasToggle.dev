@@ -236,7 +236,7 @@ export function StateCard({ narrate, replayCode }: StateCardProps) {
               </p>
             </div>
             <span
-              className="font-mono text-[0.65rem] text-muted-foreground/70"
+              className="font-mono text-[0.65rem] text-muted-foreground"
               ref={badgeRef}
             />
           </div>
@@ -262,7 +262,7 @@ export function StateCard({ narrate, replayCode }: StateCardProps) {
               <li className="ht-replay-note min-h-5" />
               <li className="ht-replay-note min-h-5" />
             </ol>
-            <p className="mt-1 font-mono text-[0.65rem] text-muted-foreground/70">
+            <p className="mt-1 font-mono text-[0.65rem] text-muted-foreground">
               the last click, replayed slow · values real
             </p>
           </div>

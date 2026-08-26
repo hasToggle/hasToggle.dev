@@ -30,7 +30,7 @@ export function BoundaryCard({
         >
           {side}
         </span>
-        <span className="font-mono text-muted-foreground/70 text-xs">
+        <span className="font-mono text-muted-foreground text-xs">
           {title}
         </span>
       </div>

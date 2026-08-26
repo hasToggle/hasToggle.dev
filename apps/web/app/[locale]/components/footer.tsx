@@ -9,7 +9,7 @@ function SitemapHeading({ children }: { children: React.ReactNode }) {
   return (
     // `/60`, not `/50`: the sitemap label sits on the footer's `bg-muted`
     // band, where `/50` measures 3.67:1 at 14px against the 4.5:1 floor.
-    <h3 className="font-medium text-foreground/60 text-sm/6">{children}</h3>
+    <h2 className="font-medium text-foreground/60 text-sm/6">{children}</h2>
   );
 }
 

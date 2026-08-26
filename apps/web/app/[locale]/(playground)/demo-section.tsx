@@ -56,7 +56,7 @@ export function DemoSection({
           <div aria-hidden="true" />
           <div className="ht-reveal">
             <Subheading as={headingAs === "h1" ? "div" : "h2"}>
-              <span className="text-muted-foreground/60">{navLabel}</span>
+              <span className="text-muted-foreground">{navLabel}</span>
               <span
                 aria-hidden="true"
                 className="px-2 text-muted-foreground/40"

@@ -23,7 +23,7 @@ export function BakedStamp({ bake }: BakedStampProps) {
       </p>
       <dl className="grid gap-1 font-mono text-muted-foreground text-sm/6">
         <div className="flex gap-3">
-          <dt className="w-16 shrink-0 text-muted-foreground/60">baked</dt>
+          <dt className="w-16 shrink-0 text-muted-foreground">baked</dt>
           <dd>{formatStamp(new Date(bake.bakedAt))}</dd>
         </div>
       </dl>

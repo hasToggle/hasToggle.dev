@@ -86,7 +86,7 @@ function ChapterRow({ chapter }: { chapter: ShippedChapter }) {
             </Suspense>
           </span>
         ) : null}
-        <span className="col-start-2 mt-1 font-mono text-muted-foreground/80 text-xs">
+        <span className="col-start-2 mt-1 font-mono text-muted-foreground text-xs">
           {chapter.topic}
         </span>
       </Link>
@@ -109,7 +109,7 @@ function NextRow({ entry }: { entry: NextChapter }) {
         <span className="font-medium text-foreground/60 text-xl tracking-tight">
           {entry.topic}
         </span>
-        <span className="col-start-2 font-mono text-ht-cyan-700 text-xs sm:col-start-3 sm:justify-self-end dark:text-ht-cyan-300">
+        <span className="col-start-2 font-mono text-ht-cyan-800 text-xs sm:col-start-3 sm:justify-self-end dark:text-ht-cyan-300">
           lands Monday
         </span>
       </div>

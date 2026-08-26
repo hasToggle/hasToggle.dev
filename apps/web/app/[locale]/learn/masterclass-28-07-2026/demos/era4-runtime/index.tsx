@@ -148,14 +148,14 @@ export function Era4Runtime() {
                 "rounded border px-2 py-0.5 font-mono text-[11px]",
                 usedKinds.has(kind)
                   ? "border-ht-cyan-500/40 bg-ht-cyan-500/10 text-foreground"
-                  : "border-foreground/10 text-muted-foreground/60"
+                  : "border-foreground/10 text-muted-foreground"
               )}
               key={kind}
             >
               {kind}
             </span>
           ))}
-          <span className="text-muted-foreground/60 text-xs">
+          <span className="text-muted-foreground text-xs">
             — the model may only use these four
           </span>
         </div>

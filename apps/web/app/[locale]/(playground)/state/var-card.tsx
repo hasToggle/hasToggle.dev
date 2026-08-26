@@ -94,7 +94,7 @@ export function VarCard({ panelPass }: VarCardProps) {
             {count}
           </p>
           <span
-            className="ml-auto font-mono text-[0.65rem] text-muted-foreground/70"
+            className="ml-auto font-mono text-[0.65rem] text-muted-foreground"
             ref={badgeRef}
           />
         </div>

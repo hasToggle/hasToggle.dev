@@ -32,7 +32,7 @@ export function PressCountFallback() {
       <div className="flex h-10 items-center sm:h-12">
         <div className="h-8 w-24 rounded bg-foreground/10 motion-safe:animate-pulse" />
       </div>
-      <p className="font-mono text-muted-foreground/60 text-xs/5">
+      <p className="font-mono text-muted-foreground text-xs/5">
         asking the server for your cookie…
       </p>
     </div>

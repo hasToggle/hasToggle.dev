@@ -148,7 +148,7 @@ export function Era3Reach({ revealed, fenced }: Era3ReachProps) {
                   <p className="mt-3 font-mono text-[11px] text-muted-foreground">
                     outside the loop
                   </p>
-                  <p className="mt-1 font-mono text-ht-cyan-700 text-xs dark:text-ht-cyan-300">
+                  <p className="mt-1 font-mono text-ht-cyan-800 text-xs dark:text-ht-cyan-300">
                     {r.outsideLoop}
                   </p>
                 </div>

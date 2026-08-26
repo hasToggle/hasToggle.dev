@@ -50,7 +50,7 @@ export function ContactForm() {
         {state.success ? (
           <p
             aria-live="polite"
-            className="font-mono text-ht-cyan-700 text-xs dark:text-ht-cyan-300"
+            className="font-mono text-ht-cyan-800 text-xs dark:text-ht-cyan-300"
           >
             sent · replies come from eric@hastoggle.dev
           </p>
