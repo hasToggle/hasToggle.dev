@@ -187,9 +187,11 @@ point.
 Its bones are still load-bearing: the Turborepo layout, the `packages/*` split,
 Biome via ultracite, the design system. What has diverged: the database is
 MongoDB through the official driver with no ORM and no migrations, auth is
-better-auth, and `apps/web` has been replaced entirely. A few pieces of the
-template’s own repo furniture came along in the copy and never had a job here —
-the `has-toggle` bin and its CLI dependencies, the issue and PR templates.
+better-auth, and `apps/web` has been replaced entirely. The template’s own repo
+furniture came along in the copy and has been removed — the `next-forge init`
+and `update` CLI it publishes as an npm package, its tsup build, and the issue
+and PR templates addressed at that package’s users. What stays from `scripts/`
+is `skip-ci.js`, which every app’s `vercel.json` names as its ignore command.
 
 Bun workspaces, Turborepo, Next.js 16 with Cache Components, React 19,
 TypeScript 7 (native), Tailwind 4, Bun’s test runner.

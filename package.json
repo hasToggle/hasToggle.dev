@@ -1,13 +1,8 @@
 {
   "name": "has-toggle",
   "version": "5.2.1",
+  "private": true,
   "type": "module",
-  "bin": {
-    "has-toggle": "dist/index.js"
-  },
-  "files": [
-    "dist/index.js"
-  ],
   "workspaces": [
     "apps/*",
     "packages/*"
@@ -33,19 +28,13 @@
     "esbuild": "0.28.2",
     "parse5": "^8.0.0"
   },
-  "dependencies": {
-    "@clack/prompts": "^1.0.0",
-    "commander": "^15.0.0"
-  },
   "devDependencies": {
-    "@auto-it/first-time-contributor": "^11.3.0",
     "@biomejs/biome": "2.5.9",
     "@repo/typescript-config": "workspace:*",
     "@turbo/gen": "^2.8.9",
     "@types/node": "^26.0.0",
     "@typescript/native-preview": "7.0.0-dev.20260707.2",
     "bun-types": "latest",
-    "tsup": "^8.5.0",
     "turbo": "2.10.11",
     "typescript": "^7.0.0",
     "ultracite": "7.10.6"

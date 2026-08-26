@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is a **has-toggle** monorepo - a production-grade Turborepo template for Next.js SaaS applications. The codebase is built around five core principles: Fast, Cheap, Opinionated, Modern, and Safe. It uses Bun workspaces and Turborepo for managing multiple applications and shared packages.
+This repo is **hasToggle.dev** — the unofficial live playground for Next.js and Vercel. The product is `apps/web`: a lab of chapters that each open on a belief a developer holds and run the real feature next to it. See `README.md` for the shape of the lab and where the chapter code lives.
+
+The monorepo around it was scaffolded from [next-forge](https://github.com/vercel/next-forge) (`npx next-forge init` — a one-time copy, no upstream, no shared history). It uses Bun workspaces and Turborepo. The other apps and most of `packages/*` came with the scaffold and are not part of the site.
 
 ## Development Commands
 
@@ -138,7 +140,8 @@ Core infrastructure packages:
 - **Styling**: Tailwind CSS 4.1
 - **Linting**: Biome 2.3.1 with ultracite presets (core, react, next)
 - **Testing**: Bun test runner
-- **Bundling**: tsup for package builds
+- **Bundling**: none for `packages/*` — apps consume them as TypeScript source
+  through the `workspace:*` protocol
 
 ### Important Patterns
 
@@ -174,7 +177,8 @@ Core infrastructure packages:
 - `packages/database/types.ts` - Database document types
 - `docs/voice.md` - The writing voice for anything a visitor reads
 - `docs/design.md` - The instrument design grammar for the playground demos
-- Root `package.json` - Monorepo scripts, workspace configuration, and CLI entry point (`dist/index.js`)
+- Root `package.json` - Monorepo scripts and workspace configuration (private; nothing here is published)
+- `scripts/skip-ci.js` - The Vercel "Ignored Build Step" every app's `vercel.json` points at
 
 ## Writing copy
 
