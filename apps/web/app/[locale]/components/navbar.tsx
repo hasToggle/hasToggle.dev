@@ -43,14 +43,17 @@ export function Navbar({
           variant={variant}
         >
           <div className="relative flex gap-6">
-            <PlusGridItem className="py-3" variant={variant}>
+            {/* A plain div, not a PlusGridItem: two lone corner marks around
+                the wordmark read as an unfinished frame. The pluses belong
+                to the interactive boxes; the logo gets the rules alone. */}
+            <div className="py-3">
               <Link href="/" title="Home">
                 <Logo
                   className="inline-block h-6"
                   fill={variant === "dark" ? "white" : "var(--foreground)"}
                 />
               </Link>
-            </PlusGridItem>
+            </div>
             {banner ? (
               <div className="relative hidden items-center py-3 lg:flex">
                 {banner}

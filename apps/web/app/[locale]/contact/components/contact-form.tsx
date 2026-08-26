@@ -52,7 +52,7 @@ export function ContactForm() {
             aria-live="polite"
             className="font-mono text-ht-cyan-700 text-xs dark:text-ht-cyan-300"
           >
-            sent · replies come from support@spiritsdontfly.com
+            sent · replies come from eric@hastoggle.dev
           </p>
         ) : null}
         {state.error ? (

@@ -201,12 +201,15 @@ export function Footer() {
           <PlusGridRow>
             <div className="grid grid-cols-2 gap-y-10 pb-6 lg:grid-cols-6 lg:gap-8">
               <div className="col-span-2 flex">
-                <PlusGridItem className="pt-6 lg:pb-6">
+                {/* A plain div, not a PlusGridItem — same call as the navbar:
+                    lone corner marks around the wordmark read as an
+                    unfinished frame, so the logo keeps the rules alone. */}
+                <div className="pt-6 lg:pb-6">
                   <Logo
                     className="inline-block h-6 text-foreground"
                     fill="currentColor"
                   />
-                </PlusGridItem>
+                </div>
               </div>
               <div className="col-span-2 grid grid-cols-2 gap-x-8 gap-y-12 lg:col-span-4 lg:grid-cols-subgrid lg:pt-6">
                 <Sitemap />
@@ -214,8 +217,12 @@ export function Footer() {
             </div>
           </PlusGridRow>
           <PlusGridRow className="flex justify-between">
-            <div>
-              <PlusGridItem className="py-3">
+            {/* `flex` + stretching item: the theme pill makes its box 56px
+                tall, and a content-sized copyright box (48px) would hang its
+                bottom pluses 8px above the rules the taller boxes sit on —
+                the misalignment is item height, so the fix is height. */}
+            <div className="flex">
+              <PlusGridItem className="flex items-center py-3">
                 <Copyright />
               </PlusGridItem>
             </div>
