@@ -217,6 +217,17 @@ stale-while-revalidate: `revalidateTag` or a lapsed `cacheLife` window), and
 the tag-deletion miss is labeled `REVALIDATED`, not `MISS`. Copy that names
 log badges must match this.
 
+An accessibility audit here reports on one theme and one scroll position,
+so a single green run proves less than it looks (2026-08-26). Two traps,
+both caught on this site: axe skips elements it computes as invisible, and
+every `.ht-reveal` block sits at `opacity: 0` until scrolled into view — so
+the landing scored 100 while its five exhibits, roadmap, cohort and digest
+were never examined, and the same defect was flagged on a chapter page
+where the exhibit is above the fold. And the run inherits the browser's
+colour scheme: the dim text tokens failed in light and passed in dark, so
+a dark-mode run called the site clean. Audit both schemes, and read a 100
+as "the part that was visible passed".
+
 Build workers bake `use cache` entries independently (observed 2026-08-20,
 lab build): the landing shell and /lab's contents row each prerendered
 their own bake, so a fresh deploy can serve two fingerprints for "one
