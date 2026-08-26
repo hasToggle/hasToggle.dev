@@ -54,6 +54,7 @@ export function StateCard({ narrate, replayCode }: StateCardProps) {
   const codeRef = useRef<HTMLDivElement | null>(null);
   const notesRef = useRef<HTMLOListElement | null>(null);
   const numberRef = useRef<HTMLParagraphElement | null>(null);
+  const digitsRef = useRef<HTMLSpanElement | null>(null);
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const replayingRef = useRef<boolean>(false);
 
@@ -171,6 +172,17 @@ export function StateCard({ narrate, replayCode }: StateCardProps) {
       }
       replayingRef.current = false;
     }, at);
+    // One flip later the front face is square to the reader again — where
+    // the wash, half-spent by then, was never really seen. The digits
+    // settle once here: the last cue, pointing at the one thing the whole
+    // replay was about.
+    schedule(() => {
+      if (digitsRef.current !== null) {
+        digitsRef.current.classList.remove("ht-settle");
+        digitsRef.current.getBoundingClientRect();
+        digitsRef.current.classList.add("ht-settle");
+      }
+    }, at + FLIP_MS);
   };
 
   return (
@@ -221,7 +233,7 @@ export function StateCard({ narrate, replayCode }: StateCardProps) {
                 key={count}
                 ref={numberRef}
               >
-                {count}
+                <span ref={digitsRef}>{count}</span>
               </p>
             </div>
             <span

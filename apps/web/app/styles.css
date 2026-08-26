@@ -301,6 +301,32 @@
   }
 }
 
+/* The value's last word. When a card turns back from a replay the number
+   has already changed, so nothing arrives — the digits rise a hair into
+   place instead, and the eye's last movement is to the thing that moved.
+   Applied by hand, to the digits alone: the pill and its wash hold still.
+   Not part of the class the JSX carries, so an ordinary press (no replay,
+   no flip) still lands with the wash and nothing else. */
+@keyframes ht-settle {
+  from {
+    transform: translateY(0.14em) scale(0.94);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.ht-settle {
+  display: inline-block;
+  animation: ht-settle 420ms cubic-bezier(0.22, 1, 0.36, 1) 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ht-settle {
+    animation: none;
+  }
+}
+
 .highlighted-line {
   padding: 2px 8px 2px 0;
   border-radius: 12px;
