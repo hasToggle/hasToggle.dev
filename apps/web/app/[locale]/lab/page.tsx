@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     images: [
       {
         height: 630,
-        url: `/api/og?title=${encodeURIComponent("The lab: contents.")}`,
+        url: `/api/og?title=${encodeURIComponent("Everything Next.js can do, one chapter at a time.")}`,
         width: 1200,
       },
     ],
@@ -184,15 +184,14 @@ export default function LabContentsPage() {
               <Subheading as="div">The lab</Subheading>
               <Heading
                 as="h1"
-                className="mt-3 text-balance text-4xl sm:text-5xl md:text-6xl"
+                className="mt-3 max-w-4xl text-balance text-4xl sm:text-5xl md:text-6xl"
               >
-                Contents.
+                Everything Next.js can do, one chapter at a time.
               </Heading>
               <p className="mt-6 max-w-2xl text-foreground/75 text-lg leading-8">
                 Every chapter opens on something developers say — to ourselves,
-                or to each other — and runs the real feature next to it. The
-                plan is everything Next.js can do, and as much of Vercel as can
-                be proved from inside a web page.
+                or to each other — and runs the real feature next to it. And as
+                much of Vercel as can be proved from inside a web page.
               </p>
 
               {SECTIONS.map((section) => (
