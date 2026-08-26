@@ -164,6 +164,22 @@ shipped, belief and navLabel added.
   instead: components & state / data & caching / routing & navigation /
   metadata & assets / the platform, carved the way the React / Next.js /
   Vercel docs carve the territory. The landing roadmap stays flat.
+- **Chapter previews (2026-08-26).** A chapter that hasn't shipped can
+  carry an index reading too, where the site itself already runs the
+  feature it will be about: the next-up row counts the routes this page
+  has prefetched while you read it. Three rules. It measures the site's
+  own chrome, never a mockup of the chapter — a preview that simulates is
+  an advertisement. It is keyed by the chapter's slug in `INDEX_VALUES`
+  and lives in the chapter's own folder, so shipping changes the status
+  and not the instrument. And it stays optional: where nothing true can
+  be read from the running site — view transitions, cron, error recovery
+  — the row is the topic and the date, because a slot that must be filled
+  gets filled with something invented.
+  - The correction that came with it: `next/link` prefetches on
+    **viewport**, not hover, and not at all in `next dev`. The old bank
+    note here said hover; five routes were already fetched before the
+    pointer moved.
+
 - **No ordinals (2026-08-26).** The numerals went with the ship order they
   encoded. A chapter's number only ever said which week it got built —
   arbitrary, since the digest extends the syllabus in whatever order the
@@ -193,9 +209,6 @@ shipped, belief and navLabel added.
   width-reservation (`StableSlot`) grows a JSX-safe design.
 - Digest beats banked: the side-effect-runs-twice warning; the
   swatch-is-the-hash reveal.
-- Contents-row hover-prefetch readout: the lab's index rows already
-  prefetch on hover via next/link — the navigation chapter should claim
-  that readout as its instrument in the site's own chrome.
 - The Hazel counter: superseded 2026-08-21 by the state chapter (useState
   & re-renders), its reimagining on the instrument grammar; the old code
   (`(counter)/`, `components/ui/boundary` + `ping`) is deleted — git

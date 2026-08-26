@@ -4,6 +4,7 @@ import { env } from "@/env";
 import { BoundaryIndexValue } from "../(playground)/boundary/index-value";
 import { ImageIndexValue } from "../(playground)/image/index-value";
 import { MutationIndexValue } from "../(playground)/mutation/index-value";
+import { NavigationIndexValue } from "../(playground)/navigation/index-value";
 import { ShellIndexValue } from "../(playground)/shell/index-value";
 import { StreamIndexValue } from "../(playground)/stream/index-value";
 import { Container } from "../components/container";
@@ -46,10 +47,17 @@ export const metadata: Metadata = {
  * exhibit, or nothing. Each renders inside its own Suspense boundary, so a
  * per-visitor reading (the press count) streams in without costing the rest
  * of the page its prerender.
+ *
+ * A chapter that hasn't shipped can have one too, where the site itself
+ * already runs the feature the chapter will be about — the navigation
+ * reading counts the prefetches this page performs while you read it. A
+ * preview keeps the same key as the chapter it belongs to, so the day the
+ * chapter ships the row keeps its instrument and only the status changes.
  */
 const INDEX_VALUES: Partial<Record<string, () => React.ReactNode>> = {
   boundary: BoundaryIndexValue,
   caching: ShellIndexValue,
+  navigation: NavigationIndexValue,
   "og-images": ImageIndexValue,
   "server-actions": MutationIndexValue,
   streaming: StreamIndexValue,
@@ -96,10 +104,13 @@ function ChapterRow({ chapter }: { chapter: ShippedChapter }) {
 }
 
 function NextRow({ entry }: { entry: NextChapter }) {
+  const Preview = INDEX_VALUES[entry.slug];
+
   return (
     <li className="border-foreground/10 border-b first:border-t">
       {/* No belief yet — a chapter states its belief when it ships. Until
-          Monday the row is just the topic. */}
+          then the row is the topic, the date, and — where the site already
+          runs the feature — a reading taken from the page you are on. */}
       <div className="grid grid-cols-[2.5rem_minmax(0,1fr)] items-baseline gap-x-4 py-5 sm:grid-cols-[2.5rem_minmax(0,1fr)_auto]">
         <span
           aria-hidden="true"
@@ -113,6 +124,11 @@ function NextRow({ entry }: { entry: NextChapter }) {
         <span className="col-start-2 font-mono text-ht-cyan-800 text-xs sm:col-start-3 sm:justify-self-end dark:text-ht-cyan-300">
           lands {landsOn(entry.lands)}
         </span>
+        {Preview ? (
+          <span className="col-start-2 mt-1 font-mono text-muted-foreground text-xs">
+            <Preview />
+          </span>
+        ) : null}
       </div>
     </li>
   );
