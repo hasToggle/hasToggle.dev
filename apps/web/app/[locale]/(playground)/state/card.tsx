@@ -34,9 +34,7 @@ export function StateCardShell({
         >
           {pill}
         </span>
-        <span className="font-mono text-muted-foreground text-xs">
-          {title}
-        </span>
+        <span className="font-mono text-muted-foreground text-xs">{title}</span>
       </div>
       <div className="flex-1">{children}</div>
       <ul className="grid gap-1 border-foreground/10 border-t pt-3 font-mono text-muted-foreground text-xs/5">

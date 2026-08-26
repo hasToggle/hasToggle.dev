@@ -65,6 +65,13 @@ export interface ShippedChapter extends ChapterCore {
 }
 
 export interface NextChapter extends ChapterCore {
+  /**
+   * The Monday it lands, ISO. Held here rather than derived from "the next
+   * Monday", because this is a commitment, not a calculation: if a week
+   * slips the row should say the date that was promised, not roll silently
+   * to the following one.
+   */
+  readonly lands: string;
   readonly status: "next";
 }
 
@@ -126,6 +133,7 @@ export const SYLLABUS: readonly SyllabusEntry[] = [
     topic: "useState & re-renders",
   },
   {
+    lands: "2026-08-31",
     section: "routing",
     slug: "navigation",
     status: "next",
@@ -196,6 +204,46 @@ export const SYLLABUS: readonly SyllabusEntry[] = [
     topic: "blob, key-value & Postgres",
   },
 ];
+
+const WEEKDAYS = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
+const MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+/**
+ * The landing date as the contents row wears it: "Monday · 31 Aug".
+ *
+ * Formatted by hand from the ISO parts in UTC, not through Intl: the row is
+ * prerendered, so a date that formatted itself against the server's locale
+ * and then again against the visitor's would be two different strings for
+ * one static row.
+ */
+export function landsOn(iso: string): string {
+  const [year, month, day] = iso.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+
+  return `${WEEKDAYS[date.getUTCDay()]} · ${date.getUTCDate()} ${MONTHS[date.getUTCMonth()]}`;
+}
 
 export const SHIPPED: readonly ShippedChapter[] = SYLLABUS.filter(
   (entry): entry is ShippedChapter => entry.status === "shipped"

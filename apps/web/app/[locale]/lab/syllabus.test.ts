@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test";
 import {
   chapterBySlug,
   LATEST,
+  landsOn,
   NEXT_UP,
   prevNext,
   READING_ORDER,
@@ -38,6 +39,7 @@ const LEGACY_UPCOMING: readonly string[] = [
 ];
 
 const URL_SAFE_SLUG = /^[a-z][a-z0-9-]*$/;
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 const EXPECTED_CHAPTERS: readonly string[] = [
   "The boundary",
@@ -108,6 +110,20 @@ describe("shipped chapters", () => {
 
   test("the latest shipped chapter is the state exhibit", () => {
     expect(LATEST.slug).toBe("state");
+  });
+});
+
+describe("the chapter that lands next", () => {
+  test("carries an ISO date that is a Monday", () => {
+    const lands = NEXT_UP?.lands ?? "";
+    expect(lands).toMatch(ISO_DATE);
+    expect(new Date(`${lands}T00:00:00Z`).getUTCDay()).toBe(1);
+  });
+
+  test("wears the date the way the row prints it", () => {
+    expect(landsOn("2026-08-31")).toBe("Monday · 31 Aug");
+    expect(landsOn("2026-09-07")).toBe("Monday · 7 Sep");
+    expect(landsOn("2027-01-04")).toBe("Monday · 4 Jan");
   });
 });
 

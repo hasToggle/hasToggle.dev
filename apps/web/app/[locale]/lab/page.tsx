@@ -13,6 +13,7 @@ import { Link } from "../components/marketing-link";
 import { Navbar } from "../components/navbar";
 import { Heading, Subheading } from "../components/text";
 import {
+  landsOn,
   type NextChapter,
   type PlannedTopic,
   SECTIONS,
@@ -110,7 +111,7 @@ function NextRow({ entry }: { entry: NextChapter }) {
           {entry.topic}
         </span>
         <span className="col-start-2 font-mono text-ht-cyan-800 text-xs sm:col-start-3 sm:justify-self-end dark:text-ht-cyan-300">
-          lands Monday
+          lands {landsOn(entry.lands)}
         </span>
       </div>
     </li>
