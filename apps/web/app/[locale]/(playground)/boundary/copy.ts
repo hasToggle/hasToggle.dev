@@ -31,14 +31,14 @@ export const SIDES: Record<Beat, "client" | "server"> = {
 /** The rows under the card: capabilities, the stop, the bill, the split. */
 export const FACTS: Record<Beat, readonly string[]> = {
   crossed: [
-    '"use cache" has no client form — the build stopped again',
-    "process.version was next in line — browsers don’t have one",
-    "this refusal names its fix too: a separate file",
+    "the intent: keep the fetch on the server, give the click to the browser",
+    "the directive moves files whole — there is no line for half a file",
+    "both sides at once takes two files",
   ],
   refused: [
-    "the build stopped here — nothing shipped",
-    "onClick fails the same way: the click arrives after the server has hung up",
-    "the error names its fix: one directive",
+    "the intent: let the visitor copy the hash — one small click",
+    "a click needs a listener in the browser, and this file never ships there",
+    "the error offers a one-line fix",
   ],
   rest: [
     "runs in Node: databases, secrets, the filesystem",
