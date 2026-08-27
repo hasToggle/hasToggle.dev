@@ -58,7 +58,7 @@ export const SEAMS: Record<Beat, string> = {
     "the directive claims the whole file, and every file it imports · the line is drawn at build time, not per render",
   refused:
     "useState keeps a value between renders · a Server Component renders exactly once",
-  rest: "no directive · a Server Component, like every file that doesn’t say otherwise",
+  rest: "the dashed line is where this file lives · the server, like every file that doesn’t say otherwise",
   split:
     "a Server Component can import a Client Component · the directive sits on the smallest file that needs it",
 };

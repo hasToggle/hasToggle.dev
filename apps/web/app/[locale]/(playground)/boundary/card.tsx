@@ -13,21 +13,22 @@ interface FileCardProps {
  * for all four beats, so the only thing that ever changes is what the
  * beat changed — the directive, the residency, and the boundary.
  *
- * The dashed orange border is the boundary made visible. In the crossed
- * beat it wraps the whole card — that is what the directive claimed — and
- * in the split beat the same dashing shrinks to the ring around
- * copy-button.tsx (drawn in server-card.tsx), so the two states show the
- * line moving.
+ * The dashed border is the boundary made visible, always on and colored
+ * by residency — cyan for the server side, orange for the client side.
+ * The rest seam is its legend. In the crossed beat the orange line wraps
+ * the whole card — what the directive claimed — and in the split it
+ * shrinks to the ring around copy-button.tsx (drawn in server-card.tsx)
+ * inside the cyan server line: the chapter's whole diagram, nested.
  */
 export function FileCard({ beat, children }: FileCardProps) {
   const side = SIDES[beat];
   return (
     <div
       className={cn(
-        "flex h-full flex-col rounded-xl bg-muted/20",
-        beat === "crossed"
-          ? "border border-ht-orange-700/40 border-dashed dark:border-ht-orange-500/40"
-          : "border border-foreground/10"
+        "flex h-full flex-col rounded-xl border border-dashed bg-muted/20",
+        side === "server"
+          ? "border-ht-cyan-700/40 dark:border-ht-cyan-500/40"
+          : "border-ht-orange-700/40 dark:border-ht-orange-500/40"
       )}
     >
       <div className="flex items-center justify-between gap-3 border-foreground/10 border-b px-4 py-2.5 sm:px-5">
@@ -55,7 +56,9 @@ export function FileCard({ beat, children }: FileCardProps) {
       >
         {DIRECTIVE_LINES[beat]}
       </p>
-      <div className="flex-1 px-4 py-3 sm:px-5">{children}</div>
+      <div className="flex flex-1 flex-col justify-center px-4 py-3 sm:px-5">
+        {children}
+      </div>
       <ul className="grid gap-1 border-foreground/10 border-t px-4 py-3 font-mono text-muted-foreground text-xs/5 sm:px-5">
         {FACTS[beat].map((fact) => (
           <li className="flex gap-2" key={fact}>

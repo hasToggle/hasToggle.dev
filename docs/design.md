@@ -158,9 +158,13 @@ deleted, not deprecated. Judgment calls worth keeping:
   register changed → *extract the button* and the resolution is
   performed, not preached: card.tsx (server, fetch untouched) imports
   copy-button.tsx (client), and the button works for the first time. The
-  boundary is drawn as a dashed orange line that moves: in the crossed
-  beat it wraps the whole card — what the directive claimed — and in the
-  split it shrinks to the ring around copy-button.tsx. The server slots
+  boundary is drawn as a dashed line, always on and colored by residency
+  — cyan server, orange client — with the rest seam as its legend. It
+  moves: orange around the whole card in the crossed beat (what the
+  directive claimed), and in the split an orange ring around
+  copy-button.tsx nested inside the cyan server line — the chapter's
+  diagram, drawn by the states themselves. The card body centers into
+  the ghost-stack's reserved height, so no beat sits in dead space. The server slots
   cross into the client panel as props, which is the chapter's own
   mechanism. Two interaction rules came out of rejections here. From the
   counter (it felt disjointed — nobody adds a counter to a data card):
