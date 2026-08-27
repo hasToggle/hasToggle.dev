@@ -5,9 +5,10 @@ import { useCallback, useState } from "react";
 import { MarketingButton } from "../../components/marketing-button";
 import { LivePanel } from "../live-panel";
 import { FileCard } from "./card";
-import { ClientCard } from "./client-card";
 import type { Beat } from "./copy";
 import {
+  CROSSED_ERROR,
+  REFUSAL_ERROR,
   RESET_LABEL,
   SEAMS,
   STEP_ONE_DETAIL,
@@ -40,8 +41,8 @@ function StepMark({ n }: { n: string }) {
 
 /** Each beat's one legal successor — the deck is a sequence, not a menu. */
 const NEXT_BEAT: Partial<Record<Beat, Beat>> = {
-  hydrated: "split",
-  refused: "hydrated",
+  crossed: "split",
+  refused: "crossed",
   rest: "refused",
 };
 
@@ -65,11 +66,11 @@ interface BoundaryPanelProps {
  * nothing here makes a server round trip — both server slots arrived with
  * the page, and every beat after them is a client render.
  *
- * The deck walks the sequence everyone has walked, plus the step no error
- * message suggests: ask a Server Component for a copy button, read the
- * compiler's refusal, apply the fix the error names — the whole file
- * crosses, fetch included — then extract the button so the fetch comes
- * back. Reset is instrument housekeeping, not a subject action, so it
+ * The deck walks the sequence everyone has walked: ask a Server Component
+ * for a copy button, read the compiler's refusal, apply the fix the error
+ * names — and meet the second refusal, because "use cache" cannot follow
+ * the directive — then extract the button, the fix the second error
+ * names, and everything works. Reset is instrument housekeeping, not a subject action, so it
  * sits in the chrome and stays locked at rest (design.md §4, 2026-08-27).
  */
 export function BoundaryPanel({
@@ -93,7 +94,7 @@ export function BoundaryPanel({
     [advanceFrom]
   );
   const handleStepThree = useCallback(
-    () => advanceFrom("hydrated"),
+    () => advanceFrom("crossed"),
     [advanceFrom]
   );
 
@@ -147,7 +148,7 @@ export function BoundaryPanel({
         →
       </span>
       <MarketingButton
-        aria-disabled={beat !== "hydrated"}
+        aria-disabled={beat !== "crossed"}
         className={LOCKED_LOOK}
         onClick={handleStepThree}
         variant="outline"
@@ -164,17 +165,14 @@ export function BoundaryPanel({
   return (
     <LivePanel deck={deck} references={references} viewControls={viewControls}>
       <div className="flex flex-col gap-5">
-        {/* The hydrated and split cards take the landing wash through a key
-            remount (.ht-land) — the beats where the value the deck promised
-            moves. The refusal needs no wash: red is its own arrival. */}
-        <div
-          className={cn((beat === "hydrated" || beat === "split") && "ht-land")}
-          key={beat}
-        >
+        {/* Only the split card takes the landing wash through a key remount
+            (.ht-land) — the beat where the thing the deck promised finally
+            works. The refusals need no wash: red is its own arrival. */}
+        <div className={cn(beat === "split" && "ht-land")} key={beat}>
           <FileCard beat={beat}>
             {beat === "rest" && serverCard}
-            {beat === "refused" && <Refusal />}
-            {beat === "hydrated" && <ClientCard />}
+            {beat === "refused" && <Refusal error={REFUSAL_ERROR} />}
+            {beat === "crossed" && <Refusal error={CROSSED_ERROR} />}
             {beat === "split" && splitCard}
           </FileCard>
         </div>

@@ -10,14 +10,26 @@ interface FileCardProps {
 /**
  * The specimen dressed as its file: badge and filename up top, the file's
  * first line where a file keeps it, the body, then the fact rows. One card
- * for all three beats, so the only thing that ever changes is what the
- * beat changed — the directive, the residency, and the price.
+ * for all four beats, so the only thing that ever changes is what the
+ * beat changed — the directive, the residency, and the boundary.
+ *
+ * The dashed orange border is the boundary made visible. In the crossed
+ * beat it wraps the whole card — that is what the directive claimed — and
+ * in the split beat the same dashing shrinks to the ring around
+ * copy-button.tsx (drawn in server-card.tsx), so the two states show the
+ * line moving.
  */
 export function FileCard({ beat, children }: FileCardProps) {
   const side = SIDES[beat];
-  const costly = beat === "hydrated";
   return (
-    <div className="flex h-full flex-col rounded-xl border border-foreground/10 bg-muted/20">
+    <div
+      className={cn(
+        "flex h-full flex-col rounded-xl bg-muted/20",
+        beat === "crossed"
+          ? "border border-ht-orange-700/40 border-dashed dark:border-ht-orange-500/40"
+          : "border border-foreground/10"
+      )}
+    >
       <div className="flex items-center justify-between gap-3 border-foreground/10 border-b px-4 py-2.5 sm:px-5">
         <span
           className={cn(
@@ -36,7 +48,7 @@ export function FileCard({ beat, children }: FileCardProps) {
       <p
         className={cn(
           "px-4 pt-3 font-mono text-xs sm:px-5",
-          beat === "hydrated"
+          beat === "crossed"
             ? "text-ht-orange-800 dark:text-ht-orange-300"
             : "text-muted-foreground/60"
         )}
@@ -50,13 +62,7 @@ export function FileCard({ beat, children }: FileCardProps) {
             <span aria-hidden="true" className="select-none opacity-55">
               –
             </span>
-            <span
-              className={cn(
-                costly && "text-ht-orange-800/90 dark:text-ht-orange-300/90"
-              )}
-            >
-              {fact}
-            </span>
+            {fact}
           </li>
         ))}
       </ul>

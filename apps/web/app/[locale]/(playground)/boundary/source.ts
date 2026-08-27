@@ -1,6 +1,6 @@
 /**
  * The drawer shows the story's file at each stop the deck makes —
- * start, crossed, split — with the refusal between the first two. The
+ * start, crossed, split — a refusal after each of the first two. The
  * same four beats, in source form. Condensed the way every drawer here
  * condenses: real API, real shapes, the layout noise left out.
  */
@@ -26,36 +26,21 @@ export async function Card() {
 // step 1 — add a copy button. useState in this file stops the build:
 // "This React Hook only works in a Client Component."
 
-// card.tsx — after step 2. The whole file crossed, the fetch included:
-// it runs in the browser now, after hydration, cached for nobody.
+// card.tsx — after step 2. The directive went on top of everything
+// the file already was, and the build stops again:
+// "It is not allowed to define inline "use cache" annotated
+//  functions in Client Components."
 "use client";
-import { useEffect, useState } from "react";
+import { cacheLife } from "next/cache";
+import { useState } from "react";
 
-export function Card() {
-  const [commit, setCommit] = useState(null);
-  const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    fetch("https://api.github.com/repos/hasToggle/hasToggle.dev/commits/main")
-      .then((response) => response.json())
-      .then((data) => setCommit(data));
-  }, []);
-
-  if (!commit) return <p>fetching from your tab…</p>;
-  return (
-    <p>
-      latest commit {commit.sha.slice(0, 7)}
-      <button onClick={() => {
-        navigator.clipboard.writeText(commit.sha.slice(0, 7));
-        setCopied(true);
-      }}>
-        {copied ? "copied" : "copy"}
-      </button>
-    </p>
-  );
+async function getLatestCommit() {
+  "use cache"; // ⨯ no client form — this line is the second refusal
+  cacheLife("hours");
+  /* … */
 }
 
-// card.tsx — after step 3. No directive again: the fetch is back in
+// card.tsx — after step 3. No directive again: the fetch never left
 // Node, and the one file that needs the browser carries its own line.
 import { CopyButton } from "./copy-button";
 

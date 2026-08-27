@@ -150,19 +150,24 @@ deleted, not deprecated. Judgment calls worth keeping:
   bench shows the compiler's refusal, quoted verbatim from the next-swc
   binary (a component that throws can never be on the bench — the
   intermediate state that made the old dead-button idea unshippable) →
-  *"use client"* and the same card remounts hydrated: the button works,
-  and the fetch crossed with the file — it genuinely runs from the
-  visitor's tab, loading gap and per-IP rate limit on camera — facts
-  flipped from capabilities to costs → *extract the button* and the
-  resolution is performed, not preached: card.tsx (server, fetch
-  restored) imports copy-button.tsx (client), the island wearing a dashed
-  ring where the import graph draws its line. The server slots cross into
-  the client panel as props, which is the chapter's own mechanism. The
-  interaction rule that came out of the counter's rejection (it felt
-  disjointed — nobody adds a counter to a data card): **the specimen's
-  interaction must be asked for by its own data, and must be legitimately
-  client-only**, so no reader can retort "that wants a server action."
-  Copying a hash is both. Rules from the copy rounds:
+  *"use client"* and the compiler refuses **again**, also verbatim: "use
+  cache" has no client form, so the first error's suggested fix walks
+  into a second wall → *extract the button* and the resolution is
+  performed, not preached: card.tsx (server, fetch untouched) imports
+  copy-button.tsx (client), and the button works for the first time. The
+  boundary is drawn as a dashed orange line that moves: in the crossed
+  beat it wraps the whole card — what the directive claimed — and in the
+  split it shrinks to the ring around copy-button.tsx. The server slots
+  cross into the client panel as props, which is the chapter's own
+  mechanism. Two interaction rules came out of rejections here. From the
+  counter (it felt disjointed — nobody adds a counter to a data card):
+  **the specimen's interaction must be asked for by its own data, and
+  must be legitimately client-only**, so no reader can retort "that
+  wants a server action." From the working whole-file-client state (it
+  rendered fine, which read as an endorsement): **an intermediate state
+  that would require silently rewriting the specimen's code is a lie —
+  show the refusal the real code produces instead.** The copy button
+  copies a hash, which passes both. Rules from the copy rounds:
   - **The instrument never narrates its own construction.** Plumbing the
     demo needs but the mechanism doesn't (pre-shipped twins, replayed
     errors, swap-not-recompile) is not disclosed on the panel; seams and

@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import {
+  CROSSED_ERROR,
   DIRECTIVE_LINES,
   FACTS,
   REFUSAL_ERROR,
@@ -9,7 +10,7 @@ import {
   STEP_TWO_LABEL,
 } from "./copy";
 
-const BEATS = ["rest", "refused", "hydrated", "split"] as const;
+const BEATS = ["rest", "refused", "crossed", "split"] as const;
 
 describe("the refusal", () => {
   test("quotes the compiler verbatim (next-swc binary, 2026-08-27)", () => {
@@ -22,11 +23,18 @@ describe("the refusal", () => {
     expect(REFUSAL_ERROR).not.toContain("’");
     expect(REFUSAL_ERROR).not.toContain("“");
   });
+
+  test("the second refusal is verbatim too, and names the separate file", () => {
+    expect(CROSSED_ERROR).toBe(
+      'It is not allowed to define inline "use cache" annotated functions in Client Components.\nTo use "use cache" functions in a Client Component, you can either export them from a separate file with "use cache" or "use server" at the top, or pass them down through props from a Server Component.'
+    );
+    expect(CROSSED_ERROR).toContain("separate file");
+  });
 });
 
 describe("the beats", () => {
-  test("the directive appears exactly once, on the hydrated card, in real syntax", () => {
-    expect(DIRECTIVE_LINES.hydrated).toBe('"use client";');
+  test("the directive appears exactly once, on the crossed card, in real syntax", () => {
+    expect(DIRECTIVE_LINES.crossed).toBe('"use client";');
     expect(DIRECTIVE_LINES.rest).toBe("// no directive");
     expect(DIRECTIVE_LINES.refused).toBe("// no directive");
     expect(DIRECTIVE_LINES.split).toBe("// no directive");
@@ -35,7 +43,7 @@ describe("the beats", () => {
   test("card.tsx crosses the boundary once and comes back with the split", () => {
     expect(SIDES.rest).toBe("server");
     expect(SIDES.refused).toBe("server");
-    expect(SIDES.hydrated).toBe("client");
+    expect(SIDES.crossed).toBe("client");
     expect(SIDES.split).toBe("server");
   });
 

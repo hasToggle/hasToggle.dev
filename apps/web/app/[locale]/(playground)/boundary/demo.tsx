@@ -36,10 +36,10 @@ export function BoundaryDemo({ headingAs }: BoundaryDemoProps) {
             and arrived as finished HTML; the component that made it is already
             gone. Use the deck to give the hash a copy button and the compiler
             refuses: the same error that sends everyone here, and it names its
-            own fix. Apply the fix and the button works — watch what else
-            crossed with it. The third step is the one no error message
-            suggests: the button gets its own file, and the fetch goes back to
-            the server.
+            own fix. Apply that fix and the compiler refuses again — the
+            directive claimed the whole file, and &quot;use cache&quot; has no
+            client form. The second refusal names the real fix, a separate file.
+            Take the third step and the button finally works.
           </p>
         </>
       }

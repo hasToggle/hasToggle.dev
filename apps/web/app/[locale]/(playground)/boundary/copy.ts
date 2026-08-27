@@ -10,11 +10,11 @@
  */
 
 /** The instrument's four states, in the order the deck walks them. */
-export type Beat = "hydrated" | "refused" | "rest" | "split";
+export type Beat = "crossed" | "refused" | "rest" | "split";
 
 /** The file's first line, worn on the card the way a file wears it. */
 export const DIRECTIVE_LINES: Record<Beat, string> = {
-  hydrated: '"use client";',
+  crossed: '"use client";',
   refused: "// no directive",
   rest: "// no directive",
   split: "// no directive",
@@ -22,7 +22,7 @@ export const DIRECTIVE_LINES: Record<Beat, string> = {
 
 /** Which side of the boundary card.tsx itself is on, for the badge. */
 export const SIDES: Record<Beat, "client" | "server"> = {
-  hydrated: "client",
+  crossed: "client",
   refused: "server",
   rest: "server",
   split: "server",
@@ -30,10 +30,10 @@ export const SIDES: Record<Beat, "client" | "server"> = {
 
 /** The rows under the card: capabilities, the stop, the bill, the split. */
 export const FACTS: Record<Beat, readonly string[]> = {
-  hydrated: [
-    "bought: useState and onClick — the copy button works",
-    "paid: the fetch runs in your tab now — one request per visitor, nothing shared",
-    "paid: process, the secrets, the cached entry — the whole file crossed",
+  crossed: [
+    '"use cache" has no client form — the build stopped again',
+    "process.version was next in line — browsers don’t have one",
+    "this refusal names its fix too: a separate file",
   ],
   refused: [
     "the build stopped here — nothing shipped",
@@ -47,14 +47,14 @@ export const FACTS: Record<Beat, readonly string[]> = {
   ],
   split: [
     '"use client" moved into copy-button.tsx — one directive, one small file',
-    "the fetch is back in Node.js — cached once, served to everyone",
+    "the fetch stayed in Node.js — cached once, served to everyone",
     "shipped to the browser: the button, and only the button",
   ],
 };
 
 /** The seam under the card — the one fact each state proves. */
 export const SEAMS: Record<Beat, string> = {
-  hydrated:
+  crossed:
     "the directive claims the whole file, and every file it imports · the line is drawn at build time, not per render",
   refused:
     "useState keeps a value between renders · a render that happens once has no between",
@@ -74,6 +74,16 @@ export const REFUSAL_ERROR =
 
 /** The overlay's file line — the card's own name, where dev points. */
 export const REFUSAL_FILE = "./card.tsx";
+
+/**
+ * The second refusal, also verbatim from the next-swc binary
+ * (2026-08-27): what Turbopack prints when the first error's suggested
+ * fix — the directive on the whole file — meets the "use cache" the file
+ * already had. Its second sentence names the real fix, which is the
+ * deck's step three.
+ */
+export const CROSSED_ERROR =
+  'It is not allowed to define inline "use cache" annotated functions in Client Components.\nTo use "use cache" functions in a Client Component, you can either export them from a separate file with "use cache" or "use server" at the top, or pass them down through props from a Server Component.';
 
 /** Deck step one: the change the hash itself asks for. */
 export const STEP_ONE_LABEL = "Add a copy button";
