@@ -31,7 +31,7 @@ export const SIDES: Record<Beat, "client" | "server"> = {
 /** The rows under the card: capabilities, the stop, the bill, the split. */
 export const FACTS: Record<Beat, readonly string[]> = {
   crossed: [
-    "the intent: keep the fetch on the server, give the click to the browser",
+    "what you want: keep the fetch on the server, give the click to the browser",
     "the directive moves files whole — there is no line for half a file",
     "both sides at once takes two files",
   ],
@@ -57,7 +57,7 @@ export const SEAMS: Record<Beat, string> = {
   crossed:
     "the directive claims the whole file, and every file it imports · the line is drawn at build time, not per render",
   refused:
-    "useState keeps a value between renders · a render that happens once has no between",
+    "useState keeps a value between renders · a Server Component renders exactly once",
   rest: "no directive · a Server Component, like every file that doesn’t say otherwise",
   split:
     "a Server Component can import a Client Component · the directive sits on the smallest file that needs it",
