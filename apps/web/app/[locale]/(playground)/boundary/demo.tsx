@@ -45,10 +45,8 @@ export function BoundaryDemo({ headingAs }: BoundaryDemoProps) {
       }
       meta={
         <>
-          The fine print: the directive claims a file, not a page. The move
-          everyone learns second is handing it to the smallest component that
-          needs the click — the counter crosses the boundary, and the page above
-          it stays on the server.
+          In a real app the counter gets its own small file, the directive goes
+          there, and the page above it stays on the server.
         </>
       }
       navLabel={chapter.navLabel}
