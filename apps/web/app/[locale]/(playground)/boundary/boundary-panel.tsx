@@ -43,6 +43,9 @@ function StepMark({ n }: { n: string }) {
   );
 }
 
+/** Deck-walk order, also the ghost-stack order for height reservation. */
+const ALL_BEATS: readonly Beat[] = ["rest", "refused", "crossed", "split"];
+
 /** Each beat's one legal successor — the deck is a sequence, not a menu. */
 const NEXT_BEAT: Partial<Record<Beat, Beat>> = {
   crossed: "split",
@@ -169,20 +172,50 @@ export function BoundaryPanel({
   return (
     <LivePanel deck={deck} references={references} viewControls={viewControls}>
       <div className="flex flex-col gap-5">
-        {/* Only the split card takes the landing wash through a key remount
-            (.ht-land) — the beat where the thing the deck promised finally
-            works. The refusals need no wash: red is its own arrival. */}
-        <div className={cn(beat === "split" && "ht-land")} key={beat}>
-          <FileCard beat={beat}>
-            {beat === "rest" && serverCard}
-            {beat === "refused" && <Refusal error={REFUSAL_ERROR} />}
-            {beat === "crossed" && <CrossedFile />}
-            {beat === "split" && splitCard}
-          </FileCard>
+        {/* All four cards stacked in one grid cell, the inactive ones
+            invisible but still holding their space — so the instrument is
+            always as tall as its tallest beat and the deck never moves.
+            Same reservation trick as the rebake panel's StableSlot, at
+            card scale. The active wrapper's key flips on activation, so
+            the split card's landing wash (.ht-land) replays on each
+            arrival; the refusals need no wash — red is its own arrival. */}
+        <div className="grid">
+          {ALL_BEATS.map((b) => {
+            const active = b === beat;
+            return (
+              <div
+                aria-hidden={!active}
+                className={cn(
+                  "[grid-area:1/1]",
+                  active ? b === "split" && "ht-land" : "invisible"
+                )}
+                key={`${b}-${active}`}
+              >
+                <FileCard beat={b}>
+                  {b === "rest" && serverCard}
+                  {b === "refused" && <Refusal error={REFUSAL_ERROR} />}
+                  {b === "crossed" && <CrossedFile />}
+                  {b === "split" && splitCard}
+                </FileCard>
+              </div>
+            );
+          })}
         </div>
-        {/* The seam, narrated: the one fact the current beat proves. */}
-        <p className="font-mono text-muted-foreground text-xs/5" role="status">
-          {SEAMS[beat]}
+        {/* The seam, narrated: the one fact the current beat proves. The
+            ghosts reserve the tallest seam's height for the same reason. */}
+        <p
+          className="grid font-mono text-muted-foreground text-xs/5"
+          role="status"
+        >
+          {ALL_BEATS.map((b) => (
+            <span
+              aria-hidden={b !== beat}
+              className={cn("[grid-area:1/1]", b !== beat && "invisible")}
+              key={b}
+            >
+              {SEAMS[b]}
+            </span>
+          ))}
         </p>
       </div>
     </LivePanel>
