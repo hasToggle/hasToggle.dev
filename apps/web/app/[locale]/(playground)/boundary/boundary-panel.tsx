@@ -27,6 +27,10 @@ const LOCKED_LOOK = cn(
   "aria-disabled:cursor-not-allowed aria-disabled:hover:bg-transparent"
 );
 
+// The nudge: the one step that is pressable right now wears the boundary's
+// own orange on its ring, so the hand knows where the sequence continues.
+const ARMED_LOOK = "ring-ht-orange-700/50 dark:ring-ht-orange-500/50";
+
 /** The mono step marker inside a deck button — real sequence, so real numbers. */
 function StepMark({ n }: { n: string }) {
   return (
@@ -116,7 +120,7 @@ export function BoundaryPanel({
     <div className="flex flex-wrap items-center gap-3">
       <MarketingButton
         aria-disabled={beat !== "rest"}
-        className={LOCKED_LOOK}
+        className={cn(LOCKED_LOOK, beat === "rest" && ARMED_LOOK)}
         onClick={handleStepOne}
         variant="outline"
       >
@@ -134,7 +138,7 @@ export function BoundaryPanel({
       </span>
       <MarketingButton
         aria-disabled={beat !== "refused"}
-        className={LOCKED_LOOK}
+        className={cn(LOCKED_LOOK, beat === "refused" && ARMED_LOOK)}
         onClick={handleStepTwo}
         variant="outline"
       >
@@ -149,7 +153,7 @@ export function BoundaryPanel({
       </span>
       <MarketingButton
         aria-disabled={beat !== "crossed"}
-        className={LOCKED_LOOK}
+        className={cn(LOCKED_LOOK, beat === "crossed" && ARMED_LOOK)}
         onClick={handleStepThree}
         variant="outline"
       >
