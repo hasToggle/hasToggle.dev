@@ -2,9 +2,8 @@ import { requireChapter } from "../../lab/syllabus";
 import { CodeBlock } from "../code-block";
 import { DemoSection } from "../demo-section";
 import { InlineCode } from "../inline-code";
-import { LivePanel } from "../live-panel";
 import { ReferenceBar } from "../reference-bar";
-import { ClientCard } from "./client-card";
+import { BoundaryPanel } from "./boundary-panel";
 import { ServerCard } from "./server-card";
 import { BOUNDARY_SOURCE } from "./source";
 
@@ -34,25 +33,31 @@ export function BoundaryDemo({ headingAs }: BoundaryDemoProps) {
             their phone.
           </p>
           <p>
-            Watch the two cards below. One rendered in Node.js and arrived as
-            finished HTML — done before you got here. The other arrived as
-            JavaScript and woke up in your tab — the waking is called hydration
-            — and its button is waiting for a click. Only one of them is running
-            Node, and it prints the version to prove it.
+            Below is one file, doing what every file does until someone says
+            otherwise: it rendered on the server, in Node.js, and arrived here
+            as finished HTML — done before you got here. Ask it to count
+            something (the deck walks you through it) and the build stops: the
+            compiler refuses the render and names the one-line fix. Apply the
+            fix, and the counter works. Then read the rows under the card,
+            because that is where the price landed.
           </p>
         </>
       }
       meta={
         <>
-          The error that sends everyone here is &ldquo;useState only works in a
-          Client Component&rdquo;. The server isn&rsquo;t being difficult. It
-          has no clicks to listen for.
+          The fine print: the directive claims a file, not a page. The move
+          everyone learns second is handing it to the smallest component that
+          needs the click — the counter crosses the boundary, and the page above
+          it stays on the server.
         </>
       }
       navLabel={chapter.navLabel}
       topic={chapter.topic}
     >
-      <LivePanel
+      {/* The client panel owns the instrument: the beat is its view state,
+          and the server card crosses into it as a finished slot — the
+          composition the chapter teaches, load-bearing in its own frame. */}
+      <BoundaryPanel
         references={
           <ReferenceBar
             docsHref="https://nextjs.org/docs/app/getting-started/server-and-client-components"
@@ -60,23 +65,12 @@ export function BoundaryDemo({ headingAs }: BoundaryDemoProps) {
           >
             <CodeBlock
               code={BOUNDARY_SOURCE}
-              file="server-card.tsx + client-card.tsx"
+              file="card.tsx · before and after"
             />
           </ReferenceBar>
         }
-      >
-        <div className="flex flex-col gap-5">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <ServerCard />
-            <ClientCard />
-          </div>
-          {/* The seam, narrated: the one fact neither card can state alone. */}
-          <p className="font-mono text-muted-foreground text-xs/5">
-            props cross the boundary as serialized data — the import graph
-            decides which side a component runs on.
-          </p>
-        </div>
-      </LivePanel>
+        serverCard={<ServerCard />}
+      />
     </DemoSection>
   );
 }

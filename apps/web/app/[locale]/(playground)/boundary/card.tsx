@@ -1,25 +1,24 @@
 import { cn } from "@repo/design-system/lib/utils";
+import type { Beat } from "./copy";
+import { DIRECTIVE_LINES, FACTS, SIDES } from "./copy";
 
-interface BoundaryCardProps {
+interface FileCardProps {
+  beat: Beat;
   children: React.ReactNode;
-  facts: readonly string[];
-  side: "client" | "server";
-  title: string;
 }
 
 /**
- * Shared chrome for the two halves of the boundary demo, so the only visible
- * difference between them is the one that matters: where they run.
+ * The specimen dressed as its file: badge and filename up top, the file's
+ * first line where a file keeps it, the body, then the fact rows. One card
+ * for all three beats, so the only thing that ever changes is what the
+ * beat changed — the directive, the residency, and the price.
  */
-export function BoundaryCard({
-  children,
-  facts,
-  side,
-  title,
-}: BoundaryCardProps) {
+export function FileCard({ beat, children }: FileCardProps) {
+  const side = SIDES[beat];
+  const costly = beat === "hydrated";
   return (
-    <div className="flex h-full flex-col gap-4 rounded-xl border border-foreground/10 bg-muted/20 p-4 sm:p-5">
-      <div className="flex items-center justify-between gap-3">
+    <div className="flex h-full flex-col rounded-xl border border-foreground/10 bg-muted/20">
+      <div className="flex items-center justify-between gap-3 border-foreground/10 border-b px-4 py-2.5 sm:px-5">
         <span
           className={cn(
             "inline-flex items-center rounded-full border px-2.5 py-0.5 font-mono font-semibold text-[0.65rem] uppercase tracking-[0.2em]",
@@ -30,16 +29,34 @@ export function BoundaryCard({
         >
           {side}
         </span>
-        <span className="font-mono text-muted-foreground text-xs">{title}</span>
+        <span className="font-mono text-muted-foreground text-xs">
+          card.tsx
+        </span>
       </div>
-      <div className="flex-1">{children}</div>
-      <ul className="grid gap-1 border-foreground/10 border-t pt-3 font-mono text-muted-foreground text-xs/5">
-        {facts.map((fact) => (
+      <p
+        className={cn(
+          "px-4 pt-3 font-mono text-xs sm:px-5",
+          beat === "hydrated"
+            ? "text-ht-orange-800 dark:text-ht-orange-300"
+            : "text-muted-foreground/60"
+        )}
+      >
+        {DIRECTIVE_LINES[beat]}
+      </p>
+      <div className="flex-1 px-4 py-3 sm:px-5">{children}</div>
+      <ul className="grid gap-1 border-foreground/10 border-t px-4 py-3 font-mono text-muted-foreground text-xs/5 sm:px-5">
+        {FACTS[beat].map((fact) => (
           <li className="flex gap-2" key={fact}>
             <span aria-hidden="true" className="select-none opacity-55">
               –
             </span>
-            {fact}
+            <span
+              className={cn(
+                costly && "text-ht-orange-800/90 dark:text-ht-orange-300/90"
+              )}
+            >
+              {fact}
+            </span>
           </li>
         ))}
       </ul>
