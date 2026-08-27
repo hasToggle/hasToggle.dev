@@ -150,9 +150,12 @@ deleted, not deprecated. Judgment calls worth keeping:
   bench shows the compiler's refusal, quoted verbatim from the next-swc
   binary (a component that throws can never be on the bench — the
   intermediate state that made the old dead-button idea unshippable) →
-  *"use client"* and the compiler refuses **again**, also verbatim: "use
-  cache" has no client form, so the first error's suggested fix walks
-  into a second wall → *extract the button* and the resolution is
+  *"use client"* and the compiler refuses **again** — "use cache" has no
+  client form — shown at diagnostic scale rather than as a second crash
+  card: the file with the offending line squiggled and the error's first
+  sentence (verbatim) as the editor note. Two crash screens in a row
+  read as misery, not mechanism (Eric, 2026-08-27); the truth kept, the
+  register changed → *extract the button* and the resolution is
   performed, not preached: card.tsx (server, fetch untouched) imports
   copy-button.tsx (client), and the button works for the first time. The
   boundary is drawn as a dashed orange line that moves: in the crossed

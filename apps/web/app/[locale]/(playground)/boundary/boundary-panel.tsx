@@ -7,7 +7,6 @@ import { LivePanel } from "../live-panel";
 import { FileCard } from "./card";
 import type { Beat } from "./copy";
 import {
-  CROSSED_ERROR,
   REFUSAL_ERROR,
   RESET_LABEL,
   SEAMS,
@@ -17,6 +16,7 @@ import {
   STEP_THREE_LABEL,
   STEP_TWO_LABEL,
 } from "./copy";
+import { CrossedFile } from "./crossed-file";
 import { Refusal } from "./refusal";
 
 // The outline variant's `disabled:` look re-expressed for `aria-disabled`,
@@ -176,7 +176,7 @@ export function BoundaryPanel({
           <FileCard beat={beat}>
             {beat === "rest" && serverCard}
             {beat === "refused" && <Refusal error={REFUSAL_ERROR} />}
-            {beat === "crossed" && <Refusal error={CROSSED_ERROR} />}
+            {beat === "crossed" && <CrossedFile />}
             {beat === "split" && splitCard}
           </FileCard>
         </div>
