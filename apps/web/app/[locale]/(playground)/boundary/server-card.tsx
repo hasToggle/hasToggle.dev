@@ -47,7 +47,7 @@ async function getServerFacts(): Promise<ServerFacts> {
       };
     }
   } catch {
-    // GitHub unreachable at bake time: the card falls back to residence
+    // GitHub unreachable when the entry renders: fall back to residence
     // facts alone rather than caching an invented reading.
   }
 
@@ -101,12 +101,14 @@ export async function ServerCard() {
             Fetched from <InlineCode>api.github.com</InlineCode>&#32;in{" "}
             <InlineCode>node {facts.nodeVersion}</InlineCode>&#32;at&#32;
             {formatClock(new Date(facts.renderedAt))}, then cached — re-served
-            to every visitor until the next bake or the next deploy.
+            to every visitor until the entry revalidates or a deploy replaces
+            it.
           </>
         ) : (
           <>
             at {formatClock(new Date(facts.renderedAt))}, then cached —
-            re-served to every visitor until the next bake or the next deploy.
+            re-served to every visitor until the entry revalidates or a deploy
+            replaces it.
           </>
         )}
       </p>
