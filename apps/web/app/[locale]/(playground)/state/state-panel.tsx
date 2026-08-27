@@ -24,13 +24,13 @@ export function StatePanel({ references, replayCode }: StatePanelProps) {
     <div className="flex items-center gap-2.5">
       <label
         className="cursor-pointer select-none font-mono font-semibold text-[0.7rem] text-muted-foreground uppercase tracking-[0.2em]"
-        htmlFor="state-narrate"
+        htmlFor="state-slow-motion"
       >
-        narrate
+        slow motion
       </label>
       <Switch
         checked={narrate}
-        id="state-narrate"
+        id="state-slow-motion"
         onCheckedChange={setNarrate}
       />
     </div>
