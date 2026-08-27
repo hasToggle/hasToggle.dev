@@ -37,8 +37,14 @@ them all:
   (amber) while any server round trip is out. One in-flight signal per
   instrument; this is it.
 - **Chrome, top-right — view controls.** Mode switches (slow motion) live in
-  the corner every editor keeps its view switches. Actions never live here.
-  Empty when a demo has no alternate view.
+  the corner every editor keeps its view switches. Subject actions never live
+  here; instrument housekeeping may — a reset that rewinds the bench sits in
+  this corner, locked while the instrument is at rest (2026-08-27). Empty
+  when a demo has no alternate view and nothing to rewind.
+  - **One label for the cause view: `slow motion`.** Both replay views (02,
+    06) wear it — 06's switch said `narrate` until 2026-08-27. The label
+    names what the visitor gets (real events, replayed slower than they
+    happened), not what the demo does.
 - **Body — the specimen.** The observed value large, provenance rows as one
   aligned table, one narration caption. All describing text in one place.
 - **Deck — actions only.** Execution order, left to right. When a flow has
@@ -110,13 +116,13 @@ deleted, not deprecated. Judgment calls worth keeping:
 - **The gauge is wired where a client owns the panel** (02, 05). 03's
   in-flight signal is carried by the row skeletons and the rerun button's
   pending label instead — honest, but not the gauge; wire it if the stream
-  panel ever gains a client owner. 01 and 04 have no client round trip to
-  gauge (04's form works with JavaScript off, which is its point). 06 has
-  a client owner but no server round trip at all — its gauge stays `live`,
-  because every event is a client render, which is the subject.
+  panel ever gains a client owner. 04 has no client round trip to gauge
+  (its form works with JavaScript off, which is its point). 01 and 06 have
+  client owners but no server round trip at all — their gauges stay `live`,
+  because every event after arrival is a client render.
 - **06's replay is slowed, not simulated — and labeled as such.** A press
   updates state immediately (the new number exists before the card
-  finishes turning); in narrate mode the card flips to its own source —
+  finishes turning); in slow motion the card flips to its own source —
   Shiki-rendered on the server through the same cached pipeline as the
   reference drawers, zero highlighter in the browser — and the client
   walks one CSS class down the pre-rendered `.line` spans **top to
@@ -131,6 +137,54 @@ deleted, not deprecated. Judgment calls worth keeping:
   artifact and left with it (2026-08-21). The local-variable card is
   **not** in this chapter — it belongs to the /learn state lesson — and
   sits banked in the state folder (var-card.tsx), working and tested.
+
+- **01 rebuilt as the belief performed, 2026-08-27.** The two-card
+  comparison confronted the reader with the difference already resolved, so
+  the misconception never happened on screen. Now one card (`card.tsx`,
+  wearing its directive slot as a file wears its first line) walks four
+  beats on a three-step deck: a Server Component at rest, doing the work
+  developers expect of one — it fetches this repo's latest commit from the
+  GitHub API and renders it (drift accepted and stated on the card:
+  `cacheLife("hours")`, because a commit that lands inside the window
+  ships with the deploy it triggers anyway) → *add a copy button* and the
+  bench shows the compiler's refusal, quoted verbatim from the next-swc
+  binary (a component that throws can never be on the bench — the
+  intermediate state that made the old dead-button idea unshippable) →
+  *"use client"* and the compiler refuses **again** — "use cache" has no
+  client form — shown at diagnostic scale rather than as a second crash
+  card: the file with the offending line squiggled and the error's first
+  sentence (verbatim) as the editor note. Two crash screens in a row
+  read as misery, not mechanism (Eric, 2026-08-27); the truth kept, the
+  register changed → *extract the button* and the resolution is
+  performed, not preached: card.tsx (server, fetch untouched) imports
+  copy-button.tsx (client), and the button works for the first time. The
+  boundary is drawn as a dashed line, always on and colored by residency
+  — cyan server, orange client — with the rest seam as its legend. It
+  moves: orange around the whole card in the crossed beat (what the
+  directive claimed), and in the split an orange ring around
+  copy-button.tsx nested inside the cyan server line — the chapter's
+  diagram, drawn by the states themselves. The card body centers into
+  the ghost-stack's reserved height, so no beat sits in dead space. The server slots
+  cross into the client panel as props, which is the chapter's own
+  mechanism. Two interaction rules came out of rejections here. From the
+  counter (it felt disjointed — nobody adds a counter to a data card):
+  **the specimen's interaction must be asked for by its own data, and
+  must be legitimately client-only**, so no reader can retort "that
+  wants a server action." From the working whole-file-client state (it
+  rendered fine, which read as an endorsement): **an intermediate state
+  that would require silently rewriting the specimen's code is a lie —
+  show the refusal the real code produces instead.** The copy button
+  copies a hash, which passes both. Rules from the copy rounds:
+  - **The instrument never narrates its own construction.** Plumbing the
+    demo needs but the mechanism doesn't (pre-shipped twins, replayed
+    errors, swap-not-recompile) is not disclosed on the panel; seams and
+    captions state mechanism facts only. The refusal's "replayed" honesty
+    label was cut under this rule. Standing tension: 06's back-face label
+    ("the last click, replayed slow · values real") predates this and
+    still ships — revisit deliberately, not by sweep.
+  - **Deck = subject actions; chrome = acts on the instrument.** Reset
+    rewinds the bench, so it lives top-right, locked at rest, and the deck
+    stays a pure diagram of the developer's two acts.
 
 ### The lab — site shape, 2026-08-20
 

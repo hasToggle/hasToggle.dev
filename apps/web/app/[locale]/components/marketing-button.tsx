@@ -46,7 +46,9 @@ export function MarketingButton({
   href,
   ...props
 }: MarketingButtonProps) {
-  const combinedClassName = cn(className, variants[variant]);
+  // Caller classes last, so a caller can override the variant (the
+  // armed deck step recolors the outline variant's ring, for one).
+  const combinedClassName = cn(variants[variant], className);
 
   if (href) {
     return (
