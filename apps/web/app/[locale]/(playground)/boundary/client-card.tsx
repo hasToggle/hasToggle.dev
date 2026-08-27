@@ -23,8 +23,8 @@ export function ClientCard() {
         </span>
       </p>
       <p className="text-foreground/75 text-sm/6">
-        <InlineCode>process</InlineCode>&#32;is not defined here — the Node
-        version, the timestamp and the cache left with it.
+        <InlineCode>process</InlineCode>&#32;is not defined here — the commit
+        reading, the Node version and the cache left with it.
       </p>
       <div className="flex items-center gap-4 pt-1">
         <button

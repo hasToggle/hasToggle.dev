@@ -142,7 +142,11 @@ deleted, not deprecated. Judgment calls worth keeping:
   comparison confronted the reader with the difference already resolved, so
   the misconception never happened on screen. Now one card (`card.tsx`,
   wearing its directive slot as a file wears its first line) walks three
-  beats on a two-step deck: a Server Component at rest → *add a counter*
+  beats on a two-step deck: a Server Component at rest, doing the work
+  developers expect of one — it fetches this repo's latest commit from the
+  GitHub API and renders it (drift accepted and stated on the card: the
+  entry re-bakes every few minutes, so a fresh commit serves stale for at
+  most that window) → *add a counter*
   and the bench shows the compiler's refusal, quoted verbatim from the
   next-swc binary (a component that throws can never be on the bench — the
   intermediate state that made the old dead-button idea unshippable) →

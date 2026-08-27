@@ -10,16 +10,21 @@ import { cacheLife } from "next/cache";
 
 async function getServerFacts() {
   "use cache";
-  cacheLife("hours");
+  cacheLife({ expire: 3600, revalidate: 180, stale: 180 });
+  const response = await fetch(
+    "https://api.github.com/repos/hasToggle/hasToggle.dev/commits/main"
+  );
+  const { sha, commit } = await response.json();
   return {
+    sha: sha.slice(0, 7),
+    subject: commit.message.split("\\n")[0],
     nodeVersion: process.version, // browsers don't have one
-    renderedAt: new Date().toISOString(),
   };
 }
 
 export async function Card() {
   const facts = await getServerFacts();
-  return <p>Rendered in Node.js {facts.nodeVersion}</p>;
+  return <p>latest commit {facts.sha} — {facts.subject}</p>;
 }
 
 // step 1 — add a counter. useState in this file stops the build:

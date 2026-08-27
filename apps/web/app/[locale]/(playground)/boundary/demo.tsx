@@ -34,12 +34,13 @@ export function BoundaryDemo({ headingAs }: BoundaryDemoProps) {
           </p>
           <p>
             Below is one file, doing what every file does until someone says
-            otherwise: it rendered on the server, in Node.js, and arrived here
-            as finished HTML — done before you got here. Ask it to count
-            something (the deck walks you through it) and the build stops: the
-            compiler refuses the render and names the one-line fix. Apply the
-            fix, and the counter works. Then read the rows under the card,
-            because that is where the price landed.
+            otherwise: it fetched this repo&rsquo;s latest commit, rendered on
+            the server in Node.js, and arrived here as finished HTML — done
+            before you got here. Ask it to count something (the deck walks you
+            through it) and the build stops: the compiler refuses the render and
+            names the one-line fix. Apply the fix, and the counter works. Then
+            read the rows under the card, because that is where the price
+            landed.
           </p>
         </>
       }
