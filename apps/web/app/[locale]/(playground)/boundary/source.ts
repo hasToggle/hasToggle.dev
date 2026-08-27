@@ -10,7 +10,7 @@ import { cacheLife } from "next/cache";
 
 async function getServerFacts() {
   "use cache";
-  cacheLife({ expire: 3600, revalidate: 180, stale: 180 });
+  cacheLife("hours");
   const response = await fetch(
     "https://api.github.com/repos/hasToggle/hasToggle.dev/commits/main"
   );

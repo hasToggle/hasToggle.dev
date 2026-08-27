@@ -17,14 +17,15 @@ interface ServerFacts {
  * The work developers expect from a Server Component: fetch something and
  * render it. The something is this repo's own latest commit — data the
  * making-of aside already trades in. Drift is accepted and disclosed on
- * the card: the entry re-bakes every few minutes, so a commit that lands
- * between bakes serves stale for at most that window (approved
- * 2026-08-27). GitHub's unauthenticated rate limit is 60/hour per IP;
- * at one refetch per ~3 minutes the bake stays well under it.
+ * the card: `hours` revalidates the entry hourly, and a commit that lands
+ * inside the window ships with the deploy it triggers anyway, so the
+ * stale reading rarely outlives the push that obsoleted it (2026-08-27).
+ * One refetch an hour also keeps GitHub's unauthenticated rate limit
+ * (60/hour per IP) out of the picture entirely.
  */
 async function getServerFacts(): Promise<ServerFacts> {
   "use cache";
-  cacheLife({ expire: 3600, revalidate: 180, stale: 180 });
+  cacheLife("hours");
 
   let commit: LatestCommit | null = null;
   try {
@@ -92,7 +93,8 @@ export async function ServerCard() {
           ? `Fetched from api.github.com in Node.js ${facts.nodeVersion}, at `
           : "at "}
         {formatStamp(new Date(facts.renderedAt))}, then cached — re-served to
-        every visitor until the next bake, a few minutes from now.
+        every visitor until the next bake or the next deploy, whichever lands
+        first.
       </p>
     </div>
   );
