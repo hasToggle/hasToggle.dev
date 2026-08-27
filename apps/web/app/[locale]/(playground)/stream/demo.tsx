@@ -2,17 +2,37 @@ import { Suspense } from "react";
 import { requireChapter } from "../../lab/syllabus";
 import { CodeBlock } from "../code-block";
 import { DemoSection } from "../demo-section";
-import { LivePanel } from "../live-panel";
+import { InlineCode } from "../inline-code";
 import { ReferenceBar } from "../reference-bar";
-import { RerunButton, RerunButtonFallback } from "./rerun-button";
+import { parseRunId } from "./parse-run-id";
 import { STREAM_SOURCE } from "./source";
-import { StreamRows, StreamRowsFallback } from "./stream-rows";
+import { Stage } from "./stage";
+import { parseStrategy } from "./strategy";
+import { StreamPanel } from "./stream-panel";
 
 const chapter = requireChapter("streaming");
 
+/** Both hosts of this exhibit read the same two params off the URL. */
+export type StreamSearchParams = Promise<{ mode?: string; stream?: string }>;
+
 interface StreamDemoProps {
   headingAs?: "h1" | "h2";
-  searchParams: Promise<{ stream?: string }>;
+  searchParams: StreamSearchParams;
+}
+
+/**
+ * Reads the arrangement and the run id off the URL — runtime data, which is
+ * why it sits behind its own boundary — and hands the specimen to the panel
+ * already rendered. A press rewrites both params, so the server genuinely
+ * builds the page again with its boundaries somewhere else.
+ */
+async function StreamStage({
+  searchParams,
+}: {
+  searchParams: StreamSearchParams;
+}) {
+  const { mode, stream } = await searchParams;
+  return <Stage run={parseRunId(stream)} strategy={parseStrategy(mode)} />;
 }
 
 export function StreamDemo({ headingAs, searchParams }: StreamDemoProps) {
@@ -24,54 +44,62 @@ export function StreamDemo({ headingAs, searchParams }: StreamDemoProps) {
       intro={
         <>
           <p>
-            Not any more. The static shell ships immediately, and each slow part
-            leaves behind a fallback — the gray placeholder you&rsquo;ll watch
-            below. As each part finishes, the server streams its finished HTML
-            down the same response, and the placeholder gives way. The fast
-            parts don&rsquo;t wait for the slow ones.
+            Not any more. The panel below is doing exactly what the title says —
+            one <InlineCode>await</InlineCode>&#32;for all three, and nothing on
+            screen until the slowest one is back. When the rows finally land,
+            read the second number. The database query finished in 400 ms and
+            arrived a second and a half later, with the other two, because it
+            was made to wait on a legacy service it never called.
           </p>
           <p>
-            These three rows are slow on purpose. The delays are hardcoded — the
-            only faked thing on this page — but the streaming is not: each row
-            is a Server Component that genuinely finishes on the server and
-            lands when it is done. Run it again and watch the order hold. What
-            you are seeing is the server finishing, not an animation pretending
-            to.
+            The deck moves one thing: where the{" "}
+            <InlineCode>&lt;Suspense&gt;</InlineCode>&#32;boundary sits. Add a
+            fallback and the blank becomes a placeholder — that is all a{" "}
+            <InlineCode>loading.tsx</InlineCode>&#32;is, and the rows still
+            arrive together. Put a boundary around each part and each one leaves
+            the server the moment it is ready. Nothing got faster. The legacy
+            service still costs 1900 ms; the difference is that the other two
+            stopped paying for it.
+          </p>
+          <p>
+            The delays are hardcoded — the only faked thing on this page. The
+            streaming is not: each row is a Server Component that genuinely
+            finishes on the server, and every arrival time you read was
+            measured, not written. Flip <InlineCode>response</InlineCode>&#32;in
+            the corner to watch the same run the way the server sent it: one
+            response, held open, one chunk per boundary.
           </p>
         </>
       }
       meta={
         <>
-          loading.tsx is this same mechanism wearing route-sized clothes. One
-          file, and the whole segment gets a fallback.
+          We have never once profiled before adding a boundary. You put one
+          where the spinner annoyed you, which works right up until you remember
+          that the thing annoying you was your own laptop, three feet from the
+          router. The row that most needs its own boundary is usually one you
+          have never watched wait, because it is slow for somebody else.
         </>
       }
       navLabel={chapter.navLabel}
       topic={chapter.topic}
     >
-      {/* The rerun control keeps its own Suspense boundary (it reads the
-          URL, which is runtime data) so the deck can hold it while the rows
-          stream in the body — the rows' skeletons are the in-flight signal,
-          arriving in delay order. */}
-      <LivePanel
-        deck={
-          <Suspense fallback={<RerunButtonFallback />}>
-            <RerunButton />
-          </Suspense>
-        }
+      <StreamPanel
         references={
           <ReferenceBar
             docsHref="https://nextjs.org/docs/app/api-reference/file-conventions/loading"
             sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/stream"
           >
-            <CodeBlock code={STREAM_SOURCE} file="slow-row.tsx" />
+            <CodeBlock
+              code={STREAM_SOURCE}
+              file="stage.tsx · the three arrangements"
+            />
           </ReferenceBar>
         }
       >
-        <Suspense fallback={<StreamRowsFallback />}>
-          <StreamRows searchParams={searchParams} />
+        <Suspense fallback={null}>
+          <StreamStage searchParams={searchParams} />
         </Suspense>
-      </LivePanel>
+      </StreamPanel>
     </DemoSection>
   );
 }
