@@ -1,5 +1,6 @@
 import { cacheLife } from "next/cache";
-import { formatStamp } from "../format";
+import { formatClock, formatStamp } from "../format";
+import { InlineCode } from "../inline-code";
 
 interface LatestCommit {
   sha: string;
@@ -76,8 +77,14 @@ export async function ServerCard() {
               {facts.commit.sha}
             </span>
           </p>
-          <p className="truncate font-mono text-muted-foreground text-xs">
-            {facts.commit.subject} · {facts.commit.stamp}
+          {/* The subject may be a full merge line; it truncates so the
+              stamp — the checkable half — never does. */}
+          <p className="flex items-baseline gap-2 font-mono text-muted-foreground text-xs">
+            <span className="min-w-0 truncate">{facts.commit.subject}</span>
+            <span aria-hidden="true" className="shrink-0 opacity-55">
+              ·
+            </span>
+            <span className="shrink-0">{facts.commit.stamp}</span>
           </p>
         </>
       ) : (
@@ -89,12 +96,19 @@ export async function ServerCard() {
         </p>
       )}
       <p className="text-foreground/75 text-sm/6">
-        {facts.commit
-          ? `Fetched from api.github.com in Node.js ${facts.nodeVersion}, at `
-          : "at "}
-        {formatStamp(new Date(facts.renderedAt))}, then cached — re-served to
-        every visitor until the next bake or the next deploy, whichever lands
-        first.
+        {facts.commit ? (
+          <>
+            Fetched from <InlineCode>api.github.com</InlineCode>&#32;in{" "}
+            <InlineCode>node {facts.nodeVersion}</InlineCode>&#32;at&#32;
+            {formatClock(new Date(facts.renderedAt))}, then cached — re-served
+            to every visitor until the next bake or the next deploy.
+          </>
+        ) : (
+          <>
+            at {formatClock(new Date(facts.renderedAt))}, then cached —
+            re-served to every visitor until the next bake or the next deploy.
+          </>
+        )}
       </p>
     </div>
   );

@@ -23,22 +23,21 @@ export function BoundaryDemo({ headingAs }: BoundaryDemoProps) {
         <>
           <p>
             Safer than what? Every component in the App Router already runs on
-            the server.{" "}
-            <InlineCode>&quot;use client&quot;</InlineCode>&#32;is not a
-            precaution, it&rsquo;s a purchase — for that file and everything it
-            imports. You buy useState, useEffect and onClick. You pay with the
-            database call you can no longer make from here, the API key you can
-            no longer read, and however much React your visitor downloads on
-            their phone.
+            the server. <InlineCode>&quot;use client&quot;</InlineCode>&#32;is
+            not a precaution, it&rsquo;s a purchase — for that file and
+            everything it imports. You buy useState, useEffect and onClick. You
+            pay with the database call you can no longer make from here, the API
+            key you can no longer read, and however much React your visitor
+            downloads on their phone.
           </p>
           <p>
-            The card below is a Server Component — no directive, because that
-            is the default. It fetched this repo&rsquo;s latest commit in
-            Node.js and arrived as finished HTML; the component that made it is
-            already gone. Use the deck to add a counter and the compiler
-            refuses: the same error that sends everyone here, and it names its
-            own fix. Apply the fix and the button works. The rows under the
-            card say what it cost.
+            The card below is a Server Component — no directive, because that is
+            the default. It fetched this repo&rsquo;s latest commit in Node.js
+            and arrived as finished HTML; the component that made it is already
+            gone. Use the deck to add a counter and the compiler refuses: the
+            same error that sends everyone here, and it names its own fix. Apply
+            the fix and the button works. The rows under the card say what it
+            cost.
           </p>
         </>
       }
