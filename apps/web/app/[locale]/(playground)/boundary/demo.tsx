@@ -45,9 +45,10 @@ export function BoundaryDemo({ headingAs }: BoundaryDemoProps) {
       }
       meta={
         <>
-          The error offers two placements: the file, or its parent. The parent
-          is how a page goes client by accident — the directive claims
-          everything downstream of wherever it lands.
+          The error said &ldquo;the file (or its parent)&rdquo;. The parent is
+          the tempting one: mark a layout once and every error under it goes
+          quiet, because everything it imports crossed with it. Whole pages
+          ship as JavaScript that way, one silenced error at a time.
         </>
       }
       navLabel={chapter.navLabel}
