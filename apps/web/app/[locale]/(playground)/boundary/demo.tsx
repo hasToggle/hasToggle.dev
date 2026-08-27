@@ -45,10 +45,10 @@ export function BoundaryDemo({ headingAs }: BoundaryDemoProps) {
       }
       meta={
         <>
-          The error said &ldquo;the file (or its parent)&rdquo;. The parent is
-          the tempting one: mark a layout once and every error under it goes
-          quiet, because everything it imports crossed with it. Whole pages
-          ship as JavaScript that way, one silenced error at a time.
+          The line is the boundary that lets data through. In the final state
+          the hash crosses it as a prop to the button — serialized, one way,
+          server to client. Capability stays put: the fetch never crosses, only
+          what it fetched.
         </>
       }
       navLabel={chapter.navLabel}
