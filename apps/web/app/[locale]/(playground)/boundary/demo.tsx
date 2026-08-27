@@ -34,17 +34,20 @@ export function BoundaryDemo({ headingAs }: BoundaryDemoProps) {
             The card below is a Server Component — no directive, because that is
             the default. It fetched this repo&rsquo;s latest commit in Node.js
             and arrived as finished HTML; the component that made it is already
-            gone. Use the deck to add a counter and the compiler refuses: the
-            same error that sends everyone here, and it names its own fix. Apply
-            the fix and the button works. The rows under the card say what it
-            cost.
+            gone. Use the deck to give the hash a copy button and the compiler
+            refuses: the same error that sends everyone here, and it names its
+            own fix. Apply the fix and the button works — watch what else
+            crossed with it. The third step is the one no error message
+            suggests: the button gets its own file, and the fetch goes back to
+            the server.
           </p>
         </>
       }
       meta={
         <>
-          In a real app the counter gets its own small file, the directive goes
-          there, and the page above it stays on the server.
+          The error offers two placements: the file, or its parent. The parent
+          is how a page goes client by accident — the directive claims
+          everything downstream of wherever it lands.
         </>
       }
       navLabel={chapter.navLabel}
@@ -61,11 +64,12 @@ export function BoundaryDemo({ headingAs }: BoundaryDemoProps) {
           >
             <CodeBlock
               code={BOUNDARY_SOURCE}
-              file="card.tsx · before and after"
+              file="card.tsx · start, crossed, split"
             />
           </ReferenceBar>
         }
         serverCard={<ServerCard />}
+        splitCard={<ServerCard withButton />}
       />
     </DemoSection>
   );

@@ -5,10 +5,11 @@ import {
   REFUSAL_ERROR,
   SEAMS,
   SIDES,
+  STEP_THREE_DETAIL,
   STEP_TWO_LABEL,
 } from "./copy";
 
-const BEATS = ["rest", "refused", "hydrated"] as const;
+const BEATS = ["rest", "refused", "hydrated", "split"] as const;
 
 describe("the refusal", () => {
   test("quotes the compiler verbatim (next-swc binary, 2026-08-27)", () => {
@@ -28,12 +29,19 @@ describe("the beats", () => {
     expect(DIRECTIVE_LINES.hydrated).toBe('"use client";');
     expect(DIRECTIVE_LINES.rest).toBe("// no directive");
     expect(DIRECTIVE_LINES.refused).toBe("// no directive");
+    expect(DIRECTIVE_LINES.split).toBe("// no directive");
   });
 
-  test("the badge crosses the boundary only when the directive lands", () => {
+  test("card.tsx crosses the boundary once and comes back with the split", () => {
     expect(SIDES.rest).toBe("server");
     expect(SIDES.refused).toBe("server");
     expect(SIDES.hydrated).toBe("client");
+    expect(SIDES.split).toBe("server");
+  });
+
+  test("the split names the file that carries the directive", () => {
+    expect(FACTS.split[0]).toContain(STEP_THREE_DETAIL);
+    expect(SEAMS.split).toContain("Client Component");
   });
 
   test("every beat carries three fact rows and a seam", () => {

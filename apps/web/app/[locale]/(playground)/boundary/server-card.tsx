@@ -1,6 +1,7 @@
 import { cacheLife } from "next/cache";
 import { formatClock, formatStamp } from "../format";
 import { InlineCode } from "../inline-code";
+import { CopyButton } from "./copy-button";
 
 interface LatestCommit {
   sha: string;
@@ -58,24 +59,44 @@ async function getServerFacts(): Promise<ServerFacts> {
   };
 }
 
+interface ServerCardProps {
+  /**
+   * The split beat: this Server Component imports copy-button.tsx — a
+   * Client Component — which is the split's whole mechanism, running for
+   * real. The island renders inside a drawn boundary: the dashed ring is
+   * the import graph's line, at its smallest.
+   */
+  withButton?: boolean;
+}
+
 /**
- * The rest beat's body: a Server Component, rendered in Node and passed
- * through the client panel as a finished slot — props crossing the
- * boundary as serialized data, which is the chapter's own mechanism.
+ * The rest and split beats' body: a Server Component, rendered in Node
+ * and passed through the client panel as a finished slot — props crossing
+ * the boundary as serialized data, which is the chapter's own mechanism.
  * `process.version` is proof of residence: browsers don't have one.
  */
-export async function ServerCard() {
+export async function ServerCard({ withButton }: ServerCardProps) {
   const facts = await getServerFacts();
 
   return (
     <div className="flex flex-col gap-2">
       {facts.commit ? (
         <>
-          <p className="font-display font-medium text-2xl text-foreground tracking-tight">
-            latest commit{" "}
-            <span className="font-mono text-ht-cyan-700 text-xl dark:text-ht-cyan-300">
-              {facts.commit.sha}
+          <p className="flex flex-wrap items-center gap-x-3 gap-y-1 font-display font-medium text-2xl text-foreground tracking-tight">
+            <span>
+              latest commit{" "}
+              <span className="font-mono text-ht-cyan-700 text-xl dark:text-ht-cyan-300">
+                {facts.commit.sha}
+              </span>
             </span>
+            {withButton ? (
+              <span className="inline-flex items-center gap-2 rounded-md border border-ht-orange-700/40 border-dashed px-1.5 py-1 dark:border-ht-orange-500/40">
+                <CopyButton value={facts.commit.sha} />
+                <span className="font-mono text-[0.65rem] text-ht-orange-800 dark:text-ht-orange-300">
+                  copy-button.tsx
+                </span>
+              </span>
+            ) : null}
           </p>
           {/* The subject may be a full merge line; it truncates so the
               stamp — the checkable half — never does. */}

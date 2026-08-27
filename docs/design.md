@@ -141,19 +141,28 @@ deleted, not deprecated. Judgment calls worth keeping:
 - **01 rebuilt as the belief performed, 2026-08-27.** The two-card
   comparison confronted the reader with the difference already resolved, so
   the misconception never happened on screen. Now one card (`card.tsx`,
-  wearing its directive slot as a file wears its first line) walks three
-  beats on a two-step deck: a Server Component at rest, doing the work
+  wearing its directive slot as a file wears its first line) walks four
+  beats on a three-step deck: a Server Component at rest, doing the work
   developers expect of one — it fetches this repo's latest commit from the
   GitHub API and renders it (drift accepted and stated on the card:
   `cacheLife("hours")`, because a commit that lands inside the window
-  ships with the deploy it triggers anyway) → *add a counter*
-  and the bench shows the compiler's refusal, quoted verbatim from the
-  next-swc binary (a component that throws can never be on the bench — the
+  ships with the deploy it triggers anyway) → *add a copy button* and the
+  bench shows the compiler's refusal, quoted verbatim from the next-swc
+  binary (a component that throws can never be on the bench — the
   intermediate state that made the old dead-button idea unshippable) →
-  *"use client"* and the same card remounts hydrated, counter working,
-  facts flipped from capabilities to costs. The server card crosses into
-  the client panel as a slot prop, which is the chapter's own mechanism.
-  Two rules came out of the copy rounds:
+  *"use client"* and the same card remounts hydrated: the button works,
+  and the fetch crossed with the file — it genuinely runs from the
+  visitor's tab, loading gap and per-IP rate limit on camera — facts
+  flipped from capabilities to costs → *extract the button* and the
+  resolution is performed, not preached: card.tsx (server, fetch
+  restored) imports copy-button.tsx (client), the island wearing a dashed
+  ring where the import graph draws its line. The server slots cross into
+  the client panel as props, which is the chapter's own mechanism. The
+  interaction rule that came out of the counter's rejection (it felt
+  disjointed — nobody adds a counter to a data card): **the specimen's
+  interaction must be asked for by its own data, and must be legitimately
+  client-only**, so no reader can retort "that wants a server action."
+  Copying a hash is both. Rules from the copy rounds:
   - **The instrument never narrates its own construction.** Plumbing the
     demo needs but the mechanism doesn't (pre-shipped twins, replayed
     errors, swap-not-recompile) is not disclosed on the panel; seams and
