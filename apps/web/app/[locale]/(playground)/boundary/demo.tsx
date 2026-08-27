@@ -22,9 +22,8 @@ export function BoundaryDemo({ headingAs }: BoundaryDemoProps) {
       intro={
         <>
           <p>
-            Safer than what? We reached for it the same way, for about a year,
-            before anyone made us say what it was protecting against. Every
-            component in the App Router already runs on the server.{" "}
+            Safer than what? Every component in the App Router already runs on
+            the server.{" "}
             <InlineCode>&quot;use client&quot;</InlineCode>&#32;is not a
             precaution, it&rsquo;s a purchase — for that file and everything it
             imports. You buy useState, useEffect and onClick. You pay with the
@@ -33,14 +32,13 @@ export function BoundaryDemo({ headingAs }: BoundaryDemoProps) {
             their phone.
           </p>
           <p>
-            Below is one file, doing what every file does until someone says
-            otherwise: it fetched this repo&rsquo;s latest commit, rendered on
-            the server in Node.js, and arrived here as finished HTML — done
-            before you got here. Ask it to count something (the deck walks you
-            through it) and the build stops: the compiler refuses the render and
-            names the one-line fix. Apply the fix, and the counter works. Then
-            read the rows under the card, because that is where the price
-            landed.
+            The card below is a Server Component — no directive, because that
+            is the default. It fetched this repo&rsquo;s latest commit in
+            Node.js and arrived as finished HTML; the component that made it is
+            already gone. Use the deck to add a counter and the compiler
+            refuses: the same error that sends everyone here, and it names its
+            own fix. Apply the fix and the button works. The rows under the
+            card say what it cost.
           </p>
         </>
       }
