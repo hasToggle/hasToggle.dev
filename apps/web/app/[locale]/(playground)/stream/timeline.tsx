@@ -1,5 +1,5 @@
 import { cn } from "@repo/design-system/lib/utils";
-import { AXIS_ORIGIN, SHELL_CHUNK, SHELL_ROW_LABEL } from "./copy";
+import { SHELL_CHUNK, SHELL_ROW_LABEL } from "./copy";
 import { TIMELINE_MAX_MS, TIMELINE_TICKS_MS, trackPercent } from "./rows";
 import type { Strategy } from "./strategy";
 
@@ -117,10 +117,10 @@ export function ShellBar({ strategy }: { strategy: Strategy }) {
   );
 }
 
-/** The axis under the bars, and the one thing a tick can't say for itself. */
+/** The axis under the bars. Zero is where the response opened. */
 export function Axis() {
   return (
-    <div className={cn("flex flex-col gap-1.5", RESPONSE_ONLY)}>
+    <div className={cn(RESPONSE_ONLY)}>
       <div className={TRACK_GRID}>
         <span className="order-1 hidden sm:block" />
         <span
@@ -151,13 +151,6 @@ export function Axis() {
         </span>
         <span className={cn("hidden sm:block", READING_CELL)} />
       </div>
-      <p className={cn(TRACK_GRID, "font-mono text-[0.65rem]")}>
-        <span className="order-1 hidden sm:block" />
-        <span className={cn(TRACK_CELL, "text-muted-foreground/70")}>
-          {AXIS_ORIGIN}
-        </span>
-        <span className={cn("hidden sm:block", READING_CELL)} />
-      </p>
     </div>
   );
 }

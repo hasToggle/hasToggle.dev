@@ -8,15 +8,19 @@
  * quoting real code keeps straight quotes.
  */
 
-import { FASTEST_MS, IDLE_MS, SLOWEST_MS, STREAM_ROWS } from "./rows";
+import { FASTEST_MS, IDLE_MS, STREAM_ROWS } from "./rows";
 import type { Strategy } from "./strategy";
 
-/** The seam under the specimen — the one fact each arrangement proves. */
+/**
+ * The seam under the specimen — the one fact each arrangement proves, in
+ * three slots that stay in the same order across all three: the boundary,
+ * the arrivals, what that bought.
+ */
 export const SEAMS: Record<Strategy, string> = {
-  blocking: `one await before the return · the ${FASTEST_MS} ms row lands with the other two, ${IDLE_MS} ms after it finished`,
+  blocking: `one boundary, no fallback · three rows, one arrival · the ${FASTEST_MS} ms row idles ${IDLE_MS} ms`,
   loading:
-    "one boundary around all three · the fallback ships at +0, the rows still arrive together",
-  parts: `a boundary per part · the last row still costs ${SLOWEST_MS} ms, and nothing else waits for it`,
+    "one boundary, one fallback · three rows, one arrival · a placeholder from +0 instead of a blank",
+  parts: "a boundary per row · three arrivals · each row waits only for itself",
 };
 
 /** What the first chunk carried — the response view's opening bar. */
@@ -41,17 +45,11 @@ export const STEP_TWO_DETAIL = "= loading.tsx";
 export const STEP_THREE_LABEL = "Wrap each part";
 export const STEP_THREE_DETAIL = "<Suspense> per row";
 
-/** Chrome, top-right: instrument housekeeping, locked at the first step. */
-export const RESET_LABEL = "reset";
-
 /** Chrome, top-right: the cause view — the same run, as the server sent it. */
 export const VIEW_LABEL = "response";
 
 /** The response view's first row: the chunk that arrived before any work. */
 export const SHELL_ROW_LABEL = "shell";
-
-/** The axis needs its origin named, or a tick is just a number. */
-export const AXIS_ORIGIN = "0 = the response opened";
 
 /** A row that has landed: the price it quoted, and when it reached you. */
 export function rowLanded(delayMs: number, landedMs: number): string {

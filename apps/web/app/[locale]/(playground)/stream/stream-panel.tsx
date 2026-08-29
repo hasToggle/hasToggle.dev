@@ -7,7 +7,6 @@ import { useCallback, useMemo, useState, useTransition } from "react";
 import { MarketingButton } from "../../components/marketing-button";
 import { LivePanel } from "../live-panel";
 import {
-  RESET_LABEL,
   SEAMS,
   STEP_ONE_LABEL,
   STEP_THREE_DETAIL,
@@ -193,12 +192,6 @@ export function StreamPanel({ children, references }: StreamPanelProps) {
     [router, run]
   );
 
-  const handleReset = useCallback(() => {
-    if (strategy !== "blocking") {
-      select("blocking");
-    }
-  }, [select, strategy]);
-
   const handleViewChange = useCallback((checked: boolean) => {
     setView(checked ? "response" : "page");
   }, []);
@@ -206,32 +199,21 @@ export function StreamPanel({ children, references }: StreamPanelProps) {
   const armed = nextStrategy(strategy);
   const working = isPending || settledKey !== `${strategy}-${run}`;
 
+  // No reset here: rewinding this bench means running the first
+  // arrangement, and the first deck step already is that button.
   const viewControls = (
-    <div className="flex items-center gap-4">
-      <button
-        aria-disabled={strategy === "blocking"}
-        className={cn(
-          "cursor-pointer select-none font-mono font-semibold text-[0.7rem] text-muted-foreground uppercase tracking-[0.2em] hover:text-foreground",
-          "aria-disabled:cursor-default aria-disabled:opacity-40 aria-disabled:hover:text-muted-foreground"
-        )}
-        onClick={handleReset}
-        type="button"
+    <div className="flex items-center gap-2.5">
+      <label
+        className="cursor-pointer select-none font-mono font-semibold text-[0.7rem] text-muted-foreground uppercase tracking-[0.2em]"
+        htmlFor="stream-response-view"
       >
-        {RESET_LABEL} <span aria-hidden="true">↺</span>
-      </button>
-      <div className="flex items-center gap-2.5">
-        <label
-          className="cursor-pointer select-none font-mono font-semibold text-[0.7rem] text-muted-foreground uppercase tracking-[0.2em]"
-          htmlFor="stream-response-view"
-        >
-          {VIEW_LABEL}
-        </label>
-        <Switch
-          checked={view === "response"}
-          id="stream-response-view"
-          onCheckedChange={handleViewChange}
-        />
-      </div>
+        {VIEW_LABEL}
+      </label>
+      <Switch
+        checked={view === "response"}
+        id="stream-response-view"
+        onCheckedChange={handleViewChange}
+      />
     </div>
   );
 

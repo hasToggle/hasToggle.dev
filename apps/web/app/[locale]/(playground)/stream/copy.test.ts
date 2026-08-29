@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import {
-  AXIS_ORIGIN,
   barLanded,
   GROUP_PENDING,
   rowLanded,
@@ -8,21 +7,32 @@ import {
   SEAMS,
   SHELL_CHUNK,
 } from "./copy";
-import { FASTEST_MS, IDLE_MS, SLOWEST_MS, STREAM_ROWS } from "./rows";
+import { FASTEST_MS, IDLE_MS, STREAM_ROWS } from "./rows";
 
 describe("the seams", () => {
   test("the belief's seam prices the wait from the running config", () => {
-    expect(SEAMS.blocking).toContain(`${FASTEST_MS} ms row`);
-    expect(SEAMS.blocking).toContain(`${IDLE_MS} ms after it finished`);
+    expect(SEAMS.blocking).toContain(
+      `the ${FASTEST_MS} ms row idles ${IDLE_MS} ms`
+    );
   });
 
-  test("the fallback seam separates seeing something from getting it", () => {
-    expect(SEAMS.loading).toContain("one boundary around all three");
-    expect(SEAMS.loading).toContain("+0");
+  test("all three seams keep the same three slots in the same order", () => {
+    for (const seam of Object.values(SEAMS)) {
+      expect(seam.split(" · ")).toHaveLength(3);
+    }
+    expect(SEAMS.blocking.startsWith("one boundary")).toBe(true);
+    expect(SEAMS.loading.startsWith("one boundary")).toBe(true);
+    expect(SEAMS.parts.startsWith("a boundary per row")).toBe(true);
   });
 
-  test("the resolution refuses to claim anything got faster", () => {
-    expect(SEAMS.parts).toContain(`still costs ${SLOWEST_MS} ms`);
+  test("only the split arrangement claims three arrivals", () => {
+    expect(SEAMS.blocking).toContain("three rows, one arrival");
+    expect(SEAMS.loading).toContain("three rows, one arrival");
+    expect(SEAMS.parts).toContain("three arrivals");
+  });
+
+  test("the fallback seam names what the fallback bought", () => {
+    expect(SEAMS.loading).toContain("a placeholder from +0 instead of a blank");
   });
 
   test("every seam is one line in the instrument register", () => {
@@ -38,10 +48,6 @@ describe("the response view", () => {
     expect(SHELL_CHUNK.blocking).toBe("nothing to show");
     expect(SHELL_CHUNK.loading).toBe("1 placeholder");
     expect(SHELL_CHUNK.parts).toBe(`${STREAM_ROWS.length} placeholders`);
-  });
-
-  test("the axis names its origin", () => {
-    expect(AXIS_ORIGIN).toBe("0 = the response opened");
   });
 
   test("a bar reads as an offset, never as a clock", () => {

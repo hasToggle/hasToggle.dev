@@ -39,8 +39,10 @@ them all:
 - **Chrome, top-right — view controls.** Mode switches (slow motion) live in
   the corner every editor keeps its view switches. Subject actions never live
   here; instrument housekeeping may — a reset that rewinds the bench sits in
-  this corner, locked while the instrument is at rest (2026-08-27). Empty
-  when a demo has no alternate view and nothing to rewind.
+  this corner, locked while the instrument is at rest (2026-08-27), and only
+  where the deck cannot already rewind it: where step one *is* the starting
+  state, a reset is a second, less obvious way to press it (03, 2026-08-27).
+  Empty when a demo has no alternate view and nothing to rewind.
   - **The cause view is labeled by what the visitor gets, not by what the
     demo does.** Where the cause is the same events replayed slower, the
     label is `slow motion` — both replay views (02, 06) wear it, and 06's
@@ -233,6 +235,12 @@ deleted, not deprecated. Judgment calls worth keeping:
     last arrangement all three steps are pressable, because comparing them
     is this chapter's payload. The step you are already on re-runs it,
     which is where `Run it again` went.
+  - **No reset in the chrome, and the rule §1 states gets a limit.** A
+    reset earns the corner when it rewinds something the deck cannot
+    reach — 01's, which un-writes two edits. Here rewinding the bench is
+    just running the first arrangement, and deck step one already is that
+    button, so a reset would be a second, less obvious way to press it
+    (Eric, 2026-08-27). The corner holds the view switch alone.
   - Casualties: `rerun-button.tsx`, `row-skeleton.tsx`, `stream-rows.tsx`,
     `slow-row.tsx`. The `loading.tsx` meta aside was obsoleted by becoming
     a beat and replaced with one on the exhibit's own argument — the

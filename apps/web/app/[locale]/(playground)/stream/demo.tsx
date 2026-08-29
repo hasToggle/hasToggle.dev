@@ -44,40 +44,43 @@ export function StreamDemo({ headingAs, searchParams }: StreamDemoProps) {
       intro={
         <>
           <p>
-            Not any more. The panel below is doing exactly what the title says —
-            one <InlineCode>await</InlineCode>&#32;for all three, and nothing on
-            screen until the slowest one is back. When the rows finally land,
-            read the second number. The database query finished in 400 ms and
-            arrived a second and a half later, with the other two, because it
-            was made to wait on a legacy service it never called.
+            Not any more. The panel below is the version we all write first:
+            three awaits at the top, one return at the bottom, and nothing on
+            screen until the slowest of them is back. Watch it sit there. When
+            the rows finally turn up, read the second number on each — the
+            database query was finished in 400 ms and reached you a second and a
+            half later, having waited on a legacy service it never called.
           </p>
           <p>
-            The deck moves one thing: where the{" "}
-            <InlineCode>&lt;Suspense&gt;</InlineCode>&#32;boundary sits. Add a
-            fallback and the blank becomes a placeholder — that is all a{" "}
-            <InlineCode>loading.tsx</InlineCode>&#32;is, and the rows still
-            arrive together. Put a boundary around each part and each one leaves
-            the server the moment it is ready. Nothing got faster. The legacy
-            service still costs 1900 ms; the difference is that the other two
-            stopped paying for it.
+            Nothing in the deck makes the work shorter. The three calls stay the
+            length they were; what moves is where the{" "}
+            <InlineCode>&lt;Suspense&gt;</InlineCode>&#32;boundary sits around
+            them. Give that boundary a fallback and the blank becomes a
+            placeholder — the whole of what <InlineCode>loading.tsx</InlineCode>
+            &#32;does — and the rows still arrive together, late, as a group.
+            Give each row a boundary of its own and each one leaves the server
+            the minute it is done. The legacy service still costs 1900 ms. It
+            has stopped charging the other two for it.
           </p>
           <p>
-            The delays are hardcoded — the only faked thing on this page. The
-            streaming is not: each row is a Server Component that genuinely
-            finishes on the server, and every arrival time you read was
-            measured, not written. Flip <InlineCode>response</InlineCode>&#32;in
-            the corner to watch the same run the way the server sent it: one
-            response, held open, one chunk per boundary.
+            The delays are hardcoded — the only faked thing on this page, and
+            here because there is nothing to watch in four milliseconds. The
+            streaming is real: each row is a Server Component that finishes on
+            the server, and every arrival time you read was measured there
+            rather than written down. Flip <InlineCode>response</InlineCode>
+            &#32;in the corner and the same run is redrawn the way the server
+            sent it — one response, held open, a chunk per boundary.
           </p>
         </>
       }
       meta={
         <>
-          We have never once profiled before adding a boundary. You put one
-          where the spinner annoyed you, which works right up until you remember
-          that the thing annoying you was your own laptop, three feet from the
-          router. The row that most needs its own boundary is usually one you
-          have never watched wait, because it is slow for somebody else.
+          We have never profiled anything before adding a boundary. You put one
+          where the spinner annoyed you, and the spinner annoyed you on a laptop
+          three feet from the router, with a warm cache and a database on
+          localhost. The row that most needs a boundary of its own is usually
+          one you have never watched wait, because it is slow in Sydney, on a
+          phone, at six in the evening.
         </>
       }
       navLabel={chapter.navLabel}
