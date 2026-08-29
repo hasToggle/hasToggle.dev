@@ -44,31 +44,29 @@ export function StreamDemo({ headingAs, searchParams }: StreamDemoProps) {
       intro={
         <>
           <p>
-            Not any more. The panel below is the version we all write first:
-            three awaits at the top, one return at the bottom, and nothing on
-            screen until the slowest of them is back. Watch it sit there. When
-            the rows finally turn up, read the second number on each — the
-            database query was finished in 400 ms and reached you a second and a
-            half later, having waited on a legacy service it never called.
+            You can. But it will be slow. The panel below is that page — the one
+            we all write first, with all three calls awaited before the return
+            and nothing on screen until the slowest of them is back. Give it a
+            moment. When the rows arrive, read the second number: the database
+            query was done in 400 ms and reached you a second and a half later,
+            having waited on a legacy service it never called.
           </p>
           <p>
-            Nothing in the deck makes the work shorter. The three calls stay the
-            length they were; what moves is where the{" "}
-            <InlineCode>&lt;Suspense&gt;</InlineCode>&#32;boundary sits around
-            them. Give that boundary a fallback and the blank becomes a
-            placeholder — the whole of what <InlineCode>loading.tsx</InlineCode>
-            &#32;does — and the rows still arrive together, late, as a group.
-            Give each row a boundary of its own and each one leaves the server
-            the second it is done. The legacy service still costs 1900 ms. It
+            One thing moves: where the <InlineCode>&lt;Suspense&gt;</InlineCode>
+            &#32;boundary sits. Give it a fallback and the blank becomes a
+            placeholder — all <InlineCode>loading.tsx</InlineCode>&#32;is — and
+            the rows still arrive together, late, in a group. Give each row a
+            boundary of its own and each leaves the server the second it is
+            done. Nothing got faster. The legacy service still costs 1900 ms; it
             has stopped charging the other two for it.
           </p>
           <p>
             The delays are simulated. The streaming is real: each row is a
             Server Component that finishes on the server, and every arrival time
             you read was measured rather than written down. Flip{" "}
-            <InlineCode>response</InlineCode>&#32;in the corner and the same run
-            is redrawn the way the server sent it — one response, held open, a
-            chunk per boundary.
+            <InlineCode>response</InlineCode>&#32;in the corner to see the same
+            run as the server sent it — one response, held open, a chunk per
+            boundary.
           </p>
         </>
       }
