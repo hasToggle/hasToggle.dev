@@ -1,14 +1,14 @@
 /**
  * Every string the stream instrument shows, in the instrument register:
- * lowercase, middot-separated, real identifiers, no adjectives. The seams
- * are built from the same config the exhibit runs on, so a delay that
- * changes cannot leave a sentence behind claiming the old number.
+ * lowercase, middot-separated, real identifiers. The seams quote no
+ * measurement: every number is already on the rows, twice each, and a seam
+ * that repeated one would go stale the day a delay changed.
  *
  * Prose strings carry typographic marks directly (voice.md §8); anything
  * quoting real code keeps straight quotes.
  */
 
-import { FASTEST_MS, IDLE_MS, STREAM_ROWS } from "./rows";
+import { STREAM_ROWS } from "./rows";
 import type { Strategy } from "./strategy";
 
 /**
@@ -17,7 +17,8 @@ import type { Strategy } from "./strategy";
  * the arrivals, what that bought.
  */
 export const SEAMS: Record<Strategy, string> = {
-  blocking: `one boundary, no fallback · three rows, one arrival · the ${FASTEST_MS} ms row idles ${IDLE_MS} ms`,
+  blocking:
+    "one boundary, no fallback · three rows, one arrival · the fastest has to wait for the slowest",
   loading:
     "one boundary, one fallback · three rows, one arrival · a placeholder from +0 instead of a blank",
   parts: "a boundary per row · three arrivals · each row waits only for itself",

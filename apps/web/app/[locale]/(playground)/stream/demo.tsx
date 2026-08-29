@@ -59,28 +59,24 @@ export function StreamDemo({ headingAs, searchParams }: StreamDemoProps) {
             placeholder — the whole of what <InlineCode>loading.tsx</InlineCode>
             &#32;does — and the rows still arrive together, late, as a group.
             Give each row a boundary of its own and each one leaves the server
-            the minute it is done. The legacy service still costs 1900 ms. It
+            the second it is done. The legacy service still costs 1900 ms. It
             has stopped charging the other two for it.
           </p>
           <p>
-            The delays are hardcoded — the only faked thing on this page, and
-            here because there is nothing to watch in four milliseconds. The
-            streaming is real: each row is a Server Component that finishes on
-            the server, and every arrival time you read was measured there
-            rather than written down. Flip <InlineCode>response</InlineCode>
-            &#32;in the corner and the same run is redrawn the way the server
-            sent it — one response, held open, a chunk per boundary.
+            The delays are simulated. The streaming is real: each row is a
+            Server Component that finishes on the server, and every arrival time
+            you read was measured rather than written down. Flip{" "}
+            <InlineCode>response</InlineCode>&#32;in the corner and the same run
+            is redrawn the way the server sent it — one response, held open, a
+            chunk per boundary.
           </p>
         </>
       }
       meta={
         <>
-          We have never profiled anything before adding a boundary. You put one
-          where the spinner annoyed you, and the spinner annoyed you on a laptop
-          three feet from the router, with a warm cache and a database on
-          localhost. The row that most needs a boundary of its own is usually
-          one you have never watched wait, because it is slow in Sydney, on a
-          phone, at six in the evening.
+          A boundary decides when work is shown, not when it begins. The three
+          calls here start together — await them in a chain and each one waits
+          for the ones before it, fast or slow.
         </>
       }
       navLabel={chapter.navLabel}

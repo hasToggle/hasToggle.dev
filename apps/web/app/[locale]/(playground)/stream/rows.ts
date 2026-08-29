@@ -31,9 +31,6 @@ export const FASTEST_MS = Math.min(...STREAM_ROWS.map((row) => row.delayMs));
 /** The slowest row — the price no arrangement can talk down. */
 export const SLOWEST_MS = Math.max(...STREAM_ROWS.map((row) => row.delayMs));
 
-/** What the fastest row spends waiting when one boundary holds all three. */
-export const IDLE_MS = SLOWEST_MS - FASTEST_MS;
-
 const AXIS_STEP_MS = 1000;
 
 /**

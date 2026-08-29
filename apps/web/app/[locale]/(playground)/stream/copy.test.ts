@@ -7,13 +7,20 @@ import {
   SEAMS,
   SHELL_CHUNK,
 } from "./copy";
-import { FASTEST_MS, IDLE_MS, STREAM_ROWS } from "./rows";
+import { STREAM_ROWS } from "./rows";
+
+/** Any millisecond reading — the thing a seam must never repeat. */
+const MEASUREMENT = /\d+\s*ms/;
 
 describe("the seams", () => {
-  test("the belief's seam prices the wait from the running config", () => {
-    expect(SEAMS.blocking).toContain(
-      `the ${FASTEST_MS} ms row idles ${IDLE_MS} ms`
-    );
+  test("no seam quotes a measurement the rows already carry", () => {
+    for (const seam of Object.values(SEAMS)) {
+      expect(seam).not.toMatch(MEASUREMENT);
+    }
+  });
+
+  test("the belief's seam names the cost without pricing it", () => {
+    expect(SEAMS.blocking).toContain("the fastest has to wait for the slowest");
   });
 
   test("all three seams keep the same three slots in the same order", () => {

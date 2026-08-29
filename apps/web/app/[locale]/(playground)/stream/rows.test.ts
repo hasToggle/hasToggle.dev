@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import {
   FASTEST_MS,
-  IDLE_MS,
   SLOWEST_MS,
   STREAM_ROWS,
   TIMELINE_MAX_MS,
@@ -19,7 +18,6 @@ describe("the three price tags", () => {
   test("the derived costs come from the rows themselves", () => {
     expect(FASTEST_MS).toBe(400);
     expect(SLOWEST_MS).toBe(1900);
-    expect(IDLE_MS).toBe(SLOWEST_MS - FASTEST_MS);
   });
 });
 
