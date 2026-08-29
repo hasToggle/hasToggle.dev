@@ -44,21 +44,23 @@ export function StreamDemo({ headingAs, searchParams }: StreamDemoProps) {
       intro={
         <>
           <p>
-            You can. But it will be slow. The panel below is that page — the one
-            we all write first, with all three calls awaited before the return
-            and nothing on screen until the slowest of them is back. Give it a
-            moment. When the rows arrive, read the second number: the database
-            query was done in 400 ms and reached you a second and a half later,
-            having waited on a legacy service it never called.
+            You can. But it will be slow. The panel below is that page: a
+            database query, a third-party API, a legacy service, all three
+            awaited before anything is returned. Give it a moment — nothing
+            appears until the slowest of them is back. Then look at the second
+            number on each row. The database query finished in 400 ms and
+            reached you a second and a half later, having waited on a service it
+            never called.
           </p>
           <p>
-            One thing moves: where the <InlineCode>&lt;Suspense&gt;</InlineCode>
-            &#32;boundary sits. Give it a fallback and the blank becomes a
-            placeholder — all <InlineCode>loading.tsx</InlineCode>&#32;is — and
-            the rows still arrive together, late, in a group. Give each row a
-            boundary of its own and each leaves the server the second it is
-            done. Nothing got faster. The legacy service still costs 1900 ms; it
-            has stopped charging the other two for it.
+            Press step two. A placeholder appears where the blank was — that is
+            a <InlineCode>&lt;Suspense&gt;</InlineCode>&#32;fallback, and a{" "}
+            <InlineCode>loading.tsx</InlineCode>&#32;file is one of them wrapped
+            around a whole route segment — and the rows still arrive together,
+            late, in a group. Press step three and each row gets a boundary of
+            its own; each one leaves the server the second it is done. Notice
+            what did not change: the legacy service still costs 1900 ms. It has
+            stopped charging the other two for it.
           </p>
           <p>
             The delays are simulated. The streaming is real: each row is a
