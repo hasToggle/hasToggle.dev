@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
-import { StreamDemo } from "../../(playground)/stream/demo";
+import {
+  StreamDemo,
+  type StreamSearchParams,
+} from "../../(playground)/stream/demo";
 import { ChapterShell, chapterMetadata } from "../chapter";
 import { requireChapter } from "../syllabus";
 
@@ -8,7 +11,7 @@ const chapter = requireChapter("streaming");
 export const metadata: Metadata = chapterMetadata(chapter);
 
 interface PageProps {
-  searchParams: Promise<{ stream?: string }>;
+  searchParams: StreamSearchParams;
 }
 
 export default function StreamingChapterPage({ searchParams }: PageProps) {

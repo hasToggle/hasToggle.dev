@@ -6,7 +6,10 @@ import { BoundaryDemo } from "./(playground)/boundary/demo";
 import { ImageDemo } from "./(playground)/image/demo";
 import { MutationDemo } from "./(playground)/mutation/demo";
 import { ShellDemo } from "./(playground)/shell/demo";
-import { StreamDemo } from "./(playground)/stream/demo";
+import {
+  StreamDemo,
+  type StreamSearchParams,
+} from "./(playground)/stream/demo";
 import { Container } from "./components/container";
 import { ContentsNav } from "./components/contents-nav";
 import { Digest } from "./components/digest";
@@ -66,7 +69,7 @@ export const metadata: Metadata = {
 };
 
 interface PageProps {
-  searchParams: Promise<{ stream?: string }>;
+  searchParams: StreamSearchParams;
 }
 
 function Roadmap() {

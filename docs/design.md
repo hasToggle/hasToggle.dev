@@ -39,12 +39,18 @@ them all:
 - **Chrome, top-right — view controls.** Mode switches (slow motion) live in
   the corner every editor keeps its view switches. Subject actions never live
   here; instrument housekeeping may — a reset that rewinds the bench sits in
-  this corner, locked while the instrument is at rest (2026-08-27). Empty
-  when a demo has no alternate view and nothing to rewind.
-  - **One label for the cause view: `slow motion`.** Both replay views (02,
-    06) wear it — 06's switch said `narrate` until 2026-08-27. The label
-    names what the visitor gets (real events, replayed slower than they
-    happened), not what the demo does.
+  this corner, locked while the instrument is at rest (2026-08-27), and only
+  where the deck cannot already rewind it: where step one *is* the starting
+  state, a reset is a second, less obvious way to press it (03, 2026-08-27).
+  Empty when a demo has no alternate view and nothing to rewind.
+  - **The cause view is labeled by what the visitor gets, not by what the
+    demo does.** Where the cause is the same events replayed slower, the
+    label is `slow motion` — both replay views (02, 06) wear it, and 06's
+    switch said `narrate` until 2026-08-27. Where the event already runs at
+    human speed and what is hidden is somewhere else, the label names that
+    place instead: 03's `response` draws the same live run as the server
+    sent it (2026-08-27). Slowing a 1.9-second event would be padding, and
+    a second label costs less than a wrong one.
 - **Body — the specimen.** The observed value large, provenance rows as one
   aligned table, one narration caption. All describing text in one place.
 - **Deck — actions only.** Execution order, left to right. When a flow has
@@ -108,18 +114,18 @@ deleted, not deprecated. Judgment calls worth keeping:
 - **The specimen is not a control.** Exhibit 04's form and exhibit 01's
   click-me button stay in the body: a form wired to a Server Action is the
   lesson, and filing the subject under controls would misrepresent it. The
-  deck holds instrument controls only (03's rerun, 05's title form — which
-  drives the instrument rather than being it).
+  deck holds instrument controls only (03's three arrangements, 05's title
+  form — which drives the instrument rather than being it).
 - **Unique readout facts became narration lines**; redundant readouts were
   cut without replacement (03, 04 — their facts live in the intro, the
   captions, or the source).
-- **The gauge is wired where a client owns the panel** (02, 05). 03's
-  in-flight signal is carried by the row skeletons and the rerun button's
-  pending label instead — honest, but not the gauge; wire it if the stream
-  panel ever gains a client owner. 04 has no client round trip to gauge
-  (its form works with JavaScript off, which is its point). 01 and 06 have
-  client owners but no server round trip at all — their gauges stay `live`,
-  because every event after arrival is a client render.
+- **The gauge is wired where a client owns the panel** (02, 05, and 03
+  since 2026-08-27 — the note here used to say wire it if the stream panel
+  ever gained a client owner, and the rebuild below is that). 04 has no
+  client round trip to gauge (its form works with JavaScript off, which is
+  its point). 01 and 06 have client owners but no server round trip at all
+  — their gauges stay `live`, because every event after arrival is a client
+  render.
 - **06's replay is slowed, not simulated — and labeled as such.** A press
   updates state immediately (the new number exists before the card
   finishes turning); in slow motion the card flips to its own source —
@@ -185,6 +191,61 @@ deleted, not deprecated. Judgment calls worth keeping:
   - **Deck = subject actions; chrome = acts on the instrument.** Reset
     rewinds the bench, so it lives top-right, locked at rest, and the deck
     stays a pure diagram of the developer's two acts.
+
+- **03 rebuilt as the belief performed, 2026-08-27.** The old panel opened
+  in the resolved world — three staggered rows and a `Run it again` button
+  that replayed the same arrangement — so the belief never happened on
+  screen, and staggered arrival with nothing to compare it against reads as
+  latency rather than as a choice someone made. Now the instrument rests in
+  the believer's own arrangement and a three-step deck walks the change
+  developers actually make: **Fetch it all first** (one boundary,
+  `fallback={null}` — the specimen is blank for the whole 1900 ms and all
+  three rows land together) → **Add a fallback** (the same boundary with a
+  placeholder, which is all `loading.tsx` is: something at +0, everything
+  still late) → **Wrap each part** (a boundary per row, each landing on its
+  own clock). A press writes `?mode=` and `?stream=` and the server really
+  re-renders with its boundaries somewhere else; nothing is simulated but
+  the delays, which the intro still admits.
+  - **The argument is a column, not a sentence.** Every row carries two
+    readings — `takes 400 ms · landed +1902 ms` — and in the belief's
+    arrangement they disagree for every row but the slowest. The old
+    wall-clock stamp (`landed 15:47:12`) could not show simultaneity at a
+    glance; an offset from the response's own start can. The one payload
+    the old exhibit never stated is now readable: streaming makes nothing
+    faster, and the slow row still costs 1900 ms.
+  - **The cause view is `response`** (§1). The same run drawn as one
+    response held open: a bar per chunk against a 0–2s axis, the shell bar
+    naming what the first chunk carried (`nothing to show` · `1
+    placeholder` · `3 placeholders`). Every streamed unit emits **both**
+    presentations and `data-view` on the stage decides which one has a
+    size, so flipping the switch is a CSS change rather than a re-run —
+    it works mid-flight, and the two drawings can never disagree about a
+    number. The belief's arrangement is three bars ending on the same
+    tick; the resolution is a staircase.
+  - **The gauge is wired, and to the response rather than the
+    navigation.** §4's standing note said to wire it if this panel ever
+    gained a client owner; it has one now. A marker inside the run's last
+    boundary reports when the server has nothing left to send. The
+    navigation commits long before that, and the belief's arrangement then
+    holds a blank specimen for 1500 ms — the one beat with no skeleton to
+    carry the signal, so a gauge that went quiet there would be the
+    panel's first lie.
+  - **The deck locks for the first walk, then unlocks.** The lock exists
+    only so the introduction happens in order; once the walk reaches the
+    last arrangement all three steps are pressable, because comparing them
+    is this chapter's payload. The step you are already on re-runs it,
+    which is where `Run it again` went.
+  - **No reset in the chrome, and the rule §1 states gets a limit.** A
+    reset earns the corner when it rewinds something the deck cannot
+    reach — 01's, which un-writes two edits. Here rewinding the bench is
+    just running the first arrangement, and deck step one already is that
+    button, so a reset would be a second, less obvious way to press it
+    (Eric, 2026-08-27). The corner holds the view switch alone.
+  - Casualties: `rerun-button.tsx`, `row-skeleton.tsx`, `stream-rows.tsx`,
+    `slow-row.tsx`. The `loading.tsx` meta aside was obsoleted by becoming
+    a beat and replaced with one on the exhibit's own argument — the
+    granularity of waiting. voice.md §6 already predicted that failure
+    mode, so it earns no new rule there (voice.md §9).
 
 ### The lab — site shape, 2026-08-20
 

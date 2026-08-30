@@ -1,14 +1,25 @@
 export const STREAM_SOURCE = `
-// slow-row.tsx — genuinely slow, on the server, per request
-export async function SlowRow({ delayMs, label }) {
-  await connection(); // request-time work starts here
-  await sleep(delayMs);
-  return <Row label={label} landedAt={new Date()} />;
-}
+// the same three calls in every arrangement. only the boundary moves.
+const rows = [
+  { label: "a quick database query",           delayMs:  400 },
+  { label: "a third-party API with opinions",  delayMs: 1100 },
+  { label: "the legacy service nobody dares",  delayMs: 1900 },
+];
 
-// in the page — the shell ships instantly, rows land when done.
-// A new run id makes new boundaries, so the fallbacks show again.
-<Suspense fallback={<RowSkeleton />} key={\`run-\${run}-\${row.label}\`}>
-  <SlowRow delayMs={row.delayMs} label={row.label} />
+// 1 — fetch it all first, then render
+<Suspense fallback={null}>
+  <GroupRows />   {/* awaits all three, then returns all three */}
 </Suspense>
+
+// 2 — add a fallback. this is what loading.tsx is.
+<Suspense fallback={<GroupPending />}>
+  <GroupRows />   {/* same component, same wait */}
+</Suspense>
+
+// 3 — wrap each part
+{rows.map((row) => (
+  <Suspense fallback={<PendingRow {...row} />} key={row.label}>
+    <SlowRow {...row} />   {/* awaits its own work, and nobody else's */}
+  </Suspense>
+))}
 `;

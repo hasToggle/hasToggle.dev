@@ -353,6 +353,13 @@ From the /lab contents page, 2026-08-21. A rejection no rule predicted:
 |---|---|---|
 | The plan is everything Next.js can do… One chapter at a time, in public. (the whole standfirst) | Every chapter opens on something developers say — to ourselves, or to each other — and runs the real feature next to it. (then the plan sentence) | Eric, arriving on /lab cold: the belief titles read as odd quotes in mixed persons. Beside a running exhibit a title explains itself; as a bare index it does not — **an index of beliefs states its titling frame once**, in the standfirst, still without labeling anyone wrong ("to ourselves, or to each other" is the Ford stance carrying the I/You mix). And building-in-public talk was misplaced here — it belongs where the making-of lives, on the landing roadmap. |
 
+From the stream chapter's rebuild, 2026-08-27. A rejection no rule
+predicted, and the rule it produced:
+
+| Standing | Shipped | Why |
+|---|---|---|
+| Not any more. (the intro's opening beat, and a §6 exemplar since 2026-08-15) | You can. But it will be slow. | Both answer the belief in the opening beat, which is all the rules asked for — but the belief here is not an error. Awaiting everything before you render is a working page; it just costs the fast parts the slowest one's clock. "Not any more" contradicts a developer who was not wrong, and the panel then spends four beats agreeing with them. **Where the belief is a working choice rather than a mistake, the opening beat concedes and then prices it.** The concession is also the Ford stance arriving a sentence earlier than usual: nobody is being corrected, they are being shown the bill. |
+
 ---
 
 ## 7. Time-hardening
