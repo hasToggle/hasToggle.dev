@@ -59,8 +59,8 @@ export function StreamDemo({ headingAs, searchParams }: StreamDemoProps) {
             around a whole route segment — and the rows still arrive together,
             late, in a group. Press step three and each row gets a boundary of
             its own; each one leaves the server the second it is done. Notice
-            what did not change: the legacy service still costs 1900 ms. It has
-            stopped charging the other two for it.
+            what did not change: the legacy service still costs 1900 ms. But it
+            has stopped charging the other two for it.
           </p>
           <p>
             The delays are simulated. The streaming is real: each row is a
