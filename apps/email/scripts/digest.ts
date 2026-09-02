@@ -1,6 +1,6 @@
 import { render } from "@react-email/render";
 import DigestEmail from "@repo/email/templates/digest";
-import { MongoClient, ObjectId } from "mongodb";
+import { MongoClient, ObjectId, type WithId } from "mongodb";
 
 const { MONGODB_URI } = process.env;
 if (!MONGODB_URI) {
@@ -11,6 +11,19 @@ if (!MONGODB_URI) {
 const client = new MongoClient(MONGODB_URI);
 const db = client.db();
 const digests = db.collection("digests");
+
+// Same shape the email templates use: NEXT_PUBLIC_APEX_URL is a bare
+// hostname, so the scheme is ours to add.
+const baseUrl = process.env.NEXT_PUBLIC_APEX_URL
+  ? `https://${process.env.NEXT_PUBLIC_APEX_URL}`
+  : "https://hastoggle.dev";
+
+/** The fields of `Subscriber` a send actually reads. */
+interface DigestRecipient {
+  email: string;
+  emailVerified: Date | null;
+  unsubscribeToken: string | null;
+}
 
 const [, , command, ...args] = process.argv;
 
@@ -133,36 +146,56 @@ async function handleSend() {
   const resend = new Resend(process.env.RESEND_TOKEN);
 
   const subscribers = await db
-    .collection("subscribers")
+    .collection<DigestRecipient>("subscribers")
     .find({ emailVerified: { $ne: null } })
     .toArray();
 
-  if (subscribers.length === 0) {
+  // A digest with no working unsubscribe link is the one thing the privacy
+  // policy promises against, so a tokenless row is skipped rather than sent
+  // a dead link. Only rows confirmed before the token was minted can be in
+  // this state; re-confirming mints one.
+  const recipients = subscribers.filter(
+    (s): s is WithId<DigestRecipient> & { unsubscribeToken: string } =>
+      Boolean(s.unsubscribeToken)
+  );
+  const tokenless = subscribers.length - recipients.length;
+  if (tokenless > 0) {
+    console.warn(
+      `Skipping ${tokenless} subscriber(s) with no unsubscribe token.`
+    );
+  }
+
+  if (recipients.length === 0) {
     console.log("No verified subscribers to send to.");
     return;
   }
 
-  console.log(`Sending to ${subscribers.length} subscribers...`);
+  console.log(`Sending to ${recipients.length} subscribers...`);
 
-  const html = await render(
-    DigestEmail({
-      content: digest.content,
-      misconception: digest.misconception,
-      series: digest.series,
-      title: digest.title,
-    })
-  );
-
-  const emails = subscribers.map((s) => s.email);
   const resendFrom = process.env.RESEND_FROM ?? "noreply@hastoggle.dev";
-  const { error } = await resend.batch.send(
-    emails.map((to) => ({
+
+  // Rendered per recipient, not once for the batch: the unsubscribe link
+  // carries that subscriber's durable token.
+  const messages = await Promise.all(
+    recipients.map(async (subscriber) => ({
       from: resendFrom,
-      html,
+      html: await render(
+        DigestEmail({
+          content: digest.content,
+          misconception: digest.misconception,
+          series: digest.series,
+          title: digest.title,
+          unsubscribeUrl: `${baseUrl}/api/unsubscribe?token=${encodeURIComponent(
+            subscriber.unsubscribeToken
+          )}`,
+        })
+      ),
       subject: digest.title,
-      to,
+      to: subscriber.email,
     }))
   );
+
+  const { error } = await resend.batch.send(messages);
 
   if (error) {
     console.error("Failed to send:", error);
@@ -180,7 +213,7 @@ async function handleSend() {
     }
   );
 
-  console.log(`Sent digest ${id} to ${subscribers.length} subscribers`);
+  console.log(`Sent digest ${id} to ${recipients.length} subscribers`);
 }
 
 function printHelp() {
