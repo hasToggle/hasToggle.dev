@@ -131,17 +131,38 @@ Core infrastructure packages:
 
 ### Technology Stack
 
+Exact versions live in the `package.json` files and drift with every Renovate
+run — read them there. Majors are named below only where they change how you
+write code.
+
 - **Framework**: Next.js 16 with App Router, React 19
-- **Language**: TypeScript 5.9 (strict mode, NodeNext module resolution)
-- **Package Manager**: Bun 1.1.43
-- **Build Tool**: Turborepo 2.5.8
-- **Database**: MongoDB via the official `mongodb` driver 7.x
+- **Language**: TypeScript 7 — the native Go compiler, not the old JS one.
+  Strict mode, NodeNext module resolution. See below.
+- **Package Manager**: Bun (pinned via `packageManager`)
+- **Build Tool**: Turborepo
+- **Database**: MongoDB via the official `mongodb` driver
 - **Auth**: better-auth (email/password + organizations)
-- **Styling**: Tailwind CSS 4.1
-- **Linting**: Biome 2.3.1 with ultracite presets (core, react, next)
+- **Styling**: Tailwind CSS
+- **Linting**: Biome with ultracite presets (core, react, next)
 - **Testing**: Bun test runner
 - **Bundling**: none for `packages/*` — apps consume them as TypeScript source
   through the `workspace:*` protocol
+
+#### TypeScript 7
+
+`typescript` is a thin Node wrapper around a native Go binary. It ships **no
+JavaScript compiler API** — `typescript/lib/typescript.js` does not exist, and
+only the `typescript/unstable/*` entry points are available. Any tool that
+expects to `require("typescript")` and build a `Program` will fail here; that
+is a constraint on dependency choices, not a bug to fix.
+
+Type safety is gated twice:
+
+- `next build` type-checks each app by spawning the `tsc` CLI
+  (`experimental.useTypeScriptCli`, on by default since Next.js 16.3).
+- The turbo `typecheck` task runs native `tsc --noEmit` everywhere, which is
+  what covers `packages/*` — `next build` never sees those. `build` depends
+  on it.
 
 ### Important Patterns
 
@@ -209,7 +230,7 @@ Project knowledge belongs in the repo — these docs, not external notes.
 - Apps have independent dev ports: app (3000), web (3001), api (3002)
 - API development automatically runs Stripe CLI webhook forwarding to localhost:3002/webhooks/payments
 - MongoDB access goes through the shared client in `packages/database/index.ts` (cached on `global` in development to survive hot reloads)
-- Tests must pass before builds complete (enforced by Turborepo pipeline)
+- Tests and typechecks must pass before builds complete (enforced by Turborepo pipeline)
 - The design system excludes shadcn auto-generated UI components from version control linting
 
 <!-- NEXT-AGENTS-MD-START -->
