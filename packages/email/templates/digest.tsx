@@ -32,7 +32,9 @@ interface DigestEmailProps {
   unsubscribeUrl: string;
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_APEX_URL ?? "https://hastoggle.dev";
+const baseUrl = process.env.NEXT_PUBLIC_APEX_URL
+  ? `https://${process.env.NEXT_PUBLIC_APEX_URL}`
+  : "https://hastoggle.dev";
 
 function DigestEmail({
   title,
