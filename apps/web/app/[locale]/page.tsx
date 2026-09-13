@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import { DEFAULT_OG_TITLE } from "@/app/api/og/title";
 import { env } from "@/env";
 import { BoundaryDemo } from "./(playground)/boundary/demo";
-import { ImageDemo } from "./(playground)/image/demo";
 import { MutationDemo } from "./(playground)/mutation/demo";
 import { ShellDemo } from "./(playground)/shell/demo";
+import { StateDemo } from "./(playground)/state/demo";
 import {
   StreamDemo,
   type StreamSearchParams,
@@ -241,7 +241,7 @@ export default function MarketingPage({ searchParams }: PageProps) {
           <SectionDivider />
           <MutationDemo />
           <SectionDivider />
-          <ImageDemo />
+          <StateDemo />
         </div>
         <PartDivider />
         <Roadmap />
