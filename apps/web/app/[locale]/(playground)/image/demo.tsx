@@ -15,17 +15,15 @@ interface ImageDemoProps {
 export function ImageDemo({ headingAs }: ImageDemoProps) {
   return (
     <DemoSection
-      belief={chapter.belief}
       headingAs={headingAs}
       id={`demo-${chapter.slug}`}
       intro={
         <>
           <p>
-            You&rsquo;ll design one. <InlineCode>ImageResponse</InlineCode>
-            &#32;turns JSX — the same markup your components are made of — into
-            a PNG the moment a request asks, and it is a route handler like any
-            other: query in, image out. One file draws the card for every page
-            you will ever publish.
+            Every page you have published, and every page you have not written
+            yet. <InlineCode>ImageResponse</InlineCode>&#32;turns JSX — the same
+            markup your components are made of — into a PNG the moment a request
+            asks, and it is a route handler like any other: query in, image out.
           </p>
           <p>
             Type a title and the server draws it. The same endpoint drew the
@@ -36,12 +34,13 @@ export function ImageDemo({ headingAs }: ImageDemoProps) {
       }
       meta={
         <>
-          Every repo has an og-image-final-v2.png in it somewhere, quietly out
-          of date since the last time the headline changed. Nobody is coming to
-          update it, and now nobody has to.
+          Every repo has an og-image-final-v2.png in it somewhere, out of date
+          since the last time the headline changed. That file just became
+          something you never have to think about again.
         </>
       }
       navLabel={chapter.navLabel}
+      title={chapter.title}
       topic={chapter.topic}
     >
       {/* OgDemo owns the instrument: the gauge follows its fetch state, the

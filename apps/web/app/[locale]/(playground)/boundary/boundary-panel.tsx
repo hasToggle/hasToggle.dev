@@ -7,51 +7,69 @@ import { LivePanel } from "../live-panel";
 import { FileCard } from "./card";
 import type { Beat } from "./copy";
 import {
-  REFUSAL_ERROR,
   RESET_LABEL,
   SEAMS,
-  STEP_ONE_DETAIL,
-  STEP_ONE_LABEL,
-  STEP_THREE_DETAIL,
-  STEP_THREE_LABEL,
-  STEP_TWO_LABEL,
+  SIDE_NAMES,
+  STEP_DETAIL,
+  STEP_LABEL,
 } from "./copy";
-import { CrossedFile } from "./crossed-file";
-import { Refusal } from "./refusal";
 
 // The outline variant's `disabled:` look re-expressed for `aria-disabled`,
-// so a spent step stays focusable and keyboard users keep their place when
-// the sequence advances past it. Same trick as the rebake deck.
+// so the spent step stays focusable and keyboard users keep their place.
+// Same trick as the rebake deck.
 const LOCKED_LOOK = cn(
   "aria-disabled:bg-transparent aria-disabled:opacity-40",
   "aria-disabled:cursor-not-allowed aria-disabled:hover:bg-transparent"
 );
 
-// The nudge: the one step that is pressable right now wears the boundary's
-// own orange on its ring, so the hand knows where the sequence continues.
+// The nudge: while the step is pressable it wears the boundary's own
+// orange on its ring, so the hand knows where the sequence starts.
 const ARMED_LOOK = "ring-ht-orange-700/50 dark:ring-ht-orange-500/50";
 
-/** The mono step marker inside a deck button — real sequence, so real numbers. */
-function StepMark({ n }: { n: string }) {
+const TERM_LOOK: Record<"client" | "server", string> = {
+  client: "text-ht-orange-800 dark:text-ht-orange-300",
+  server: "text-ht-cyan-800 dark:text-ht-cyan-300",
+};
+
+const TERM_SIDES = new Map<string, "client" | "server">([
+  [SIDE_NAMES.server, "server"],
+  [SIDE_NAMES.client, "client"],
+]);
+
+const TERM_PATTERN = new RegExp(
+  `(${SIDE_NAMES.server}|${SIDE_NAMES.client})`,
+  "g"
+);
+
+/**
+ * The seam with its two residency terms colored like the lines they name:
+ * "Server Component" in the outer ring's cyan, "Client Component" in the
+ * inner ring's orange. The seam reads as the diagram's legend without a
+ * legend being drawn; the plain string stays intact for screen readers.
+ */
+function Seam({ text }: { text: string }) {
+  const parts = text.split(TERM_PATTERN);
+  let offset = 0;
   return (
-    <span
-      aria-hidden="true"
-      className="mr-2 select-none font-mono text-muted-foreground text-xs"
-    >
-      {n}
-    </span>
+    <>
+      {parts.map((part) => {
+        const key = `${offset}-${part}`;
+        offset += part.length;
+        const side = TERM_SIDES.get(part);
+        return side ? (
+          <span className={cn("font-semibold", TERM_LOOK[side])} key={key}>
+            {part}
+          </span>
+        ) : (
+          <span key={key}>{part}</span>
+        );
+      })}
+    </>
   );
 }
 
-/** Deck-walk order, also the ghost-stack order for height reservation. */
-const ALL_BEATS: readonly Beat[] = ["rest", "refused", "crossed", "split"];
-
-/** Each beat's one legal successor — the deck is a sequence, not a menu. */
-const NEXT_BEAT: Partial<Record<Beat, Beat>> = {
-  crossed: "split",
-  refused: "crossed",
-  rest: "refused",
-};
+/** Ghost-stack order for height reservation. */
+const ALL_BEATS: readonly Beat[] = ["rest", "split"];
 
 interface BoundaryPanelProps {
   references: React.ReactNode;
@@ -71,14 +89,13 @@ interface BoundaryPanelProps {
 /**
  * The client owner of the boundary instrument. The gauge stays `live`:
  * nothing here makes a server round trip — both server slots arrived with
- * the page, and every beat after them is a client render.
+ * the page, and the step between them is a client render.
  *
- * The deck walks the sequence everyone has walked: ask a Server Component
- * for a copy button, read the compiler's refusal, apply the fix the error
- * names — and meet the second refusal, because "use cache" cannot follow
- * the directive — then extract the button, the fix the second error
- * names, and everything works. Reset is instrument housekeeping, not a subject action, so it
- * sits in the chrome and stays locked at rest (design.md §4, 2026-08-27).
+ * Two states: a Server Component doing the work developers expect of one,
+ * then the same component with a copy button — which lands in its own
+ * file, inside its own line, while the fetch stays where it was. Reset is
+ * instrument housekeeping, not a subject action, so it sits in the chrome
+ * and stays locked at rest (design.md §4, 2026-08-27).
  */
 export function BoundaryPanel({
   references,
@@ -88,22 +105,7 @@ export function BoundaryPanel({
   const [beat, setBeat] = useState<Beat>("rest");
 
   const handleReset = useCallback(() => setBeat("rest"), []);
-  const advanceFrom = useCallback(
-    (from: Beat) =>
-      setBeat((current) =>
-        current === from ? (NEXT_BEAT[from] ?? current) : current
-      ),
-    []
-  );
-  const handleStepOne = useCallback(() => advanceFrom("rest"), [advanceFrom]);
-  const handleStepTwo = useCallback(
-    () => advanceFrom("refused"),
-    [advanceFrom]
-  );
-  const handleStepThree = useCallback(
-    () => advanceFrom("crossed"),
-    [advanceFrom]
-  );
+  const handleStep = useCallback(() => setBeat("split"), []);
 
   const viewControls = (
     <button
@@ -124,46 +126,12 @@ export function BoundaryPanel({
       <MarketingButton
         aria-disabled={beat !== "rest"}
         className={cn(LOCKED_LOOK, beat === "rest" && ARMED_LOOK)}
-        onClick={handleStepOne}
+        onClick={handleStep}
         variant="outline"
       >
-        <StepMark n="1" />
-        {STEP_ONE_LABEL}
+        {STEP_LABEL}
         <span className="ml-2 font-mono text-muted-foreground text-xs">
-          {STEP_ONE_DETAIL}
-        </span>
-      </MarketingButton>
-      <span
-        aria-hidden="true"
-        className="select-none font-mono text-muted-foreground/50"
-      >
-        →
-      </span>
-      <MarketingButton
-        aria-disabled={beat !== "refused"}
-        className={cn(LOCKED_LOOK, beat === "refused" && ARMED_LOOK)}
-        onClick={handleStepTwo}
-        variant="outline"
-      >
-        <StepMark n="2" />
-        <span className="font-mono">{STEP_TWO_LABEL}</span>
-      </MarketingButton>
-      <span
-        aria-hidden="true"
-        className="select-none font-mono text-muted-foreground/50"
-      >
-        →
-      </span>
-      <MarketingButton
-        aria-disabled={beat !== "crossed"}
-        className={cn(LOCKED_LOOK, beat === "crossed" && ARMED_LOOK)}
-        onClick={handleStepThree}
-        variant="outline"
-      >
-        <StepMark n="3" />
-        {STEP_THREE_LABEL}
-        <span className="ml-2 font-mono text-muted-foreground text-xs">
-          {STEP_THREE_DETAIL}
+          {STEP_DETAIL}
         </span>
       </MarketingButton>
     </div>
@@ -172,13 +140,12 @@ export function BoundaryPanel({
   return (
     <LivePanel deck={deck} references={references} viewControls={viewControls}>
       <div className="flex flex-col gap-5">
-        {/* All four cards stacked in one grid cell, the inactive ones
-            invisible but still holding their space — so the instrument is
-            always as tall as its tallest beat and the deck never moves.
-            Same reservation trick as the rebake panel's StableSlot, at
-            card scale. The active wrapper's key flips on activation, so
-            the split card's landing wash (.ht-land) replays on each
-            arrival; the refusals need no wash — red is its own arrival. */}
+        {/* Both cards stacked in one grid cell, the inactive one invisible
+            but still holding its space — so the instrument is always as
+            tall as its taller beat and the deck never moves. Same
+            reservation trick as the rebake panel's StableSlot, at card
+            scale. The active wrapper's key flips on activation, so the
+            split card's landing wash (.ht-land) replays on each arrival. */}
         <div className="grid">
           {ALL_BEATS.map((b) => {
             const active = b === beat;
@@ -193,8 +160,6 @@ export function BoundaryPanel({
               >
                 <FileCard beat={b}>
                   {b === "rest" && serverCard}
-                  {b === "refused" && <Refusal error={REFUSAL_ERROR} />}
-                  {b === "crossed" && <CrossedFile />}
                   {b === "split" && splitCard}
                 </FileCard>
               </div>
@@ -202,7 +167,7 @@ export function BoundaryPanel({
           })}
         </div>
         {/* The seam, narrated: the one fact the current beat proves. The
-            ghosts reserve the tallest seam's height for the same reason. */}
+            ghost reserves the taller seam's height for the same reason. */}
         <p
           className="grid font-mono text-muted-foreground text-xs/5"
           role="status"
@@ -213,7 +178,7 @@ export function BoundaryPanel({
               className={cn("[grid-area:1/1]", b !== beat && "invisible")}
               key={b}
             >
-              {SEAMS[b]}
+              <Seam text={SEAMS[b]} />
             </span>
           ))}
         </p>

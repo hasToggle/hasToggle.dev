@@ -18,37 +18,37 @@ interface MutationDemoProps {
 export function MutationDemo({ headingAs }: MutationDemoProps) {
   return (
     <DemoSection
-      belief={chapter.belief}
       headingAs={headingAs}
       id={`demo-${chapter.slug}`}
       intro={
         <>
           <p>
-            You need a function. A Server Action lives on the server and plugs
-            straight into a form&rsquo;s <InlineCode>action</InlineCode>: no
-            endpoint to design, no fetch to write, no JSON contract to keep in
-            sync. Press the button below and follow the trip: the form calls the
-            function, the function adds one, and Next.js re-renders the page
-            around the new number.
+            It does now. A Server Action lives on the server and plugs straight
+            into a form&rsquo;s <InlineCode>action</InlineCode>: no endpoint to
+            design, no fetch to write, no JSON contract to keep in sync. Press
+            the button below and follow the trip — the form calls the function,
+            the function adds one, and Next.js re-renders the page around the
+            new number. That is the whole thing. There is no part you are
+            missing.
           </p>
           <p>
             This one keeps its count in a cookie your browser carries but your
             JavaScript cannot open — that is what httpOnly means — and a Server
-            Component reads it back. The JavaScript in your tab never touches
-            the value, and could not if it tried.
+            Component reads it back. The value is safe from the tab that
+            displays it, for free, without you writing a line to arrange it.
           </p>
         </>
       }
       meta={
         <>
-          Somewhere a tutorial is teaching you to build{" "}
-          <InlineCode>/api/increment</InlineCode>. It will teach you to validate
-          the request body, handle the 405, and write a fetch wrapper with a
-          retry. All of it correct. All of it in service of adding one to a
-          number.
+          Think about what that frees up. Validating the request body, handling
+          the 405, writing a fetch wrapper with a retry — that was forty lines
+          of <InlineCode>/api/increment</InlineCode>, every time a number needed
+          to go up. Multiply it by every form you will ever build.
         </>
       }
       navLabel={chapter.navLabel}
+      title={chapter.title}
       topic={chapter.topic}
     >
       {/* The form stays in the body: it is the specimen, not instrument

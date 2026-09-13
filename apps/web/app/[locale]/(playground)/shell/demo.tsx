@@ -19,50 +19,48 @@ export async function ShellDemo({ headingAs }: ShellDemoProps) {
 
   return (
     <DemoSection
-      belief={chapter.belief}
       headingAs={headingAs}
       id={`demo-${chapter.slug}`}
       intro={
         <>
           <p>
-            We believed it, too — hit or miss, there or not. But
-            &ldquo;cached&rdquo; is not a state a page is in; it is a bake with
-            a lifespan. <InlineCode>use cache</InlineCode>&#32;bakes a
-            component&rsquo;s output into the page&rsquo;s static shell — one
-            copy, served to everyone — and a cache tag is the handle you pull to
-            throw that copy away. Pulling it empties the shelf and lights no
-            oven. The fresh page is baked when the next request asks for one,
-            and not a moment before.
+            That used to be a contradiction. <InlineCode>use cache</InlineCode>
+            &#32;renders a component once and keeps the output as a cache entry
+            that every visitor gets. That is the static half. A cache tag is the
+            handle on that entry: pull it and the entry expires, for everyone,
+            at once. That is the up-to-date half. Nothing renders a replacement
+            until someone asks for the page, and everyone after them gets the
+            fresh entry free.
           </p>
           <p>
-            The stamp below is that copy — this page&rsquo;s own cache entry,
-            wearing a six-character fingerprint so you can tell one bake from
-            the next. Press the button and a fresh bake lands for every visitor,
-            in the time it takes the label to change back. It feels like one
+            The stamp below is this page&rsquo;s own entry, wearing a
+            six-character fingerprint so you can tell one render from the next.
+            Revalidate it and a fresh one reaches every reader of this page in
+            about the time it takes the label to change back. It feels like one
             event.
           </p>
           <p>
-            It is three. Flip the switch and run it again in slow motion — the
-            panel narrates each event as it happens. Watch the color: it changes
-            twice, not once, and that gap is what your cache logs are naming.
-            Press the button here and the next request logs{" "}
-            <InlineCode>REVALIDATED</InlineCode> — reason:{" "}
-            <InlineCode>tag-based deletion</InlineCode> — because that request
-            was the refill. <InlineCode>STALE</InlineCode> is the same gap
-            handled softly: the old bake served while a fresh one is in the
-            oven.
+            It is three, and slow motion shows you each of them. Expire the
+            entry, then ask for the page, and watch the color: it changes twice,
+            not once. The gap between the two is what your cache logs have been
+            naming all along. The request that refills the entry logs{" "}
+            <InlineCode>REVALIDATED</InlineCode>, reason{" "}
+            <InlineCode>tag-based deletion</InlineCode>, because that request
+            did the rendering. <InlineCode>STALE</InlineCode> is the same gap
+            handled softly: the old entry served while a fresh one renders.
           </p>
         </>
       }
       meta={
         <>
           In your app, the two renders behind one press would read the same
-          database and agree — no visitor would ever see the seam. The bake here
-          is a random color value precisely so two renders can never agree.
-          Watching a cache work requires caching something that never repeats.
+          database and agree, and no visitor would ever see the seam. The entry
+          here is a random color precisely so two renders can never agree. A
+          cache can only be watched working on something that never repeats.
         </>
       }
       navLabel={chapter.navLabel}
+      title={chapter.title}
       topic={chapter.topic}
     >
       {/* The client panel owns the instrument chrome here, because the

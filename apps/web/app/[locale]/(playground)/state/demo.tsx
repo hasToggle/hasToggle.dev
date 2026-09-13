@@ -16,15 +16,14 @@ interface StateDemoProps {
 export function StateDemo({ headingAs }: StateDemoProps) {
   return (
     <DemoSection
-      belief={chapter.belief}
       headingAs={headingAs}
       id={`demo-${chapter.slug}`}
       intro={
         <>
           <p>
-            You don&rsquo;t — for the counting. A component is a function:
-            render means React calls it and paints what it returns. A{" "}
-            <InlineCode>let</InlineCode> inside that function is born in the
+            Here is what is actually happening when you press it. A component is
+            a function: render means React calls it and paints what it returns.
+            A <InlineCode>let</InlineCode> inside that function is born in the
             call and dies with it, so adding one to it works — and changes
             nothing on screen, because changing a value and repainting the
             screen are two different jobs. <InlineCode>useState</InlineCode>
@@ -52,6 +51,7 @@ export function StateDemo({ headingAs }: StateDemoProps) {
         </>
       }
       navLabel={chapter.navLabel}
+      title={chapter.title}
       topic={chapter.topic}
     >
       {/* The client panel owns the instrument: narrate mode and the

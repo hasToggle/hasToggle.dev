@@ -46,7 +46,7 @@ describe("rebake readout", () => {
   test("the simple view opens by saying what one press does, fused", () => {
     expect(readout(SIMPLE_FRESH, CURRENT_ID)).toEqual({
       caption:
-        "throws this page’s cache entry away and bakes a fresh one — for every visitor, immediately.",
+        "expires this page’s cache entry and renders a fresh one — for every visitor, immediately.",
       detail: "from the static shell — the same entry every visitor gets",
       label: "served",
     });
@@ -55,7 +55,7 @@ describe("rebake readout", () => {
   test("after a cycle, the simple view plants the hook for the switch", () => {
     expect(readout(SIMPLE_CYCLED, CURRENT_ID)).toEqual({
       caption:
-        "that worked — the bake above is what every visitor gets now. It felt like one event; it was three. The switch slows the next one down.",
+        "that worked — the entry above is what every visitor gets now. It felt like one event; it was three. Slow motion shows the next one.",
       detail: "from the static shell — the same entry every visitor gets",
       label: "served",
     });
@@ -73,7 +73,7 @@ describe("rebake readout", () => {
   test("expired explains why the private hash cannot be the refill", () => {
     expect(readout(MACHINERY_EXPIRED, CURRENT_ID)).toEqual({
       caption:
-        "the bake above was rendered before your expiry landed, so the cache will not keep it. The refill is the first render that starts afterwards — button two, a new tab, another visitor, whoever asks first. Ask for it.",
+        "the entry above was rendered before your expiry landed, so the cache will not keep it. The refill is the first render that starts afterwards — you, a new tab, another visitor, whoever asks first. Ask for it.",
       detail:
         "at 15:05:35 UTC — the hash above was rendered for you and cached for nobody",
       label: "expired",
@@ -84,7 +84,7 @@ describe("rebake readout", () => {
     expect(readout(MACHINERY_REFETCHED, CURRENT_ID)).toEqual({
       caption:
         "the fetch ran no cache API — the page rendered again, and this time the cache kept it. Expiring an entry and refilling it are two different events.",
-      detail: `#${CURRENT_ID} is the bake above, and every visitor gets it. #${PRIVATE_ID} was yours alone, and is gone`,
+      detail: `#${CURRENT_ID} is the entry above, and every visitor gets it. #${PRIVATE_ID} was yours alone, and is gone`,
       label: "served",
     });
   });

@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import { requireChapter } from "../../lab/syllabus";
 import { CodeBlock } from "../code-block";
 import { DemoSection } from "../demo-section";
-import { InlineCode } from "../inline-code";
 import { ReferenceBar } from "../reference-bar";
 import { parseRunId } from "./parse-run-id";
 import { STREAM_SOURCE } from "./source";
@@ -38,48 +37,38 @@ async function StreamStage({
 export function StreamDemo({ headingAs, searchParams }: StreamDemoProps) {
   return (
     <DemoSection
-      belief={chapter.belief}
       headingAs={headingAs}
       id={`demo-${chapter.slug}`}
       intro={
         <>
           <p>
-            You can. But it will be slow. The panel below is that page: a
-            database query, a third-party API, a legacy service, all three
-            awaited before anything is returned. Give it a moment — nothing
-            appears until the slowest of them is back. Then look at the second
-            number on each row. The database query finished in 400 ms and
-            reached you a second and a half later, having waited on a service it
-            never called.
+            It doesn&rsquo;t have to. The static shell ships first, and each
+            slow part leaves a fallback in its place. When a part finishes on
+            the server, its HTML streams down the same response and takes the
+            fallback&rsquo;s place. The fast parts never wait for the slow ones,
+            whatever they sit next to.
           </p>
           <p>
-            Press step two. A placeholder appears where the blank was — that is
-            a <InlineCode>&lt;Suspense&gt;</InlineCode>&#32;fallback, and a{" "}
-            <InlineCode>loading.tsx</InlineCode>&#32;file is one of them wrapped
-            around a whole route segment — and the rows still arrive together,
-            late, in a group. Press step three and each row gets a boundary of
-            its own; each one leaves the server the second it is done. Notice
-            what did not change: the legacy service still costs 1900 ms. But it
-            has stopped charging the other two for it.
-          </p>
-          <p>
-            The delays are simulated. The streaming is real: each row is a
-            Server Component that finishes on the server, and every arrival time
-            you read was measured rather than written down. Flip{" "}
-            <InlineCode>response</InlineCode>&#32;in the corner to see the same
-            run as the server sent it — one response, held open, a chunk per
-            boundary.
+            The three rows below are slow on purpose, with their delays printed
+            on them. Each one is a Server Component that finishes on the server
+            and streams in when it is done. Await everything and nothing appears
+            until the slowest is back. Add a fallback and a placeholder takes
+            the blank&rsquo;s place, but the rows still arrive together. Wrap
+            each part and the order holds: the shell, then the rows, fastest
+            first. The response view shows the same run as the server sent it:
+            one response, held open, a chunk per boundary.
           </p>
         </>
       }
       meta={
         <>
           A boundary decides when work is shown, not when it begins. The three
-          calls here start together — await them in a chain and each one waits
+          calls here start together. Await them in a chain and each one waits
           for the ones before it, fast or slow.
         </>
       }
       navLabel={chapter.navLabel}
+      title={chapter.title}
       topic={chapter.topic}
     >
       <StreamPanel

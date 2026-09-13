@@ -7,96 +7,120 @@ import { useCallback, useMemo, useState, useTransition } from "react";
 import { MarketingButton } from "../../components/marketing-button";
 import { LivePanel } from "../live-panel";
 import {
+  ARRANGEMENT_DETAILS,
+  ARRANGEMENT_LABELS,
+  RUN_AGAIN_LABEL,
   SEAMS,
-  STEP_ONE_LABEL,
-  STEP_THREE_DETAIL,
-  STEP_THREE_LABEL,
-  STEP_TWO_DETAIL,
-  STEP_TWO_LABEL,
   VIEW_LABEL,
 } from "./copy";
 import { MAX_RUN_ID } from "./parse-run-id";
 import { StageGhosts } from "./row";
 import { StageSignalProvider } from "./stage-signals";
-import { nextStrategy, STRATEGY_ORDER, type Strategy } from "./strategy";
+import { DEFAULT_STRATEGY, STRATEGY_ORDER, type Strategy } from "./strategy";
 import { Axis, ShellBar } from "./timeline";
 
-// The outline variant's `disabled:` look re-expressed for `aria-disabled`,
-// so a locked step stays focusable and keyboard users keep their place when
-// the sequence moves past it. Same trick as the boundary deck.
-const LOCKED_LOOK = cn(
-  "aria-disabled:bg-transparent aria-disabled:opacity-40",
-  "aria-disabled:cursor-not-allowed aria-disabled:hover:bg-transparent"
+// The segmented control: three arrangements as one radio group. The chosen
+// segment is filled and reads as "this is what is running"; the others are
+// quiet until hovered. No lock, no nudge — these are peers, and the reader
+// may take them in any order.
+const SEGMENT_LOOK = cn(
+  "inline-flex cursor-pointer select-none items-center gap-2 px-3 py-[calc(0.375rem-1px)]",
+  "whitespace-nowrap font-medium text-muted-foreground text-sm",
+  "transition-colors hover:text-foreground",
+  "focus:outline-none focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-ht-cyan-500/60",
+  "aria-checked:bg-muted aria-checked:text-foreground"
 );
 
-// The nudge: the step that continues the walk wears the instrument's cyan
-// on its ring, so the hand knows where to go next.
-const ARMED_LOOK = "ring-ht-cyan-700/50 dark:ring-ht-cyan-400/50";
+interface SegmentProps {
+  checked: boolean;
+  onSelect: (target: Strategy) => void;
+  strategy: Strategy;
+}
 
-const STEPS: Record<
-  Strategy,
-  { detail?: string; label: string; mark: string }
-> = {
-  blocking: { label: STEP_ONE_LABEL, mark: "1" },
-  loading: { detail: STEP_TWO_DETAIL, label: STEP_TWO_LABEL, mark: "2" },
-  parts: { detail: STEP_THREE_DETAIL, label: STEP_THREE_LABEL, mark: "3" },
-};
+/** One arrangement, as a radio the reader can pick in any order. */
+function Segment({ checked, onSelect, strategy }: SegmentProps) {
+  const handleClick = useCallback(
+    () => onSelect(strategy),
+    [onSelect, strategy]
+  );
+  const detail = ARRANGEMENT_DETAILS[strategy];
 
-/** The mono step marker inside a deck button — real sequence, so real numbers. */
-function StepMark({ n }: { n: string }) {
   return (
-    <span
-      aria-hidden="true"
-      className="mr-2 select-none font-mono text-muted-foreground text-xs"
+    // biome-ignore lint/a11y/useSemanticElements: a native radio cannot trigger a router navigation on select without a form; the button-as-radio pattern keeps the group's keyboard contract (arrow keys, one tab stop) in ArrangementPicker.
+    <button
+      aria-checked={checked}
+      className={cn(SEGMENT_LOOK, "first:rounded-l-lg last:rounded-r-lg")}
+      onClick={handleClick}
+      role="radio"
+      tabIndex={checked ? 0 : -1}
+      type="button"
     >
-      {n}
-    </span>
+      {ARRANGEMENT_LABELS[strategy]}
+      {detail ? (
+        <span className="font-mono text-muted-foreground/80 text-xs">
+          {detail}
+        </span>
+      ) : null}
+    </button>
   );
 }
 
-interface DeckStepProps {
-  /** True for the step that continues the walk — it wears the nudge. */
-  armed: boolean;
-  locked: boolean;
-  onSelect: (step: Strategy) => void;
-  /** The arrow before every step but the first: the deck is a sequence. */
-  precedes: boolean;
-  step: Strategy;
+const ARROW_DELTAS: Record<string, number> = {
+  ArrowDown: 1,
+  ArrowLeft: -1,
+  ArrowRight: 1,
+  ArrowUp: -1,
+};
+
+interface ArrangementPickerProps {
+  onSelect: (target: Strategy) => void;
+  value: Strategy;
 }
 
-/** One arrangement, as the developer's own act of moving the boundary. */
-function DeckStep({ armed, locked, onSelect, precedes, step }: DeckStepProps) {
-  const handleClick = useCallback(() => {
-    if (!locked) {
-      onSelect(step);
-    }
-  }, [locked, onSelect, step]);
-  const { detail, label, mark } = STEPS[step];
+/**
+ * The radio group, with the arrow keys doing what a radio group's arrow keys
+ * do: move the choice, and with it the page.
+ */
+function ArrangementPicker({ onSelect, value }: ArrangementPickerProps) {
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      const delta = ARROW_DELTAS[event.key];
+      if (delta === undefined) {
+        return;
+      }
+      event.preventDefault();
+      const index = STRATEGY_ORDER.indexOf(value);
+      const next =
+        STRATEGY_ORDER[
+          (index + delta + STRATEGY_ORDER.length) % STRATEGY_ORDER.length
+        ];
+      if (next) {
+        onSelect(next);
+        const target = event.currentTarget.querySelector<HTMLButtonElement>(
+          `[data-strategy="${next}"]`
+        );
+        target?.focus();
+      }
+    },
+    [onSelect, value]
+  );
 
   return (
-    <div className="flex items-center gap-3">
-      {precedes ? (
-        <span
-          aria-hidden="true"
-          className="select-none font-mono text-muted-foreground/50"
-        >
-          →
+    <div
+      aria-label="Arrangement"
+      className="inline-flex divide-x divide-border rounded-lg shadow ring-1 ring-border"
+      onKeyDown={handleKeyDown}
+      role="radiogroup"
+    >
+      {STRATEGY_ORDER.map((strategy) => (
+        <span className="contents" data-strategy={strategy} key={strategy}>
+          <Segment
+            checked={strategy === value}
+            onSelect={onSelect}
+            strategy={strategy}
+          />
         </span>
-      ) : null}
-      <MarketingButton
-        aria-disabled={locked}
-        className={cn(LOCKED_LOOK, armed && ARMED_LOOK)}
-        onClick={handleClick}
-        variant="outline"
-      >
-        <StepMark n={mark} />
-        {label}
-        {detail ? (
-          <span className="ml-2 font-mono text-muted-foreground text-xs">
-            {detail}
-          </span>
-        ) : null}
-      </MarketingButton>
+      ))}
     </div>
   );
 }
@@ -131,8 +155,8 @@ interface StreamPanelProps {
 
 /**
  * The client owner of the stream instrument. It owns three things: which
- * arrangement the deck is showing, which view the body is drawn in, and the
- * gauge.
+ * arrangement the picker is showing, which view the body is drawn in, and
+ * the gauge.
  *
  * The arrangement itself is a server fact — a press writes `?mode=` and
  * `?stream=` and the server re-renders the specimen with its boundaries
@@ -146,21 +170,14 @@ interface StreamPanelProps {
 export function StreamPanel({ children, references }: StreamPanelProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [strategy, setStrategy] = useState<Strategy>("blocking");
+  const [strategy, setStrategy] = useState<Strategy>(DEFAULT_STRATEGY);
   const [run, setRun] = useState(0);
   const [settledKey, setSettledKey] = useState<string | null>(null);
   const [view, setView] = useState<"page" | "response">("page");
-  // Latches once the walk has reached the end: from there the deck is a
-  // three-way switch, because comparing the arrangements is the point and
-  // the lock only ever existed to make the introduction happen in order.
-  const [unlocked, setUnlocked] = useState(false);
 
   const onRendered = useCallback((nextRun: number, rendered: Strategy) => {
     setStrategy(rendered);
     setRun(nextRun);
-    if (rendered === "parts") {
-      setUnlocked(true);
-    }
   }, []);
 
   const onSettled = useCallback((nextRun: number, settled: Strategy) => {
@@ -178,9 +195,6 @@ export function StreamPanel({ children, references }: StreamPanelProps) {
       setStrategy(target);
       setRun(nextRun);
       setSettledKey(null);
-      if (target === "parts") {
-        setUnlocked(true);
-      }
       const params = new URLSearchParams(window.location.search);
       params.set("mode", target);
       params.set("stream", String(nextRun));
@@ -196,11 +210,11 @@ export function StreamPanel({ children, references }: StreamPanelProps) {
     setView(checked ? "response" : "page");
   }, []);
 
-  const armed = nextStrategy(strategy);
+  const runAgain = useCallback(() => select(strategy), [select, strategy]);
   const working = isPending || settledKey !== `${strategy}-${run}`;
 
-  // No reset here: rewinding this bench means running the first
-  // arrangement, and the first deck step already is that button.
+  // No reset here: there is no "start" to rewind to — every arrangement is
+  // one press away, and "run again" replays the one that is showing.
   const viewControls = (
     <div className="flex items-center gap-2.5">
       <label
@@ -219,16 +233,10 @@ export function StreamPanel({ children, references }: StreamPanelProps) {
 
   const deck = (
     <div className="flex flex-wrap items-center gap-3">
-      {STRATEGY_ORDER.map((step, index) => (
-        <DeckStep
-          armed={step === armed}
-          key={step}
-          locked={!(unlocked || step === strategy || step === armed)}
-          onSelect={select}
-          precedes={index > 0}
-          step={step}
-        />
-      ))}
+      <ArrangementPicker onSelect={select} value={strategy} />
+      <MarketingButton disabled={working} onClick={runAgain} variant="outline">
+        {RUN_AGAIN_LABEL}
+      </MarketingButton>
     </div>
   );
 

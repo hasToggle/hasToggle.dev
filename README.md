@@ -70,7 +70,7 @@ Two things worth knowing before reading any of it:
 **One registry, one source of truth.** `syllabus.ts` drives the contents rows,
 the landing roadmap, the contents bar, the page-turn links, the sitemap, the OG
 titles and the `/latest` redirect. Shipping a chapter is one entry flip —
-`planned` → `next` → `shipped`, belief and nav label added — and nothing else to
+`planned` → `next` → `shipped`, title and nav label added — and nothing else to
 keep in sync.
 
 **Each chapter folder is self-contained.** `demo.tsx` (the instrument),

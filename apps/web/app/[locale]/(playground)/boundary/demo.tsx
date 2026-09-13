@@ -16,42 +16,35 @@ interface BoundaryDemoProps {
 export function BoundaryDemo({ headingAs }: BoundaryDemoProps) {
   return (
     <DemoSection
-      belief={chapter.belief}
       headingAs={headingAs}
       id={`demo-${chapter.slug}`}
       intro={
         <>
           <p>
-            Safer than what? Every component in the App Router already runs on
-            the server. <InlineCode>&quot;use client&quot;</InlineCode>&#32;is
-            not a precaution, it&rsquo;s a purchase — for that file and
-            everything it imports. You buy useState, useEffect and onClick. You
-            pay with the database call you can no longer make from here, the API
-            key you can no longer read, and however much React your visitor
-            downloads on their phone.
+            They can, and most of yours already do. Every component in the App
+            Router starts on the server, so it can call the API, read the
+            database, hold the key, and finish its work before the page reaches
+            your visitor. The browser gets the result, not the work.{" "}
+            <InlineCode>&quot;use client&quot;</InlineCode>&#32;marks the one
+            file that needs the browser, and that file is usually small.
           </p>
           <p>
-            The card below is a Server Component — no directive, because that is
-            the default. It fetched this repo&rsquo;s latest commit in Node.js
-            and arrived as finished HTML; the component that made it is already
-            gone. Use the deck to give the hash a copy button and the compiler
-            refuses: the same error that sends everyone here, and it names its
-            own fix. Apply that fix and the compiler refuses again — the
-            directive claimed the whole file, and &quot;use cache&quot; has no
-            client form. The second refusal names the real fix, a separate file.
-            Take the third step and the button finally works.
+            The component below fetched this repo&rsquo;s latest commit in
+            Node.js and arrived as finished HTML. Add a copy button to the hash
+            and watch where it lands: in its own file, inside its own line. The
+            fetch never moves. The button is the only thing that ships.
           </p>
         </>
       }
       meta={
         <>
-          The line is the boundary that lets data through. In the final state
-          the hash crosses it as a prop to the button — serialized, one way,
-          server to client. Capability stays put: the fetch never crosses, only
-          what it fetched.
+          Nothing in card.tsx got smaller. The fetch, the cache, the User-Agent
+          header, the error path: all still there, all still in Node. The
+          browser just got the JavaScript for a button.
         </>
       }
       navLabel={chapter.navLabel}
+      title={chapter.title}
       topic={chapter.topic}
     >
       {/* The client panel owns the instrument: the beat is its view state,
@@ -63,10 +56,7 @@ export function BoundaryDemo({ headingAs }: BoundaryDemoProps) {
             docsHref="https://nextjs.org/docs/app/getting-started/server-and-client-components"
             sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/boundary"
           >
-            <CodeBlock
-              code={BOUNDARY_SOURCE}
-              file="card.tsx · start, crossed, split"
-            />
+            <CodeBlock code={BOUNDARY_SOURCE} file="card.tsx · before, after" />
           </ReferenceBar>
         }
         serverCard={<ServerCard />}

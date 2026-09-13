@@ -1,55 +1,38 @@
 import { describe, expect, test } from "bun:test";
 import {
-  CROSSED_ERROR,
   DIRECTIVE_LINES,
   FACTS,
-  REFUSAL_ERROR,
   SEAMS,
   SIDES,
-  STEP_THREE_DETAIL,
-  STEP_TWO_LABEL,
+  STEP_DETAIL,
+  STEP_LABEL,
 } from "./copy";
 
-const BEATS = ["rest", "refused", "crossed", "split"] as const;
-
-describe("the refusal", () => {
-  test("quotes the compiler verbatim (next-swc binary, 2026-08-27)", () => {
-    expect(REFUSAL_ERROR).toBe(
-      'You\'re importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.'
-    );
-  });
-
-  test("keeps straight quotes — it is quoted code, not prose (voice.md §8)", () => {
-    expect(REFUSAL_ERROR).not.toContain("’");
-    expect(REFUSAL_ERROR).not.toContain("“");
-  });
-
-  test("the second refusal is verbatim too, and names the separate file", () => {
-    expect(CROSSED_ERROR).toBe(
-      'It is not allowed to define inline "use cache" annotated functions in Client Components.\nTo use "use cache" functions in a Client Component, you can either export them from a separate file with "use cache" or "use server" at the top, or pass them down through props from a Server Component.'
-    );
-    expect(CROSSED_ERROR).toContain("separate file");
-  });
-});
+const BEATS = ["rest", "split"] as const;
 
 describe("the beats", () => {
-  test("the directive appears exactly once, on the crossed card, in real syntax", () => {
-    expect(DIRECTIVE_LINES.crossed).toBe('"use client";');
+  test("card.tsx never carries the directive — the button's file does", () => {
     expect(DIRECTIVE_LINES.rest).toBe("// no directive");
-    expect(DIRECTIVE_LINES.refused).toBe("// no directive");
     expect(DIRECTIVE_LINES.split).toBe("// no directive");
   });
 
-  test("card.tsx crosses the boundary once and comes back with the split", () => {
+  test("card.tsx stays on the server in both states", () => {
     expect(SIDES.rest).toBe("server");
-    expect(SIDES.refused).toBe("server");
-    expect(SIDES.crossed).toBe("client");
     expect(SIDES.split).toBe("server");
   });
 
-  test("the split names the file that carries the directive", () => {
-    expect(FACTS.split[0]).toContain(STEP_THREE_DETAIL);
-    expect(SEAMS.split).toContain("Client Component");
+  test("the split names both files by residency, and the seam states the rule", () => {
+    expect(FACTS.split[0]).toContain("Server Component");
+    expect(FACTS.split[1]).toContain(STEP_DETAIL);
+    expect(FACTS.split[1]).toContain("Client Component");
+    expect(SEAMS.split).toContain(
+      "Server Component can import a Client Component"
+    );
+  });
+
+  test("the rest state lists what the server side can do", () => {
+    expect(FACTS.rest[0]).toContain("Node");
+    expect(FACTS.rest[1]).toContain("0 kB");
   });
 
   test("every beat carries three fact rows and a seam", () => {
@@ -69,7 +52,8 @@ describe("register (voice.md §8)", () => {
     }
   });
 
-  test("the deck's directive label is real code with straight quotes", () => {
-    expect(STEP_TWO_LABEL).toBe('"use client"');
+  test("the deck step is a subject action with its file as detail", () => {
+    expect(STEP_LABEL).toBe("Add a copy button");
+    expect(STEP_DETAIL).toBe("copy-button.tsx");
   });
 });

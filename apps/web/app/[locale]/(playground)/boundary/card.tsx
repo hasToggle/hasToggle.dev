@@ -1,6 +1,6 @@
 import { cn } from "@repo/design-system/lib/utils";
 import type { Beat } from "./copy";
-import { DIRECTIVE_LINES, FACTS, SIDES } from "./copy";
+import { DIRECTIVE_LINES, FACTS, SIDE_NAMES, SIDES } from "./copy";
 
 interface FileCardProps {
   beat: Beat;
@@ -10,15 +10,15 @@ interface FileCardProps {
 /**
  * The specimen dressed as its file: badge and filename up top, the file's
  * first line where a file keeps it, the body, then the fact rows. One card
- * for all four beats, so the only thing that ever changes is what the
- * beat changed — the directive, the residency, and the boundary.
+ * for both beats, so the only thing that ever changes is what the step
+ * changed — the fact rows and the boundary.
  *
  * The dashed border is the boundary made visible, always on and colored
  * by residency — cyan for the server side, orange for the client side.
- * The rest seam is its legend. In the crossed beat the orange line wraps
- * the whole card — what the directive claimed — and in the split it
- * shrinks to the ring around copy-button.tsx (drawn in server-card.tsx)
- * inside the cyan server line: the chapter's whole diagram, nested.
+ * The rest seam is its legend. card.tsx never leaves the server, so the
+ * cyan line holds; in the split an orange ring appears around
+ * copy-button.tsx (drawn in server-card.tsx) nested inside it — the
+ * chapter's whole diagram, drawn by the state itself.
  */
 export function FileCard({ beat, children }: FileCardProps) {
   const side = SIDES[beat];
@@ -40,20 +40,13 @@ export function FileCard({ beat, children }: FileCardProps) {
               : "border-ht-orange-700/30 text-ht-orange-800 dark:border-ht-orange-500/40 dark:text-ht-orange-300"
           )}
         >
-          {side}
+          {SIDE_NAMES[side]}
         </span>
         <span className="font-mono text-muted-foreground text-xs">
           card.tsx
         </span>
       </div>
-      <p
-        className={cn(
-          "px-4 pt-3 font-mono text-xs sm:px-5",
-          beat === "crossed"
-            ? "text-ht-orange-800 dark:text-ht-orange-300"
-            : "text-muted-foreground/60"
-        )}
-      >
+      <p className="px-4 pt-3 font-mono text-muted-foreground/60 text-xs sm:px-5">
         {DIRECTIVE_LINES[beat]}
       </p>
       <div className="flex flex-1 flex-col justify-center px-4 py-3 sm:px-5">

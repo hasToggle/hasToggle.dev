@@ -12,13 +12,13 @@ import type { RebakeState } from "./rebake-state";
  * had no cache API in it at all.
  */
 const SIMPLE_IDLE_CAPTION =
-  "throws this page’s cache entry away and bakes a fresh one — for every visitor, immediately.";
+  "expires this page’s cache entry and renders a fresh one — for every visitor, immediately.";
 const SIMPLE_CYCLED_CAPTION =
-  "that worked — the bake above is what every visitor gets now. It felt like one event; it was three. The switch slows the next one down.";
+  "that worked — the entry above is what every visitor gets now. It felt like one event; it was three. Slow motion shows the next one.";
 const MACHINERY_IDLE_CAPTION =
   'updateTag("landing-shell") expires the entry for everyone, instantly. Nothing refills it on its own.';
 const EXPIRED_CAPTION =
-  "the bake above was rendered before your expiry landed, so the cache will not keep it. The refill is the first render that starts afterwards — button two, a new tab, another visitor, whoever asks first. Ask for it.";
+  "the entry above was rendered before your expiry landed, so the cache will not keep it. The refill is the first render that starts afterwards — you, a new tab, another visitor, whoever asks first. Ask for it.";
 const REVEALED_CAPTION =
   "the fetch ran no cache API — the page rendered again, and this time the cache kept it. Expiring an entry and refilling it are two different events.";
 
@@ -27,7 +27,8 @@ const REVEALED_CAPTION =
  * the slot the visitor is already reading instead of adding a line and moving
  * everything below it.
  */
-export const REBAKE_FAILED_CAPTION = "the re-bake didn’t come back. Try again?";
+export const REBAKE_FAILED_CAPTION =
+  "the revalidation didn’t come back. Try again?";
 
 interface Readout {
   caption: string;
@@ -46,7 +47,7 @@ export const SETTLING_READOUT: Readout = {
   caption:
     "settling the expiry you left open — the same quiet refresh a mutation normally ends with.",
   detail:
-    "the bake above is still the private one — its replacement is in flight",
+    "the entry above is still the private one — its replacement is in flight",
   label: "asking",
 };
 
@@ -70,7 +71,7 @@ function expiredDetail(clock: string): string {
  * which of them is the stamp they are looking at.
  */
 function revealedDetail(privateId: string, currentId: string): string {
-  return `#${currentId} is the bake above, and every visitor gets it. #${privateId} was yours alone, and is gone`;
+  return `#${currentId} is the entry above, and every visitor gets it. #${privateId} was yours alone, and is gone`;
 }
 
 /**

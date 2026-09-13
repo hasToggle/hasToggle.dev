@@ -1,6 +1,7 @@
 import { cacheLife } from "next/cache";
 import { formatClock, formatStamp } from "../format";
 import { InlineCode } from "../inline-code";
+import { SIDE_NAMES } from "./copy";
 import { CopyButton } from "./copy-button";
 
 interface LatestCommit {
@@ -93,6 +94,12 @@ export async function ServerCard({ withButton }: ServerCardProps) {
               <span className="inline-flex items-center gap-2 rounded-md border border-ht-orange-700/40 border-dashed px-1.5 py-1 dark:border-ht-orange-500/40">
                 <CopyButton value={facts.commit.sha} />
                 <span className="font-mono text-[0.65rem] text-ht-orange-800 dark:text-ht-orange-300">
+                  <span className="font-semibold uppercase tracking-[0.15em]">
+                    {SIDE_NAMES.client}
+                  </span>
+                  <span aria-hidden="true" className="px-1.5 opacity-55">
+                    ·
+                  </span>
                   copy-button.tsx
                 </span>
               </span>

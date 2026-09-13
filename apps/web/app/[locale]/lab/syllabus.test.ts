@@ -95,11 +95,11 @@ describe("syllabus order", () => {
 });
 
 describe("shipped chapters", () => {
-  test("every shipped chapter states its belief with typographic marks", () => {
+  test("every shipped chapter states its title with typographic marks", () => {
     for (const chapter of SHIPPED) {
-      expect(chapter.belief.length).toBeGreaterThan(0);
+      expect(chapter.title.length).toBeGreaterThan(0);
       // voice.md §8: prose apostrophes are U+2019, never U+0027.
-      expect(chapter.belief).not.toContain("'");
+      expect(chapter.title).not.toContain("'");
     }
   });
 

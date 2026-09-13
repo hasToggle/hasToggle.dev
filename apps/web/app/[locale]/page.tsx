@@ -49,7 +49,7 @@ function PartDivider() {
 
 export const metadata: Metadata = {
   description:
-    "Every chapter of the lab takes something developers are sure about and runs the real feature next to it: the server/client boundary, caching, streaming, Server Actions, generated images. Poke it, break it, read the code that did it. New chapter every Monday.",
+    "Every chapter of the lab opens on something the platform can already do and runs the real feature next to it: the server/client boundary, caching, streaming, Server Actions, generated images. Press it, break it, read the code that did it. New chapter every Monday.",
   // Resolves the relative /api/og image below to an absolute URL in the
   // rendered og:image tag — crawlers don't do relative.
   metadataBase: new URL(env.NEXT_PUBLIC_WEB_URL),

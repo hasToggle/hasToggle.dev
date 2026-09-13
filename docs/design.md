@@ -191,6 +191,21 @@ deleted, not deprecated. Judgment calls worth keeping:
   - **Deck = subject actions; chrome = acts on the instrument.** Reset
     rewinds the bench, so it lives top-right, locked at rest, and the deck
     stays a pure diagram of the developer's two acts.
+- **01 cut to two beats, 2026-09-12.** With the titles reframed from
+  beliefs to capabilities, the three-step refusal walk stopped serving
+  the chapter: the title promises what a component can do on the server,
+  and the bench answered with two compiler errors about the directive.
+  The errors were incidental evidence, never the subject (Eric). Now the
+  card has two states on a one-step deck: the Server Component at rest,
+  doing the work → *add a copy button* and the button lands in its own
+  file inside its own orange ring, the fetch untouched. `refusal.tsx` and
+  `crossed-file.tsx` are deleted — git has them. The two interaction
+  rules above (specimen interaction asked for by its own data; no silently
+  rewritten intermediate state) still hold; there is simply no
+  intermediate state now. Rule that fell out of the copy round: **the
+  intro never names the instrument's furniture** — no "deck", "panel",
+  or "card below"; it names what the reader does ("add a copy button").
+  The reader knows the demo was built to be pressed.
 
 - **03 rebuilt as the belief performed, 2026-08-27.** The old panel opened
   in the resolved world — three staggered rows and a `Run it again` button
@@ -246,6 +261,21 @@ deleted, not deprecated. Judgment calls worth keeping:
     a beat and replaced with one on the exhibit's own argument — the
     granularity of waiting. voice.md §6 already predicted that failure
     mode, so it earns no new rule there (voice.md §9).
+
+- **The stream deck is a picker, not a walk, 2026-09-13.** With the
+  chapter titled as a capability, the three arrangements stopped being a
+  sequence (belief → fix → better fix) and became peers to compare. The
+  numbered, locked, nudged steps went: the nudge fired before the reader
+  had pressed anything, and the order it implied carried no meaning
+  (Eric). Now the deck holds a **segmented control** — one radio group,
+  three arrangements, any order, the chosen one filled — and a **Run
+  again** button that replays whichever is showing. Choosing is still a
+  real navigation (`?mode=` + `?stream=`), so the server renders the new
+  shape for real. The page opens on *wrap each part*, the arrangement the
+  title describes; the other two are the comparison. Rule extracted: **a
+  deck diagrams a sequence only when the sequence means something.** When
+  a chapter compares arrangements, the deck is a choice, and the run
+  action stands beside it.
 
 ### The lab — site shape, 2026-08-20
 

@@ -3,14 +3,9 @@ import { MetaAside } from "../components/meta-aside";
 import { Heading, Subheading } from "../components/text";
 
 interface DemoSectionProps {
-  /**
-   * The sentence a developer has actually said about this feature, set as the
-   * exhibit's heading. Everything below it is the answer.
-   */
-  belief: string;
   children: React.ReactNode;
   /**
-   * "h1" on a chapter page, where the belief is the page's title; the landing
+   * "h1" on a chapter page, where the title is the page's title; the landing
    * page keeps the default "h2". The eyebrow drops to a non-heading element
    * under an h1 so nothing outranks the title.
    */
@@ -20,13 +15,18 @@ interface DemoSectionProps {
   meta?: React.ReactNode;
   /** The chapter's short name, e.g. "The boundary" — the eyebrow's first half. */
   navLabel: string;
+  /**
+   * The capability this chapter opens on, set as the exhibit's heading.
+   * Everything below it makes good on it.
+   */
+  title: string;
   topic: string;
 }
 
 /**
- * Editorial wrapper for one exhibit. It opens with a belief and answers it
- * with a running instrument — the same shape the weekly digest uses, so the
- * page and the email teach in one voice.
+ * Editorial wrapper for one exhibit. It opens on a capability and makes good
+ * on it with a running instrument — the same shape the weekly digest uses, so
+ * the page and the email teach in one voice.
  *
  * The eyebrow names the chapter and its topic (`the cache · caching &
  * revalidation`) — two identifiers, no numeral. Build order is an artifact
@@ -36,7 +36,7 @@ interface DemoSectionProps {
  * codebase.
  */
 export function DemoSection({
-  belief,
+  title,
   children,
   headingAs = "h2",
   id,
@@ -70,7 +70,7 @@ export function DemoSection({
               className="mt-3 max-w-2xl text-balance text-3xl/[1.1] sm:text-4xl/[1.1] md:text-5xl/[1.05]"
               id={`${id}-heading`}
             >
-              {belief}
+              {title}
             </Heading>
             <div className="mt-6 max-w-2xl space-y-4 text-foreground/75 text-lg leading-8">
               {intro}
