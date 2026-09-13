@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
               emailVerified: new Date(),
               tokenExpiresAt: null,
               // The durable unsubscribe capability, minted the moment the
-              // address becomes a list member — every digest email links
+              // address becomes a list member — every waitlist email links
               // /api/unsubscribe with it. Stored in the clear on purpose;
               // see the Subscriber type.
               unsubscribeToken: generateToken().token,

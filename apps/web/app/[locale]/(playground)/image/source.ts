@@ -1,5 +1,5 @@
 export const OG_SOURCE = `
-// app/api/og/route.tsx — a PNG factory disguised as a route
+// app/api/og/route.tsx — the Route Handler that draws the card
 import { ImageResponse } from "next/og";
 
 export async function GET(request: Request) {

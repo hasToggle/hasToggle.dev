@@ -32,19 +32,24 @@ export const SHELL_CHUNK: Record<Strategy, string> = {
 };
 
 /**
- * Deck step one: the arrangement the title describes. It carries no detail
- * line — the belief is its own explanation, and the seam under the specimen
- * already names the await.
+ * The three arrangements, as the developer's own acts of placing the
+ * boundary. Peers on a segmented control, any order — the seam under the
+ * specimen names what each one costs or buys.
  */
-export const STEP_ONE_LABEL = "Fetch it all first";
+export const ARRANGEMENT_LABELS: Record<Strategy, string> = {
+  blocking: "Await everything",
+  loading: "Add a fallback",
+  parts: "Wrap each part",
+};
 
-/** Deck step two: the fallback everybody reaches for, under its real name. */
-export const STEP_TWO_LABEL = "Add a fallback";
-export const STEP_TWO_DETAIL = "= loading.tsx";
+/** The detail under two of them: the real name of the thing. */
+export const ARRANGEMENT_DETAILS: Partial<Record<Strategy, string>> = {
+  loading: "= loading.tsx",
+  parts: "<Suspense> per row",
+};
 
-/** Deck step three: the boundary moved down to the slow parts. */
-export const STEP_THREE_LABEL = "Wrap each part";
-export const STEP_THREE_DETAIL = "<Suspense> per row";
+/** The deck's one action: the same arrangement, streamed again. */
+export const RUN_AGAIN_LABEL = "Run again";
 
 /** Chrome, top-right: the cause view — the same run, as the server sent it. */
 export const VIEW_LABEL = "response";

@@ -1,17 +1,11 @@
 import { describe, expect, test } from "bun:test";
-import {
-  DEFAULT_STRATEGY,
-  isSpent,
-  nextStrategy,
-  parseStrategy,
-  STRATEGY_ORDER,
-} from "./strategy";
+import { DEFAULT_STRATEGY, parseStrategy, STRATEGY_ORDER } from "./strategy";
 
 describe("parseStrategy", () => {
-  test("a missing param starts at the belief", () => {
-    expect(parseStrategy(undefined)).toBe("blocking");
-    expect(parseStrategy("")).toBe("blocking");
-    expect(DEFAULT_STRATEGY).toBe("blocking");
+  test("a missing param opens on the arrangement the title describes", () => {
+    expect(parseStrategy(undefined)).toBe("parts");
+    expect(parseStrategy("")).toBe("parts");
+    expect(DEFAULT_STRATEGY).toBe("parts");
   });
 
   test("the three arrangements pass through", () => {
@@ -21,29 +15,16 @@ describe("parseStrategy", () => {
   });
 
   test("rejects everything a URL bar can invent", () => {
-    expect(parseStrategy("Parts")).toBe("blocking");
-    expect(parseStrategy("stream")).toBe("blocking");
-    expect(parseStrategy("__proto__")).toBe("blocking");
-    expect(parseStrategy("constructor")).toBe("blocking");
-    expect(parseStrategy(" parts")).toBe("blocking");
+    expect(parseStrategy("Parts")).toBe("parts");
+    expect(parseStrategy("stream")).toBe("parts");
+    expect(parseStrategy("__proto__")).toBe("parts");
+    expect(parseStrategy("constructor")).toBe("parts");
+    expect(parseStrategy(" parts")).toBe("parts");
   });
 });
 
-describe("the walk", () => {
-  test("runs blocking → loading → parts", () => {
+describe("the arrangements", () => {
+  test("are shown least to most streaming", () => {
     expect(STRATEGY_ORDER).toEqual(["blocking", "loading", "parts"]);
-    expect(nextStrategy("blocking")).toBe("loading");
-    expect(nextStrategy("loading")).toBe("parts");
-  });
-
-  test("ends at the last arrangement", () => {
-    expect(nextStrategy("parts")).toBeUndefined();
-  });
-
-  test("knows which steps the walk has already spent", () => {
-    expect(isSpent("blocking", "parts")).toBe(true);
-    expect(isSpent("loading", "parts")).toBe(true);
-    expect(isSpent("parts", "parts")).toBe(false);
-    expect(isSpent("loading", "blocking")).toBe(false);
   });
 });

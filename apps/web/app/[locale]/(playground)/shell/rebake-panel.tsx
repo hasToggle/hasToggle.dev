@@ -40,7 +40,7 @@ const LOCKED_LOOK = cn(
   "aria-disabled:cursor-not-allowed aria-disabled:hover:bg-transparent"
 );
 
-const FUSED_LABELS = ["Re-bake this page", "Re-baking…"];
+const FUSED_LABELS = ["Revalidate this page", "Revalidating…"];
 const EXPIRE_LABELS = ["Expire the entry", "Expiring…"];
 const ASK_LABELS = ["Ask for the page", "Asking…"];
 

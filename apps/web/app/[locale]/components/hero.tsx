@@ -18,19 +18,19 @@ export function Hero() {
         <div className="pt-20 pb-16 sm:pt-28 sm:pb-20 md:pt-36 md:pb-24">
           <p className="ht-enter mb-8 max-w-2xl font-medium text-foreground/70 text-lg/7 sm:text-xl/8">
             The unofficial live playground for Next.js and Vercel.
+            <HeroAsterisk />
           </p>
           <h1
             className="ht-enter-opaque max-w-4xl font-display font-medium text-6xl/[0.95] text-foreground tracking-tight sm:text-7xl/[0.95] md:text-8xl/[0.95]"
             style={{ "--ht-delay": "80ms" } as React.CSSProperties}
           >
-            Watch it run.
-            <HeroAsterisk />
+            Wait — it does that?
           </h1>
           <p
             className="ht-enter mt-8 max-w-xl font-medium text-muted-foreground text-xl/8 sm:text-2xl/9"
             style={{ "--ht-delay": "180ms" } as React.CSSProperties}
           >
-            For developers who learn by poking things.
+            For developers who read the docs, then poke the thing anyway.
           </p>
           <div
             className="ht-enter mt-12 flex flex-col items-start gap-x-8 gap-y-4 sm:flex-row sm:flex-wrap sm:items-center"
@@ -47,7 +47,7 @@ export function Hero() {
               className="text-ht-cyan-900 sm:max-w-xs dark:text-ht-cyan-300/85"
               variant="comment"
             >
-              Nothing on this page is a mockup. We checked twice.
+              It’s all running. Break something.
             </MetaAside>
           </div>
           <div

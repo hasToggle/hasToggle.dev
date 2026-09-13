@@ -26,9 +26,9 @@ function formatKb(bytes: number): string {
 }
 
 /**
- * Demo 05's instrument. Types a title, requests `/api/og?title=…`, shows the
- * PNG the server just invented — on an image-viewer checkerboard, with the
- * file's own facts read from the response. The interesting part is the URL:
+ * The image chapter's instrument. Types a title, requests `/api/og?title=…`,
+ * shows the PNG the server just rendered — on an image-viewer checkerboard,
+ * with the file's own facts read from the response. The interesting part is the URL:
  * it's a plain GET endpoint, so the link opens the same file the crawlers
  * see.
  *
@@ -211,14 +211,14 @@ export function OgDemo({ references }: OgDemoProps) {
             ) : (
               <div className="flex aspect-[1200/630] w-full items-center justify-center bg-background/60">
                 <span className="font-mono text-muted-foreground text-xs">
-                  {error ?? "asking the server for a PNG…"}
+                  {error ?? "rendering on the server…"}
                 </span>
               </div>
             )}
             {loading && image ? (
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="rounded-full bg-background/80 px-4 py-1.5 font-mono text-muted-foreground text-xs">
-                  satori is drawing…
+                  rendering…
                 </span>
               </div>
             ) : null}
@@ -240,11 +240,11 @@ export function OgDemo({ references }: OgDemoProps) {
             open the file ↗
           </a>
         </div>
-        {/* The pipeline, narrated — implementation limits live here, where
-            they read as specification. */}
+        {/* The seam: the one fact per clause this instrument proves.
+            Implementation limits live here, where they read as
+            specification. */}
         <p className="font-mono text-muted-foreground text-xs/5">
-          JSX → Satori (flexbox only) → PNG · rendered per request, cached by
-          nobody
+          one Route Handler · JSX in, PNG out · drawn per request, flexbox only
         </p>
       </div>
     </LivePanel>

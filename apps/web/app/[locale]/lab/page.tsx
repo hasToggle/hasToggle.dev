@@ -8,11 +8,11 @@ import { NavigationIndexValue } from "../(playground)/navigation/index-value";
 import { ShellIndexValue } from "../(playground)/shell/index-value";
 import { StreamIndexValue } from "../(playground)/stream/index-value";
 import { Container } from "../components/container";
-import { Digest } from "../components/digest";
 import { Footer } from "../components/footer";
 import { Link } from "../components/marketing-link";
 import { Navbar } from "../components/navbar";
 import { Heading, Subheading } from "../components/text";
+import { Waitlist } from "../components/waitlist";
 import {
   landsOn,
   type NextChapter,
@@ -86,7 +86,7 @@ function ChapterRow({ chapter }: { chapter: ShippedChapter }) {
           className="mb-1.5 h-px w-4 bg-foreground/25 transition-colors group-hover:bg-ht-cyan-700 dark:group-hover:bg-ht-cyan-300"
         />
         <span className="font-medium text-foreground text-xl tracking-tight underline decoration-1 decoration-transparent underline-offset-[6px] transition-[text-decoration-color] duration-300 group-hover:decoration-ht-cyan-700/70 dark:group-hover:decoration-ht-cyan-300/70">
-          {chapter.belief}
+          {chapter.title}
         </span>
         {IndexValue ? (
           <span className="hidden font-mono text-muted-foreground text-xs sm:inline-flex sm:justify-self-end">
@@ -108,7 +108,7 @@ function NextRow({ entry }: { entry: NextChapter }) {
 
   return (
     <li className="border-foreground/10 border-b first:border-t">
-      {/* No belief yet — a chapter states its belief when it ships. Until
+      {/* No title yet — a chapter states its title when it ships. Until
           then the row is the topic, the date, and — where the site already
           runs the feature — a reading taken from the page you are on. */}
       <div className="grid grid-cols-[2.5rem_minmax(0,1fr)] items-baseline gap-x-4 py-5 sm:grid-cols-[2.5rem_minmax(0,1fr)_auto]">
@@ -187,8 +187,8 @@ function Shelf({ section }: { section: Section }) {
 
 /**
  * The lab's contents page: the syllabus made navigable. Shipped chapters
- * are rows whose link text is the belief — an index of things you were
- * sure about — with the topic identifier alongside; the chapter landing
+ * are rows whose link text is the title — an index of what the platform
+ * can already do — with the topic identifier alongside; the chapter landing
  * next Monday sits with its shelf, and the still-to-build topics keep the
  * roadmap's + rows. One registry, one source of truth.
  */
@@ -211,9 +211,9 @@ export default function LabContentsPage() {
                 Everything Next.js can do, one chapter at a time.
               </Heading>
               <p className="mt-6 max-w-2xl text-foreground/75 text-lg leading-8">
-                Every chapter opens on something developers say — to ourselves,
-                or to each other — and runs the real feature next to it. And as
-                much of Vercel as can be proved from inside a web page.
+                Every chapter opens on a question worth asking out loud, and
+                answers it with the real feature running next to it. And as much
+                of Vercel as can be proved from inside a web page.
               </p>
 
               {SECTIONS.map((section) => (
@@ -221,12 +221,13 @@ export default function LabContentsPage() {
               ))}
 
               <div className="mt-20 max-w-3xl border-foreground/10 border-t pt-10">
-                <Subheading as="div">The weekly build</Subheading>
+                <Subheading as="div">The waitlist</Subheading>
                 <p className="mt-3 max-w-xl text-foreground/75 text-lg leading-8">
-                  A new chapter every Monday. The write-up lands in your inbox.
+                  Seats open to this list first. Three kinds of email: seats,
+                  chapters, the cohort&rsquo;s shape.
                 </p>
                 <div className="mt-6 max-w-md">
-                  <Digest />
+                  <Waitlist />
                 </div>
               </div>
             </div>

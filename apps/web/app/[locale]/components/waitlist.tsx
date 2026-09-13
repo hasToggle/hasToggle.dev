@@ -19,7 +19,7 @@ interface SignUpError {
 
 type SignUpResponse = SignUpSuccess | SignUpError;
 
-export function Digest() {
+export function Waitlist() {
   const [status, setStatus] = useState<"idle" | "loading">("idle");
 
   const handleSignUp = useCallback(
@@ -40,7 +40,7 @@ export function Digest() {
         if ("error" in data) {
           toast.error(data.error.message);
         } else {
-          toast.success("Check your inbox — we sent you a confirmation.");
+          toast.success("Check your inbox. One click confirms it.");
           form.reset();
         }
       } catch {
@@ -58,13 +58,13 @@ export function Digest() {
       onSubmit={handleSignUp}
     >
       <div className="flex-1">
-        <Label className="sr-only" htmlFor="digest-email">
+        <Label className="sr-only" htmlFor="waitlist-email">
           Email address
         </Label>
         <Input
           autoComplete="email"
           className="h-11"
-          id="digest-email"
+          id="waitlist-email"
           name="email"
           placeholder="you@example.com"
           required
@@ -76,7 +76,7 @@ export function Digest() {
         disabled={status === "loading"}
         type="submit"
       >
-        {status === "loading" ? "Sending…" : "Add me"}
+        {status === "loading" ? "Sending…" : "Tell me first"}
       </Button>
     </form>
   );

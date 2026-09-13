@@ -4,10 +4,10 @@ import { useCallback } from "react";
 import { MarketingButton } from "./marketing-button";
 
 /**
- * The cohort CTA. As a plain #digest link it went dead after one press —
+ * The cohort CTA. As a plain #waitlist link it went dead after one press —
  * same-hash navigations are no-ops — and a link can't hand the visitor a
  * caret. This keeps the href (new tabs and no-JS visitors get the plain
- * anchor) and upgrades the ordinary click: scroll to the digest, put the
+ * anchor) and upgrades the ordinary click: scroll to the waitlist, put the
  * caret in the email field, keep the URL honest. Works every press.
  */
 export function SeatsCta({ children }: { children: React.ReactNode }) {
@@ -17,15 +17,15 @@ export function SeatsCta({ children }: { children: React.ReactNode }) {
       return;
     }
     event.preventDefault();
-    document.getElementById("digest")?.scrollIntoView();
+    document.getElementById("waitlist")?.scrollIntoView();
     // preventScroll: the section scroll above is already in flight (smooth,
     // via the html element's scroll-smooth) — the focus shouldn't yank it.
-    document.getElementById("digest-email")?.focus({ preventScroll: true });
-    history.replaceState(null, "", "#digest");
+    document.getElementById("waitlist-email")?.focus({ preventScroll: true });
+    history.replaceState(null, "", "#waitlist");
   }, []);
 
   return (
-    <MarketingButton href="#digest" onClick={handleClick}>
+    <MarketingButton href="#waitlist" onClick={handleClick}>
       {children}
     </MarketingButton>
   );

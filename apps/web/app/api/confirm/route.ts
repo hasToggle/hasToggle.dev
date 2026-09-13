@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
         baseUrl: new URL(request.url).origin,
         token,
       }),
-      subject: "Important: Confirm your subscription",
+      subject: "One click and you’re on the waitlist",
       to: [email],
     });
 
@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({
-      message: "Confirm your subscription.",
+      message: "Check your inbox. One click confirms it.",
     });
   } catch (error) {
     if (error instanceof SyntaxError) {

@@ -6,10 +6,10 @@
  * the topics still to build. Everything that lists chapters derives from
  * here — the contents bar, the landing roadmap, prev/next, the sitemap,
  * per-page metadata — so shipping a chapter is one entry flip: planned →
- * next → shipped, belief and navLabel added, nothing else to keep in sync.
+ * next → shipped, title and navLabel added, nothing else to keep in sync.
  *
  * Arrival order is an artifact of which week a chapter got built, so no
- * numeral derived from it is shown anywhere: the digest extends the
+ * numeral derived from it is shown anywhere: the waitlist updates extend the
  * syllabus in whatever order the work happens, and neither the Next.js
  * nor the Vercel docs have a chapter 04 to match. The array position
  * still answers "what shipped last" for /latest, and nothing else.
@@ -18,7 +18,7 @@
  * then registry order within a shelf — which is a learning arc rather
  * than a build log. READING_ORDER is that sequence; prev/next walks it.
  *
- * Beliefs are prose held in TS strings, so typographic marks are written
+ * Titles are prose held in TS strings, so typographic marks are written
  * directly (voice.md §8): U+2019 apostrophes, U+201C/U+201D quotes.
  */
 
@@ -57,11 +57,11 @@ interface ChapterCore {
 }
 
 export interface ShippedChapter extends ChapterCore {
-  /** The exhibit title — a belief the reader holds, in their words. */
-  readonly belief: string;
   /** The short label the contents bar and prev/next links wear. */
   readonly navLabel: string;
   readonly status: "shipped";
+  /** The chapter title — the capability, stated as the reader would ask for it. */
+  readonly title: string;
 }
 
 export interface NextChapter extends ChapterCore {
@@ -85,51 +85,51 @@ export type SyllabusEntry = NextChapter | PlannedTopic | ShippedChapter;
 
 export const SYLLABUS: readonly SyllabusEntry[] = [
   {
-    belief: "I’ll put “use client” on it, to be safe.",
     navLabel: "The boundary",
     section: "components",
     slug: "boundary",
     status: "shipped",
+    title: "What if your components could talk to the database directly?",
     topic: "server & client components",
   },
   {
-    belief: "It’s either cached or it isn’t.",
     navLabel: "The cache",
     section: "data",
     slug: "caching",
     status: "shipped",
+    title: "Your page can be static and up-to-date at the same time.",
     topic: "caching & revalidation",
   },
   {
-    belief: "I’ll fetch it all first, then render.",
     navLabel: "The stream",
     section: "data",
     slug: "streaming",
     status: "shipped",
+    title: "What if the page didn’t wait for its slowest part?",
     topic: "streaming & suspense",
   },
   {
-    belief: "You need an API route for that.",
     navLabel: "The mutation",
     section: "data",
     slug: "server-actions",
     status: "shipped",
+    title: "What if the form just called the function?",
     topic: "server actions & cookies",
   },
   {
-    belief: "I’ll need to design a card for every page.",
     navLabel: "The image",
     section: "interface",
     slug: "og-images",
     status: "shipped",
+    title: "One file can draw every social card you’ll ever need.",
     topic: "imageresponse & route handlers",
   },
   {
-    belief: "I don’t need state for a simple counter.",
     navLabel: "The state",
     section: "components",
     slug: "state",
     status: "shipped",
+    title: "What actually happens when you press +1?",
     topic: "useState & re-renders",
   },
   {

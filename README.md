@@ -21,9 +21,9 @@ ships, which is where both the mistakes and the freedom come from.
 
 The playground has a book shape. `/lab` is the contents page; each chapter owns
 a route segment at `/lab/<slug>`, so topics that are *made of* routes — parallel
-routes, `not-found`, dynamic params, view transitions — can exist at all. A new
-chapter lands every Monday, and the write-up goes out to the digest list the
-same day.
+routes, `not-found`, dynamic params, view transitions — can exist at all.
+Chapters ship as they are built. The waitlist hears when cohort seats open and
+when a chapter changes what the cohort covers.
 
 | Chapter | Topic | Route |
 |---|---|---|
@@ -62,7 +62,7 @@ apps/web/app/[locale]/
 │   ├── syllabus.ts        the registry that drives everything
 │   ├── chapter.tsx        the shared chapter frame
 │   └── <slug>/page.tsx    one page per chapter
-└── components/            hero, contents bar, digest, FAQ, footer
+└── components/            hero, contents bar, waitlist, FAQ, footer
 ```
 
 Two things worth knowing before reading any of it:
@@ -70,7 +70,7 @@ Two things worth knowing before reading any of it:
 **One registry, one source of truth.** `syllabus.ts` drives the contents rows,
 the landing roadmap, the contents bar, the page-turn links, the sitemap, the OG
 titles and the `/latest` redirect. Shipping a chapter is one entry flip —
-`planned` → `next` → `shipped`, belief and nav label added — and nothing else to
+`planned` → `next` → `shipped`, title and nav label added — and nothing else to
 keep in sync.
 
 **Each chapter folder is self-contained.** `demo.tsx` (the instrument),
@@ -88,7 +88,7 @@ turbo dev --filter=web        # http://localhost:3001
 
 `apps/web/env.ts` validates the environment through `@t3-oss/env-nextjs`. The
 ones without which nothing starts: `NEXT_PUBLIC_WEB_URL`, `NEXT_PUBLIC_APP_URL`,
-`MONGODB_URI`, and the three `RESEND_*` keys the digest signup needs.
+`MONGODB_URI`, and the three `RESEND_*` keys the waitlist signup needs.
 
 The gates, run from inside the workspace — not the repo root, which sweeps up
 every workspace’s tests without their per-workspace preloads and fails on files

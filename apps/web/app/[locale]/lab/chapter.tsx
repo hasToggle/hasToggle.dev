@@ -10,14 +10,14 @@ import { prevNext, type ShippedChapter } from "./syllabus";
 /**
  * The shared frame for a chapter page: site chrome above and below, the
  * making-of aside, and the reading-order links. The exhibit itself arrives
- * as children — the same wrapper the landing page renders, with its belief
+ * as children — the same wrapper the landing page renders, with its title
  * promoted to the page's h1.
  */
 
 const ASIDE_LINK_CLASS =
   "underline decoration-ht-cyan-700/40 underline-offset-2 transition-colors hover:decoration-ht-cyan-700";
 
-/** Chapter metadata derives from the registry: the belief is the title, and /api/og draws its card. */
+/** Chapter metadata derives from the registry: the chapter title is the page title, and /api/og draws its card. */
 export function chapterMetadata(chapter: ShippedChapter): Metadata {
   return {
     description: `The real thing, running: ${chapter.topic}. Poke it, break it, read the code that did it — a chapter of the hasToggle lab.`,
@@ -26,12 +26,12 @@ export function chapterMetadata(chapter: ShippedChapter): Metadata {
       images: [
         {
           height: 630,
-          url: `/api/og?title=${encodeURIComponent(chapter.belief)}`,
+          url: `/api/og?title=${encodeURIComponent(chapter.title)}`,
           width: 1200,
         },
       ],
     },
-    title: `${chapter.belief} — the hasToggle lab`,
+    title: `${chapter.title} — the hasToggle lab`,
     twitter: {
       card: "summary_large_image",
     },

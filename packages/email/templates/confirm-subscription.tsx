@@ -28,8 +28,8 @@ const ConfirmSubscription = ({
   <Html>
     <Head />
     <Preview>
-      Thanks for signing up. Click the link below to confirm your subscription
-      and you&apos;ll be on your way.
+      Confirm below and you&apos;re on the cohort waitlist: first to hear when
+      seats open, and when a chapter ships that the cohort will build on.
     </Preview>
     <Tailwind>
       <Body className="bg-[#f6f9fc] font-sans">
@@ -53,17 +53,18 @@ const ConfirmSubscription = ({
             </Section>
             <Hr className="my-5 border-[#e6ebf1]" />
             <Text className="text-left text-[#525f7f] text-base leading-6">
-              Thanks for signing up. Click the link below to confirm your
-              subscription and you&apos;ll be on your way.
+              Confirm below and you&apos;re on the cohort waitlist: first to
+              hear when seats open, and when a chapter ships that the cohort
+              will build on.
             </Text>
             <Link
               className="mx-0 my-1.5 inline-block rounded bg-[#1677be] px-4 py-3 text-center text-base text-white leading-6 no-underline"
               href={`${baseUrl}/api/confirmed?token=${token}`}
             >
-              Confirm your subscription
+              Confirm
             </Link>
             <Text className="text-left text-[#525f7f] text-base leading-6">
-              It's good to have you!
+              Good to have you.
             </Text>
             <Text className="text-left text-[#525f7f] text-base leading-6">
               — Eric

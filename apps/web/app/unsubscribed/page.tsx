@@ -5,8 +5,8 @@ export default function Unsubscribed() {
         Unsubscribed.
       </h1>
       <p className="mt-6 max-w-md text-balance text-foreground/75 text-lg leading-8">
-        That address is off the list and deleted — not parked. If a Monday ever
-        tempts you back, the form on the landing page starts it over.
+        That address is off the waitlist and deleted, not parked. If the cohort
+        ever tempts you back, the form on the landing page starts it over.
       </p>
       <p className="mt-10">
         <a

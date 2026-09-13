@@ -10,7 +10,7 @@ import { Container } from "./container";
 const LANDING_SLUGS: ReadonlySet<string> = new Set([
   "boundary",
   "caching",
-  "og-images",
+  "state",
   "server-actions",
   "streaming",
 ]);
