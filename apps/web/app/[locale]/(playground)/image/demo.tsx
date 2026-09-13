@@ -21,14 +21,15 @@ export function ImageDemo({ headingAs }: ImageDemoProps) {
         <>
           <p>
             Every page you have published, and every page you have not written
-            yet. <InlineCode>ImageResponse</InlineCode>&#32;turns JSX — the same
-            markup your components are made of — into a PNG the moment a request
-            asks, and it is a route handler like any other: query in, image out.
+            yet. <InlineCode>ImageResponse</InlineCode>&#32;turns JSX, the same
+            markup your components are made of, into a PNG at the moment a
+            request asks for it. It runs in a Route Handler like any other:
+            query in, image out.
           </p>
           <p>
-            Type a title and the server draws it. The same endpoint drew the
-            link preview for this page — paste the URL into Slack and check us
-            against it.
+            Type a title and the server draws it. The same route drew the link
+            preview for this page. Paste this page&rsquo;s URL into Slack and
+            compare.
           </p>
         </>
       }
