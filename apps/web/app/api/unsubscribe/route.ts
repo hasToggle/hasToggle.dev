@@ -9,7 +9,7 @@ import { env } from "@/env";
  * durable per-subscriber capability minted at confirmation; acting on it
  * deletes the subscriber document — a deletion, not a flag — and removes
  * the contact from the Resend audience, so neither store keeps the
- * address. Digest broadcasts must link this endpoint rather than Resend's
+ * address. Waitlist broadcasts must link this endpoint rather than Resend's
  * hosted unsubscribe, which only marks the contact suppressed and would
  * leave our database holding an address the policy says is gone.
  */

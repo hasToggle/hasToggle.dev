@@ -12,7 +12,6 @@ import {
 } from "./(playground)/stream/demo";
 import { Container } from "./components/container";
 import { ContentsNav } from "./components/contents-nav";
-import { Digest } from "./components/digest";
 import { FrequentlyAskedQuestions } from "./components/faqs";
 import { Footer } from "./components/footer";
 import { Hero } from "./components/hero";
@@ -20,6 +19,7 @@ import { Link } from "./components/marketing-link";
 import { MetaAside } from "./components/meta-aside";
 import { SeatsCta } from "./components/seats-cta";
 import { Heading, Subheading } from "./components/text";
+import { Waitlist } from "./components/waitlist";
 import { STILL_TO_BUILD } from "./lab/syllabus";
 
 function SectionDivider() {
@@ -49,7 +49,7 @@ function PartDivider() {
 
 export const metadata: Metadata = {
   description:
-    "Every chapter of the lab opens on something the platform can already do and runs the real feature next to it: the server/client boundary, caching, streaming, Server Actions, generated images. Press it, break it, read the code that did it. New chapter every Monday.",
+    "Every chapter of the lab opens on something the platform can already do and runs the real feature next to it: the server/client boundary, caching, streaming, Server Actions, generated images. Press it, break it, read the code that did it.",
   // Resolves the relative /api/og image below to an absolute URL in the
   // rendered og:image tag — crawlers don't do relative.
   metadataBase: new URL(env.NEXT_PUBLIC_WEB_URL),
@@ -179,38 +179,38 @@ function Cohort() {
   );
 }
 
-function DigestCTA() {
+function WaitlistCTA() {
   return (
     <section
-      aria-labelledby="digest-heading"
+      aria-labelledby="waitlist-heading"
       className="relative bg-ht-cyan-50/80 py-24 sm:py-32 dark:bg-ht-cyan-950/30"
-      id="digest"
+      id="waitlist"
     >
       <Container>
         <div className="ht-reveal mx-auto flex max-w-2xl flex-col items-center text-center">
           <Subheading className="text-ht-cyan-900 dark:text-ht-cyan-300/80">
-            The weekly build
+            The waitlist
           </Subheading>
           <Heading
             as="h3"
             className="mt-3 text-balance text-4xl sm:text-5xl"
-            id="digest-heading"
+            id="waitlist-heading"
           >
-            One new chapter every Monday.
+            Want a seat when the cohort opens?
           </Heading>
           <p className="mt-6 max-w-xl text-balance text-foreground/75 text-lg leading-8">
-            A new chapter lands in the lab. The write-up lands in your inbox:
-            what it shows, why it matters, when to reach for it.
+            Put your address here and you hear first: when seats open, what the
+            cohort will build, and which chapters in the lab it draws on.
           </p>
           <p className="mt-3 max-w-xl text-balance text-base text-foreground/55">
-            Cohort seats open to the list first.
+            Seats open to this list before anywhere else.
           </p>
           <div className="mt-10 w-full">
-            <Digest />
+            <Waitlist />
           </div>
           <MetaAside className="mt-6">
-            One email a week. Unsubscribing is one click, and it works the first
-            time.
+            Three kinds of email: seats opened, a chapter shipped, the cohort
+            changed shape. Leaving is one click, and it works the first time.
           </MetaAside>
         </div>
       </Container>
@@ -247,7 +247,7 @@ export default function MarketingPage({ searchParams }: PageProps) {
         <Roadmap />
         <SectionDivider />
         <Cohort />
-        <DigestCTA />
+        <WaitlistCTA />
         <FrequentlyAskedQuestions />
       </main>
       <Footer />

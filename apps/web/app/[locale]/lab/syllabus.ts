@@ -9,7 +9,7 @@
  * next → shipped, title and navLabel added, nothing else to keep in sync.
  *
  * Arrival order is an artifact of which week a chapter got built, so no
- * numeral derived from it is shown anywhere: the digest extends the
+ * numeral derived from it is shown anywhere: the waitlist updates extend the
  * syllabus in whatever order the work happens, and neither the Next.js
  * nor the Vercel docs have a chapter 04 to match. The array position
  * still answers "what shipped last" for /latest, and nothing else.

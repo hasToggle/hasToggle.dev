@@ -2,11 +2,11 @@ export default function Confirmed() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-6 text-center">
       <h1 className="font-display font-medium text-4xl text-foreground tracking-tight sm:text-5xl">
-        Confirmed.
+        You&rsquo;re on the waitlist.
       </h1>
       <p className="mt-6 max-w-md text-balance text-foreground/75 text-lg leading-8">
-        The next write-up lands in your inbox on Monday, alongside the chapter
-        it belongs to. Until then, the playground is open.
+        When cohort seats open, you hear before anyone else. Until then, the
+        playground is open.
       </p>
       <p className="mt-10">
         <a

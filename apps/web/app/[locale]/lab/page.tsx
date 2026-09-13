@@ -8,11 +8,11 @@ import { NavigationIndexValue } from "../(playground)/navigation/index-value";
 import { ShellIndexValue } from "../(playground)/shell/index-value";
 import { StreamIndexValue } from "../(playground)/stream/index-value";
 import { Container } from "../components/container";
-import { Digest } from "../components/digest";
 import { Footer } from "../components/footer";
 import { Link } from "../components/marketing-link";
 import { Navbar } from "../components/navbar";
 import { Heading, Subheading } from "../components/text";
+import { Waitlist } from "../components/waitlist";
 import {
   landsOn,
   type NextChapter,
@@ -221,12 +221,13 @@ export default function LabContentsPage() {
               ))}
 
               <div className="mt-20 max-w-3xl border-foreground/10 border-t pt-10">
-                <Subheading as="div">The weekly build</Subheading>
+                <Subheading as="div">The waitlist</Subheading>
                 <p className="mt-3 max-w-xl text-foreground/75 text-lg leading-8">
-                  A new chapter every Monday. The write-up lands in your inbox.
+                  Seats open to this list first. Three kinds of email: seats,
+                  chapters, the cohort&rsquo;s shape.
                 </p>
                 <div className="mt-6 max-w-md">
-                  <Digest />
+                  <Waitlist />
                 </div>
               </div>
             </div>

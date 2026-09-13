@@ -25,8 +25,8 @@ interface DemoSectionProps {
 
 /**
  * Editorial wrapper for one exhibit. It opens on a capability and makes good
- * on it with a running instrument — the same shape the weekly digest uses, so
- * the page and the email teach in one voice.
+ * on it with a running instrument — the same shape a waitlist update uses
+ * when a chapter ships, so the page and the email teach in one voice.
  *
  * The eyebrow names the chapter and its topic (`the cache · caching &
  * revalidation`) — two identifiers, no numeral. Build order is an artifact
