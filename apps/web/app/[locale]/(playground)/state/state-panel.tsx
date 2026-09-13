@@ -44,8 +44,8 @@ export function StatePanel({ references, replayCode }: StatePanelProps) {
         </div>
         {/* The seam, narrated: the one fact the replay acts out. */}
         <p className="font-mono text-muted-foreground text-xs/5">
-          a state variable is a value React keeps between calls — and setting it
-          is permission to call the component again.
+          a state variable is a value React keeps between calls · setting it is
+          permission to call the component again
         </p>
       </div>
     </LivePanel>

@@ -292,6 +292,14 @@ deleted, not deprecated. Judgment calls worth keeping:
   specimen and stays in the body under both views. The seams are
   three-fact lines per view.
 
+- **The state card's back-face label is gone, 2026-09-13.** "the last
+  click, replayed slow · values real" was the standing tension noted
+  under 01's rules: the instrument narrating its own construction. The
+  honesty it carried now lives in the chapter's aside ("the replay cannot
+  slow React down…"), where fine print belongs. The intro no longer opens
+  on the `let` counter-example, which the banked var card would have
+  shown and the chapter does not.
+
 ### The lab — site shape, 2026-08-20
 
 The collection outgrew the landing page (half the syllabus is made of

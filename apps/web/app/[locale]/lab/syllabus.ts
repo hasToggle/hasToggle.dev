@@ -129,7 +129,7 @@ export const SYLLABUS: readonly SyllabusEntry[] = [
     section: "components",
     slug: "state",
     status: "shipped",
-    title: "Watch a re-render happen, one millisecond at a time.",
+    title: "What actually happens when you press +1?",
     topic: "useState & re-renders",
   },
   {

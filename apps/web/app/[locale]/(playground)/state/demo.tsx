@@ -21,33 +21,27 @@ export function StateDemo({ headingAs }: StateDemoProps) {
       intro={
         <>
           <p>
-            Here is what is actually happening when you press it. A component is
-            a function: render means React calls it and paints what it returns.
-            A <InlineCode>let</InlineCode> inside that function is born in the
-            call and dies with it, so adding one to it works — and changes
-            nothing on screen, because changing a value and repainting the
-            screen are two different jobs. <InlineCode>useState</InlineCode>
-            &#32;is how a counter gets both: the setter stores the value where
-            React keeps it between calls, and it schedules the call — the render
-            — that paints it.
+            A component is a function. Render means React calls it and paints
+            what it returns, so a value that has to survive from one call to the
+            next needs somewhere to live in between.{" "}
+            <InlineCode>useState</InlineCode>&#32;is that place. The setter does
+            two jobs: it stores the new value where React keeps it, and it
+            schedules the next call, the render that paints it.
           </p>
           <p>
-            Press +1 and the number moves, the way counters always have. Now
-            flip slow motion and press again: the card turns over and replays
-            the render against its own source — React runs StateCard() again,
-            top to bottom, useState hands back the value it kept, and the line
-            that paints the count paints the new one. Then the card turns back,
-            and the number has moved. Everything in the replay happened before
-            the card finished turning. It is slowed, not simulated, and the
-            values in it were read live.
+            Press +1 and the number moves, the way counters always have. Flip
+            slow motion and press again to see the render that moved it: React
+            runs StateCard() again, top to bottom, useState hands back the value
+            it kept, and the line that paints the count paints the new one. Then
+            the number has moved.
           </p>
         </>
       }
       meta={
         <>
-          The fine print: the card can&rsquo;t actually slow React down — the
-          new number existed before the card finished turning. What you&rsquo;re
-          watching is a millisecond, replayed with the values it happened with.
+          The replay cannot slow React down. The new number existed before the
+          first line lit. What you are watching is a millisecond, replayed with
+          the values it happened with.
         </>
       }
       navLabel={chapter.navLabel}
