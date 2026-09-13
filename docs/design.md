@@ -277,6 +277,21 @@ deleted, not deprecated. Judgment calls worth keeping:
   a chapter compares arrangements, the deck is a choice, and the run
   action stands beside it.
 
+- **The mutation instrument gains a `request` view, 2026-09-13.** The
+  page view proved the outcome (the count went up) and asked the reader to
+  take the mechanism on faith. The switch, top-right like the stream
+  chapter's `response`, swaps the count for the round trip: `POST` to the
+  page's own path, `Next-Action:` with the function's id verbatim,
+  `Content-Type: multipart/form-data`; then `Set-Cookie:` as the response
+  set it, a note that the line is visible in the network tab and absent
+  from `document.cookie`, and the RSC payload as the body. Honest by
+  construction: the action returns a receipt read from the real request
+  (`headers()` for the action id and content type, the cookie line it
+  wrote), and `useActionState` hands that to the client. Nothing is a
+  sample; before the first press the view says so. The form is the
+  specimen and stays in the body under both views. The seams are
+  three-fact lines per view.
+
 ### The lab — site shape, 2026-08-20
 
 The collection outgrew the landing page (half the syllabus is made of

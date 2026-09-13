@@ -1,10 +1,11 @@
 import { cookies } from "next/headers";
+import { COUNT_NOTE, COUNT_PENDING } from "./copy";
 import { COUNT_COOKIE, parseCount } from "./count-parser";
 
 /**
  * A Server Component reading request data (your cookie), which is why the
- * page keeps it behind Suspense — it can't be baked into the shell, because
- * the shell is shared and your press count, tragically, is yours.
+ * page keeps it behind Suspense — it can't be in the static shell, because
+ * the shell is shared and your count is yours.
  */
 export async function PressCount() {
   const jar = await cookies();
@@ -18,10 +19,7 @@ export async function PressCount() {
           {count === 1 ? "press" : "presses"}
         </span>
       </p>
-      <p className="font-mono text-muted-foreground text-xs/5">
-        read server-side from an httpOnly cookie — your JavaScript can&rsquo;t
-        even see it
-      </p>
+      <p className="font-mono text-muted-foreground text-xs/5">{COUNT_NOTE}</p>
     </div>
   );
 }
@@ -33,7 +31,7 @@ export function PressCountFallback() {
         <div className="h-8 w-24 rounded bg-foreground/10 motion-safe:animate-pulse" />
       </div>
       <p className="font-mono text-muted-foreground text-xs/5">
-        asking the server for your cookie…
+        {COUNT_PENDING}
       </p>
     </div>
   );
