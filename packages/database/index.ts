@@ -23,10 +23,8 @@ if (process.env.NODE_ENV !== "production") {
   globalForMongo.mongo = client;
 }
 
-// MONGODB_URI carries no database path, so this is the driver's implicit
-// default ("test"). Unintentional, but `subscribers` and `digests` hold live
-// waitlist data there — renaming the database is a migration, not a config
-// change, so it stays until that migration is actually run.
+// The database is the one named in MONGODB_URI's path; `subscribers` and
+// `digests` live there.
 const db = client.db();
 
 export const database = {
