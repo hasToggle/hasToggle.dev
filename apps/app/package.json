@@ -41,7 +41,7 @@
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "shiki": "4.4.3",
-    "zod": "^4.6.4"
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
