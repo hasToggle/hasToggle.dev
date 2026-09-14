@@ -1,21 +1,4 @@
 {
-  "permissions": {
-    "allow": [
-      "mcp__ide__getDiagnostics",
-      "Bash",
-      "mcp__next-devtools__init",
-      "mcp__next-devtools__nextjs_runtime",
-      "WebSearch",
-      "mcp__plugin_context7_context7__resolve-library-id",
-      "mcp__plugin_context7_context7__query-docs",
-      "WebFetch(domain:github.com)"
-    ],
-    "deny": [
-      "Read(./.entire/metadata/**)",
-      "Read(**/.env*)"
-    ],
-    "ask": []
-  },
   "hooks": {
     "PostToolUse": [
       {
@@ -94,6 +77,17 @@
         ]
       }
     ],
+    "SubagentStop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh -c 'if ! command -v entire >/dev/null 2>&1; then exit 0; fi; exec entire hooks claude-code subagent-stop'"
+          }
+        ]
+      }
+    ],
     "UserPromptSubmit": [
       {
         "matcher": "",
@@ -104,6 +98,22 @@
           }
         ]
       }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "mcp__ide__getDiagnostics",
+      "Bash",
+      "mcp__next-devtools__init",
+      "mcp__next-devtools__nextjs_runtime",
+      "WebSearch",
+      "mcp__plugin_context7_context7__resolve-library-id",
+      "mcp__plugin_context7_context7__query-docs",
+      "WebFetch(domain:github.com)"
+    ],
+    "ask": [],
+    "deny": [
+      "Read(**/.env*)"
     ]
   }
 }
