@@ -13,6 +13,7 @@ import {
   Section,
   Text,
 } from "react-email";
+import { assetUrl } from "../assets";
 
 interface DigestEmailProps {
   archiveUrl?: string;
@@ -34,10 +35,6 @@ interface DigestEmailProps {
   unsubscribeUrl: string;
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_APEX_URL
-  ? `https://${process.env.NEXT_PUBLIC_APEX_URL}`
-  : "https://hastoggle.dev";
-
 function DigestEmail({
   title,
   misconception,
@@ -54,9 +51,9 @@ function DigestEmail({
         <Container style={container}>
           <Img
             alt="hasToggle"
-            height={42}
-            src={`${baseUrl}/icon.png`}
-            width={42}
+            height={40}
+            src={assetUrl("logo.png")}
+            width={30}
           />
           {series ? (
             <Text style={seriesLabel}>
