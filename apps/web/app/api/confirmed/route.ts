@@ -19,10 +19,16 @@ export async function GET(request: NextRequest) {
 
     const subscriber = await database.subscriber.findOne({
       token: generateTokenHash(token),
-      tokenExpiresAt: { $gte: new Date() },
     });
 
-    if (!subscriber) {
+    // A confirmed subscriber keeps the token hash with no expiry, so a
+    // second click of the same link lands on the confirmed page instead of
+    // an error. An unconfirmed one is only good until the expiry.
+    const live =
+      subscriber?.emailVerified ||
+      (subscriber?.tokenExpiresAt && subscriber.tokenExpiresAt >= new Date());
+
+    if (!(subscriber && live)) {
       return NextResponse.json(
         { error: "Invalid or expired confirmation link" },
         { status: 400 }
