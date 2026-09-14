@@ -224,6 +224,26 @@ Design rounds in this repo run on proposals: present options with a clear
 recommendation and the trade-offs named, get an explicit yes, then build.
 Project knowledge belongs in the repo — these docs, not external notes.
 
+## Live subscriber data does not belong in this repo
+
+Every agent session here is published, in plaintext, to the **public**
+`hasToggle.dev-checkpoints` repo, and the landing page links it. Entire offers
+no per-session opt-out, and a force-push does not un-publish anything already
+fetched, forked, or cached.
+
+So work that reads or writes real subscriber records — the `subscribers`
+collection, Resend contacts, segments, broadcasts — runs in
+`hasToggle/hasToggle-ops` (private, sessions captured but never published),
+not here. Site code, copy, demos, and design stay here and stay public. A task
+that needs both splits into two sessions.
+
+Inside this repo the rule still holds for anything that touches people:
+counts and coarse buckets to stdout, identifying rows to a gitignored file
+under `.context/`. Never a full address, a starred partial (`ha***@x.de`), or
+a bare employer domain — including in prose. `.entire/redactors/hastoggle-pii.yaml`
+catches those shapes as a safety net; it cannot catch an agent describing the
+data in a sentence.
+
 ## Development Notes
 
 - The main branch is not explicitly configured in git - PRs should target the default branch
