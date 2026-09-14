@@ -2,6 +2,8 @@ import type { ObjectId } from "mongodb";
 
 export interface Digest {
   _id: ObjectId;
+  /** The Resend broadcast this digest became, once sent or scheduled. */
+  broadcastId?: string | null;
   content: string;
   createdAt: Date;
   misconception: string;
@@ -26,23 +28,15 @@ export interface Subscriber {
   role: string;
   token: string | null;
   tokenExpiresAt: Date | null;
-  /**
-   * Durable per-subscriber capability minted at confirmation, stored in
-   * the clear on purpose: digest senders must be able to render each
-   * recipient's unsubscribe link, and the token grants nothing but
-   * removal from the list.
-   */
-  unsubscribeToken: string | null;
 }
 
 export type SubscriberInsert = Omit<
   Subscriber,
-  "role" | "createdAt" | "emailVerified" | "image" | "name" | "unsubscribeToken"
+  "role" | "createdAt" | "emailVerified" | "image" | "name"
 > & {
   role?: string;
   createdAt?: Date | null;
   emailVerified?: Date | null;
   image?: string | null;
   name?: string | null;
-  unsubscribeToken?: string | null;
 };

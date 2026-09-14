@@ -61,15 +61,19 @@ export async function POST(request: NextRequest) {
       { upsert: true }
     );
 
-    const { error } = await resend.emails.send({
-      from: env.RESEND_FROM,
-      react: ConfirmSubscription({
-        baseUrl: new URL(request.url).origin,
-        token,
-      }),
-      subject: "One click and you’re on the waitlist",
-      to: [email],
-    });
+    const { error } = await resend.emails.send(
+      {
+        from: env.RESEND_FROM,
+        react: ConfirmSubscription({
+          baseUrl: new URL(request.url).origin,
+          token,
+        }),
+        subject: "One click and you’re on the waitlist",
+        to: [email],
+      },
+      // A retried request with the same token must not send twice.
+      { idempotencyKey: `confirm-email/${hash}` }
+    );
 
     if (error) {
       log.error(`Failed to send confirmation email: ${JSON.stringify(error)}`);

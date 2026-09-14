@@ -1,6 +1,6 @@
-import { render } from "@react-email/render";
-import DigestEmail from "@repo/email/templates/digest";
-import { MongoClient, ObjectId, type WithId } from "mongodb";
+import type { Digest } from "@repo/database/types";
+import { renderDigestBroadcast } from "@repo/email/broadcast";
+import { MongoClient, ObjectId } from "mongodb";
 
 const { MONGODB_URI } = process.env;
 if (!MONGODB_URI) {
@@ -10,26 +10,15 @@ if (!MONGODB_URI) {
 
 const client = new MongoClient(MONGODB_URI);
 const db = client.db();
-const digests = db.collection("digests");
-
-// Same shape the email templates use: NEXT_PUBLIC_APEX_URL is a bare
-// hostname, so the scheme is ours to add.
-const baseUrl = process.env.NEXT_PUBLIC_APEX_URL
-  ? `https://${process.env.NEXT_PUBLIC_APEX_URL}`
-  : "https://hastoggle.dev";
-
-/** The fields of `Subscriber` a send actually reads. */
-interface DigestRecipient {
-  email: string;
-  emailVerified: Date | null;
-  unsubscribeToken: string | null;
-}
+const digests = db.collection<Digest>("digests");
 
 const [, , command, ...args] = process.argv;
 
 async function handleCreate() {
   const title = args[0] || "Untitled Draft";
   const result = await digests.insertOne({
+    _id: new ObjectId(),
+    broadcastId: null,
     content: "",
     createdAt: new Date(),
     misconception: "",
@@ -137,65 +126,46 @@ async function handleSend() {
     process.exit(1);
   }
 
-  if (digest.status === "sent") {
-    console.error(`Digest ${id} has already been sent`);
+  if (digest.status === "sent" || digest.broadcastId) {
+    console.error(
+      `Digest ${id} already went out as broadcast ${digest.broadcastId}`
+    );
+    process.exit(1);
+  }
+
+  const { RESEND_FROM, RESEND_SEGMENT_ID, RESEND_TOKEN } = process.env;
+  if (!(RESEND_FROM && RESEND_SEGMENT_ID && RESEND_TOKEN)) {
+    console.error(
+      "RESEND_FROM, RESEND_SEGMENT_ID and RESEND_TOKEN are required"
+    );
     process.exit(1);
   }
 
   const { Resend } = await import("resend");
-  const resend = new Resend(process.env.RESEND_TOKEN);
+  const resend = new Resend(RESEND_TOKEN);
 
-  const subscribers = await db
-    .collection<DigestRecipient>("subscribers")
-    .find({ emailVerified: { $ne: null } })
-    .toArray();
+  // A broadcast, not a batch: Resend fans out to the segment, skips
+  // unsubscribed and suppressed contacts, paces the send, and substitutes
+  // each recipient's unsubscribe link for the placeholder in the HTML.
+  const { html, name, subject } = await renderDigestBroadcast(digest);
 
-  // A digest with no working unsubscribe link is the one thing the privacy
-  // policy promises against, so a tokenless row is skipped rather than sent
-  // a dead link. Only rows confirmed before the token was minted can be in
-  // this state; re-confirming mints one.
-  const recipients = subscribers.filter(
-    (s): s is WithId<DigestRecipient> & { unsubscribeToken: string } =>
-      Boolean(s.unsubscribeToken)
-  );
-  const tokenless = subscribers.length - recipients.length;
-  if (tokenless > 0) {
-    console.warn(
-      `Skipping ${tokenless} subscriber(s) with no unsubscribe token.`
-    );
-  }
+  // A schedule set in the future is honoured; a past one sends now.
+  const scheduledAt =
+    digest.status === "scheduled" &&
+    digest.scheduledFor &&
+    digest.scheduledFor.getTime() > Date.now()
+      ? digest.scheduledFor.toISOString()
+      : undefined;
 
-  if (recipients.length === 0) {
-    console.log("No verified subscribers to send to.");
-    return;
-  }
-
-  console.log(`Sending to ${recipients.length} subscribers...`);
-
-  const resendFrom = process.env.RESEND_FROM ?? "noreply@hastoggle.dev";
-
-  // Rendered per recipient, not once for the batch: the unsubscribe link
-  // carries that subscriber's durable token.
-  const messages = await Promise.all(
-    recipients.map(async (subscriber) => ({
-      from: resendFrom,
-      html: await render(
-        DigestEmail({
-          content: digest.content,
-          misconception: digest.misconception,
-          series: digest.series,
-          title: digest.title,
-          unsubscribeUrl: `${baseUrl}/api/unsubscribe?token=${encodeURIComponent(
-            subscriber.unsubscribeToken
-          )}`,
-        })
-      ),
-      subject: digest.title,
-      to: subscriber.email,
-    }))
-  );
-
-  const { error } = await resend.batch.send(messages);
+  const { data, error } = await resend.broadcasts.create({
+    from: RESEND_FROM,
+    html,
+    name,
+    scheduledAt,
+    segmentId: RESEND_SEGMENT_ID,
+    send: true,
+    subject,
+  });
 
   if (error) {
     console.error("Failed to send:", error);
@@ -205,15 +175,22 @@ async function handleSend() {
   await digests.updateOne(
     { _id: new ObjectId(id) },
     {
-      $set: {
-        sentAt: new Date(),
-        status: "sent",
-        updatedAt: new Date(),
-      },
+      $set: scheduledAt
+        ? { broadcastId: data.id, updatedAt: new Date() }
+        : {
+            broadcastId: data.id,
+            sentAt: new Date(),
+            status: "sent",
+            updatedAt: new Date(),
+          },
     }
   );
 
-  console.log(`Sent digest ${id} to ${recipients.length} subscribers`);
+  console.log(
+    scheduledAt
+      ? `Scheduled broadcast ${data.id} for ${scheduledAt}`
+      : `Sent broadcast ${data.id}`
+  );
 }
 
 function printHelp() {
@@ -224,7 +201,7 @@ function printHelp() {
   console.log("  update <id> --title '...' ...     Update digest fields");
   console.log("  schedule <id> [datetime]          Schedule for sending");
   console.log("  list                              List all digests");
-  console.log("  send <id>                         Send to subscribers");
+  console.log("  send <id>                         Send as a Resend broadcast");
 }
 
 async function main() {

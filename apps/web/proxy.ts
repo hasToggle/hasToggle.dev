@@ -58,7 +58,6 @@ const i18nWithExclusions = (request: NextRequest) => {
   if (
     pathname.startsWith("/api") ||
     pathname.startsWith("/confirmed") ||
-    pathname.startsWith("/unsubscribed") ||
     pathname.startsWith("/.well-known")
   ) {
     return;
