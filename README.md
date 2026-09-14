@@ -88,7 +88,10 @@ turbo dev --filter=web        # http://localhost:3001
 
 `apps/web/env.ts` validates the environment through `@t3-oss/env-nextjs`. The
 ones without which nothing starts: `NEXT_PUBLIC_WEB_URL`, `NEXT_PUBLIC_APP_URL`,
-`MONGODB_URI`, and the three `RESEND_*` keys the waitlist signup needs.
+`MONGODB_URI`, the four `RESEND_*` keys the waitlist needs (`RESEND_FROM`,
+`RESEND_TOKEN`, `RESEND_SEGMENT_ID`, `RESEND_WEBHOOK_SECRET`), and
+`RECONCILE_SECRET`, the bearer token the scheduled reconciliation presents to
+`/api/reconcile`.
 
 The gates, run from inside the workspace — not the repo root, which sweeps up
 every workspace’s tests without their per-workspace preloads and fails on files

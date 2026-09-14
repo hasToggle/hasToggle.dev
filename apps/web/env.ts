@@ -21,8 +21,12 @@ export const env = createEnv({
   ],
   runtimeEnv: {
     ABSTRACT_API_KEY: process.env.ABSTRACT_API_KEY,
+    RECONCILE_SECRET: process.env.RECONCILE_SECRET,
   },
   server: {
     ABSTRACT_API_KEY: z.string().min(1).optional(),
+    // Bearer token the scheduled reconciliation caller presents to
+    // POST /api/reconcile.
+    RECONCILE_SECRET: z.string().min(32),
   },
 });

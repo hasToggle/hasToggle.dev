@@ -25,9 +25,11 @@ interface DigestEmailProps {
   title: string;
   /**
    * Required on purpose: a digest without an unsubscribe link must not
-   * compile. Points at /api/unsubscribe with the recipient's durable
-   * token — our endpoint, which deletes, not Resend's hosted one, which
-   * only suppresses.
+   * compile. Digests go out as Resend broadcasts, so the send passes
+   * `RESEND_UNSUBSCRIBE_URL` (see packages/email/broadcast.ts) and Resend
+   * substitutes each recipient's link. The click flips the contact's
+   * `unsubscribed` flag; apps/web's Resend webhook turns that into the
+   * deletion the privacy policy promises.
    */
   unsubscribeUrl: string;
 }
@@ -95,7 +97,7 @@ DigestEmail.PreviewProps = {
   misconception: "AI writes all the code for me",
   series: { name: "The AI Toolchain", part: 1 },
   title: "You don't need to learn to code",
-  unsubscribeUrl: "https://hastoggle.dev/api/unsubscribe?token=preview-only",
+  unsubscribeUrl: "{{{RESEND_UNSUBSCRIBE_URL}}}",
 } satisfies DigestEmailProps;
 
 export default DigestEmail;

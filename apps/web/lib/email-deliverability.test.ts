@@ -1,13 +1,17 @@
 import { afterEach, describe, expect, mock, spyOn, test } from "bun:test";
 import { validateEmail } from "./email-validation";
 
-// Override the preload mock to provide an API key so deliverability checks run
+// Override the preload mock to provide an API key so deliverability checks
+// run. mock.module is process-wide, so every key another test reads from
+// @/env has to survive the override.
 mock.module("@/env", () => ({
   env: {
     ABSTRACT_API_KEY: "test-key",
     NEXT_PUBLIC_APP_URL: "http://localhost:3000",
     NEXT_PUBLIC_WEB_URL: "http://localhost:3001",
+    RECONCILE_SECRET: "test-reconcile-secret-that-is-long-enough",
     RESEND_FROM: "test@example.com",
+    RESEND_SEGMENT_ID: "test-segment-id",
   },
 }));
 

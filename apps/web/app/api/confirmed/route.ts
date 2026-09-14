@@ -3,7 +3,7 @@ import { resend } from "@repo/email";
 import { parseError } from "@repo/observability/error";
 import { after, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
-import { generateToken, generateTokenHash } from "@/lib/token";
+import { generateTokenHash } from "@/lib/token";
 
 export async function GET(request: NextRequest) {
   try {
@@ -37,18 +37,16 @@ export async function GET(request: NextRequest) {
             $set: {
               emailVerified: new Date(),
               tokenExpiresAt: null,
-              // The durable unsubscribe capability, minted the moment the
-              // address becomes a list member — every waitlist email links
-              // /api/unsubscribe with it. Stored in the clear on purpose;
-              // see the Subscriber type.
-              unsubscribeToken: generateToken().token,
             },
           }
         );
 
+    // The contact is what broadcasts send to. Resend's unsubscribe link
+    // flips its `unsubscribed` flag; /api/webhooks/resend turns that flag
+    // into the deletion the privacy policy promises.
     const contactPromise = resend.contacts.create({
-      audienceId: env.RESEND_AUDIENCE_ID,
       email: subscriber.email,
+      segments: [{ id: env.RESEND_SEGMENT_ID }],
       unsubscribed: false,
     });
 

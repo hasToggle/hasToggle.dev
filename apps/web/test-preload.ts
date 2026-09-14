@@ -11,7 +11,9 @@ import { mock } from "bun:test";
 process.env.MONGODB_URI ??= "mongodb://localhost:27017/test";
 process.env.RESEND_FROM ??= "test@example.com";
 process.env.RESEND_TOKEN ??= "re_test_token";
-process.env.RESEND_AUDIENCE_ID ??= "test-audience-id";
+process.env.RESEND_SEGMENT_ID ??= "test-segment-id";
+process.env.RESEND_WEBHOOK_SECRET ??= "whsec_dGVzdC1zZWNyZXQ=";
+process.env.RECONCILE_SECRET ??= "test-reconcile-secret-that-is-long-enough";
 process.env.NEXT_PUBLIC_APP_URL ??= "http://localhost:3000";
 process.env.NEXT_PUBLIC_WEB_URL ??= "http://localhost:3001";
 
@@ -22,17 +24,44 @@ mock.module("@/env", () => ({
     ABSTRACT_API_KEY: "",
     NEXT_PUBLIC_APP_URL: "http://localhost:3000",
     NEXT_PUBLIC_WEB_URL: "http://localhost:3001",
+    RECONCILE_SECRET: "test-reconcile-secret-that-is-long-enough",
     RESEND_FROM: "test@example.com",
+    RESEND_SEGMENT_ID: "test-segment-id",
   },
 }));
 
 mock.module("@repo/database", () => ({
   createId: () => "test-id",
-  database: { subscriber: { updateOne: async () => ({}) } },
+  database: {
+    subscriber: {
+      deleteMany: async () => ({ deletedCount: 0 }),
+      deleteOne: async () => ({ deletedCount: 0 }),
+      find: () => ({ toArray: async () => [] }),
+      updateOne: async () => ({}),
+    },
+  },
 }));
 
 mock.module("@repo/email", () => ({
-  resend: { emails: { send: async () => ({ error: null }) } },
+  resend: {
+    contacts: {
+      list: async () => ({
+        data: { data: [], has_more: false, object: "list" },
+        error: null,
+      }),
+      remove: async () => ({ error: null }),
+    },
+    emails: { send: async () => ({ error: null }) },
+    webhooks: {
+      verify: () => {
+        throw new Error("No signature");
+      },
+    },
+  },
+}));
+
+mock.module("@repo/email/keys", () => ({
+  keys: () => ({ RESEND_WEBHOOK_SECRET: "whsec_dGVzdC1zZWNyZXQ=" }),
 }));
 
 mock.module("@repo/email/templates/confirm-subscription", () => ({
