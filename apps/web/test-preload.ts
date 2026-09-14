@@ -37,6 +37,7 @@ mock.module("@repo/database", () => ({
       deleteMany: async () => ({ deletedCount: 0 }),
       deleteOne: async () => ({ deletedCount: 0 }),
       find: () => ({ toArray: async () => [] }),
+      findOne: async () => null,
       updateOne: async () => ({}),
     },
   },
@@ -45,6 +46,7 @@ mock.module("@repo/database", () => ({
 mock.module("@repo/email", () => ({
   resend: {
     contacts: {
+      create: async () => ({ data: { id: "contact-id" }, error: null }),
       list: async () => ({
         data: { data: [], has_more: false, object: "list" },
         error: null,
@@ -65,6 +67,10 @@ mock.module("@repo/email/keys", () => ({
 }));
 
 mock.module("@repo/email/templates/confirm-subscription", () => ({
+  default: () => null,
+}));
+
+mock.module("@repo/email/templates/already-subscribed", () => ({
   default: () => null,
 }));
 
