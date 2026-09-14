@@ -1,5 +1,4 @@
-import { Link, Text } from "react-email";
-import { PUBLIC_ORIGIN } from "../assets";
+import { Text } from "react-email";
 import { body, Chrome, fineprint, heading, signoff } from "./chrome";
 
 interface AlreadySubscribedProps {
@@ -21,26 +20,23 @@ const formatDay = (date: Date) =>
  * needed doing.
  */
 const AlreadySubscribed = ({ confirmedAt }: AlreadySubscribedProps) => (
-  <Chrome preview="Nothing to click this time. You confirmed already, and the seat notice still goes to this address first.">
+  <Chrome preview="You confirmed already, and you’re still in. When cohort seats open, this address hears first.">
     <Text style={heading}>You’re already on the waitlist.</Text>
     <Text style={body}>
-      This address confirmed on {formatDay(confirmedAt)}, so there is nothing to
-      click this time. When cohort seats open, you hear before anyone else.
-      Until then,{" "}
-      <Link href={PUBLIC_ORIGIN} style={link}>
-        the playground is open
-      </Link>
-      .
+      You confirmed on {formatDay(confirmedAt)}, and you’re still in. Signing up
+      twice usually means a new laptop, a cleared autofill, or a fair doubt
+      about whether the first one took. It took. When cohort seats open, this
+      address hears first.
     </Text>
     <Text style={signoff}>
-      Good to have you, still.
+      Still good to have you.
       <br />
       Eric
     </Text>
     <Text style={fineprint}>
-      Every digest carries an unsubscribe link, and it works the first time. If
-      you didn’t send this, someone typed your address into the form; nothing
-      changed, and nothing will.
+      If you didn’t send this, someone typed your address into the form. Nothing
+      about your subscription changed, and every digest still ends with its
+      unsubscribe link.
     </Text>
   </Chrome>
 );
@@ -50,8 +46,3 @@ AlreadySubscribed.PreviewProps = {
 };
 
 export default AlreadySubscribed;
-
-const link = {
-  color: "#18181b",
-  textDecoration: "underline",
-};
