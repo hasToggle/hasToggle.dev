@@ -16,8 +16,10 @@ const isDevelopment = process.env.NODE_ENV === "development";
  */
 type HttpsOrigin = `https://${string}.${string}`;
 
+const HTTPS_ORIGIN = /^https:\/\/[^/]+\.[^/]+$/;
+
 const isHttpsOrigin = (value: string): value is HttpsOrigin =>
-  /^https:\/\/[^/]+\.[^/]+$/.test(value);
+  HTTPS_ORIGIN.test(value);
 
 export function posthogOrigins(apiHost: string): HttpsOrigin[] {
   const { origin, hostname } = new URL(apiHost);

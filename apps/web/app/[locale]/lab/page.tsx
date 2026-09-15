@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { env } from "@/env";
 import { BoundaryIndexValue } from "../(playground)/boundary/index-value";
 import { ImageIndexValue } from "../(playground)/image/index-value";
 import { MutationIndexValue } from "../(playground)/mutation/index-value";
@@ -26,7 +25,6 @@ import {
 export const metadata: Metadata = {
   description:
     "Every chapter of the lab: what’s running, what lands Monday, what’s still to build.",
-  metadataBase: new URL(env.NEXT_PUBLIC_WEB_URL),
   openGraph: {
     images: [
       {

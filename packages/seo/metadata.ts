@@ -7,7 +7,7 @@ type MetadataGenerator = Omit<Metadata, "description" | "title"> & {
   image?: string;
 };
 
-const applicationName = "has-toggle";
+const applicationName = "hasToggle";
 const author: Metadata["authors"] = {
   name: "Eric",
   url: "https://spiritsdontfly.com/",
@@ -23,7 +23,7 @@ export const createMetadata = ({
   image,
   ...properties
 }: MetadataGenerator): Metadata => {
-  const parsedTitle = `${title} | ${applicationName}`;
+  const parsedTitle = `${title} — ${applicationName}`;
   const defaultMetadata: Metadata = {
     appleWebApp: {
       capable: true,

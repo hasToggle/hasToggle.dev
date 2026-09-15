@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { env } from "@/env";
 import { Container } from "../components/container";
 import { Footer } from "../components/footer";
 import { Link } from "../components/marketing-link";
@@ -11,7 +10,6 @@ import { ContactForm } from "./components/contact-form";
 export const metadata: Metadata = {
   description:
     "A question about a chapter, something that looks broken, an idea the lab should steal — it all lands in one inbox, and a person answers.",
-  metadataBase: new URL(env.NEXT_PUBLIC_WEB_URL),
   openGraph: {
     images: [
       {

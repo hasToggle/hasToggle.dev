@@ -36,6 +36,13 @@ export const generateMetadata = async ({
   params,
 }: LegalPageProperties): Promise<Metadata> => {
   const { slug } = await params;
+
+  // The slug reaches a filesystem path inside getLegalPage; only the known
+  // pages get that far.
+  if (!getLegalSlugs().includes(slug)) {
+    return {};
+  }
+
   const page = await getLegalMeta(slug);
 
   if (!page) {
