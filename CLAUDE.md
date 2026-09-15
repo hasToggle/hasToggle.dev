@@ -256,7 +256,7 @@ the machine. Three things about it are not obvious:
   `~/.local/bin/opf-entire`, a wrapper that pins `--device cpu`.
 - **It is slow** — roughly 110s per 64KB. Hence `timeout_seconds: 900`, because
   a scanner timeout makes transcript writes fail closed, and
-  `prompt_default: "ask"`, which keeps the cost per-push opt-in.
+  `prompt_default: "always"`, because the answer was always going to be yes.
 - **A big backlog blocks it.** OPF refuses to buffer more than 200MB of raw
   blob across unpushed commits. Drain once with `ENTIRE_OPF=no git push`, then
   ordinary pushes are small enough to scan. Do not raise
