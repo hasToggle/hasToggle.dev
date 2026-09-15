@@ -1,3 +1,10 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  robots: { follow: true, index: false },
+  title: "You’re on the waitlist — hasToggle",
+};
+
 export default function Confirmed() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-6 text-center">

@@ -3,7 +3,6 @@ import type { Blog, WithContext } from "@repo/seo/json-ld";
 import { JsonLd } from "@repo/seo/json-ld";
 import type { Metadata } from "next";
 import Image from "next/image";
-import { env } from "@/env";
 import { Container } from "../components/container";
 import { Footer } from "../components/footer";
 import { Link } from "../components/marketing-link";
@@ -13,7 +12,6 @@ import { Heading, Subheading } from "../components/text";
 export const metadata: Metadata = {
   description:
     "Written from experience, wrong turns included. Nothing is too out-of-scope to deserve a story.",
-  metadataBase: new URL(env.NEXT_PUBLIC_WEB_URL),
   openGraph: {
     images: [
       {

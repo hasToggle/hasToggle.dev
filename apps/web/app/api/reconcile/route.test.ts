@@ -2,18 +2,17 @@ import { afterEach, describe, expect, spyOn, test } from "bun:test";
 import { database } from "@repo/database";
 import { resend } from "@repo/email";
 import { NextRequest } from "next/server";
-import { POST } from "./route";
+import { orphansLookWrong, POST } from "./route";
 
 const SECRET = "test-reconcile-secret-that-is-long-enough";
 
 const list = spyOn(resend.contacts, "list");
 const removeContact = spyOn(resend.contacts, "remove");
 const find = spyOn(database.subscriber, "find");
-const deleteOne = spyOn(database.subscriber, "deleteOne");
 const deleteMany = spyOn(database.subscriber, "deleteMany");
 
 afterEach(() => {
-  for (const spy of [list, removeContact, find, deleteOne, deleteMany]) {
+  for (const spy of [list, removeContact, find, deleteMany]) {
     spy.mockReset();
   }
 });
@@ -27,7 +26,46 @@ function post(authorization?: string) {
   );
 }
 
+describe("orphansLookWrong", () => {
+  test("refuses an empty listing while subscribers exist", () => {
+    expect(orphansLookWrong(40, 0, 40)).toBe(true);
+  });
+
+  test("allows a handful of departures on a small list", () => {
+    expect(orphansLookWrong(6, 1, 5)).toBe(false);
+    expect(orphansLookWrong(6, 1, 6)).toBe(true);
+  });
+
+  test("refuses losing more than half of a large list at once", () => {
+    expect(orphansLookWrong(1000, 400, 500)).toBe(false);
+    expect(orphansLookWrong(1000, 400, 501)).toBe(true);
+  });
+
+  test("an empty database has nothing to protect", () => {
+    expect(orphansLookWrong(0, 0, 0)).toBe(false);
+  });
+});
+
 describe("/api/reconcile", () => {
+  test("refuses to delete anyone when Resend lists no contacts", async () => {
+    list.mockResolvedValue({
+      data: { data: [], has_more: false, object: "list" },
+      error: null,
+    } as never);
+    find.mockReturnValue({
+      toArray: () =>
+        Promise.resolve([
+          { email: "one@example.com" },
+          { email: "two@example.com" },
+        ]),
+    } as never);
+
+    const response = await post(`Bearer ${SECRET}`);
+
+    expect(response.status).toBe(409);
+    expect(deleteMany).not.toHaveBeenCalled();
+  });
+
   test("rejects a missing or wrong bearer token", async () => {
     expect((await post()).status).toBe(401);
     expect((await post("Bearer nope")).status).toBe(401);
@@ -55,17 +93,19 @@ describe("/api/reconcile", () => {
           { email: "orphan@example.com" },
         ]),
     } as never);
-    deleteOne.mockResolvedValue({ deletedCount: 1 } as never);
-    deleteMany.mockResolvedValue({ deletedCount: 2 } as never);
+    // Per-address erasures answer 1; the stale-unconfirmed sweep answers 2.
+    deleteMany.mockImplementation(((filter: { email?: string }) =>
+      Promise.resolve({ deletedCount: filter.email ? 1 : 2 })) as never);
 
     const response = await post(`Bearer ${SECRET}`);
     const body = await response.json();
 
     expect(response.status).toBe(200);
-    expect(deleteOne.mock.calls.map(([f]) => f?.email).sort()).toEqual([
-      "flagged@example.com",
-      "orphan@example.com",
-    ]);
+    const erased = deleteMany.mock.calls
+      .map(([f]) => (f as { email?: string }).email)
+      .filter(Boolean)
+      .sort();
+    expect(erased).toEqual(["flagged@example.com", "orphan@example.com"]);
     expect(body.removed).toEqual({
       orphaned: 1,
       unconfirmed: 2,

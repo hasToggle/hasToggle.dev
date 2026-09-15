@@ -2,6 +2,7 @@ import { afterEach, describe, expect, spyOn, test } from "bun:test";
 import { database } from "@repo/database";
 import { resend } from "@repo/email";
 import { NextRequest } from "next/server";
+import { resetRateLimiters } from "@/lib/rate-limit";
 import { POST } from "./route";
 
 const DAY_MS = 1000 * 60 * 60 * 24;
@@ -15,6 +16,7 @@ const send = spyOn(resend.emails, "send");
 const createContact = spyOn(resend.contacts, "create");
 
 afterEach(() => {
+  resetRateLimiters();
   findOne.mockReset();
   updateOne.mockReset();
   send.mockReset();
@@ -149,5 +151,117 @@ describe("/api/confirm", () => {
       segments: [{ id: "test-segment-id" }],
       unsubscribed: false,
     });
+  });
+});
+
+function postFrom(email: string, ip: string) {
+  findOne.mockResolvedValue(null as never);
+  updateOne.mockResolvedValue({} as never);
+  send.mockResolvedValue({ data: { id: "x" }, error: null } as never);
+  return POST(
+    new NextRequest("http://localhost:3001/api/confirm", {
+      body: JSON.stringify({ email }),
+      headers: { "Content-Type": "application/json", "x-real-ip": ip },
+      method: "POST",
+    })
+  );
+}
+
+// The window counts requests in order, so these cannot run in parallel.
+function postSequence(
+  count: number,
+  make: (i: number) => Promise<Response>
+): Promise<number[]> {
+  return Array.from({ length: count }, (_, i) => i).reduce<Promise<number[]>>(
+    async (previous, i) => [...(await previous), (await make(i)).status],
+    Promise.resolve([])
+  );
+}
+
+describe("/api/confirm legacy casing", () => {
+  const duplicateKey = Object.assign(new Error("E11000 duplicate key"), {
+    code: 11_000,
+  });
+
+  test("looks the address up under the index collation", async () => {
+    await post(null, "Mixed@Example.com");
+    expect(findOne.mock.calls[0]?.[1]).toEqual({
+      collation: { locale: "en", strength: 2 },
+    });
+  });
+
+  test("retries a rejected upsert against the legacy row and sends", async () => {
+    findOne.mockResolvedValue(null as never);
+    updateOne
+      .mockRejectedValueOnce(duplicateKey as never)
+      .mockResolvedValueOnce({ matchedCount: 1 } as never);
+    send.mockResolvedValue({ data: { id: "x" }, error: null } as never);
+
+    const response = await POST(makeRequest({ email: "legacy@example.com" }));
+
+    expect(response.status).toBe(200);
+    expect(updateOne).toHaveBeenCalledTimes(2);
+    expect(updateOne.mock.calls[1]?.[2]).toEqual({
+      collation: { locale: "en", strength: 2 },
+    });
+    expect(sentSubjects()).toEqual(["One click and you’re on the waitlist"]);
+  });
+
+  test("fails rather than mail a token no row holds", async () => {
+    findOne.mockResolvedValue(null as never);
+    updateOne
+      .mockRejectedValueOnce(duplicateKey as never)
+      .mockResolvedValueOnce({ matchedCount: 0 } as never);
+
+    const response = await POST(makeRequest({ email: "ghost@example.com" }));
+
+    expect(response.status).toBe(500);
+    expect(send).not.toHaveBeenCalled();
+  });
+
+  test("lets any other database error through as a 500", async () => {
+    findOne.mockResolvedValue(null as never);
+    updateOne.mockRejectedValueOnce(new Error("connection reset") as never);
+
+    const response = await POST(makeRequest({ email: "down@example.com" }));
+
+    expect(response.status).toBe(500);
+    expect(updateOne).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("/api/confirm limits", () => {
+  test("refuses a caller that floods the form with fresh addresses", async () => {
+    const ip = "198.51.100.7";
+    const statuses = await postSequence(12, (i) =>
+      postFrom(`flood-${i}@example.com`, ip)
+    );
+    expect(statuses.at(-1)).toBe(429);
+    expect(send.mock.calls.length).toBeLessThan(12);
+  });
+
+  test("refuses repeated mail to one address across callers", async () => {
+    const statuses = await postSequence(4, (i) =>
+      postFrom("target@example.com", `192.0.2.${i}`)
+    );
+    expect(statuses.at(-1)).toBe(429);
+    expect(send.mock.calls.length).toBe(3);
+  });
+
+  test("builds the confirmation link on the configured site for a foreign host", async () => {
+    findOne.mockResolvedValue(null as never);
+    updateOne.mockResolvedValue({} as never);
+    send.mockResolvedValue({ data: { id: "x" }, error: null } as never);
+    await POST(
+      new NextRequest("https://evil.example/api/confirm", {
+        body: JSON.stringify({ email: "origin@example.com" }),
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+      })
+    );
+    const react = send.mock.calls[0]?.[0].react as {
+      props: { baseUrl: string };
+    };
+    expect(react.props.baseUrl).toBe("http://localhost:3001");
   });
 });

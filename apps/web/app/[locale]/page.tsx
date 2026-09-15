@@ -1,7 +1,6 @@
 import { Separator } from "@repo/design-system/components/ui/separator";
 import type { Metadata } from "next";
 import { DEFAULT_OG_TITLE } from "@/app/api/og/title";
-import { env } from "@/env";
 import { BoundaryDemo } from "./(playground)/boundary/demo";
 import { MutationDemo } from "./(playground)/mutation/demo";
 import { ShellDemo } from "./(playground)/shell/demo";
@@ -50,9 +49,6 @@ function PartDivider() {
 export const metadata: Metadata = {
   description:
     "Every chapter of the lab opens on something the platform can already do and runs the real feature next to it: the server/client boundary, caching, streaming, Server Actions, generated images. Press it, break it, read the code that did it.",
-  // Resolves the relative /api/og image below to an absolute URL in the
-  // rendered og:image tag — crawlers don't do relative.
-  metadataBase: new URL(env.NEXT_PUBLIC_WEB_URL),
   openGraph: {
     images: [
       {

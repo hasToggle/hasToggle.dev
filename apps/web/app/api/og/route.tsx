@@ -198,6 +198,12 @@ export async function GET(request: Request): Promise<ImageResponse> {
           weight: 700,
         },
       ],
+      // A card is a pure function of its title, so the CDN keeps it. Fresh
+      // titles still render on demand; repeat unfurls of the same one don't.
+      headers: {
+        "Cache-Control":
+          "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
+      },
       height: 630,
       width: 1200,
     }

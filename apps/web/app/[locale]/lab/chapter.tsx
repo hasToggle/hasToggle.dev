@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { env } from "@/env";
 import { Container } from "../components/container";
 import { Footer } from "../components/footer";
 import { Link } from "../components/marketing-link";
@@ -21,7 +20,6 @@ const ASIDE_LINK_CLASS =
 export function chapterMetadata(chapter: ShippedChapter): Metadata {
   return {
     description: `The real thing, running: ${chapter.topic}. Poke it, break it, read the code that did it — a chapter of the hasToggle lab.`,
-    metadataBase: new URL(env.NEXT_PUBLIC_WEB_URL),
     openGraph: {
       images: [
         {

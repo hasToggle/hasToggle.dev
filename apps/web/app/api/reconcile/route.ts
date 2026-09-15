@@ -20,6 +20,37 @@ import { removeSubscriber } from "@/lib/subscribers";
 const UNCONFIRMED_GRACE_MS = 1000 * 60 * 60 * 24 * 7;
 const PAGE_SIZE = 100;
 
+/**
+ * "Orphaned" means Resend no longer knows the address — but an empty or
+ * truncated listing looks the same as a deliberate deletion. A wrong segment
+ * id, an API that answers with no data and no error, or a partial page would
+ * read as "everyone left" and empty the list. So a run that would orphan
+ * more than this share of the confirmed subscribers is refused and reported,
+ * and a listing that comes back empty while subscribers exist is never
+ * trusted. Small lists get an absolute allowance so the first few departures
+ * are still processed.
+ */
+const MAX_ORPHAN_SHARE = 0.5;
+const MIN_ORPHAN_ALLOWANCE = 5;
+
+export function orphansLookWrong(
+  confirmed: number,
+  known: number,
+  orphaned: number
+): boolean {
+  if (confirmed === 0) {
+    return false;
+  }
+  if (known === 0) {
+    return true;
+  }
+  const allowance = Math.max(
+    MIN_ORPHAN_ALLOWANCE,
+    Math.floor(confirmed * MAX_ORPHAN_SHARE)
+  );
+  return orphaned > allowance;
+}
+
 function authorized(request: NextRequest): boolean {
   const header = request.headers.get("authorization") ?? "";
   const presented = Buffer.from(header);
@@ -73,6 +104,18 @@ export async function POST(request: NextRequest) {
     const orphaned = confirmed
       .map((s) => s.email)
       .filter((email) => !known.has(email));
+
+    if (orphansLookWrong(confirmed.length, known.size, orphaned.length)) {
+      parseError(
+        new Error(
+          `Reconciliation refused: ${orphaned.length} of ${confirmed.length} confirmed subscribers are missing from ${known.size} listed contacts`
+        )
+      );
+      return NextResponse.json(
+        { error: "Reconciliation refused: contact listing looks incomplete" },
+        { status: 409 }
+      );
+    }
 
     const leaving = [...new Set([...flagged, ...orphaned])];
     await Promise.all(leaving.map(removeSubscriber));

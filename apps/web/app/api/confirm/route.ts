@@ -4,12 +4,16 @@ import AlreadySubscribed from "@repo/email/templates/already-subscribed";
 import ConfirmSubscription from "@repo/email/templates/confirm-subscription";
 import { parseError } from "@repo/observability/error";
 import { log } from "@repo/observability/log";
-import { after, type NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
+import { confirmationOrigin } from "@/lib/confirmation-origin";
 import {
+  EMAIL_COLLATION,
+  normalizeEmail,
   type ValidationFailureReason,
   validateEmail,
 } from "@/lib/email-validation";
+import { clientIp, rateLimiter } from "@/lib/rate-limit";
 import { generateToken } from "@/lib/token";
 
 const TOKEN_EXPIRY_MS = 1000 * 60 * 60 * 24;
@@ -18,6 +22,16 @@ const TOKEN_EXPIRY_MS = 1000 * 60 * 60 * 24;
 // someone hammering an address that is not theirs. After it, a resubmit
 // means "the first mail never arrived" and a fresh one goes out.
 const RESEND_COOLDOWN_MS = 1000 * 60 * 2;
+
+// Every request past the format check costs a deliverability lookup, a
+// database write and a mail, so callers are capped before that point: a
+// burst per address, and a burst per caller across addresses. A real person
+// retrying a typo fits inside both.
+const PER_ADDRESS = { limit: 3, ms: 1000 * 60 * 60 };
+const PER_CALLER = { limit: 10, ms: 1000 * 60 * 10 };
+
+const LIMIT_MESSAGE =
+  "That’s a lot of attempts in a short time. Try again in a little while.";
 
 // Vague messaging for disposable/undeliverable to avoid revealing rejection reason
 const VALIDATION_MESSAGES: Record<ValidationFailureReason, string> = {
@@ -32,8 +46,17 @@ const VALIDATION_MESSAGES: Record<ValidationFailureReason, string> = {
 // whether an address is on the list. What differs is the mail that arrives.
 const SUCCESS_MESSAGE = "Check your inbox. One click confirms it.";
 
-function normalizeEmail(input: unknown): string {
-  return typeof input === "string" ? input.trim().toLowerCase() : "";
+const EMAIL_SHAPE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const DUPLICATE_KEY = 11_000;
+
+function isDuplicateKey(error: unknown): boolean {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    error.code === DUPLICATE_KEY
+  );
 }
 
 // Issue time is not stored; the expiry is, and the lifetime is fixed.
@@ -41,6 +64,19 @@ function tokenIssuedAt(subscriber: Subscriber): number {
   return subscriber.tokenExpiresAt
     ? subscriber.tokenExpiresAt.getTime() - TOKEN_EXPIRY_MS
     : Number.NEGATIVE_INFINITY;
+}
+
+async function overLimit(request: NextRequest, email: string) {
+  const [byAddress, byCaller] = await Promise.all([
+    rateLimiter("confirm:address", PER_ADDRESS),
+    rateLimiter("confirm:caller", PER_CALLER),
+  ]);
+  const ip = clientIp(request.headers);
+  const [address, caller] = await Promise.all([
+    byAddress.limit(email),
+    ip ? byCaller.limit(ip) : Promise.resolve({ success: true }),
+  ]);
+  return !(address.success && caller.success);
 }
 
 function emailError() {
@@ -55,27 +91,60 @@ function emailError() {
   );
 }
 
+/**
+ * Writes the token onto the subscriber's row, creating it if there is none.
+ * The address arrives normalized, so the plain upsert matches every row
+ * written since normalization began. A row stored in another casing before
+ * that is invisible to the plain lookup, and the attempted insert trips the
+ * case-insensitive unique index (E11000). That is the signal to look again
+ * with the index's collation, which finds the legacy row and updates it in
+ * place. A retry that matches nothing means the token would be mailed for a
+ * row nobody holds, so it is an error rather than a silent success.
+ */
+async function storeConfirmationToken(email: string, hash: string) {
+  const update = {
+    $set: {
+      token: hash,
+      tokenExpiresAt: new Date(Date.now() + TOKEN_EXPIRY_MS),
+    },
+  };
+
+  try {
+    await database.subscriber.updateOne(
+      { email },
+      {
+        ...update,
+        $setOnInsert: {
+          _id: createId(),
+          createdAt: new Date(),
+          emailVerified: null,
+          image: null,
+          name: null,
+          role: "user",
+        },
+      },
+      { upsert: true }
+    );
+  } catch (error) {
+    if (!isDuplicateKey(error)) {
+      throw error;
+    }
+    const retry = await database.subscriber.updateOne({ email }, update, {
+      collation: EMAIL_COLLATION,
+    });
+    if (retry.matchedCount === 0) {
+      throw new Error(
+        "Duplicate key on upsert, but no row matched the address under the index collation",
+        { cause: error }
+      );
+    }
+  }
+}
+
 async function sendConfirmation(email: string, origin: string) {
   const { token, hash } = generateToken();
 
-  await database.subscriber.updateOne(
-    { email },
-    {
-      $set: {
-        token: hash,
-        tokenExpiresAt: new Date(Date.now() + TOKEN_EXPIRY_MS),
-      },
-      $setOnInsert: {
-        _id: createId(),
-        createdAt: new Date(),
-        emailVerified: null,
-        image: null,
-        name: null,
-        role: "user",
-      },
-    },
-    { upsert: true }
-  );
+  await storeConfirmationToken(email, hash);
 
   const { error } = await resend.emails.send(
     {
@@ -118,7 +187,7 @@ async function sendAlreadySubscribed(
   ]);
 
   if (contact.error) {
-    after(() => parseError(contact.error));
+    parseError(contact.error);
   }
 
   return mail.error;
@@ -128,6 +197,16 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const email = normalizeEmail(body?.email);
+
+    // Junk fails the format check inside validateEmail without touching a
+    // window; anything shaped like an address is counted before the costly
+    // checks run.
+    if (EMAIL_SHAPE.test(email) && (await overLimit(request, email))) {
+      return NextResponse.json(
+        { error: { message: LIMIT_MESSAGE, name: "RateLimitError" } },
+        { status: 429 }
+      );
+    }
 
     const validation = await validateEmail(email);
 
@@ -143,7 +222,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const existing = await database.subscriber.findOne({ email });
+    // Collation-aware, so a row stored in another casing still counts as
+    // the same person here and gets the reminder rather than a new token.
+    const existing = await database.subscriber.findOne(
+      { email },
+      { collation: EMAIL_COLLATION }
+    );
 
     if (existing?.emailVerified) {
       const error = await sendAlreadySubscribed(
@@ -161,7 +245,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: SUCCESS_MESSAGE });
     }
 
-    const error = await sendConfirmation(email, new URL(request.url).origin);
+    const error = await sendConfirmation(
+      email,
+      confirmationOrigin(request.url, env.NEXT_PUBLIC_WEB_URL)
+    );
     if (error) {
       log.error(`Failed to send confirmation email: ${JSON.stringify(error)}`);
       return emailError();
@@ -177,7 +264,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    after(() => parseError(error));
+    parseError(error);
     return NextResponse.json(
       {
         error: { message: "An unexpected error occurred", name: "ServerError" },

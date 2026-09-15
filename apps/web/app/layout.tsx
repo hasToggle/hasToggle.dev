@@ -3,8 +3,19 @@ import { AnalyticsProvider } from "@repo/analytics/provider";
 import { DesignSystemProvider } from "@repo/design-system";
 import { cn } from "@repo/design-system/lib/utils";
 import { Toolbar } from "@repo/feature-flags/components/toolbar";
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { jetbrainsMono, switzer } from "@/app/fonts";
+import { env } from "@/env";
+
+// Resolves every page's relative /api/og image to an absolute URL in the
+// rendered og:image tag — crawlers don't do relative. Pages set their own
+// title and description; this is the floor under the ones that don't.
+export const metadata: Metadata = {
+  description: "The unofficial live playground for Next.js and Vercel.",
+  metadataBase: new URL(env.NEXT_PUBLIC_WEB_URL),
+  title: "hasToggle — the unofficial live playground for Next.js & Vercel",
+};
 
 interface RootLayoutProperties {
   readonly children: ReactNode;

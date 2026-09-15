@@ -7,6 +7,24 @@ import { z } from "zod";
 
 const disposableSet = new Set(disposableDomains);
 
+/**
+ * The one shape an address takes before it is compared, stored or deleted:
+ * trimmed and lowercased. Addresses are case-insensitive in practice and
+ * mobile keyboards capitalise the first letter, so the same person would
+ * otherwise hold one row per casing.
+ */
+export function normalizeEmail(input: unknown): string {
+  return typeof input === "string" ? input.trim().toLowerCase() : "";
+}
+
+/**
+ * Must stay in step with the `email_ci` index on `subscribers` (unique,
+ * `{ locale: "en", strength: 2 }`). A query only matches case-insensitively
+ * when it passes the collation the index was built with; a plain equality
+ * lookup uses `email_1` and sees exact bytes only.
+ */
+export const EMAIL_COLLATION = { locale: "en", strength: 2 } as const;
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export type ValidationFailureReason =
