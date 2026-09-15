@@ -28,7 +28,7 @@
         "private_address": true
       },
       "timeout_seconds": 900,
-      "prompt_default": "ask"
+      "prompt_default": "always"
     },
     "externalize_images": true
   }
