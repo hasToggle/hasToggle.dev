@@ -154,44 +154,45 @@ describe("/api/confirm", () => {
   });
 });
 
+function postFrom(email: string, ip: string) {
+  findOne.mockResolvedValue(null as never);
+  updateOne.mockResolvedValue({} as never);
+  send.mockResolvedValue({ data: { id: "x" }, error: null } as never);
+  return POST(
+    new NextRequest("http://localhost:3001/api/confirm", {
+      body: JSON.stringify({ email }),
+      headers: { "Content-Type": "application/json", "x-real-ip": ip },
+      method: "POST",
+    })
+  );
+}
+
+// The window counts requests in order, so these cannot run in parallel.
+function postSequence(
+  count: number,
+  make: (i: number) => Promise<Response>
+): Promise<number[]> {
+  return Array.from({ length: count }, (_, i) => i).reduce<Promise<number[]>>(
+    async (previous, i) => [...(await previous), (await make(i)).status],
+    Promise.resolve([])
+  );
+}
+
 describe("/api/confirm limits", () => {
   test("refuses a caller that floods the form with fresh addresses", async () => {
     const ip = "198.51.100.7";
-    let last: Response | undefined;
-    for (let i = 0; i < 12; i += 1) {
-      findOne.mockResolvedValue(null as never);
-      updateOne.mockResolvedValue({} as never);
-      send.mockResolvedValue({ data: { id: "x" }, error: null } as never);
-      last = await POST(
-        new NextRequest("http://localhost:3001/api/confirm", {
-          body: JSON.stringify({ email: `flood-${i}@example.com` }),
-          headers: { "Content-Type": "application/json", "x-real-ip": ip },
-          method: "POST",
-        })
-      );
-    }
-    expect(last?.status).toBe(429);
+    const statuses = await postSequence(12, (i) =>
+      postFrom(`flood-${i}@example.com`, ip)
+    );
+    expect(statuses.at(-1)).toBe(429);
     expect(send.mock.calls.length).toBeLessThan(12);
   });
 
   test("refuses repeated mail to one address across callers", async () => {
-    let last: Response | undefined;
-    for (let i = 0; i < 4; i += 1) {
-      findOne.mockResolvedValue(null as never);
-      updateOne.mockResolvedValue({} as never);
-      send.mockResolvedValue({ data: { id: "x" }, error: null } as never);
-      last = await POST(
-        new NextRequest("http://localhost:3001/api/confirm", {
-          body: JSON.stringify({ email: "target@example.com" }),
-          headers: {
-            "Content-Type": "application/json",
-            "x-real-ip": `192.0.2.${i}`,
-          },
-          method: "POST",
-        })
-      );
-    }
-    expect(last?.status).toBe(429);
+    const statuses = await postSequence(4, (i) =>
+      postFrom("target@example.com", `192.0.2.${i}`)
+    );
+    expect(statuses.at(-1)).toBe(429);
     expect(send.mock.calls.length).toBe(3);
   });
 

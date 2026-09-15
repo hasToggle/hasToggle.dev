@@ -18,7 +18,7 @@ export interface RateLimitResult {
 }
 
 export interface RateLimiter {
-  limit(key: string): Promise<RateLimitResult>;
+  readonly limit: (key: string) => Promise<RateLimitResult>;
 }
 
 export interface Window {
