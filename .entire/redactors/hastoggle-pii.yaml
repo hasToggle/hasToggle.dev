@@ -1,0 +1,53 @@
+name: hastoggle-pii
+version: 1.0.0
+description: >-
+  Shapes that carry subscriber data past Entire's built-in layers. The built-in
+  pii.email scanner needs a real local part, so every masked form of an address
+  reaches the public checkpoints repo untouched; that is how 124 partial
+  addresses were published on 2026-09-14. This pack holds no data of its own —
+  it is committed, and anything listed here would be published by being listed.
+  Actual values (subscriber domains) belong in .entire/redactors/local/, which
+  is gitignored.
+
+rules:
+  - id: masked-email
+    description: >-
+      An address with the local part starred, bulleted, or elided — ha***@x.de,
+      h•••@x.de, ha…@x.de, ha..@x.de. pii.email does not match these.
+    regex: '[A-Za-z0-9._%+-]*(\*+|•+|…+|\.{2,})[A-Za-z0-9._%+*•…-]*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}'
+    samples:
+      - { input: "ha***@company.de", redacted: true }
+      - { input: "h•••@company.co.uk", redacted: true }
+      - { input: "ha…@company.de", redacted: true }
+      - { input: "ha..@company.de", redacted: true }
+      - { input: "**bold**@company.de", redacted: true }
+      - { input: "import x from '@types/node'", redacted: false }
+      - { input: "rm *@*.bak", redacted: false }
+      - { input: "next@16.3.3", redacted: false }
+
+  - id: subscriber-token
+    description: >-
+      The waitlist confirm token and its lookup hash — both 64 hex chars
+      (apps/web/lib/token.ts: randomBytes(32).toString("hex"), sha256 digest).
+      A published token is a live capability against one subscriber's record;
+      the hash is the key that finds them. No tracked file in this repo
+      contains a 64-hex string, so this costs nothing in false positives.
+    regex: '\b[a-f0-9]{64}\b'
+    samples:
+      - { input: "?token=6f1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8", redacted: true }
+      - { input: "deadbeef", redacted: false }
+      - { input: "17de289d1f2e3a4b5c6d7e8f90a1b2c3d4e5f607", redacted: false }
+
+  - id: resend-api-key
+    description: Resend API keys. Belt and braces over the secret scanners.
+    regex: 're_[A-Za-z0-9_-]{16,}'
+    samples:
+      - { input: "RESEND_TOKEN=re_abcd1234EFGH5678ijkl", redacted: true }
+      - { input: "re_short", redacted: false }
+
+  - id: webhook-signing-secret
+    description: Svix-format signing secrets, as used by the Resend webhook route.
+    regex: 'whsec_[A-Za-z0-9+/=_-]{16,}'
+    samples:
+      - { input: "RESEND_WEBHOOK_SECRET=whsec_MfKQ9r8sT2uVwXyZ0aBcDeFg", redacted: true }
+      - { input: "whsec_tiny", redacted: false }

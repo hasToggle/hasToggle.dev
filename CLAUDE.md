@@ -224,6 +224,44 @@ Design rounds in this repo run on proposals: present options with a clear
 recommendation and the trade-offs named, get an explicit yes, then build.
 Project knowledge belongs in the repo — these docs, not external notes.
 
+## Live subscriber data does not belong in this repo
+
+Every agent session here is published, in plaintext, to the **public**
+`hasToggle.dev-checkpoints` repo, and the landing page links it. Entire offers
+no per-session opt-out, and a force-push does not un-publish anything already
+fetched, forked, or cached.
+
+So work that reads or writes real subscriber records — the `subscribers`
+collection, Resend contacts, segments, broadcasts — runs in
+`hasToggle/hasToggle-ops` (private, sessions captured but never published),
+not here. Site code, copy, demos, and design stay here and stay public. A task
+that needs both splits into two sessions.
+
+Inside this repo the rule still holds for anything that touches people:
+counts and coarse buckets to stdout, identifying rows to a gitignored file
+under `.context/`. Never a full address, a starred partial (`ha***@x.de`), or
+a bare employer domain — including in prose. `.entire/redactors/hastoggle-pii.yaml`
+catches those shapes as a safety net; it cannot catch an agent describing the
+data in a sentence.
+
+### Redaction layers, and what pushing costs
+
+`git push` runs the OpenAI Privacy Filter over the checkpoints first — layer 9,
+the only one that catches a name in prose. It is a local model; nothing leaves
+the machine. Three things about it are not obvious:
+
+- **It runs on CPU here.** `opf` defaults to `--device cuda`, and `--device mps`
+  wants `triton`, which has no macOS build. `.entire/settings.local.json` (which
+  is untracked, and every clone needs its own) points at
+  `~/.local/bin/opf-entire`, a wrapper that pins `--device cpu`.
+- **It is slow** — roughly 110s per 64KB. Hence `timeout_seconds: 900`, because
+  a scanner timeout makes transcript writes fail closed, and
+  `prompt_default: "ask"`, which keeps the cost per-push opt-in.
+- **A big backlog blocks it.** OPF refuses to buffer more than 200MB of raw
+  blob across unpushed commits. Drain once with `ENTIRE_OPF=no git push`, then
+  ordinary pushes are small enough to scan. Do not raise
+  `ENTIRE_OPF_BATCH_LIMIT` — it buys hours of CPU for nothing.
+
 ## Development Notes
 
 - The main branch is not explicitly configured in git - PRs should target the default branch
