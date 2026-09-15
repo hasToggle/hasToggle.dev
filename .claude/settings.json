@@ -112,8 +112,6 @@
       "WebFetch(domain:github.com)"
     ],
     "ask": [],
-    "deny": [
-      "Read(**/.env*)"
-    ]
+    "deny": ["Read(**/.env*)"]
   }
 }
