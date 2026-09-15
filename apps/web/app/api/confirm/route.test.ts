@@ -178,6 +178,58 @@ function postSequence(
   );
 }
 
+describe("/api/confirm legacy casing", () => {
+  const duplicateKey = Object.assign(new Error("E11000 duplicate key"), {
+    code: 11_000,
+  });
+
+  test("looks the address up under the index collation", async () => {
+    await post(null, "Mixed@Example.com");
+    expect(findOne.mock.calls[0]?.[1]).toEqual({
+      collation: { locale: "en", strength: 2 },
+    });
+  });
+
+  test("retries a rejected upsert against the legacy row and sends", async () => {
+    findOne.mockResolvedValue(null as never);
+    updateOne
+      .mockRejectedValueOnce(duplicateKey as never)
+      .mockResolvedValueOnce({ matchedCount: 1 } as never);
+    send.mockResolvedValue({ data: { id: "x" }, error: null } as never);
+
+    const response = await POST(makeRequest({ email: "legacy@example.com" }));
+
+    expect(response.status).toBe(200);
+    expect(updateOne).toHaveBeenCalledTimes(2);
+    expect(updateOne.mock.calls[1]?.[2]).toEqual({
+      collation: { locale: "en", strength: 2 },
+    });
+    expect(sentSubjects()).toEqual(["One click and you’re on the waitlist"]);
+  });
+
+  test("fails rather than mail a token no row holds", async () => {
+    findOne.mockResolvedValue(null as never);
+    updateOne
+      .mockRejectedValueOnce(duplicateKey as never)
+      .mockResolvedValueOnce({ matchedCount: 0 } as never);
+
+    const response = await POST(makeRequest({ email: "ghost@example.com" }));
+
+    expect(response.status).toBe(500);
+    expect(send).not.toHaveBeenCalled();
+  });
+
+  test("lets any other database error through as a 500", async () => {
+    findOne.mockResolvedValue(null as never);
+    updateOne.mockRejectedValueOnce(new Error("connection reset") as never);
+
+    const response = await POST(makeRequest({ email: "down@example.com" }));
+
+    expect(response.status).toBe(500);
+    expect(updateOne).toHaveBeenCalledTimes(1);
+  });
+});
+
 describe("/api/confirm limits", () => {
   test("refuses a caller that floods the form with fresh addresses", async () => {
     const ip = "198.51.100.7";

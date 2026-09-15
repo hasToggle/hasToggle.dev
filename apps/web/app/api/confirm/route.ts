@@ -4,10 +4,12 @@ import AlreadySubscribed from "@repo/email/templates/already-subscribed";
 import ConfirmSubscription from "@repo/email/templates/confirm-subscription";
 import { parseError } from "@repo/observability/error";
 import { log } from "@repo/observability/log";
-import { after, type NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
 import { confirmationOrigin } from "@/lib/confirmation-origin";
 import {
+  EMAIL_COLLATION,
+  normalizeEmail,
   type ValidationFailureReason,
   validateEmail,
 } from "@/lib/email-validation";
@@ -46,8 +48,15 @@ const SUCCESS_MESSAGE = "Check your inbox. One click confirms it.";
 
 const EMAIL_SHAPE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function normalizeEmail(input: unknown): string {
-  return typeof input === "string" ? input.trim().toLowerCase() : "";
+const DUPLICATE_KEY = 11_000;
+
+function isDuplicateKey(error: unknown): boolean {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    error.code === DUPLICATE_KEY
+  );
 }
 
 // Issue time is not stored; the expiry is, and the lifetime is fixed.
@@ -82,27 +91,60 @@ function emailError() {
   );
 }
 
+/**
+ * Writes the token onto the subscriber's row, creating it if there is none.
+ * The address arrives normalized, so the plain upsert matches every row
+ * written since normalization began. A row stored in another casing before
+ * that is invisible to the plain lookup, and the attempted insert trips the
+ * case-insensitive unique index (E11000). That is the signal to look again
+ * with the index's collation, which finds the legacy row and updates it in
+ * place. A retry that matches nothing means the token would be mailed for a
+ * row nobody holds, so it is an error rather than a silent success.
+ */
+async function storeConfirmationToken(email: string, hash: string) {
+  const update = {
+    $set: {
+      token: hash,
+      tokenExpiresAt: new Date(Date.now() + TOKEN_EXPIRY_MS),
+    },
+  };
+
+  try {
+    await database.subscriber.updateOne(
+      { email },
+      {
+        ...update,
+        $setOnInsert: {
+          _id: createId(),
+          createdAt: new Date(),
+          emailVerified: null,
+          image: null,
+          name: null,
+          role: "user",
+        },
+      },
+      { upsert: true }
+    );
+  } catch (error) {
+    if (!isDuplicateKey(error)) {
+      throw error;
+    }
+    const retry = await database.subscriber.updateOne({ email }, update, {
+      collation: EMAIL_COLLATION,
+    });
+    if (retry.matchedCount === 0) {
+      throw new Error(
+        "Duplicate key on upsert, but no row matched the address under the index collation",
+        { cause: error }
+      );
+    }
+  }
+}
+
 async function sendConfirmation(email: string, origin: string) {
   const { token, hash } = generateToken();
 
-  await database.subscriber.updateOne(
-    { email },
-    {
-      $set: {
-        token: hash,
-        tokenExpiresAt: new Date(Date.now() + TOKEN_EXPIRY_MS),
-      },
-      $setOnInsert: {
-        _id: createId(),
-        createdAt: new Date(),
-        emailVerified: null,
-        image: null,
-        name: null,
-        role: "user",
-      },
-    },
-    { upsert: true }
-  );
+  await storeConfirmationToken(email, hash);
 
   const { error } = await resend.emails.send(
     {
@@ -145,7 +187,7 @@ async function sendAlreadySubscribed(
   ]);
 
   if (contact.error) {
-    after(() => parseError(contact.error));
+    parseError(contact.error);
   }
 
   return mail.error;
@@ -180,7 +222,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const existing = await database.subscriber.findOne({ email });
+    // Collation-aware, so a row stored in another casing still counts as
+    // the same person here and gets the reminder rather than a new token.
+    const existing = await database.subscriber.findOne(
+      { email },
+      { collation: EMAIL_COLLATION }
+    );
 
     if (existing?.emailVerified) {
       const error = await sendAlreadySubscribed(
@@ -217,7 +264,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    after(() => parseError(error));
+    parseError(error);
     return NextResponse.json(
       {
         error: { message: "An unexpected error occurred", name: "ServerError" },

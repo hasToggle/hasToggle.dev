@@ -7,17 +7,17 @@ import { POST } from "./route";
 // The preload mocks @repo/database and @repo/email once for every test file;
 // spying on those shared objects keeps this file's behaviour from leaking.
 const verify = spyOn(resend.webhooks, "verify");
-const deleteOne = spyOn(database.subscriber, "deleteOne");
+const deleteMany = spyOn(database.subscriber, "deleteMany");
 const removeContact = spyOn(resend.contacts, "remove");
 
 afterEach(() => {
   verify.mockReset();
-  deleteOne.mockReset();
+  deleteMany.mockReset();
   removeContact.mockReset();
 });
 
 function deletedEmails() {
-  return deleteOne.mock.calls.map(([filter]) => filter?.email);
+  return deleteMany.mock.calls.map(([filter]) => filter?.email);
 }
 
 function post(event?: unknown) {
@@ -28,7 +28,7 @@ function post(event?: unknown) {
       throw new Error("Invalid signature");
     });
   }
-  deleteOne.mockResolvedValue({ deletedCount: 1 } as never);
+  deleteMany.mockResolvedValue({ deletedCount: 1 } as never);
   removeContact.mockResolvedValue({
     data: null,
     error: { message: "", name: "not_found", statusCode: 404 },

@@ -9,11 +9,10 @@ const SECRET = "test-reconcile-secret-that-is-long-enough";
 const list = spyOn(resend.contacts, "list");
 const removeContact = spyOn(resend.contacts, "remove");
 const find = spyOn(database.subscriber, "find");
-const deleteOne = spyOn(database.subscriber, "deleteOne");
 const deleteMany = spyOn(database.subscriber, "deleteMany");
 
 afterEach(() => {
-  for (const spy of [list, removeContact, find, deleteOne, deleteMany]) {
+  for (const spy of [list, removeContact, find, deleteMany]) {
     spy.mockReset();
   }
 });
@@ -64,7 +63,6 @@ describe("/api/reconcile", () => {
     const response = await post(`Bearer ${SECRET}`);
 
     expect(response.status).toBe(409);
-    expect(deleteOne).not.toHaveBeenCalled();
     expect(deleteMany).not.toHaveBeenCalled();
   });
 
@@ -95,17 +93,19 @@ describe("/api/reconcile", () => {
           { email: "orphan@example.com" },
         ]),
     } as never);
-    deleteOne.mockResolvedValue({ deletedCount: 1 } as never);
-    deleteMany.mockResolvedValue({ deletedCount: 2 } as never);
+    // Per-address erasures answer 1; the stale-unconfirmed sweep answers 2.
+    deleteMany.mockImplementation(((filter: { email?: string }) =>
+      Promise.resolve({ deletedCount: filter.email ? 1 : 2 })) as never);
 
     const response = await post(`Bearer ${SECRET}`);
     const body = await response.json();
 
     expect(response.status).toBe(200);
-    expect(deleteOne.mock.calls.map(([f]) => f?.email).sort()).toEqual([
-      "flagged@example.com",
-      "orphan@example.com",
-    ]);
+    const erased = deleteMany.mock.calls
+      .map(([f]) => (f as { email?: string }).email)
+      .filter(Boolean)
+      .sort();
+    expect(erased).toEqual(["flagged@example.com", "orphan@example.com"]);
     expect(body.removed).toEqual({
       orphaned: 1,
       unconfirmed: 2,
