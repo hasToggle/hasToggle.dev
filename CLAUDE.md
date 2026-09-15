@@ -244,6 +244,24 @@ a bare employer domain — including in prose. `.entire/redactors/hastoggle-pii.
 catches those shapes as a safety net; it cannot catch an agent describing the
 data in a sentence.
 
+### Redaction layers, and what pushing costs
+
+`git push` runs the OpenAI Privacy Filter over the checkpoints first — layer 9,
+the only one that catches a name in prose. It is a local model; nothing leaves
+the machine. Three things about it are not obvious:
+
+- **It runs on CPU here.** `opf` defaults to `--device cuda`, and `--device mps`
+  wants `triton`, which has no macOS build. `.entire/settings.local.json` (which
+  is untracked, and every clone needs its own) points at
+  `~/.local/bin/opf-entire`, a wrapper that pins `--device cpu`.
+- **It is slow** — roughly 110s per 64KB. Hence `timeout_seconds: 900`, because
+  a scanner timeout makes transcript writes fail closed, and
+  `prompt_default: "ask"`, which keeps the cost per-push opt-in.
+- **A big backlog blocks it.** OPF refuses to buffer more than 200MB of raw
+  blob across unpushed commits. Drain once with `ENTIRE_OPF=no git push`, then
+  ordinary pushes are small enough to scan. Do not raise
+  `ENTIRE_OPF_BATCH_LIMIT` — it buys hours of CPU for nothing.
+
 ## Development Notes
 
 - The main branch is not explicitly configured in git - PRs should target the default branch
