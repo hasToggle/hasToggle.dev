@@ -68,8 +68,9 @@ mock.module("@repo/email/keys", () => ({
   keys: () => ({ RESEND_WEBHOOK_SECRET: "whsec_dGVzdC1zZWNyZXQ=" }),
 }));
 
+// Returns its props so a test can read what the mail was built from.
 mock.module("@repo/email/templates/confirm-subscription", () => ({
-  default: () => null,
+  default: (props: Record<string, unknown>) => ({ props }),
 }));
 
 mock.module("@repo/email/templates/already-subscribed", () => ({

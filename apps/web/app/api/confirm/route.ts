@@ -6,10 +6,12 @@ import { parseError } from "@repo/observability/error";
 import { log } from "@repo/observability/log";
 import { after, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
+import { confirmationOrigin } from "@/lib/confirmation-origin";
 import {
   type ValidationFailureReason,
   validateEmail,
 } from "@/lib/email-validation";
+import { clientIp, rateLimiter } from "@/lib/rate-limit";
 import { generateToken } from "@/lib/token";
 
 const TOKEN_EXPIRY_MS = 1000 * 60 * 60 * 24;
@@ -18,6 +20,16 @@ const TOKEN_EXPIRY_MS = 1000 * 60 * 60 * 24;
 // someone hammering an address that is not theirs. After it, a resubmit
 // means "the first mail never arrived" and a fresh one goes out.
 const RESEND_COOLDOWN_MS = 1000 * 60 * 2;
+
+// Every request past the format check costs a deliverability lookup, a
+// database write and a mail, so callers are capped before that point: a
+// burst per address, and a burst per caller across addresses. A real person
+// retrying a typo fits inside both.
+const PER_ADDRESS = { limit: 3, ms: 1000 * 60 * 60 };
+const PER_CALLER = { limit: 10, ms: 1000 * 60 * 10 };
+
+const LIMIT_MESSAGE =
+  "That’s a lot of attempts in a short time. Try again in a little while.";
 
 // Vague messaging for disposable/undeliverable to avoid revealing rejection reason
 const VALIDATION_MESSAGES: Record<ValidationFailureReason, string> = {
@@ -32,6 +44,8 @@ const VALIDATION_MESSAGES: Record<ValidationFailureReason, string> = {
 // whether an address is on the list. What differs is the mail that arrives.
 const SUCCESS_MESSAGE = "Check your inbox. One click confirms it.";
 
+const EMAIL_SHAPE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 function normalizeEmail(input: unknown): string {
   return typeof input === "string" ? input.trim().toLowerCase() : "";
 }
@@ -41,6 +55,19 @@ function tokenIssuedAt(subscriber: Subscriber): number {
   return subscriber.tokenExpiresAt
     ? subscriber.tokenExpiresAt.getTime() - TOKEN_EXPIRY_MS
     : Number.NEGATIVE_INFINITY;
+}
+
+async function overLimit(request: NextRequest, email: string) {
+  const [byAddress, byCaller] = await Promise.all([
+    rateLimiter("confirm:address", PER_ADDRESS),
+    rateLimiter("confirm:caller", PER_CALLER),
+  ]);
+  const ip = clientIp(request.headers);
+  const [address, caller] = await Promise.all([
+    byAddress.limit(email),
+    ip ? byCaller.limit(ip) : Promise.resolve({ success: true }),
+  ]);
+  return !(address.success && caller.success);
 }
 
 function emailError() {
@@ -129,6 +156,16 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const email = normalizeEmail(body?.email);
 
+    // Junk fails the format check inside validateEmail without touching a
+    // window; anything shaped like an address is counted before the costly
+    // checks run.
+    if (EMAIL_SHAPE.test(email) && (await overLimit(request, email))) {
+      return NextResponse.json(
+        { error: { message: LIMIT_MESSAGE, name: "RateLimitError" } },
+        { status: 429 }
+      );
+    }
+
     const validation = await validateEmail(email);
 
     if (!validation.valid) {
@@ -161,7 +198,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: SUCCESS_MESSAGE });
     }
 
-    const error = await sendConfirmation(email, new URL(request.url).origin);
+    const error = await sendConfirmation(
+      email,
+      confirmationOrigin(request.url, env.NEXT_PUBLIC_WEB_URL)
+    );
     if (error) {
       log.error(`Failed to send confirmation email: ${JSON.stringify(error)}`);
       return emailError();

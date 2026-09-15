@@ -2,7 +2,7 @@ import { afterEach, describe, expect, spyOn, test } from "bun:test";
 import { database } from "@repo/database";
 import { resend } from "@repo/email";
 import { NextRequest } from "next/server";
-import { POST } from "./route";
+import { orphansLookWrong, POST } from "./route";
 
 const SECRET = "test-reconcile-secret-that-is-long-enough";
 
@@ -27,7 +27,47 @@ function post(authorization?: string) {
   );
 }
 
+describe("orphansLookWrong", () => {
+  test("refuses an empty listing while subscribers exist", () => {
+    expect(orphansLookWrong(40, 0, 40)).toBe(true);
+  });
+
+  test("allows a handful of departures on a small list", () => {
+    expect(orphansLookWrong(6, 1, 5)).toBe(false);
+    expect(orphansLookWrong(6, 1, 6)).toBe(true);
+  });
+
+  test("refuses losing more than half of a large list at once", () => {
+    expect(orphansLookWrong(1000, 400, 500)).toBe(false);
+    expect(orphansLookWrong(1000, 400, 501)).toBe(true);
+  });
+
+  test("an empty database has nothing to protect", () => {
+    expect(orphansLookWrong(0, 0, 0)).toBe(false);
+  });
+});
+
 describe("/api/reconcile", () => {
+  test("refuses to delete anyone when Resend lists no contacts", async () => {
+    list.mockResolvedValue({
+      data: { data: [], has_more: false, object: "list" },
+      error: null,
+    } as never);
+    find.mockReturnValue({
+      toArray: () =>
+        Promise.resolve([
+          { email: "one@example.com" },
+          { email: "two@example.com" },
+        ]),
+    } as never);
+
+    const response = await post(`Bearer ${SECRET}`);
+
+    expect(response.status).toBe(409);
+    expect(deleteOne).not.toHaveBeenCalled();
+    expect(deleteMany).not.toHaveBeenCalled();
+  });
+
   test("rejects a missing or wrong bearer token", async () => {
     expect((await post()).status).toBe(401);
     expect((await post("Bearer nope")).status).toBe(401);
