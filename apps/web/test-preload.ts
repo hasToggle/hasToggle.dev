@@ -16,6 +16,8 @@ process.env.RESEND_WEBHOOK_SECRET ??= "whsec_dGVzdC1zZWNyZXQ=";
 process.env.RECONCILE_SECRET ??= "test-reconcile-secret-that-is-long-enough";
 process.env.NEXT_PUBLIC_APP_URL ??= "http://localhost:3000";
 process.env.NEXT_PUBLIC_WEB_URL ??= "http://localhost:3001";
+process.env.NEXT_PUBLIC_POSTHOG_HOST ??= "https://eu.i.posthog.com";
+process.env.NEXT_PUBLIC_POSTHOG_KEY ??= "phc_test";
 
 mock.module("server-only", () => ({}));
 

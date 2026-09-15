@@ -1,21 +1,26 @@
-import { authMiddleware } from "@repo/auth/middleware";
 import { isToolbarEnabled } from "@repo/feature-flags/lib/toolbar-enabled";
 import { internationalizationMiddleware } from "@repo/internationalization/middleware";
 import { parseError } from "@repo/observability/error";
 import { secure } from "@repo/security";
-import {
-  noseconeOptions,
-  noseconeOptionsWithToolbar,
-  securityMiddleware,
-} from "@repo/security/middleware";
 import { createNEMO } from "@zanreal/nemo";
-import { type NextProxy, type NextRequest, NextResponse } from "next/server";
+import {
+  type NextFetchEvent,
+  type NextProxy,
+  type NextRequest,
+  NextResponse,
+} from "next/server";
 import { env } from "@/env";
+import {
+  securityHeaders,
+  securityOptions,
+  securityOptionsWithToolbar,
+  withSecurityHeaders,
+} from "@/lib/security-headers";
 
 export const config = {
   matcher: [
     // Skip Next.js internals and all static files, unless found in search params
-    "/((?!_next|ingest|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/((?!_next|ingest|monitoring|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
     // Always run for API routes
     "/(api|trpc)(.*)",
   ],
@@ -24,9 +29,9 @@ export const config = {
 // Only widen the CSP where the toolbar actually renders. Keying this on
 // FLAGS_SECRET alone meant production carried vercel.live allowances for a
 // toolbar it no longer loads.
-const securityHeaders = isToolbarEnabled()
-  ? securityMiddleware(noseconeOptionsWithToolbar)
-  : securityMiddleware(noseconeOptions);
+const headerOptions = isToolbarEnabled()
+  ? securityOptionsWithToolbar
+  : securityOptions;
 
 // Custom middleware for Arcjet security checks
 const arcjetMiddleware = async (request: NextRequest) => {
@@ -45,8 +50,9 @@ const arcjetMiddleware = async (request: NextRequest) => {
       request
     );
   } catch (error) {
-    const message = parseError(error);
-    return NextResponse.json({ error: message }, { status: 403 });
+    // The reason goes to Sentry; the visitor gets the same line either way.
+    parseError(error);
+    return NextResponse.json({ error: "Access denied" }, { status: 403 });
   }
 };
 
@@ -74,21 +80,15 @@ const composedMiddleware = createNEMO(
   }
 );
 
-// authMiddleware wraps the rest of the chain in its callback
-export const proxy = authMiddleware(
-  // biome-ignore lint/suspicious/noExplicitAny: Type cast needed due to Next.js type duplication in monorepo
-  async (_auth: any, request: Request, event: any) => {
-    // Run security headers first
-    const headersResponse = securityHeaders();
-
-    // Then run composed middleware (i18n + arcjet)
-    const middlewareResponse = await composedMiddleware(
-      request as unknown as NextRequest,
-      // biome-ignore lint/suspicious/noExplicitAny: Type cast needed due to Next.js type duplication in monorepo
-      event as any
-    );
-
-    // Return middleware response if it exists, otherwise headers response
-    return middlewareResponse || headersResponse;
-  }
-) as unknown as NextProxy;
+// The chain always answers with a response of its own — a locale rewrite, a
+// redirect, an Arcjet refusal, or NEMO's plain `next()` — so the security
+// headers are merged onto whatever comes back rather than offered as a
+// fallback that never gets used.
+export const proxy: NextProxy = async (
+  request: NextRequest,
+  event: NextFetchEvent
+) => {
+  const response =
+    (await composedMiddleware(request, event)) ?? NextResponse.next();
+  return withSecurityHeaders(response, securityHeaders(headerOptions));
+};
