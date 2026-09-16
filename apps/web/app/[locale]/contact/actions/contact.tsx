@@ -51,6 +51,7 @@ export const contact = async (
           email={input.email}
           message={input.message}
           name={input.name}
+          sentAt={new Date()}
         />
       ),
       replyTo: input.email,
