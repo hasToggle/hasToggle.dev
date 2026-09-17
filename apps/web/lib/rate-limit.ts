@@ -113,6 +113,10 @@ export function rateLimiter(
       ? createRedisLimiter(window, prefix)
       : Promise.resolve(createMemoryLimiter(window));
     limiters.set(id, limiter);
+    // A failed construction is not kept: the next call tries again rather
+    // than answering every request for the instance's lifetime with the
+    // same rejection.
+    limiter.catch(() => limiters.delete(id));
   }
   return limiter;
 }

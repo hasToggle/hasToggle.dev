@@ -18,10 +18,17 @@ const CARD = {
 let fontsPromise: Promise<{ bold: Buffer; regular: Buffer }> | null = null;
 
 function loadFonts() {
-  fontsPromise ??= Promise.all([
-    readFile(join(process.cwd(), "assets/JetBrainsMono-Regular.ttf")),
-    readFile(join(process.cwd(), "assets/JetBrainsMono-Bold.ttf")),
-  ]).then(([regular, bold]) => ({ bold, regular }));
+  if (!fontsPromise) {
+    fontsPromise = Promise.all([
+      readFile(join(process.cwd(), "assets/JetBrainsMono-Regular.ttf")),
+      readFile(join(process.cwd(), "assets/JetBrainsMono-Bold.ttf")),
+    ]).then(([regular, bold]) => ({ bold, regular }));
+    // A failed read is not kept, or one bad moment would break every card
+    // this instance renders afterwards.
+    fontsPromise.catch(() => {
+      fontsPromise = null;
+    });
+  }
   return fontsPromise;
 }
 
