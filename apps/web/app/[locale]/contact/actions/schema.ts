@@ -8,7 +8,13 @@ import { z } from "zod";
 export const contactSchema = z.object({
   email: z.string().trim().toLowerCase().max(254).pipe(z.email()),
   message: z.string().trim().min(1).max(5000),
-  name: z.string().trim().min(1).max(120),
+  // One line: the name goes into the mail's subject.
+  name: z
+    .string()
+    .trim()
+    .min(1)
+    .max(120)
+    .regex(/^[^\r\n]+$/),
 });
 
 export type ContactInput = z.infer<typeof contactSchema>;

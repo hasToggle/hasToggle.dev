@@ -8,10 +8,11 @@ import { type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
 import { confirmationOrigin } from "@/lib/confirmation-origin";
 import {
+  checkEmailDeliverability,
   EMAIL_COLLATION,
   normalizeEmail,
   type ValidationFailureReason,
-  validateEmail,
+  validateEmailFormat,
 } from "@/lib/email-validation";
 import { clientIp, rateLimiter } from "@/lib/rate-limit";
 import { generateToken } from "@/lib/token";
@@ -46,8 +47,6 @@ const VALIDATION_MESSAGES: Record<ValidationFailureReason, string> = {
 // whether an address is on the list. What differs is the mail that arrives.
 const SUCCESS_MESSAGE = "Check your inbox. One click confirms it.";
 
-const EMAIL_SHAPE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 const DUPLICATE_KEY = 11_000;
 
 function isDuplicateKey(error: unknown): boolean {
@@ -77,6 +76,15 @@ async function overLimit(request: NextRequest, email: string) {
     ip ? byCaller.limit(ip) : Promise.resolve({ success: true }),
   ]);
   return !(address.success && caller.success);
+}
+
+function validationError(reason: ValidationFailureReason) {
+  return NextResponse.json(
+    {
+      error: { message: VALIDATION_MESSAGES[reason], name: "ValidationError" },
+    },
+    { status: 400 }
+  );
 }
 
 function emailError() {
@@ -198,27 +206,17 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const email = normalizeEmail(body?.email);
 
-    // Junk fails the format check inside validateEmail without touching a
-    // window; anything shaped like an address is counted before the costly
-    // checks run.
-    if (EMAIL_SHAPE.test(email) && (await overLimit(request, email))) {
+    // Junk fails the cheap checks without touching a window; anything
+    // shaped like an address is counted before the costly steps run.
+    const format = validateEmailFormat(email);
+    if (!format.valid) {
+      return validationError(format.reason);
+    }
+
+    if (await overLimit(request, email)) {
       return NextResponse.json(
         { error: { message: LIMIT_MESSAGE, name: "RateLimitError" } },
         { status: 429 }
-      );
-    }
-
-    const validation = await validateEmail(email);
-
-    if (!validation.valid) {
-      return NextResponse.json(
-        {
-          error: {
-            message: VALIDATION_MESSAGES[validation.reason],
-            name: "ValidationError",
-          },
-        },
-        { status: 400 }
       );
     }
 
@@ -243,6 +241,15 @@ export async function POST(request: NextRequest) {
 
     if (existing && Date.now() - tokenIssuedAt(existing) < RESEND_COOLDOWN_MS) {
       return NextResponse.json({ message: SUCCESS_MESSAGE });
+    }
+
+    // The paid lookup runs once per address: a row on file already passed
+    // it when the row was written.
+    if (!existing) {
+      const deliverability = await checkEmailDeliverability(email);
+      if (!deliverability.valid) {
+        return validationError(deliverability.reason);
+      }
     }
 
     const error = await sendConfirmation(

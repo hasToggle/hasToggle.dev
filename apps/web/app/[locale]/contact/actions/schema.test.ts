@@ -31,6 +31,12 @@ describe("parseContact", () => {
     ).toBeNull();
   });
 
+  test("rejects a name that spans lines", () => {
+    expect(
+      parseContact(form({ email: "a@b.co", message: "hi", name: "x\nBcc: y" }))
+    ).toBeNull();
+  });
+
   test("rejects oversized input", () => {
     expect(
       parseContact(

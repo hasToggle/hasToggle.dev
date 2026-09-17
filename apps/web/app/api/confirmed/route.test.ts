@@ -59,6 +59,7 @@ describe("/api/confirmed", () => {
     expect(response.status).toBe(303);
     expect(response.headers.get("Location")).toBe("/confirmed");
     expect(updateOne).not.toHaveBeenCalled();
+    expect(createContact).not.toHaveBeenCalled();
   });
 
   test("rejects an expired link that was never confirmed", async () => {
