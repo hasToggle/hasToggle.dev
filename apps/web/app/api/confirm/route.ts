@@ -203,6 +203,20 @@ async function sendConfirmation(
   return error;
 }
 
+/**
+ * Resend's answer when a key has already sent something else. A key lives
+ * 24 hours and replays only an identical payload, so a reminder refused
+ * this way is one whose twin went out today under different content — a
+ * deploy changed the copy, or a second deployment signed a different
+ * unsubscribe URL into it. The cap has done its work either way, and
+ * reporting it as a failure would answer a registered address with a 500
+ * where an unknown one gets a 200.
+ */
+const ALREADY_REMINDED: ReadonlySet<string> = new Set([
+  "invalid_idempotent_request",
+  "concurrent_idempotent_requests",
+]);
+
 async function sendAlreadySubscribed(
   subscriber: Subscriber,
   confirmedAt: Date,
@@ -226,8 +240,12 @@ async function sendAlreadySubscribed(
         to: [subscriber.email],
       },
       // One reminder per address per day, however often the form is sent.
+      // The host is part of the key because every deployment sends through
+      // the same Resend account: preview and production write different
+      // unsubscribe URLs into the same mail, and a shared key would let a
+      // test on one refuse the other's reminder for the rest of the day.
       {
-        idempotencyKey: `already-subscribed/${subscriber._id}/${new Date().toISOString().slice(0, 10)}`,
+        idempotencyKey: `already-subscribed/${new URL(origin).host}/${subscriber._id}/${new Date().toISOString().slice(0, 10)}`,
       }
     ),
   ]);
@@ -236,7 +254,9 @@ async function sendAlreadySubscribed(
     parseError(contact.error);
   }
 
-  return mail.error;
+  return mail.error && ALREADY_REMINDED.has(mail.error.name)
+    ? null
+    : mail.error;
 }
 
 export async function POST(request: NextRequest) {

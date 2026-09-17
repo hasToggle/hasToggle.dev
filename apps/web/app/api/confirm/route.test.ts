@@ -143,6 +143,60 @@ describe("/api/confirm", () => {
     expect(updateOne).not.toHaveBeenCalled();
   });
 
+  test("keys the reminder by host, subscriber and day", async () => {
+    await post(
+      subscriber({ emailVerified: new Date(), tokenExpiresAt: null }),
+      "eric@example.com"
+    );
+    const today = new Date().toISOString().slice(0, 10);
+    expect(send.mock.calls[0]?.[1]?.idempotencyKey).toBe(
+      `already-subscribed/localhost:3001/sub-1/${today}`
+    );
+  });
+
+  test("treats a burned idempotency key as a reminder already sent", async () => {
+    findOne.mockResolvedValue(
+      subscriber({ emailVerified: new Date(), tokenExpiresAt: null }) as never
+    );
+    createContact.mockResolvedValue({
+      data: { id: "contact-id" },
+      error: null,
+    } as never);
+    send.mockResolvedValue({
+      data: null,
+      error: {
+        message: "Same idempotency key used with a different payload",
+        name: "invalid_idempotent_request",
+        statusCode: 409,
+      },
+    } as never);
+
+    const response = await POST(makeRequest({ email: "eric@example.com" }));
+    expect(response.status).toBe(200);
+    expect((await response.json()).message).toBe(SUCCESS);
+  });
+
+  test("still reports a reminder Resend actually refused", async () => {
+    findOne.mockResolvedValue(
+      subscriber({ emailVerified: new Date(), tokenExpiresAt: null }) as never
+    );
+    createContact.mockResolvedValue({
+      data: { id: "contact-id" },
+      error: null,
+    } as never);
+    send.mockResolvedValue({
+      data: null,
+      error: {
+        message: "Too many requests",
+        name: "rate_limit_exceeded",
+        statusCode: 429,
+      },
+    } as never);
+
+    const response = await POST(makeRequest({ email: "eric@example.com" }));
+    expect(response.status).toBe(500);
+  });
+
   test("both mails carry a signed unsubscribe link and the one-click headers", async () => {
     await post(null, "new@example.com");
     await post(
