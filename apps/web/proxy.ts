@@ -4,6 +4,7 @@ import { parseError } from "@repo/observability/error";
 import { secure } from "@repo/security";
 import { type NextProxy, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
+import { CONFIRMED_COOKIE, CONFIRMED_PATH } from "@/lib/confirmation-ticket";
 import {
   securityHeaders,
   securityOptions,
@@ -56,6 +57,20 @@ const arcjetMiddleware = async (request: NextRequest) => {
 // metadata files live at the app root, where Next serves them from.
 const UNLOCALIZED = new Set(["/robots.txt", "/sitemap.xml"]);
 
+// The page after the waitlist link is only for the visitor the link just
+// confirmed: without the ticket its redirect set, the address is a 404.
+const confirmedTicket = (request: NextRequest) => {
+  const { pathname } = request.nextUrl;
+  if (pathname === CONFIRMED_PATH && !request.cookies.has(CONFIRMED_COOKIE)) {
+    return NextResponse.rewrite(
+      new URL(`${CONFIRMED_PATH}/not-found`, request.url),
+      {
+        status: 404,
+      }
+    );
+  }
+};
+
 const i18nWithExclusions = (request: NextRequest) => {
   const { pathname } = request.nextUrl;
   if (
@@ -76,6 +91,7 @@ const i18nWithExclusions = (request: NextRequest) => {
 export const proxy: NextProxy = async (request: NextRequest) => {
   const response =
     (await arcjetMiddleware(request)) ??
+    confirmedTicket(request) ??
     (await i18nWithExclusions(request)) ??
     NextResponse.next();
   return withSecurityHeaders(response, securityHeaders(headerOptions));

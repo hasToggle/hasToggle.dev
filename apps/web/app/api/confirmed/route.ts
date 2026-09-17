@@ -3,6 +3,11 @@ import { resend } from "@repo/email";
 import { parseError } from "@repo/observability/error";
 import { after, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
+import {
+  CONFIRMED_COOKIE,
+  CONFIRMED_COOKIE_MAX_AGE_S,
+  CONFIRMED_PATH,
+} from "@/lib/confirmation-ticket";
 import { generateTokenHash } from "@/lib/token";
 
 export async function GET(request: NextRequest) {
@@ -39,7 +44,7 @@ export async function GET(request: NextRequest) {
     // nothing and never re-creates the contact, so a link that lingers in
     // an inbox or a request log cannot undo a later unsubscribe.
     if (subscriber.emailVerified) {
-      return confirmedPage();
+      return confirmedPage(request);
     }
 
     // The contact is what broadcasts send to. Resend's unsubscribe link
@@ -66,7 +71,7 @@ export async function GET(request: NextRequest) {
       after(() => parseError(error));
     }
 
-    return confirmedPage();
+    return confirmedPage(request);
   } catch (error) {
     after(() => parseError(error));
     return NextResponse.json(
@@ -76,11 +81,24 @@ export async function GET(request: NextRequest) {
   }
 }
 
-function confirmedPage() {
-  return new Response(null, {
+// The redirect carries the ticket the proxy checks; see lib/confirmation-ticket.
+function confirmedPage(request: NextRequest) {
+  const response = new Response(null, {
     headers: {
-      Location: "/confirmed",
+      Location: CONFIRMED_PATH,
     },
     status: 303,
   });
+  response.headers.append(
+    "Set-Cookie",
+    [
+      `${CONFIRMED_COOKIE}=1`,
+      `Path=${CONFIRMED_PATH}`,
+      `Max-Age=${CONFIRMED_COOKIE_MAX_AGE_S}`,
+      "HttpOnly",
+      "SameSite=Lax",
+      ...(request.nextUrl.protocol === "https:" ? ["Secure"] : []),
+    ].join("; ")
+  );
+  return response;
 }
