@@ -12,6 +12,7 @@ mock.module("@/env", () => ({
     RECONCILE_SECRET: "test-reconcile-secret-that-is-long-enough",
     RESEND_FROM: "test@example.com",
     RESEND_SEGMENT_ID: "test-segment-id",
+    UNSUBSCRIBE_SECRET: "test-unsubscribe-secret-that-is-long-enough",
   },
 }));
 

@@ -3,11 +3,7 @@ import { resend } from "@repo/email";
 import { parseError } from "@repo/observability/error";
 import { after, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
-import {
-  CONFIRMED_COOKIE,
-  CONFIRMED_COOKIE_MAX_AGE_S,
-  CONFIRMED_PATH,
-} from "@/lib/confirmation-ticket";
+import { CONFIRMED_TICKET, ticketRedirect } from "@/lib/tickets";
 import { generateTokenHash } from "@/lib/token";
 
 export async function GET(request: NextRequest) {
@@ -81,24 +77,10 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// The redirect carries the ticket the proxy checks; see lib/confirmation-ticket.
+// The redirect carries the ticket the proxy checks; see lib/tickets.
 function confirmedPage(request: NextRequest) {
-  const response = new Response(null, {
-    headers: {
-      Location: CONFIRMED_PATH,
-    },
-    status: 303,
-  });
-  response.headers.append(
-    "Set-Cookie",
-    [
-      `${CONFIRMED_COOKIE}=1`,
-      `Path=${CONFIRMED_PATH}`,
-      `Max-Age=${CONFIRMED_COOKIE_MAX_AGE_S}`,
-      "HttpOnly",
-      "SameSite=Lax",
-      ...(request.nextUrl.protocol === "https:" ? ["Secure"] : []),
-    ].join("; ")
+  return ticketRedirect(
+    CONFIRMED_TICKET,
+    request.nextUrl.protocol === "https:"
   );
-  return response;
 }

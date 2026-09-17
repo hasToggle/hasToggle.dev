@@ -4,13 +4,13 @@ import { parseError } from "@repo/observability/error";
 import { secure } from "@repo/security";
 import { type NextProxy, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
-import { CONFIRMED_COOKIE, CONFIRMED_PATH } from "@/lib/confirmation-ticket";
 import {
   securityHeaders,
   securityOptions,
   securityOptionsWithToolbar,
   withSecurityHeaders,
 } from "@/lib/security-headers";
+import { TICKETS } from "@/lib/tickets";
 
 export const config = {
   matcher: [
@@ -57,16 +57,16 @@ const arcjetMiddleware = async (request: NextRequest) => {
 // metadata files live at the app root, where Next serves them from.
 const UNLOCALIZED = new Set(["/robots.txt", "/sitemap.xml"]);
 
-// The page after the waitlist link is only for the visitor the link just
-// confirmed: without the ticket its redirect set, the address is a 404.
-const confirmedTicket = (request: NextRequest) => {
+// The pages after the waitlist link and the unsubscribe button are only
+// for the visitor who just came from them: without the ticket their
+// redirect set, the address is a 404.
+const ticketed = (request: NextRequest) => {
   const { pathname } = request.nextUrl;
-  if (pathname === CONFIRMED_PATH && !request.cookies.has(CONFIRMED_COOKIE)) {
+  const ticket = TICKETS.find((t) => t.path === pathname);
+  if (ticket && !request.cookies.has(ticket.cookie)) {
     return NextResponse.rewrite(
-      new URL(`${CONFIRMED_PATH}/not-found`, request.url),
-      {
-        status: 404,
-      }
+      new URL(`${ticket.path}/not-found`, request.url),
+      { status: 404 }
     );
   }
 };
@@ -77,6 +77,7 @@ const i18nWithExclusions = (request: NextRequest) => {
     UNLOCALIZED.has(pathname) ||
     pathname.startsWith("/api") ||
     pathname.startsWith("/confirmed") ||
+    pathname.startsWith("/unsubscribe") ||
     pathname.startsWith("/.well-known")
   ) {
     return;
@@ -91,7 +92,7 @@ const i18nWithExclusions = (request: NextRequest) => {
 export const proxy: NextProxy = async (request: NextRequest) => {
   const response =
     (await arcjetMiddleware(request)) ??
-    confirmedTicket(request) ??
+    ticketed(request) ??
     (await i18nWithExclusions(request)) ??
     NextResponse.next();
   return withSecurityHeaders(response, securityHeaders(headerOptions));

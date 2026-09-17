@@ -16,6 +16,7 @@ import {
 } from "@/lib/email-validation";
 import { clientIp, rateLimiter } from "@/lib/rate-limit";
 import { generateToken } from "@/lib/token";
+import { unsubscribeHeaders, unsubscribeUrl } from "@/lib/unsubscribe-link";
 
 const TOKEN_EXPIRY_MS = 1000 * 60 * 60 * 24;
 
@@ -100,22 +101,29 @@ function emailError() {
 }
 
 /**
- * Writes the token onto the subscriber's row, creating it if there is none.
- * The address arrives normalized, so the plain upsert matches every row
- * written since normalization began. A row stored in another casing before
- * that is invisible to the plain lookup, and the attempted insert trips the
- * case-insensitive unique index (E11000). That is the signal to look again
- * with the index's collation, which finds the legacy row and updates it in
- * place. A retry that matches nothing means the token would be mailed for a
- * row nobody holds, so it is an error rather than a silent success.
+ * Writes the token onto the subscriber's row, creating it if there is none,
+ * and answers with the row's id, which the mail's unsubscribe link is
+ * signed over. The address arrives normalized, so the plain upsert matches
+ * every row written since normalization began. A row stored in another
+ * casing before that is invisible to the plain lookup, and the attempted
+ * insert trips the case-insensitive unique index (E11000). That is the
+ * signal to look again with the index's collation, which finds the legacy
+ * row and updates it in place. A retry that matches nothing means the
+ * token would be mailed for a row nobody holds, so it is an error rather
+ * than a silent success.
  */
-async function storeConfirmationToken(email: string, hash: string) {
+async function storeConfirmationToken(
+  email: string,
+  hash: string,
+  existing: Subscriber | null
+): Promise<string> {
   const update = {
     $set: {
       token: hash,
       tokenExpiresAt: new Date(Date.now() + TOKEN_EXPIRY_MS),
     },
   };
+  const insertId = createId();
 
   try {
     await database.subscriber.updateOne(
@@ -123,7 +131,7 @@ async function storeConfirmationToken(email: string, hash: string) {
       {
         ...update,
         $setOnInsert: {
-          _id: createId(),
+          _id: insertId,
           createdAt: new Date(),
           emailVerified: null,
           image: null,
@@ -133,6 +141,8 @@ async function storeConfirmationToken(email: string, hash: string) {
       },
       { upsert: true }
     );
+    // The upsert matched the row we looked up, or inserted the one we named.
+    return existing?._id ?? insertId;
   } catch (error) {
     if (!isDuplicateKey(error)) {
       throw error;
@@ -146,18 +156,43 @@ async function storeConfirmationToken(email: string, hash: string) {
         { cause: error }
       );
     }
+    // The legacy row is the one we looked up, unless it appeared between
+    // the lookup and the upsert — then it has to be read to be named.
+    const row =
+      existing ??
+      (await database.subscriber.findOne(
+        { email },
+        { collation: EMAIL_COLLATION }
+      ));
+    if (!row) {
+      throw new Error(
+        "Legacy row matched the update but could not be read back",
+        { cause: error }
+      );
+    }
+    return row._id;
   }
 }
 
-async function sendConfirmation(email: string, origin: string) {
+async function sendConfirmation(
+  email: string,
+  origin: string,
+  existing: Subscriber | null
+) {
   const { token, hash } = generateToken();
 
-  await storeConfirmationToken(email, hash);
+  const id = await storeConfirmationToken(email, hash, existing);
+  const leave = unsubscribeUrl(origin, id, env.UNSUBSCRIBE_SECRET);
 
   const { error } = await resend.emails.send(
     {
       from: env.RESEND_FROM,
-      react: ConfirmSubscription({ baseUrl: origin, token }),
+      headers: unsubscribeHeaders(leave),
+      react: ConfirmSubscription({
+        baseUrl: origin,
+        token,
+        unsubscribeUrl: leave,
+      }),
       subject: "One click and you’re on the waitlist",
       to: [email],
     },
@@ -170,8 +205,10 @@ async function sendConfirmation(email: string, origin: string) {
 
 async function sendAlreadySubscribed(
   subscriber: Subscriber,
-  confirmedAt: Date
+  confirmedAt: Date,
+  origin: string
 ) {
+  const leave = unsubscribeUrl(origin, subscriber._id, env.UNSUBSCRIBE_SECRET);
   // Contact creation at confirm time swallows its error, so a confirmed
   // subscriber can be missing from the segment. Re-creating is idempotent.
   const [contact, mail] = await Promise.all([
@@ -183,7 +220,8 @@ async function sendAlreadySubscribed(
     resend.emails.send(
       {
         from: env.RESEND_FROM,
-        react: AlreadySubscribed({ confirmedAt }),
+        headers: unsubscribeHeaders(leave),
+        react: AlreadySubscribed({ confirmedAt, unsubscribeUrl: leave }),
         subject: "You’re already on the waitlist",
         to: [subscriber.email],
       },
@@ -227,10 +265,13 @@ export async function POST(request: NextRequest) {
       { collation: EMAIL_COLLATION }
     );
 
+    const origin = confirmationOrigin(request.url, env.NEXT_PUBLIC_WEB_URL);
+
     if (existing?.emailVerified) {
       const error = await sendAlreadySubscribed(
         existing,
-        existing.emailVerified
+        existing.emailVerified,
+        origin
       );
       if (error) {
         log.error(`Failed to send reminder email: ${JSON.stringify(error)}`);
@@ -252,10 +293,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const error = await sendConfirmation(
-      email,
-      confirmationOrigin(request.url, env.NEXT_PUBLIC_WEB_URL)
-    );
+    const error = await sendConfirmation(email, origin, existing);
     if (error) {
       log.error(`Failed to send confirmation email: ${JSON.stringify(error)}`);
       return emailError();

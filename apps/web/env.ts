@@ -22,11 +22,15 @@ export const env = createEnv({
   runtimeEnv: {
     ABSTRACT_API_KEY: process.env.ABSTRACT_API_KEY,
     RECONCILE_SECRET: process.env.RECONCILE_SECRET,
+    UNSUBSCRIBE_SECRET: process.env.UNSUBSCRIBE_SECRET,
   },
   server: {
     ABSTRACT_API_KEY: z.string().min(1).optional(),
     // Bearer token the scheduled reconciliation caller presents to
     // POST /api/reconcile.
     RECONCILE_SECRET: z.string().min(32),
+    // Signs the unsubscribe link in transactional mail (lib/unsubscribe-link).
+    // Rotating it voids every link already sent.
+    UNSUBSCRIBE_SECRET: z.string().min(32),
   },
 });

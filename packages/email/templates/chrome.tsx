@@ -191,6 +191,11 @@ export const button = {
 
 export const signoff = body;
 
+export const fineprintLink = {
+  color: "#3f3f46",
+  textDecoration: "underline",
+};
+
 export const fineprint = {
   borderTop: "1px solid #e4e4e7",
   color: "#71717a",

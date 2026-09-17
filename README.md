@@ -91,7 +91,8 @@ ones without which nothing starts: `NEXT_PUBLIC_WEB_URL`, `NEXT_PUBLIC_APP_URL`,
 `MONGODB_URI`, the four `RESEND_*` keys the waitlist needs (`RESEND_FROM`,
 `RESEND_TOKEN`, `RESEND_SEGMENT_ID`, `RESEND_WEBHOOK_SECRET`), and
 `RECONCILE_SECRET`, the bearer token the scheduled reconciliation presents to
-`/api/reconcile`.
+`/api/reconcile`, and `UNSUBSCRIBE_SECRET`, which signs the unsubscribe link in
+transactional mail (rotating it voids every link already sent).
 
 The gates, run from inside the workspace — not the repo root, which sweeps up
 every workspace’s tests without their per-workspace preloads and fails on files

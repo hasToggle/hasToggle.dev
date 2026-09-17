@@ -1,9 +1,22 @@
-import { Text } from "react-email";
-import { body, Chrome, fineprint, heading, signoff } from "./chrome";
+import { Link, Text } from "react-email";
+import {
+  body,
+  Chrome,
+  fineprint,
+  fineprintLink,
+  heading,
+  signoff,
+} from "./chrome";
 
 interface AlreadySubscribedProps {
   /** When the address confirmed. Named in the mail so the reader can place it. */
   readonly confirmedAt: Date;
+  /**
+   * Required on purpose: this is transactional mail, so Resend adds no
+   * unsubscribe link of its own (that is a broadcast feature). The link is
+   * ours, signed per subscriber — see apps/web/lib/unsubscribe-link.
+   */
+  readonly unsubscribeUrl: string;
 }
 
 const formatDay = (date: Date) =>
@@ -19,7 +32,10 @@ const formatDay = (date: Date) =>
  * same for every outcome, so this mail is where the reader learns nothing
  * needed doing.
  */
-const AlreadySubscribed = ({ confirmedAt }: AlreadySubscribedProps) => (
+const AlreadySubscribed = ({
+  confirmedAt,
+  unsubscribeUrl,
+}: AlreadySubscribedProps) => (
   <Chrome preview="You confirmed already, and you’re still in. When cohort seats open, this address hears first.">
     <Text style={heading}>You’re already on the waitlist.</Text>
     <Text style={body}>
@@ -34,15 +50,20 @@ const AlreadySubscribed = ({ confirmedAt }: AlreadySubscribedProps) => (
       Eric
     </Text>
     <Text style={fineprint}>
-      If you didn’t send this, someone typed your address into the form. Nothing
-      about your subscription changed, and every digest still ends with its
-      unsubscribe link.
+      If you didn’t send this, someone typed your address into the form, and
+      nothing about your subscription changed. If you’d rather not be on the
+      list at all,{" "}
+      <Link href={unsubscribeUrl} style={fineprintLink}>
+        leave it here
+      </Link>
+      : one press, no questions.
     </Text>
   </Chrome>
 );
 
 AlreadySubscribed.PreviewProps = {
   confirmedAt: new Date("2026-09-03T10:00:00Z"),
+  unsubscribeUrl: "https://example.com/api/unsubscribe?id=abc&sig=def",
 };
 
 export default AlreadySubscribed;

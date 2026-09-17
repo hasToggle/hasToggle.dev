@@ -6,25 +6,33 @@ import AlreadySubscribed from "./already-subscribed";
 const srcs = (html: string) =>
   [...html.matchAll(/<img[^>]*src="([^"]+)"/g)].map((m) => m[1]);
 
+const UNSUBSCRIBE = "https://example.com/api/unsubscribe?id=abc&sig=def";
+
+const mail = () =>
+  render(
+    AlreadySubscribed({
+      confirmedAt: new Date("2026-09-03T10:00:00Z"),
+      unsubscribeUrl: UNSUBSCRIBE,
+    })
+  );
+
 describe("AlreadySubscribed", () => {
   test("names the day the address confirmed", async () => {
-    const html = await render(
-      AlreadySubscribed({ confirmedAt: new Date("2026-09-03T10:00:00Z") })
-    );
-    expect(html).toContain("3 September 2026");
+    expect(await mail()).toContain("3 September 2026");
   });
 
   test("carries no confirmation link", async () => {
-    const html = await render(
-      AlreadySubscribed({ confirmedAt: new Date("2026-09-03T10:00:00Z") })
+    expect(await mail()).not.toContain("/api/confirmed");
+  });
+
+  test("carries the unsubscribe link it was given", async () => {
+    expect(await mail()).toContain(
+      `href="${UNSUBSCRIBE.replaceAll("&", "&amp;")}"`
     );
-    expect(html).not.toContain("/api/confirmed");
   });
 
   test("loads the logos from the public site", async () => {
-    const html = await render(
-      AlreadySubscribed({ confirmedAt: new Date("2026-09-03T10:00:00Z") })
-    );
+    const html = await mail();
     const images = srcs(html);
     expect(images.length).toBeGreaterThan(0);
     for (const src of images) {

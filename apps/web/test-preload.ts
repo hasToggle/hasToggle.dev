@@ -14,6 +14,8 @@ process.env.RESEND_TOKEN ??= "re_test_token";
 process.env.RESEND_SEGMENT_ID ??= "test-segment-id";
 process.env.RESEND_WEBHOOK_SECRET ??= "whsec_dGVzdC1zZWNyZXQ=";
 process.env.RECONCILE_SECRET ??= "test-reconcile-secret-that-is-long-enough";
+process.env.UNSUBSCRIBE_SECRET ??=
+  "test-unsubscribe-secret-that-is-long-enough";
 process.env.NEXT_PUBLIC_APP_URL ??= "http://localhost:3000";
 process.env.NEXT_PUBLIC_WEB_URL ??= "http://localhost:3001";
 process.env.NEXT_PUBLIC_POSTHOG_HOST ??= "https://eu.i.posthog.com";
@@ -36,6 +38,7 @@ mock.module("@/env", () => ({
     RECONCILE_SECRET: "test-reconcile-secret-that-is-long-enough",
     RESEND_FROM: "test@example.com",
     RESEND_SEGMENT_ID: "test-segment-id",
+    UNSUBSCRIBE_SECRET: "test-unsubscribe-secret-that-is-long-enough",
   },
 }));
 

@@ -1,4 +1,4 @@
-import { Button, Section, Text } from "react-email";
+import { Button, Link, Section, Text } from "react-email";
 import { PUBLIC_ORIGIN } from "../assets";
 import {
   body,
@@ -6,6 +6,7 @@ import {
   Chrome,
   ctaSection,
   fineprint,
+  fineprintLink,
   heading,
   signoff,
 } from "./chrome";
@@ -18,11 +19,14 @@ interface ConfirmSubscriptionProps {
    */
   readonly baseUrl?: string;
   readonly token: string;
+  /** Ours, signed per subscriber; see already-subscribed.tsx for why. */
+  readonly unsubscribeUrl: string;
 }
 
 const ConfirmSubscription = ({
   token,
   baseUrl = PUBLIC_ORIGIN,
+  unsubscribeUrl,
 }: ConfirmSubscriptionProps) => (
   <Chrome preview="Confirm below and you’re on the cohort waitlist: first to hear when seats open, and when a chapter ships that the cohort will build on.">
     <Text style={heading}>One click and you’re on the waitlist.</Text>
@@ -42,7 +46,11 @@ const ConfirmSubscription = ({
     </Text>
     <Text style={fineprint}>
       The link works for 24 hours. If you didn’t ask for this, ignore it and you
-      won’t hear from us.
+      won’t hear from us, or{" "}
+      <Link href={unsubscribeUrl} style={fineprintLink}>
+        remove the address now
+      </Link>
+      .
     </Text>
   </Chrome>
 );
@@ -50,6 +58,7 @@ const ConfirmSubscription = ({
 ConfirmSubscription.PreviewProps = {
   baseUrl: "https://example.com",
   token: "abc123",
+  unsubscribeUrl: "https://example.com/api/unsubscribe?id=abc&sig=def",
 };
 
 export default ConfirmSubscription;
