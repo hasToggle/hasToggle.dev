@@ -94,4 +94,22 @@ describe("/api/webhooks/resend", () => {
     });
     expect(deletedEmails()).toEqual(["complained@example.com"]);
   });
+
+  test("answers 500 when Resend refuses the removal, so it retries", async () => {
+    // The helper's not_found default is the idempotent case; a rate limit
+    // is not, and the once-value wins over that default.
+    removeContact.mockResolvedValueOnce({
+      data: null,
+      error: {
+        message: "slow down",
+        name: "rate_limit_exceeded",
+        statusCode: 429,
+      },
+    } as never);
+    const refused = await post({
+      data: { email: "limited@example.com", unsubscribed: true },
+      type: "contact.updated",
+    });
+    expect(refused.status).toBe(500);
+  });
 });

@@ -1,6 +1,5 @@
 import { database } from "@repo/database";
 import { resend } from "@repo/email";
-import { parseError } from "@repo/observability/error";
 import { EMAIL_COLLATION, normalizeEmail } from "./email-validation";
 
 /**
@@ -23,7 +22,12 @@ export async function removeSubscriber(rawEmail: string): Promise<void> {
     resend.contacts.remove({ email }),
   ]);
 
+  // Any other refusal — a rate limit, an outage — must surface as a failure:
+  // the webhook answers 500 so Resend retries, and the reconciliation run
+  // reports what it could not finish instead of counting it as done.
   if (contact.error && contact.error.name !== "not_found") {
-    parseError(contact.error);
+    throw new Error(`Removing the contact failed: ${contact.error.message}`, {
+      cause: contact.error,
+    });
   }
 }
