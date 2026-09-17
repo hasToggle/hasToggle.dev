@@ -373,8 +373,9 @@ shipped, belief and navLabel added.
   intentional; the digest write-up is where it gets spelled out.
 - Fruit/emoji hash encoding: rejected as primary (breaks instrument
   discipline), held as a possible easter-egg layer.
-- Swatches in the machinery comparison rows: blocked until the string-based
-  width-reservation (`StableSlot`) grows a JSX-safe design.
+- Swatches in the machinery comparison rows: unblocked 2026-09-17 —
+  `StableStack` (`(playground)/stable-stack.tsx`) reserves JSX variants,
+  not just strings. Not yet built.
 - Digest beats banked: the side-effect-runs-twice warning; the
   swatch-is-the-hash reveal.
 - The Hazel counter: superseded 2026-08-21 by the state chapter (useState

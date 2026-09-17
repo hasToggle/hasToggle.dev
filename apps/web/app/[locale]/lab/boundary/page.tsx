@@ -9,10 +9,7 @@ export const metadata: Metadata = chapterMetadata(chapter);
 
 export default function BoundaryChapterPage() {
   return (
-    <ChapterShell
-      chapter={chapter}
-      commitsHref="https://github.com/hasToggle/hasToggle.dev/commits/main/apps/web/app/%5Blocale%5D/(playground)/boundary"
-    >
+    <ChapterShell chapter={chapter}>
       <BoundaryDemo headingAs="h1" />
     </ChapterShell>
   );

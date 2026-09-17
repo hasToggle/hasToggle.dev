@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { requireChapter } from "../../lab/syllabus";
+import { chapterSourceHref, requireChapter } from "../../lab/syllabus";
 import { CodeBlock } from "../code-block";
 import { DemoSection } from "../demo-section";
 import { InlineCode } from "../inline-code";
@@ -61,7 +61,7 @@ export function MutationDemo({ headingAs }: MutationDemoProps) {
         references={
           <ReferenceBar
             docsHref="https://nextjs.org/docs/app/getting-started/updating-data"
-            sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/mutation"
+            sourceHref={chapterSourceHref(chapter)}
           >
             <CodeBlock
               code={MUTATION_SOURCE}

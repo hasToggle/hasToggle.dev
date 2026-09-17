@@ -1,16 +1,5 @@
-import { cacheLife } from "next/cache";
-import { codeToHtml } from "shiki";
+import { highlight } from "../code-block";
 import { REPLAY_SOURCE } from "./source";
-
-async function highlightReplay(): Promise<string> {
-  "use cache";
-  cacheLife("max");
-  return await codeToHtml(REPLAY_SOURCE, {
-    defaultColor: false,
-    lang: "tsx",
-    themes: { dark: "github-dark", light: "github-light" },
-  });
-}
 
 /**
  * The card's back face: the source the replay walks, highlighted once on
@@ -20,7 +9,7 @@ async function highlightReplay(): Promise<string> {
  * the annotation text; see `.ht-replay` in app/styles.css.
  */
 export async function ReplayCode() {
-  const html = await highlightReplay();
+  const html = await highlight(REPLAY_SOURCE, "tsx");
 
   return (
     <div

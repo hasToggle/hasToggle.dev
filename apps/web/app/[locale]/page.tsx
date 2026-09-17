@@ -77,7 +77,7 @@ function Roadmap() {
         <div className="grid gap-x-12 gap-y-8 lg:grid-cols-[7rem_minmax(0,1fr)]">
           <div aria-hidden="true" />
           <div className="ht-reveal">
-            <Subheading>The syllabus grows</Subheading>
+            <Subheading as="div">The syllabus grows</Subheading>
             <Heading
               as="h2"
               className="mt-3 max-w-2xl text-balance text-4xl sm:text-5xl md:text-6xl"
@@ -150,8 +150,12 @@ function Cohort() {
         <div className="grid gap-x-12 gap-y-6 lg:grid-cols-[7rem_minmax(0,1fr)]">
           <div aria-hidden="true" />
           <div className="ht-reveal max-w-2xl">
-            <Subheading id="cohort-heading">The cohort</Subheading>
-            <Heading as="h2" className="mt-3 text-balance text-4xl sm:text-5xl">
+            <Subheading as="div">The cohort</Subheading>
+            <Heading
+              as="h2"
+              className="mt-3 text-balance text-4xl sm:text-5xl"
+              id="cohort-heading"
+            >
               Some things move faster with a coach.
             </Heading>
             <p className="mt-6 text-foreground/75 text-lg leading-8">
@@ -184,7 +188,10 @@ function WaitlistCTA() {
     >
       <Container>
         <div className="ht-reveal mx-auto flex max-w-2xl flex-col items-center text-center">
-          <Subheading className="text-ht-cyan-900 dark:text-ht-cyan-300/80">
+          <Subheading
+            as="div"
+            className="text-ht-cyan-900 dark:text-ht-cyan-300/80"
+          >
             The waitlist
           </Subheading>
           <Heading

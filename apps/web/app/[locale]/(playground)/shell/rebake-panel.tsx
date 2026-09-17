@@ -1,6 +1,5 @@
 "use client";
 
-import { Switch } from "@repo/design-system/components/ui/switch";
 import { cn } from "@repo/design-system/lib/utils";
 import { useRouter } from "next/navigation";
 import {
@@ -12,6 +11,9 @@ import {
 } from "react";
 import { MarketingButton } from "../../components/marketing-button";
 import { LivePanel } from "../live-panel";
+import { LOCKED_LOOK } from "../locked-look";
+import { StableStack } from "../stable-stack";
+import { ViewSwitch } from "../view-switch";
 import { rebakeShell } from "./actions";
 import {
   CAPTION_VARIANTS,
@@ -27,56 +29,9 @@ import {
   rebakeReducer,
 } from "./rebake-state";
 
-// The outline variant's `disabled:` look, re-expressed for `aria-disabled` —
-// the expire button stays a real, focusable element while it's locked, so
-// keyboard and screen-reader users don't lose their place when its lock
-// state flips. See MarketingButton's `outline` variant.
-//
-// The hover override earns its place: a natively disabled button is excluded
-// from `:hover` matching, but an `aria-disabled` one is still live, so the
-// variant's `hover:bg-muted` would light up a button that does nothing.
-const LOCKED_LOOK = cn(
-  "aria-disabled:bg-transparent aria-disabled:opacity-40",
-  "aria-disabled:cursor-not-allowed aria-disabled:hover:bg-transparent"
-);
-
 const FUSED_LABELS = ["Revalidate this page", "Revalidating…"];
 const EXPIRE_LABELS = ["Expire the entry", "Expiring…"];
 const ASK_LABELS = ["Ask for the page", "Asking…"];
-
-/**
- * Renders `value` stacked on top of every string it could have been, so the
- * cell is always as tall and as wide as its worst case. Reserving by hand
- * means a magic number per breakpoint that a copy edit silently invalidates;
- * this reserves the real thing, at whatever width the reader happens to be.
- *
- * The ghosts are `visibility: hidden`, so they take space but leave the tab
- * order, the selection, and — with `aria-hidden` — the announcement alone.
- */
-function StableSlot({
-  className,
-  value,
-  variants,
-}: {
-  className?: string;
-  value: string;
-  variants: readonly string[];
-}) {
-  return (
-    <span className={cn("grid", className)}>
-      {variants.map((variant) => (
-        <span
-          aria-hidden="true"
-          className="invisible [grid-area:1/1]"
-          key={variant}
-        >
-          {variant}
-        </span>
-      ))}
-      <span className="[grid-area:1/1]">{value}</span>
-    </span>
-  );
-}
 
 /** The mono step marker inside a deck button — real sequence, so real numbers. */
 function StepMark({ n }: { n: string }) {
@@ -131,7 +86,7 @@ function Deck({
         variant="outline"
       >
         {machinery ? <StepMark n="1" /> : null}
-        <StableSlot
+        <StableStack
           value={rebakeLabel}
           variants={machinery ? EXPIRE_LABELS : FUSED_LABELS}
         />
@@ -150,7 +105,7 @@ function Deck({
             variant="outline"
           >
             <StepMark n="2" />
-            <StableSlot value={askLabel} variants={ASK_LABELS} />
+            <StableStack value={askLabel} variants={ASK_LABELS} />
           </MarketingButton>
           {/* Reserved in every machinery phase so the reveal never moves the
               row; `invisible` keeps it out of the a11y tree until it's true. */}
@@ -329,20 +284,13 @@ export function RebakePanel({
     see rebake-state.test.ts.
   */
   const viewControls = (
-    <div className="flex items-center gap-2.5">
-      <label
-        className="cursor-pointer select-none font-mono font-semibold text-[0.7rem] text-muted-foreground uppercase tracking-[0.2em]"
-        htmlFor="rebake-slow-motion"
-      >
-        slow motion
-      </label>
-      <Switch
-        checked={machinery}
-        disabled={working}
-        id="rebake-slow-motion"
-        onCheckedChange={handleToggle}
-      />
-    </div>
+    <ViewSwitch
+      checked={machinery}
+      disabled={working}
+      id="rebake-slow-motion"
+      label="slow motion"
+      onCheckedChange={handleToggle}
+    />
   );
 
   return (
@@ -383,7 +331,7 @@ export function RebakePanel({
                   {statusLabel}
                 </dt>
                 <dd className="min-w-0 flex-1">
-                  <StableSlot value={detail} variants={DETAIL_VARIANTS} />
+                  <StableStack value={detail} variants={DETAIL_VARIANTS} />
                 </dd>
               </div>
             </dl>
@@ -399,7 +347,7 @@ export function RebakePanel({
             rebakeFailed ? "text-destructive" : "text-muted-foreground"
           )}
         >
-          <StableSlot value={captionText} variants={CAPTION_VARIANTS} />
+          <StableStack value={captionText} variants={CAPTION_VARIANTS} />
         </p>
       </div>
     </LivePanel>

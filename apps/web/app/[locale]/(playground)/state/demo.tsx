@@ -1,4 +1,4 @@
-import { requireChapter } from "../../lab/syllabus";
+import { chapterSourceHref, requireChapter } from "../../lab/syllabus";
 import { CodeBlock } from "../code-block";
 import { DemoSection } from "../demo-section";
 import { InlineCode } from "../inline-code";
@@ -57,7 +57,7 @@ export function StateDemo({ headingAs }: StateDemoProps) {
         references={
           <ReferenceBar
             docsHref="https://react.dev/learn/state-a-components-memory"
-            sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/state"
+            sourceHref={chapterSourceHref(chapter)}
           >
             <CodeBlock code={STATE_SOURCE} file="state-card.tsx" />
           </ReferenceBar>

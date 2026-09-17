@@ -9,10 +9,7 @@ export const metadata: Metadata = chapterMetadata(chapter);
 
 export default function ServerActionsChapterPage() {
   return (
-    <ChapterShell
-      chapter={chapter}
-      commitsHref="https://github.com/hasToggle/hasToggle.dev/commits/main/apps/web/app/%5Blocale%5D/(playground)/mutation"
-    >
+    <ChapterShell chapter={chapter}>
       <MutationDemo headingAs="h1" />
     </ChapterShell>
   );

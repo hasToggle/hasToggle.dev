@@ -1,8 +1,8 @@
 "use client";
 
-import { Switch } from "@repo/design-system/components/ui/switch";
 import { useState } from "react";
 import { LivePanel } from "../live-panel";
+import { ViewSwitch } from "../view-switch";
 import { StateCard } from "./state-card";
 
 interface StatePanelProps {
@@ -21,19 +21,12 @@ export function StatePanel({ references, replayCode }: StatePanelProps) {
   const [narrate, setNarrate] = useState(false);
 
   const viewControls = (
-    <div className="flex items-center gap-2.5">
-      <label
-        className="cursor-pointer select-none font-mono font-semibold text-[0.7rem] text-muted-foreground uppercase tracking-[0.2em]"
-        htmlFor="state-slow-motion"
-      >
-        slow motion
-      </label>
-      <Switch
-        checked={narrate}
-        id="state-slow-motion"
-        onCheckedChange={setNarrate}
-      />
-    </div>
+    <ViewSwitch
+      checked={narrate}
+      id="state-slow-motion"
+      label="slow motion"
+      onCheckedChange={setNarrate}
+    />
   );
 
   return (

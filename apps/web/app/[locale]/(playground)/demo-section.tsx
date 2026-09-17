@@ -6,8 +6,8 @@ interface DemoSectionProps {
   children: React.ReactNode;
   /**
    * "h1" on a chapter page, where the title is the page's title; the landing
-   * page keeps the default "h2". The eyebrow drops to a non-heading element
-   * under an h1 so nothing outranks the title.
+   * page keeps the default "h2". The eyebrow is never a heading: the title
+   * is the section's one entry in the outline.
    */
   headingAs?: "h1" | "h2";
   id: string;
@@ -55,7 +55,7 @@ export function DemoSection({
         <div className="grid gap-x-12 gap-y-8 lg:grid-cols-[7rem_minmax(0,1fr)]">
           <div aria-hidden="true" />
           <div className="ht-reveal">
-            <Subheading as={headingAs === "h1" ? "div" : "h2"}>
+            <Subheading as="div">
               <span className="text-muted-foreground">{navLabel}</span>
               <span
                 aria-hidden="true"

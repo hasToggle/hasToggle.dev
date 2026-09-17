@@ -28,13 +28,7 @@ function Nav({ variant }: { variant: "light" | "dark" }) {
   );
 }
 
-export function Navbar({
-  banner,
-  variant = "light",
-}: {
-  banner?: React.ReactNode;
-  variant?: "light" | "dark";
-}) {
+export function Navbar({ variant = "light" }: { variant?: "light" | "dark" }) {
   return (
     <header className="pt-12 sm:pt-16">
       <PlusGrid>
@@ -54,11 +48,6 @@ export function Navbar({
                 />
               </Link>
             </div>
-            {banner ? (
-              <div className="relative hidden items-center py-3 lg:flex">
-                {banner}
-              </div>
-            ) : null}
           </div>
           {/* Destinations hold the right edge; the theme control lives in
               the footer's utility row now, so nothing shares this corner. */}

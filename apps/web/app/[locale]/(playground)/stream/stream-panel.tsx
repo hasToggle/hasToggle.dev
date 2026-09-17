@@ -1,11 +1,12 @@
 "use client";
 
-import { Switch } from "@repo/design-system/components/ui/switch";
 import { cn } from "@repo/design-system/lib/utils";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState, useTransition } from "react";
 import { MarketingButton } from "../../components/marketing-button";
 import { LivePanel } from "../live-panel";
+import { StableStack } from "../stable-stack";
+import { ViewSwitch } from "../view-switch";
 import {
   ARRANGEMENT_DETAILS,
   ARRANGEMENT_LABELS,
@@ -216,19 +217,12 @@ export function StreamPanel({ children, references }: StreamPanelProps) {
   // No reset here: there is no "start" to rewind to — every arrangement is
   // one press away, and "run again" replays the one that is showing.
   const viewControls = (
-    <div className="flex items-center gap-2.5">
-      <label
-        className="cursor-pointer select-none font-mono font-semibold text-[0.7rem] text-muted-foreground uppercase tracking-[0.2em]"
-        htmlFor="stream-response-view"
-      >
-        {VIEW_LABEL}
-      </label>
-      <Switch
-        checked={view === "response"}
-        id="stream-response-view"
-        onCheckedChange={handleViewChange}
-      />
-    </div>
+    <ViewSwitch
+      checked={view === "response"}
+      id="stream-response-view"
+      label={VIEW_LABEL}
+      onCheckedChange={handleViewChange}
+    />
   );
 
   const deck = (
@@ -269,23 +263,16 @@ export function StreamPanel({ children, references }: StreamPanelProps) {
         </div>
         {/* The seam, narrated: the one fact this arrangement proves. The
             ghosts reserve the tallest seam's height for the same reason. */}
-        <p
-          className="grid font-mono text-muted-foreground text-xs/5"
+        <StableStack
+          active={strategy}
+          as="p"
+          className="font-mono text-muted-foreground text-xs/5"
           role="status"
-        >
-          {STRATEGY_ORDER.map((step) => (
-            <span
-              aria-hidden={step !== strategy}
-              className={cn(
-                "[grid-area:1/1]",
-                step !== strategy && "invisible"
-              )}
-              key={step}
-            >
-              {SEAMS[step]}
-            </span>
-          ))}
-        </p>
+          variants={STRATEGY_ORDER.map((step) => ({
+            key: step,
+            node: SEAMS[step],
+          }))}
+        />
       </div>
     </LivePanel>
   );

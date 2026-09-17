@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { requireChapter } from "../../lab/syllabus";
+import { chapterSourceHref, requireChapter } from "../../lab/syllabus";
 import { CodeBlock } from "../code-block";
 import { DemoSection } from "../demo-section";
 import { ReferenceBar } from "../reference-bar";
@@ -75,7 +75,7 @@ export function StreamDemo({ headingAs, searchParams }: StreamDemoProps) {
         references={
           <ReferenceBar
             docsHref="https://nextjs.org/docs/app/api-reference/file-conventions/loading"
-            sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/stream"
+            sourceHref={chapterSourceHref(chapter)}
           >
             <CodeBlock
               code={STREAM_SOURCE}

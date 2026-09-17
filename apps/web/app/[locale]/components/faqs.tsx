@@ -101,10 +101,11 @@ export function FrequentlyAskedQuestions() {
     >
       <Container>
         <div className="mb-16 max-w-2xl">
-          <Subheading id="faq-title">Frequently asked questions</Subheading>
+          <Subheading as="div">Frequently asked questions</Subheading>
           <Heading
             as="h2"
             className="mt-3 text-balance text-4xl sm:text-5xl md:text-6xl"
+            id="faq-title"
           >
             Before you poke anything.
           </Heading>
