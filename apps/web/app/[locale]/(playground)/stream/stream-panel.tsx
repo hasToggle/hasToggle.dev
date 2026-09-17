@@ -50,6 +50,7 @@ function Segment({ checked, onSelect, strategy }: SegmentProps) {
     <button
       aria-checked={checked}
       className={cn(SEGMENT_LOOK, "first:rounded-l-lg last:rounded-r-lg")}
+      data-strategy={strategy}
       onClick={handleClick}
       role="radio"
       tabIndex={checked ? 0 : -1}
@@ -113,13 +114,12 @@ function ArrangementPicker({ onSelect, value }: ArrangementPickerProps) {
       role="radiogroup"
     >
       {STRATEGY_ORDER.map((strategy) => (
-        <span className="contents" data-strategy={strategy} key={strategy}>
-          <Segment
-            checked={strategy === value}
-            onSelect={onSelect}
-            strategy={strategy}
-          />
-        </span>
+        <Segment
+          checked={strategy === value}
+          key={strategy}
+          onSelect={onSelect}
+          strategy={strategy}
+        />
       ))}
     </div>
   );
