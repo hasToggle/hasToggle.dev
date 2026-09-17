@@ -16,6 +16,7 @@ import {
 } from "./copy";
 import { MAX_RUN_ID } from "./parse-run-id";
 import { StageGhosts } from "./row";
+import { streamHref } from "./search-params";
 import { StageSignalProvider } from "./stage-signals";
 import { DEFAULT_STRATEGY, STRATEGY_ORDER, type Strategy } from "./strategy";
 import { Axis, ShellBar } from "./timeline";
@@ -196,10 +197,10 @@ export function StreamPanel({ children, references }: StreamPanelProps) {
       setStrategy(target);
       setRun(nextRun);
       setSettledKey(null);
-      const params = new URLSearchParams(window.location.search);
-      params.set("mode", target);
-      params.set("stream", String(nextRun));
-      const href = `${window.location.pathname}?${params.toString()}`;
+      const href = streamHref(
+        `${window.location.pathname}${window.location.search}`,
+        { mode: target, stream: nextRun }
+      );
       startTransition(() => {
         router.replace(href, { scroll: false });
       });
