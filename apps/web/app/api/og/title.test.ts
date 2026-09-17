@@ -1,40 +1,59 @@
 import { describe, expect, test } from "bun:test";
-import { clampTitle, DEFAULT_OG_TITLE, MAX_TITLE_LENGTH } from "./title";
+import { SHIPPED } from "@/app/[locale]/lab/syllabus";
+import {
+  DEFAULT_OG_TITLE,
+  OG_TITLES,
+  ogImageUrl,
+  PAGE_OG_TITLES,
+  resolveTitle,
+} from "./title";
 
-const BELL = "\u0007";
-const ZERO_WIDTH_SPACE = "\u200B";
+// The longest line that still fits the card at its smallest type size.
+const MAX_TITLE_LENGTH = 70;
 
-describe("clampTitle", () => {
+describe("resolveTitle", () => {
   test("absent or empty input falls back to the site line", () => {
-    expect(clampTitle(null)).toBe(DEFAULT_OG_TITLE);
-    expect(clampTitle(undefined)).toBe(DEFAULT_OG_TITLE);
-    expect(clampTitle("")).toBe(DEFAULT_OG_TITLE);
-    expect(clampTitle("   ")).toBe(DEFAULT_OG_TITLE);
+    expect(resolveTitle(null)).toBe(DEFAULT_OG_TITLE);
+    expect(resolveTitle(undefined)).toBe(DEFAULT_OG_TITLE);
+    expect(resolveTitle("")).toBe(DEFAULT_OG_TITLE);
   });
 
-  test("ordinary titles pass through trimmed", () => {
-    expect(clampTitle("  Ship it  ")).toBe("Ship it");
-    expect(clampTitle("Streaming is not magic")).toBe("Streaming is not magic");
+  test("a page's title passes through", () => {
+    for (const title of OG_TITLES) {
+      expect(resolveTitle(title)).toBe(title);
+    }
   });
 
-  test("control and format characters are stripped", () => {
-    expect(clampTitle(`Ship${BELL} it`)).toBe("Ship it");
-    expect(clampTitle(`A${ZERO_WIDTH_SPACE}title`)).toBe("Atitle");
-    expect(clampTitle(`${ZERO_WIDTH_SPACE}${ZERO_WIDTH_SPACE}  `)).toBe(
+  test("anything else falls back to the site line", () => {
+    expect(resolveTitle("Ship it")).toBe(DEFAULT_OG_TITLE);
+    expect(resolveTitle(` ${DEFAULT_OG_TITLE}`)).toBe(DEFAULT_OG_TITLE);
+    expect(resolveTitle(SHIPPED[0]?.title.toUpperCase())).toBe(
       DEFAULT_OG_TITLE
     );
   });
+});
 
-  test("long titles are clamped with an ellipsis", () => {
-    const long = "x".repeat(200);
-    const clamped = clampTitle(long);
-    expect(clamped.length).toBeLessThanOrEqual(MAX_TITLE_LENGTH);
-    expect(clamped.endsWith("…")).toBe(true);
+describe("the cards on offer", () => {
+  test("cover every chapter and every fixed page, once each", () => {
+    for (const chapter of SHIPPED) {
+      expect(OG_TITLES).toContain(chapter.title);
+    }
+    for (const title of Object.values(PAGE_OG_TITLES)) {
+      expect(OG_TITLES).toContain(title);
+    }
+    expect(new Set(OG_TITLES).size).toBe(OG_TITLES.length);
   });
 
-  test("clamping does not leave a trailing space before the ellipsis", () => {
-    const long = `${"word ".repeat(13)}${"y".repeat(30)}`;
-    const clamped = clampTitle(long);
-    expect(clamped).not.toContain(" …");
+  test("each fits the card", () => {
+    for (const title of OG_TITLES) {
+      expect(title.length).toBeLessThanOrEqual(MAX_TITLE_LENGTH);
+    }
+  });
+
+  test("the route URL round-trips a title", () => {
+    const url = new URL(ogImageUrl(PAGE_OG_TITLES.contact), "http://x");
+    expect(resolveTitle(url.searchParams.get("title"))).toBe(
+      PAGE_OG_TITLES.contact
+    );
   });
 });

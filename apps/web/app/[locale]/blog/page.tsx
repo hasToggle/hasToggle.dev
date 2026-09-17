@@ -3,6 +3,7 @@ import type { Blog, WithContext } from "@repo/seo/json-ld";
 import { JsonLd } from "@repo/seo/json-ld";
 import type { Metadata } from "next";
 import Image from "next/image";
+import { ogImageUrl, PAGE_OG_TITLES } from "@/app/api/og/title";
 import { Container } from "../components/container";
 import { Footer } from "../components/footer";
 import { Link } from "../components/marketing-link";
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
     images: [
       {
         height: 630,
-        url: `/api/og?title=${encodeURIComponent("Web development, told as stories.")}`,
+        url: ogImageUrl(PAGE_OG_TITLES.blog),
         width: 1200,
       },
     ],

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ogImageUrl, PAGE_OG_TITLES } from "@/app/api/og/title";
 import { Container } from "../components/container";
 import { Footer } from "../components/footer";
 import { Link } from "../components/marketing-link";
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
     images: [
       {
         height: 630,
-        url: `/api/og?title=${encodeURIComponent("Write to Eric.")}`,
+        url: ogImageUrl(PAGE_OG_TITLES.contact),
         width: 1200,
       },
     ],

@@ -4,7 +4,8 @@ import { ImageResponse } from "next/og";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const title = clampTitle(searchParams.get("title"));
+  // one of the site's own page titles, or the site line
+  const title = resolveTitle(searchParams.get("title"));
   const fonts = await loadFonts(); // real .ttf files, read once
 
   return new ImageResponse(

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ogImageUrl } from "@/app/api/og/title";
 import { Container } from "../components/container";
 import { Footer } from "../components/footer";
 import { Link } from "../components/marketing-link";
@@ -24,7 +25,7 @@ export function chapterMetadata(chapter: ShippedChapter): Metadata {
       images: [
         {
           height: 630,
-          url: `/api/og?title=${encodeURIComponent(chapter.title)}`,
+          url: ogImageUrl(chapter.title),
           width: 1200,
         },
       ],

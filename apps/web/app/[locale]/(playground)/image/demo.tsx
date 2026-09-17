@@ -27,9 +27,9 @@ export function ImageDemo({ headingAs }: ImageDemoProps) {
             query in, image out.
           </p>
           <p>
-            Type a title and the server draws it. The same route drew the link
-            preview for this page. Paste this page&rsquo;s URL into Slack and
-            compare.
+            Pick a page and the server draws its card. The same route drew the
+            link preview for this page. Paste this page&rsquo;s URL into Slack
+            and compare.
           </p>
         </>
       }

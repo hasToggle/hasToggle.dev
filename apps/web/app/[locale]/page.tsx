@@ -1,6 +1,6 @@
 import { Separator } from "@repo/design-system/components/ui/separator";
 import type { Metadata } from "next";
-import { DEFAULT_OG_TITLE } from "@/app/api/og/title";
+import { DEFAULT_OG_TITLE, ogImageUrl } from "@/app/api/og/title";
 import { BoundaryDemo } from "./(playground)/boundary/demo";
 import { MutationDemo } from "./(playground)/mutation/demo";
 import { ShellDemo } from "./(playground)/shell/demo";
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     images: [
       {
         height: 630,
-        url: `/api/og?title=${encodeURIComponent(DEFAULT_OG_TITLE)}`,
+        url: ogImageUrl(DEFAULT_OG_TITLE),
         width: 1200,
       },
     ],
