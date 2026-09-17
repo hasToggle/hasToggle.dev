@@ -2,13 +2,7 @@ import { isToolbarEnabled } from "@repo/feature-flags/lib/toolbar-enabled";
 import { internationalizationMiddleware } from "@repo/internationalization/middleware";
 import { parseError } from "@repo/observability/error";
 import { secure } from "@repo/security";
-import { createNEMO } from "@zanreal/nemo";
-import {
-  type NextFetchEvent,
-  type NextProxy,
-  type NextRequest,
-  NextResponse,
-} from "next/server";
+import { type NextProxy, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
 import {
   securityHeaders,
@@ -20,9 +14,9 @@ import {
 export const config = {
   matcher: [
     // Skip Next.js internals and all static files, unless found in search params
-    "/((?!_next|ingest|monitoring|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/((?!_next|monitoring|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
     // Always run for API routes
-    "/(api|trpc)(.*)",
+    "/api/:path*",
   ],
 };
 
@@ -75,24 +69,14 @@ const i18nWithExclusions = (request: NextRequest) => {
   return internationalizationMiddleware(request);
 };
 
-// Compose the app's own middleware (i18n + arcjet) with Nemo
-const composedMiddleware = createNEMO(
-  {},
-  {
-    // biome-ignore lint/suspicious/noExplicitAny: Type cast needed due to Next.js type duplication in monorepo
-    before: [i18nWithExclusions as any, arcjetMiddleware],
-  }
-);
-
-// The chain always answers with a response of its own — a locale rewrite, a
-// redirect, an Arcjet refusal, or NEMO's plain `next()` — so the security
-// headers are merged onto whatever comes back rather than offered as a
-// fallback that never gets used.
-export const proxy: NextProxy = async (
-  request: NextRequest,
-  event: NextFetchEvent
-) => {
+// The chain: Arcjet first, so a refusal ends the request before any
+// rewrite; then the locale rewrite; then a plain `next()`. Whichever
+// response comes back, the security headers are merged onto it rather than
+// offered as a fallback that never gets used.
+export const proxy: NextProxy = async (request: NextRequest) => {
   const response =
-    (await composedMiddleware(request, event)) ?? NextResponse.next();
+    (await arcjetMiddleware(request)) ??
+    (await i18nWithExclusions(request)) ??
+    NextResponse.next();
   return withSecurityHeaders(response, securityHeaders(headerOptions));
 };

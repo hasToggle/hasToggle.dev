@@ -7,25 +7,7 @@ export const config: NextConfig = {
     remotePatterns: [],
   },
 
-  // biome-ignore lint/suspicious/useAwait: rewrites is async
-  async rewrites() {
-    return [
-      {
-        destination: "https://us-assets.i.posthog.com/static/:path*",
-        source: "/ingest/static/:path*",
-      },
-      {
-        destination: "https://us.i.posthog.com/:path*",
-        source: "/ingest/:path*",
-      },
-      {
-        destination: "https://us.i.posthog.com/decide",
-        source: "/ingest/decide",
-      },
-    ];
-  },
-
-  // This is required to support PostHog trailing slash API requests
+  // Kept so trailing-slash URLs keep resolving the way they do today.
   skipTrailingSlashRedirect: true,
 };
 

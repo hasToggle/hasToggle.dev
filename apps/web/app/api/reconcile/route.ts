@@ -128,8 +128,8 @@ export async function POST(request: NextRequest) {
     // is a couple of requests a second. The run is scheduled, so latency
     // is free; a burst of parallel deletes would be refused.
     const leaving = [...new Set([...flagged, ...orphaned])];
-    // biome-ignore lint/performance/noAwaitInLoops: sequential on purpose, see above
     for (const email of leaving) {
+      // biome-ignore lint/performance/noAwaitInLoops: sequential on purpose, see above
       await removeSubscriber(email);
     }
 

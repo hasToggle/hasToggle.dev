@@ -8,6 +8,7 @@ export default async (): Promise<NextConfig> => {
   let nextConfig: NextConfig = await withToolbar(withLogging(config));
 
   nextConfig.reactCompiler = true;
+  nextConfig.poweredByHeader = false;
 
   // The landing page demos Cache Components on itself (static shell, `use
   // cache`, streamed Suspense holes) — the flag is load-bearing content.
