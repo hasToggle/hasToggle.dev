@@ -21,6 +21,13 @@ process.env.NEXT_PUBLIC_POSTHOG_KEY ??= "phc_test";
 
 mock.module("server-only", () => ({}));
 
+// Never a Redis limiter under test: Vercel injects the Upstash keys at
+// build time, and the test task runs there before the build. Without this
+// every test past a rate-limit check would call a real store.
+mock.module("@repo/rate-limit/keys", () => ({
+  keys: () => ({}),
+}));
+
 mock.module("@/env", () => ({
   env: {
     ABSTRACT_API_KEY: "",
