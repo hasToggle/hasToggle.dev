@@ -1,5 +1,3 @@
-import { keys } from "./keys";
-
 /*
  * PostHog used to be a static import in this file. Next.js bundles
  * instrumentation-client into a chunk it runs *before* hydration, so that put
@@ -14,14 +12,26 @@ import { keys } from "./keys";
  * that first paint and interactivity share. The only thing lost is a visit
  * that ends before `load` fires, which would not have reached the network
  * either way.
+ *
+ * The keys are read straight from `process.env` rather than through
+ * `keys()`: Next inlines `NEXT_PUBLIC_*` at build time, and `keys()` would
+ * pull zod and @t3-oss/env into this pre-hydration chunk just to re-check
+ * two constants. Apps validate them server-side by calling `keys()` there.
  */
 
 const startPostHog = async () => {
   const { default: posthog } = await import("posthog-js");
 
-  posthog.init(keys().NEXT_PUBLIC_POSTHOG_KEY, {
-    api_host: keys().NEXT_PUBLIC_POSTHOG_HOST,
+  const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
+  if (!key) {
+    return;
+  }
+
+  posthog.init(key, {
+    api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
     defaults: "2025-05-24",
+    // Surveys are not in use; this skips a 34 KB script fetched after load.
+    disable_surveys: true,
   });
 };
 

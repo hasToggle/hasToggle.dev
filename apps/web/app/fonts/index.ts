@@ -16,6 +16,10 @@ import localFont from "next/font/local";
  * package and the ITF Free Font License permits self-hosting. JetBrains Mono
  * comes through next/font/google, which downloads and fingerprints it at build
  * time rather than at request time.
+ *
+ * No Bold: next/font preloads every weight of a family on every page, and
+ * 700 only appeared in blog and legal prose. Those requests now resolve to
+ * Semibold, and the pages that never needed Bold stop paying for it.
  */
 
 export const switzer = localFont({
@@ -25,7 +29,6 @@ export const switzer = localFont({
     { path: "./Switzer-Regular.woff2", style: "normal", weight: "400" },
     { path: "./Switzer-Medium.woff2", style: "normal", weight: "500" },
     { path: "./Switzer-Semibold.woff2", style: "normal", weight: "600" },
-    { path: "./Switzer-Bold.woff2", style: "normal", weight: "700" },
   ],
   variable: "--font-switzer-sans",
 });
