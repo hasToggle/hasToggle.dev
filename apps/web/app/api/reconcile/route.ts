@@ -2,8 +2,9 @@ import { timingSafeEqual } from "node:crypto";
 import { database } from "@repo/database";
 import { resend } from "@repo/email";
 import { parseError } from "@repo/observability/error";
-import { after, type NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
+import { normalizeEmail } from "@/lib/email-validation";
 import { removeSubscriber } from "@/lib/subscribers";
 
 /**
@@ -94,15 +95,21 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    // Both stores are compared in the one normalized shape: a row written
+    // before normalization began still carries its original casing, and
+    // Resend keeps whatever casing it was given. Compared raw, the same
+    // person would read as an orphan and be erased.
     const contacts = await listSegmentContacts();
-    const known = new Set(contacts.map((c) => c.email));
-    const flagged = contacts.filter((c) => c.unsubscribed).map((c) => c.email);
+    const known = new Set(contacts.map((c) => normalizeEmail(c.email)));
+    const flagged = contacts
+      .filter((c) => c.unsubscribed)
+      .map((c) => normalizeEmail(c.email));
 
     const confirmed = await database.subscriber
       .find({ emailVerified: { $ne: null } }, { projection: { email: 1 } })
       .toArray();
     const orphaned = confirmed
-      .map((s) => s.email)
+      .map((s) => normalizeEmail(s.email))
       .filter((email) => !known.has(email));
 
     if (orphansLookWrong(confirmed.length, known.size, orphaned.length)) {
@@ -117,8 +124,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // One at a time: each removal is a Resend call, and Resend's rate limit
+    // is a couple of requests a second. The run is scheduled, so latency
+    // is free; a burst of parallel deletes would be refused.
     const leaving = [...new Set([...flagged, ...orphaned])];
-    await Promise.all(leaving.map(removeSubscriber));
+    for (const email of leaving) {
+      // biome-ignore lint/performance/noAwaitInLoops: sequential on purpose, see above
+      await removeSubscriber(email);
+    }
 
     const { deletedCount: unconfirmed } = await database.subscriber.deleteMany({
       emailVerified: null,
@@ -134,7 +147,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    after(() => parseError(error));
+    parseError(error);
     return NextResponse.json(
       { error: "Reconciliation failed" },
       { status: 500 }

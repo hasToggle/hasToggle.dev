@@ -1,4 +1,4 @@
-import { requireChapter } from "../../lab/syllabus";
+import { chapterSourceHref, requireChapter } from "../../lab/syllabus";
 import { CodeBlock } from "../code-block";
 import { DemoSection } from "../demo-section";
 import { InlineCode } from "../inline-code";
@@ -54,7 +54,7 @@ export function BoundaryDemo({ headingAs }: BoundaryDemoProps) {
         references={
           <ReferenceBar
             docsHref="https://nextjs.org/docs/app/getting-started/server-and-client-components"
-            sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/boundary"
+            sourceHref={chapterSourceHref(chapter)}
           >
             <CodeBlock code={BOUNDARY_SOURCE} file="card.tsx · before, after" />
           </ReferenceBar>

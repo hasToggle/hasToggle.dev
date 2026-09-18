@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
-import { clampTitle, DEFAULT_OG_TITLE } from "./title";
+import { DEFAULT_OG_TITLE, resolveTitle } from "./title";
 
 const CARD = {
   accent: "#53c9e8",
@@ -18,10 +18,17 @@ const CARD = {
 let fontsPromise: Promise<{ bold: Buffer; regular: Buffer }> | null = null;
 
 function loadFonts() {
-  fontsPromise ??= Promise.all([
-    readFile(join(process.cwd(), "assets/JetBrainsMono-Regular.ttf")),
-    readFile(join(process.cwd(), "assets/JetBrainsMono-Bold.ttf")),
-  ]).then(([regular, bold]) => ({ bold, regular }));
+  if (!fontsPromise) {
+    fontsPromise = Promise.all([
+      readFile(join(process.cwd(), "assets/JetBrainsMono-Regular.ttf")),
+      readFile(join(process.cwd(), "assets/JetBrainsMono-Bold.ttf")),
+    ]).then(([regular, bold]) => ({ bold, regular }));
+    // A failed read is not kept, or one bad moment would break every card
+    // this instance renders afterwards.
+    fontsPromise.catch(() => {
+      fontsPromise = null;
+    });
+  }
   return fontsPromise;
 }
 
@@ -49,10 +56,14 @@ function titleSize(title: string): number {
  * (flexbox only — Satori, not a browser) into an image at request time. The
  * card is drawn as a miniature of the site's live panels, in the site's own
  * mono. This same endpoint renders the page's real Open Graph image.
+ *
+ * The title has to be one of the site's own (see title.ts): the set of
+ * cards is finite, so the CDN can keep every one of them, and nobody can
+ * mint a card with this site's chrome around their own words.
  */
 export async function GET(request: Request): Promise<ImageResponse> {
   const { searchParams } = new URL(request.url);
-  const title = clampTitle(searchParams.get("title"));
+  const title = resolveTitle(searchParams.get("title"));
   const fonts = await loadFonts();
 
   // The site's own card already says the tagline up top — don't say it twice.

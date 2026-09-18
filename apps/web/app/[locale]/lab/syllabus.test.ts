@@ -1,11 +1,13 @@
 import { describe, expect, test } from "bun:test";
 import {
   chapterBySlug,
+  LANDING_SLUGS,
   LATEST,
   landsOn,
   NEXT_UP,
   prevNext,
   READING_ORDER,
+  requireChapter,
   SECTIONS,
   SHIPPED,
   STILL_TO_BUILD,
@@ -110,6 +112,15 @@ describe("shipped chapters", () => {
 
   test("the latest shipped chapter is the state exhibit", () => {
     expect(LATEST.slug).toBe("state");
+  });
+});
+
+describe("the landing page's exhibits", () => {
+  test("are shipped chapters, each with its own exhibit folder", () => {
+    const landing = LANDING_SLUGS.map(requireChapter);
+    expect(landing.map((c) => c.slug)).toEqual([...LANDING_SLUGS]);
+    const folders = SHIPPED.map((c) => c.folder);
+    expect(new Set(folders).size).toBe(folders.length);
   });
 });
 

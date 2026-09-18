@@ -57,6 +57,8 @@ interface ChapterCore {
 }
 
 export interface ShippedChapter extends ChapterCore {
+  /** The exhibit's directory under app/[locale]/(playground) — the source and commits links point here. */
+  readonly folder: string;
   /** The short label the contents bar and prev/next links wear. */
   readonly navLabel: string;
   readonly status: "shipped";
@@ -85,6 +87,7 @@ export type SyllabusEntry = NextChapter | PlannedTopic | ShippedChapter;
 
 export const SYLLABUS: readonly SyllabusEntry[] = [
   {
+    folder: "boundary",
     navLabel: "The boundary",
     section: "components",
     slug: "boundary",
@@ -93,6 +96,7 @@ export const SYLLABUS: readonly SyllabusEntry[] = [
     topic: "server & client components",
   },
   {
+    folder: "shell",
     navLabel: "The cache",
     section: "data",
     slug: "caching",
@@ -101,6 +105,7 @@ export const SYLLABUS: readonly SyllabusEntry[] = [
     topic: "caching & revalidation",
   },
   {
+    folder: "stream",
     navLabel: "The stream",
     section: "data",
     slug: "streaming",
@@ -109,6 +114,7 @@ export const SYLLABUS: readonly SyllabusEntry[] = [
     topic: "streaming & suspense",
   },
   {
+    folder: "mutation",
     navLabel: "The mutation",
     section: "data",
     slug: "server-actions",
@@ -117,6 +123,7 @@ export const SYLLABUS: readonly SyllabusEntry[] = [
     topic: "server actions & cookies",
   },
   {
+    folder: "image",
     navLabel: "The image",
     section: "interface",
     slug: "og-images",
@@ -125,6 +132,7 @@ export const SYLLABUS: readonly SyllabusEntry[] = [
     topic: "imageresponse & route handlers",
   },
   {
+    folder: "state",
     navLabel: "The state",
     section: "components",
     slug: "state",
@@ -248,6 +256,32 @@ export function landsOn(iso: string): string {
 export const SHIPPED: readonly ShippedChapter[] = SYLLABUS.filter(
   (entry): entry is ShippedChapter => entry.status === "shipped"
 );
+
+/**
+ * The exhibits the landing page renders inline, in page order; the demo
+ * imports in page.tsx are the other half of this list. Chapters that
+ * shipped later live in the lab only.
+ */
+export const LANDING_SLUGS: readonly string[] = [
+  "boundary",
+  "caching",
+  "streaming",
+  "server-actions",
+  "state",
+];
+
+const REPO = "https://github.com/hasToggle/hasToggle.dev";
+const PLAYGROUND = "apps/web/app/%5Blocale%5D/(playground)";
+
+/** The exhibit's directory on GitHub — the reference bar's "source". */
+export function chapterSourceHref(chapter: ShippedChapter): string {
+  return `${REPO}/tree/main/${PLAYGROUND}/${chapter.folder}`;
+}
+
+/** Every commit that touched the exhibit — the making-of aside. */
+export function chapterCommitsHref(chapter: ShippedChapter): string {
+  return `${REPO}/commits/main/${PLAYGROUND}/${chapter.folder}`;
+}
 
 export const NEXT_UP: NextChapter | undefined = SYLLABUS.find(
   (entry): entry is NextChapter => entry.status === "next"

@@ -1,28 +1,16 @@
-import { SHIPPED } from "../lab/syllabus";
+import { LANDING_SLUGS, requireChapter } from "../lab/syllabus";
 import { Container } from "./container";
 
 /**
- * The landing page renders exactly these five exhibits inline (the demo
- * imports in page.tsx are the source of truth); chapters that shipped
- * later live in the lab only. With site navigation in the top nav, this bar is
- * pure in-page anchors — the shop window's own contents.
+ * With site navigation in the top nav, this bar is pure in-page anchors —
+ * the shop window's own contents, in the order the exhibits appear.
  */
-const LANDING_SLUGS: ReadonlySet<string> = new Set([
-  "boundary",
-  "caching",
-  "state",
-  "server-actions",
-  "streaming",
-]);
-
 const CHAPTERS: readonly { href: string; label: string; slug: string }[] =
-  SHIPPED.filter((chapter) => LANDING_SLUGS.has(chapter.slug)).map(
-    (chapter) => ({
-      href: `#demo-${chapter.slug}`,
-      label: chapter.navLabel,
-      slug: chapter.slug,
-    })
-  );
+  LANDING_SLUGS.map(requireChapter).map((chapter) => ({
+    href: `#demo-${chapter.slug}`,
+    label: chapter.navLabel,
+    slug: chapter.slug,
+  }));
 
 /**
  * The contents row, slim enough to pin. It sits where the hero's contents

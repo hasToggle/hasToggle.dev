@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { ogImageUrl, PAGE_OG_TITLES } from "@/app/api/og/title";
 import { BoundaryIndexValue } from "../(playground)/boundary/index-value";
 import { ImageIndexValue } from "../(playground)/image/index-value";
 import { MutationIndexValue } from "../(playground)/mutation/index-value";
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     images: [
       {
         height: 630,
-        url: `/api/og?title=${encodeURIComponent("Everything Next.js can do, one chapter at a time.")}`,
+        url: ogImageUrl(PAGE_OG_TITLES.lab),
         width: 1200,
       },
     ],

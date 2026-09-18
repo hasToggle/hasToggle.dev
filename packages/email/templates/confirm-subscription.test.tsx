@@ -3,6 +3,8 @@ import { render } from "@react-email/render";
 import { PUBLIC_ORIGIN } from "../assets";
 import ConfirmSubscription from "./confirm-subscription";
 
+const UNSUB = "https://example.com/api/unsubscribe?id=abc&sig=def";
+
 const srcs = (html: string) =>
   [...html.matchAll(/<img[^>]*src="([^"]+)"/g)].map((m) => m[1]);
 
@@ -11,7 +13,11 @@ describe("ConfirmSubscription", () => {
     // A signup from localhost or a protected preview deployment must still
     // send images an inbox can fetch.
     const html = await render(
-      ConfirmSubscription({ baseUrl: "http://localhost:3001", token: "t" })
+      ConfirmSubscription({
+        baseUrl: "http://localhost:3001",
+        token: "t",
+        unsubscribeUrl: UNSUB,
+      })
     );
     const images = srcs(html);
     expect(images.length).toBeGreaterThan(0);
@@ -22,7 +28,11 @@ describe("ConfirmSubscription", () => {
 
   test("points the confirm link at the origin that received the signup", async () => {
     const html = await render(
-      ConfirmSubscription({ baseUrl: "http://localhost:3001", token: "abc" })
+      ConfirmSubscription({
+        baseUrl: "http://localhost:3001",
+        token: "abc",
+        unsubscribeUrl: UNSUB,
+      })
     );
     expect(html).toContain(
       'href="http://localhost:3001/api/confirmed?token=abc"'
@@ -31,7 +41,11 @@ describe("ConfirmSubscription", () => {
 
   test("uses assets that exist under apps/web/public", async () => {
     const html = await render(
-      ConfirmSubscription({ baseUrl: "https://www.hastoggle.dev", token: "t" })
+      ConfirmSubscription({
+        baseUrl: "https://www.hastoggle.dev",
+        token: "t",
+        unsubscribeUrl: UNSUB,
+      })
     );
     const { existsSync } = await import("node:fs");
     const { join } = await import("node:path");

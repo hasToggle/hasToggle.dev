@@ -72,6 +72,56 @@ describe("/api/reconcile", () => {
     expect(list).not.toHaveBeenCalled();
   });
 
+  test("matches a legacy mixed-case row to its lowercase contact", async () => {
+    list.mockResolvedValue({
+      data: {
+        data: [{ email: "legacy@example.com", id: "c1", unsubscribed: false }],
+        has_more: false,
+        object: "list",
+      },
+      error: null,
+    } as never);
+    removeContact.mockResolvedValue({ data: null, error: null } as never);
+    find.mockReturnValue({
+      toArray: () => Promise.resolve([{ email: "Legacy@Example.com" }]),
+    } as never);
+    deleteMany.mockResolvedValue({ deletedCount: 0 } as never);
+
+    const response = await post(`Bearer ${SECRET}`);
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.removed.orphaned).toBe(0);
+    expect(removeContact).not.toHaveBeenCalled();
+  });
+
+  test("reports a refused removal instead of counting it as done", async () => {
+    list.mockResolvedValue({
+      data: {
+        data: [{ email: "flagged@example.com", id: "c1", unsubscribed: true }],
+        has_more: false,
+        object: "list",
+      },
+      error: null,
+    } as never);
+    removeContact.mockResolvedValue({
+      data: null,
+      error: {
+        message: "slow down",
+        name: "rate_limit_exceeded",
+        statusCode: 429,
+      },
+    } as never);
+    find.mockReturnValue({
+      toArray: () => Promise.resolve([{ email: "flagged@example.com" }]),
+    } as never);
+    deleteMany.mockResolvedValue({ deletedCount: 1 } as never);
+
+    const response = await post(`Bearer ${SECRET}`);
+
+    expect(response.status).toBe(500);
+  });
+
   test("removes flagged, orphaned and stale unconfirmed subscribers", async () => {
     list.mockResolvedValue({
       data: {

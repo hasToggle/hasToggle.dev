@@ -40,7 +40,7 @@ export function Waitlist() {
         if ("error" in data) {
           toast.error(data.error.message);
         } else {
-          toast.success("Check your inbox. One click confirms it.");
+          toast.success("Confirmation email sent. Check your inbox.");
           form.reset();
         }
       } catch {

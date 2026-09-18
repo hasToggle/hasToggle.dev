@@ -164,7 +164,6 @@
         "@repo/seo": "workspace:*",
         "@sentry/nextjs": "^10.75.0",
         "@t3-oss/env-nextjs": "^0.13.11",
-        "@zanreal/nemo": "^3.0.1",
         "disposable-email-domains": "^1.0.62",
         "lucide-react": "^1.47.0",
         "next": "16.3.5",
@@ -1974,8 +1973,6 @@
     "@xtuc/ieee754": ["@xtuc/ieee754@1.2.0", "", {}, "sha512-DX8nKgqcGwsc0eJSqYt5lwP4DH5FlHnmuWWBRy7X0NcaGR0ZtuyeESgMwTYVEtxmsNGY+qit4QYT/MIYTOTPeA=="],
 
     "@xtuc/long": ["@xtuc/long@4.2.2", "", {}, "sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ=="],
-
-    "@zanreal/nemo": ["@zanreal/nemo@3.0.1", "", { "dependencies": { "path-to-regexp": "^6.1.0" }, "peerDependencies": { "next": ">=13.0.0" } }, "sha512-sV8bkvPm/bLmK1BokjZ2zsx7fbPyz8JDWScT88srhvNDW6OnopaU9Co/etaquHWWU3Ta6MzxRpLrOIx4zzK/rA=="],
 
     "abort-controller": ["abort-controller@3.0.0", "", { "dependencies": { "event-target-shim": "^5.0.0" } }, "sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg=="],
 

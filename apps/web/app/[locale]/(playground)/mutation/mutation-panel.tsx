@@ -1,10 +1,11 @@
 "use client";
 
-import { Switch } from "@repo/design-system/components/ui/switch";
 import { cn } from "@repo/design-system/lib/utils";
 import { useActionState, useCallback, useState } from "react";
 import { MarketingButton } from "../../components/marketing-button";
 import { LivePanel } from "../live-panel";
+import { StableStack } from "../stable-stack";
+import { ViewSwitch } from "../view-switch";
 import { pressTheButton } from "./actions";
 import {
   PAGE_SEAM,
@@ -46,19 +47,12 @@ export function MutationPanel({ count, references }: MutationPanelProps) {
   }, []);
 
   const viewControls = (
-    <div className="flex items-center gap-2.5">
-      <label
-        className="cursor-pointer select-none font-mono font-semibold text-[0.7rem] text-muted-foreground uppercase tracking-[0.2em]"
-        htmlFor="mutation-request-view"
-      >
-        {VIEW_LABEL}
-      </label>
-      <Switch
-        checked={view === "request"}
-        id="mutation-request-view"
-        onCheckedChange={handleViewChange}
-      />
-    </div>
+    <ViewSwitch
+      checked={view === "request"}
+      id="mutation-request-view"
+      label={VIEW_LABEL}
+      onCheckedChange={handleViewChange}
+    />
   );
 
   // The form stays in the body: it is the specimen, not instrument chrome.
@@ -109,23 +103,16 @@ export function MutationPanel({ count, references }: MutationPanelProps) {
           ) : null}
         </div>
         {form}
-        <p
-          className="grid font-mono text-muted-foreground text-xs/5"
+        <StableStack
+          active={view}
+          as="p"
+          className="font-mono text-muted-foreground text-xs/5"
           role="status"
-        >
-          <span
-            aria-hidden={view !== "page"}
-            className={cn("[grid-area:1/1]", view !== "page" && "invisible")}
-          >
-            {PAGE_SEAM}
-          </span>
-          <span
-            aria-hidden={view !== "request"}
-            className={cn("[grid-area:1/1]", view !== "request" && "invisible")}
-          >
-            {REQUEST_SEAM}
-          </span>
-        </p>
+          variants={[
+            { key: "page", node: PAGE_SEAM },
+            { key: "request", node: REQUEST_SEAM },
+          ]}
+        />
       </div>
     </LivePanel>
   );

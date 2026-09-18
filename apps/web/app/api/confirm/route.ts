@@ -8,13 +8,15 @@ import { type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
 import { confirmationOrigin } from "@/lib/confirmation-origin";
 import {
+  checkEmailDeliverability,
   EMAIL_COLLATION,
   normalizeEmail,
   type ValidationFailureReason,
-  validateEmail,
+  validateEmailFormat,
 } from "@/lib/email-validation";
 import { clientIp, rateLimiter } from "@/lib/rate-limit";
 import { generateToken } from "@/lib/token";
+import { unsubscribeHeaders, unsubscribeUrl } from "@/lib/unsubscribe-link";
 
 const TOKEN_EXPIRY_MS = 1000 * 60 * 60 * 24;
 
@@ -44,9 +46,7 @@ const VALIDATION_MESSAGES: Record<ValidationFailureReason, string> = {
 
 // The same reply for every outcome, so the form cannot be used to test
 // whether an address is on the list. What differs is the mail that arrives.
-const SUCCESS_MESSAGE = "Check your inbox. One click confirms it.";
-
-const EMAIL_SHAPE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const SUCCESS_MESSAGE = "Confirmation email sent. Check your inbox.";
 
 const DUPLICATE_KEY = 11_000;
 
@@ -79,6 +79,15 @@ async function overLimit(request: NextRequest, email: string) {
   return !(address.success && caller.success);
 }
 
+function validationError(reason: ValidationFailureReason) {
+  return NextResponse.json(
+    {
+      error: { message: VALIDATION_MESSAGES[reason], name: "ValidationError" },
+    },
+    { status: 400 }
+  );
+}
+
 function emailError() {
   return NextResponse.json(
     {
@@ -92,22 +101,29 @@ function emailError() {
 }
 
 /**
- * Writes the token onto the subscriber's row, creating it if there is none.
- * The address arrives normalized, so the plain upsert matches every row
- * written since normalization began. A row stored in another casing before
- * that is invisible to the plain lookup, and the attempted insert trips the
- * case-insensitive unique index (E11000). That is the signal to look again
- * with the index's collation, which finds the legacy row and updates it in
- * place. A retry that matches nothing means the token would be mailed for a
- * row nobody holds, so it is an error rather than a silent success.
+ * Writes the token onto the subscriber's row, creating it if there is none,
+ * and answers with the row's id, which the mail's unsubscribe link is
+ * signed over. The address arrives normalized, so the plain upsert matches
+ * every row written since normalization began. A row stored in another
+ * casing before that is invisible to the plain lookup, and the attempted
+ * insert trips the case-insensitive unique index (E11000). That is the
+ * signal to look again with the index's collation, which finds the legacy
+ * row and updates it in place. A retry that matches nothing means the
+ * token would be mailed for a row nobody holds, so it is an error rather
+ * than a silent success.
  */
-async function storeConfirmationToken(email: string, hash: string) {
+async function storeConfirmationToken(
+  email: string,
+  hash: string,
+  existing: Subscriber | null
+): Promise<string> {
   const update = {
     $set: {
       token: hash,
       tokenExpiresAt: new Date(Date.now() + TOKEN_EXPIRY_MS),
     },
   };
+  const insertId = createId();
 
   try {
     await database.subscriber.updateOne(
@@ -115,7 +131,7 @@ async function storeConfirmationToken(email: string, hash: string) {
       {
         ...update,
         $setOnInsert: {
-          _id: createId(),
+          _id: insertId,
           createdAt: new Date(),
           emailVerified: null,
           image: null,
@@ -125,6 +141,8 @@ async function storeConfirmationToken(email: string, hash: string) {
       },
       { upsert: true }
     );
+    // The upsert matched the row we looked up, or inserted the one we named.
+    return existing?._id ?? insertId;
   } catch (error) {
     if (!isDuplicateKey(error)) {
       throw error;
@@ -138,18 +156,43 @@ async function storeConfirmationToken(email: string, hash: string) {
         { cause: error }
       );
     }
+    // The legacy row is the one we looked up, unless it appeared between
+    // the lookup and the upsert — then it has to be read to be named.
+    const row =
+      existing ??
+      (await database.subscriber.findOne(
+        { email },
+        { collation: EMAIL_COLLATION }
+      ));
+    if (!row) {
+      throw new Error(
+        "Legacy row matched the update but could not be read back",
+        { cause: error }
+      );
+    }
+    return row._id;
   }
 }
 
-async function sendConfirmation(email: string, origin: string) {
+async function sendConfirmation(
+  email: string,
+  origin: string,
+  existing: Subscriber | null
+) {
   const { token, hash } = generateToken();
 
-  await storeConfirmationToken(email, hash);
+  const id = await storeConfirmationToken(email, hash, existing);
+  const leave = unsubscribeUrl(origin, id, env.UNSUBSCRIBE_SECRET);
 
   const { error } = await resend.emails.send(
     {
       from: env.RESEND_FROM,
-      react: ConfirmSubscription({ baseUrl: origin, token }),
+      headers: unsubscribeHeaders(leave),
+      react: ConfirmSubscription({
+        baseUrl: origin,
+        token,
+        unsubscribeUrl: leave,
+      }),
       subject: "One click and you’re on the waitlist",
       to: [email],
     },
@@ -160,10 +203,26 @@ async function sendConfirmation(email: string, origin: string) {
   return error;
 }
 
+/**
+ * Resend's answer when a key has already sent something else. A key lives
+ * 24 hours and replays only an identical payload, so a reminder refused
+ * this way is one whose twin went out today under different content — a
+ * deploy changed the copy, or a second deployment signed a different
+ * unsubscribe URL into it. The cap has done its work either way, and
+ * reporting it as a failure would answer a registered address with a 500
+ * where an unknown one gets a 200.
+ */
+const ALREADY_REMINDED: ReadonlySet<string> = new Set([
+  "invalid_idempotent_request",
+  "concurrent_idempotent_requests",
+]);
+
 async function sendAlreadySubscribed(
   subscriber: Subscriber,
-  confirmedAt: Date
+  confirmedAt: Date,
+  origin: string
 ) {
+  const leave = unsubscribeUrl(origin, subscriber._id, env.UNSUBSCRIBE_SECRET);
   // Contact creation at confirm time swallows its error, so a confirmed
   // subscriber can be missing from the segment. Re-creating is idempotent.
   const [contact, mail] = await Promise.all([
@@ -175,13 +234,18 @@ async function sendAlreadySubscribed(
     resend.emails.send(
       {
         from: env.RESEND_FROM,
-        react: AlreadySubscribed({ confirmedAt }),
+        headers: unsubscribeHeaders(leave),
+        react: AlreadySubscribed({ confirmedAt, unsubscribeUrl: leave }),
         subject: "You’re already on the waitlist",
         to: [subscriber.email],
       },
       // One reminder per address per day, however often the form is sent.
+      // The host is part of the key because every deployment sends through
+      // the same Resend account: preview and production write different
+      // unsubscribe URLs into the same mail, and a shared key would let a
+      // test on one refuse the other's reminder for the rest of the day.
       {
-        idempotencyKey: `already-subscribed/${subscriber._id}/${new Date().toISOString().slice(0, 10)}`,
+        idempotencyKey: `already-subscribed/${new URL(origin).host}/${subscriber._id}/${new Date().toISOString().slice(0, 10)}`,
       }
     ),
   ]);
@@ -190,7 +254,9 @@ async function sendAlreadySubscribed(
     parseError(contact.error);
   }
 
-  return mail.error;
+  return mail.error && ALREADY_REMINDED.has(mail.error.name)
+    ? null
+    : mail.error;
 }
 
 export async function POST(request: NextRequest) {
@@ -198,27 +264,17 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const email = normalizeEmail(body?.email);
 
-    // Junk fails the format check inside validateEmail without touching a
-    // window; anything shaped like an address is counted before the costly
-    // checks run.
-    if (EMAIL_SHAPE.test(email) && (await overLimit(request, email))) {
+    // Junk fails the cheap checks without touching a window; anything
+    // shaped like an address is counted before the costly steps run.
+    const format = validateEmailFormat(email);
+    if (!format.valid) {
+      return validationError(format.reason);
+    }
+
+    if (await overLimit(request, email)) {
       return NextResponse.json(
         { error: { message: LIMIT_MESSAGE, name: "RateLimitError" } },
         { status: 429 }
-      );
-    }
-
-    const validation = await validateEmail(email);
-
-    if (!validation.valid) {
-      return NextResponse.json(
-        {
-          error: {
-            message: VALIDATION_MESSAGES[validation.reason],
-            name: "ValidationError",
-          },
-        },
-        { status: 400 }
       );
     }
 
@@ -229,10 +285,13 @@ export async function POST(request: NextRequest) {
       { collation: EMAIL_COLLATION }
     );
 
+    const origin = confirmationOrigin(request.url, env.NEXT_PUBLIC_WEB_URL);
+
     if (existing?.emailVerified) {
       const error = await sendAlreadySubscribed(
         existing,
-        existing.emailVerified
+        existing.emailVerified,
+        origin
       );
       if (error) {
         log.error(`Failed to send reminder email: ${JSON.stringify(error)}`);
@@ -245,10 +304,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: SUCCESS_MESSAGE });
     }
 
-    const error = await sendConfirmation(
-      email,
-      confirmationOrigin(request.url, env.NEXT_PUBLIC_WEB_URL)
-    );
+    // The paid lookup runs once per address: a row on file already passed
+    // it when the row was written.
+    if (!existing) {
+      const deliverability = await checkEmailDeliverability(email);
+      if (!deliverability.valid) {
+        return validationError(deliverability.reason);
+      }
+    }
+
+    const error = await sendConfirmation(email, origin, existing);
     if (error) {
       log.error(`Failed to send confirmation email: ${JSON.stringify(error)}`);
       return emailError();

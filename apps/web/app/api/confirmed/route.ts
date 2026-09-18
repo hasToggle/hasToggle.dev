@@ -3,6 +3,7 @@ import { resend } from "@repo/email";
 import { parseError } from "@repo/observability/error";
 import { after, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
+import { CONFIRMED_TICKET, ticketRedirect } from "@/lib/tickets";
 import { generateTokenHash } from "@/lib/token";
 
 export async function GET(request: NextRequest) {
@@ -35,39 +36,38 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const updatePromise = subscriber.emailVerified
-      ? Promise.resolve()
-      : database.subscriber.updateOne(
-          { _id: subscriber._id },
-          {
-            $set: {
-              emailVerified: new Date(),
-              tokenExpiresAt: null,
-            },
-          }
-        );
+    // A used link is only a way back to the confirmed page. It writes
+    // nothing and never re-creates the contact, so a link that lingers in
+    // an inbox or a request log cannot undo a later unsubscribe.
+    if (subscriber.emailVerified) {
+      return confirmedPage(request);
+    }
 
     // The contact is what broadcasts send to. Resend's unsubscribe link
     // flips its `unsubscribed` flag; /api/webhooks/resend turns that flag
     // into the deletion the privacy policy promises.
-    const contactPromise = resend.contacts.create({
-      email: subscriber.email,
-      segments: [{ id: env.RESEND_SEGMENT_ID }],
-      unsubscribed: false,
-    });
-
-    const [, { error }] = await Promise.all([updatePromise, contactPromise]);
+    const [, { error }] = await Promise.all([
+      database.subscriber.updateOne(
+        { _id: subscriber._id },
+        {
+          $set: {
+            emailVerified: new Date(),
+            tokenExpiresAt: null,
+          },
+        }
+      ),
+      resend.contacts.create({
+        email: subscriber.email,
+        segments: [{ id: env.RESEND_SEGMENT_ID }],
+        unsubscribed: false,
+      }),
+    ]);
 
     if (error) {
       after(() => parseError(error));
     }
 
-    return new Response(null, {
-      headers: {
-        Location: "/confirmed",
-      },
-      status: 303,
-    });
+    return confirmedPage(request);
   } catch (error) {
     after(() => parseError(error));
     return NextResponse.json(
@@ -75,4 +75,12 @@ export async function GET(request: NextRequest) {
       { status: 500 }
     );
   }
+}
+
+// The redirect carries the ticket the proxy checks; see lib/tickets.
+function confirmedPage(request: NextRequest) {
+  return ticketRedirect(
+    CONFIRMED_TICKET,
+    request.nextUrl.protocol === "https:"
+  );
 }

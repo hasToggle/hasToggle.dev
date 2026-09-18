@@ -1,18 +1,18 @@
+import type { SearchParams } from "nuqs/server";
 import { Suspense } from "react";
-import { requireChapter } from "../../lab/syllabus";
+import { chapterSourceHref, requireChapter } from "../../lab/syllabus";
 import { CodeBlock } from "../code-block";
 import { DemoSection } from "../demo-section";
 import { ReferenceBar } from "../reference-bar";
-import { parseRunId } from "./parse-run-id";
+import { loadStreamSearchParams } from "./search-params";
 import { STREAM_SOURCE } from "./source";
 import { Stage } from "./stage";
-import { parseStrategy } from "./strategy";
 import { StreamPanel } from "./stream-panel";
 
 const chapter = requireChapter("streaming");
 
-/** Both hosts of this exhibit read the same two params off the URL. */
-export type StreamSearchParams = Promise<{ mode?: string; stream?: string }>;
+/** Both hosts of this exhibit hand their page's searchParams through. */
+export type StreamSearchParams = Promise<SearchParams>;
 
 interface StreamDemoProps {
   headingAs?: "h1" | "h2";
@@ -30,8 +30,8 @@ async function StreamStage({
 }: {
   searchParams: StreamSearchParams;
 }) {
-  const { mode, stream } = await searchParams;
-  return <Stage run={parseRunId(stream)} strategy={parseStrategy(mode)} />;
+  const { mode, stream } = loadStreamSearchParams(await searchParams);
+  return <Stage run={stream} strategy={mode} />;
 }
 
 export function StreamDemo({ headingAs, searchParams }: StreamDemoProps) {
@@ -75,7 +75,7 @@ export function StreamDemo({ headingAs, searchParams }: StreamDemoProps) {
         references={
           <ReferenceBar
             docsHref="https://nextjs.org/docs/app/api-reference/file-conventions/loading"
-            sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/stream"
+            sourceHref={chapterSourceHref(chapter)}
           >
             <CodeBlock
               code={STREAM_SOURCE}

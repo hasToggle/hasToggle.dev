@@ -6,7 +6,9 @@ import { resetRateLimiters } from "@/lib/rate-limit";
 import { POST } from "./route";
 
 const DAY_MS = 1000 * 60 * 60 * 24;
-const SUCCESS = "Check your inbox. One click confirms it.";
+const UNSUBSCRIBE_HEADER =
+  /^<http:\/\/localhost:3001\/api\/unsubscribe\?id=[^&]+&sig=[^>]+>$/;
+const SUCCESS = "Confirmation email sent. Check your inbox.";
 
 // The preload mocks @repo/database and @repo/email once for every test file;
 // spying on those shared objects keeps this file's behaviour from leaking.
@@ -141,6 +143,76 @@ describe("/api/confirm", () => {
     expect(updateOne).not.toHaveBeenCalled();
   });
 
+  test("keys the reminder by host, subscriber and day", async () => {
+    await post(
+      subscriber({ emailVerified: new Date(), tokenExpiresAt: null }),
+      "eric@example.com"
+    );
+    const today = new Date().toISOString().slice(0, 10);
+    expect(send.mock.calls[0]?.[1]?.idempotencyKey).toBe(
+      `already-subscribed/localhost:3001/sub-1/${today}`
+    );
+  });
+
+  test("treats a burned idempotency key as a reminder already sent", async () => {
+    findOne.mockResolvedValue(
+      subscriber({ emailVerified: new Date(), tokenExpiresAt: null }) as never
+    );
+    createContact.mockResolvedValue({
+      data: { id: "contact-id" },
+      error: null,
+    } as never);
+    send.mockResolvedValue({
+      data: null,
+      error: {
+        message: "Same idempotency key used with a different payload",
+        name: "invalid_idempotent_request",
+        statusCode: 409,
+      },
+    } as never);
+
+    const response = await POST(makeRequest({ email: "eric@example.com" }));
+    expect(response.status).toBe(200);
+    expect((await response.json()).message).toBe(SUCCESS);
+  });
+
+  test("still reports a reminder Resend actually refused", async () => {
+    findOne.mockResolvedValue(
+      subscriber({ emailVerified: new Date(), tokenExpiresAt: null }) as never
+    );
+    createContact.mockResolvedValue({
+      data: { id: "contact-id" },
+      error: null,
+    } as never);
+    send.mockResolvedValue({
+      data: null,
+      error: {
+        message: "Too many requests",
+        name: "rate_limit_exceeded",
+        statusCode: 429,
+      },
+    } as never);
+
+    const response = await POST(makeRequest({ email: "eric@example.com" }));
+    expect(response.status).toBe(500);
+  });
+
+  test("both mails carry a signed unsubscribe link and the one-click headers", async () => {
+    await post(null, "new@example.com");
+    await post(
+      subscriber({ emailVerified: new Date(), tokenExpiresAt: null }),
+      "eric@example.com"
+    );
+    for (const [payload] of send.mock.calls) {
+      const header = payload.headers?.["List-Unsubscribe"] ?? "";
+      expect(header).toMatch(UNSUBSCRIBE_HEADER);
+      expect(payload.headers?.["List-Unsubscribe-Post"]).toBe(
+        "List-Unsubscribe=One-Click"
+      );
+    }
+    expect(send.mock.calls).toHaveLength(2);
+  });
+
   test("puts a confirmed address back into the Resend segment", async () => {
     await post(
       subscriber({ emailVerified: new Date(), tokenExpiresAt: null }),
@@ -191,7 +263,13 @@ describe("/api/confirm legacy casing", () => {
   });
 
   test("retries a rejected upsert against the legacy row and sends", async () => {
-    findOne.mockResolvedValue(null as never);
+    // The lookup missed, the insert collided: the row appeared in between,
+    // and is read back so the mail's unsubscribe link can name it.
+    findOne
+      .mockResolvedValueOnce(null as never)
+      .mockResolvedValueOnce(
+        subscriber({ email: "legacy@example.com" }) as never
+      );
     updateOne
       .mockRejectedValueOnce(duplicateKey as never)
       .mockResolvedValueOnce({ matchedCount: 1 } as never);

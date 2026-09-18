@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import { ogImageUrl } from "@/app/api/og/title";
 import { Container } from "../components/container";
 import { Footer } from "../components/footer";
 import { Link } from "../components/marketing-link";
 import { MetaAside } from "../components/meta-aside";
 import { Navbar } from "../components/navbar";
-import { prevNext, type ShippedChapter } from "./syllabus";
+import { chapterCommitsHref, prevNext, type ShippedChapter } from "./syllabus";
 
 /**
  * The shared frame for a chapter page: site chrome above and below, the
@@ -24,7 +25,7 @@ export function chapterMetadata(chapter: ShippedChapter): Metadata {
       images: [
         {
           height: 630,
-          url: `/api/og?title=${encodeURIComponent(chapter.title)}`,
+          url: ogImageUrl(chapter.title),
           width: 1200,
         },
       ],
@@ -111,11 +112,9 @@ function ChapterTurn({ slug }: { slug: string }) {
 export function ChapterShell({
   chapter,
   children,
-  commitsHref,
 }: {
   chapter: ShippedChapter;
   children: React.ReactNode;
-  commitsHref: string;
 }) {
   // Same clip as the landing page: the scroll-driven reveals inside the
   // exhibit resolve against the viewport, not a scroll container.
@@ -126,7 +125,7 @@ export function ChapterShell({
       </Container>
       <main>
         {children}
-        <MakingOf commitsHref={commitsHref} />
+        <MakingOf commitsHref={chapterCommitsHref(chapter)} />
         <ChapterTurn slug={chapter.slug} />
       </main>
       <Footer />

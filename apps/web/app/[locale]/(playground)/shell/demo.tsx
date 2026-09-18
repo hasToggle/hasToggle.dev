@@ -1,4 +1,4 @@
-import { requireChapter } from "../../lab/syllabus";
+import { chapterSourceHref, requireChapter } from "../../lab/syllabus";
 import { CodeBlock } from "../code-block";
 import { DemoSection } from "../demo-section";
 import { InlineCode } from "../inline-code";
@@ -76,7 +76,7 @@ export async function ShellDemo({ headingAs }: ShellDemoProps) {
         references={
           <ReferenceBar
             docsHref="https://nextjs.org/docs/app/getting-started/caching"
-            sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/%5Blocale%5D/(playground)/shell"
+            sourceHref={chapterSourceHref(chapter)}
           >
             <CodeBlock
               code={SHELL_SOURCE}

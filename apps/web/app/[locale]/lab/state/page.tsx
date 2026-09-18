@@ -9,10 +9,7 @@ export const metadata: Metadata = chapterMetadata(chapter);
 
 export default function StateChapterPage() {
   return (
-    <ChapterShell
-      chapter={chapter}
-      commitsHref="https://github.com/hasToggle/hasToggle.dev/commits/main/apps/web/app/%5Blocale%5D/(playground)/state"
-    >
+    <ChapterShell chapter={chapter}>
       <StateDemo headingAs="h1" />
     </ChapterShell>
   );

@@ -22,18 +22,3 @@ export const STRATEGY_ORDER: readonly Strategy[] = [
  * are the comparison.
  */
 export const DEFAULT_STRATEGY: Strategy = "parts";
-
-function isStrategy(raw: string): raw is Strategy {
-  return (STRATEGY_ORDER as readonly string[]).includes(raw);
-}
-
-/**
- * `?mode=` is visitor input, so it gets the visitor-input treatment:
- * anything that isn't one of the three arrangements falls back to the default.
- */
-export function parseStrategy(raw: string | undefined): Strategy {
-  if (raw && isStrategy(raw)) {
-    return raw;
-  }
-  return DEFAULT_STRATEGY;
-}

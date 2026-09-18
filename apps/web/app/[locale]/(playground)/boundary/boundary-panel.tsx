@@ -4,6 +4,8 @@ import { cn } from "@repo/design-system/lib/utils";
 import { useCallback, useState } from "react";
 import { MarketingButton } from "../../components/marketing-button";
 import { LivePanel } from "../live-panel";
+import { LOCKED_LOOK } from "../locked-look";
+import { StableStack } from "../stable-stack";
 import { FileCard } from "./card";
 import type { Beat } from "./copy";
 import {
@@ -13,14 +15,6 @@ import {
   STEP_DETAIL,
   STEP_LABEL,
 } from "./copy";
-
-// The outline variant's `disabled:` look re-expressed for `aria-disabled`,
-// so the spent step stays focusable and keyboard users keep their place.
-// Same trick as the rebake deck.
-const LOCKED_LOOK = cn(
-  "aria-disabled:bg-transparent aria-disabled:opacity-40",
-  "aria-disabled:cursor-not-allowed aria-disabled:hover:bg-transparent"
-);
 
 // The nudge: while the step is pressable it wears the boundary's own
 // orange on its ring, so the hand knows where the sequence starts.
@@ -143,8 +137,7 @@ export function BoundaryPanel({
         {/* Both cards stacked in one grid cell, the inactive one invisible
             but still holding its space — so the instrument is always as
             tall as its taller beat and the deck never moves. Same
-            reservation trick as the rebake panel's StableSlot, at card
-            scale. The active wrapper's key flips on activation, so the
+            reservation trick as StableStack, at card scale. The active wrapper's key flips on activation, so the
             split card's landing wash (.ht-land) replays on each arrival. */}
         <div className="grid">
           {ALL_BEATS.map((b) => {
@@ -168,20 +161,16 @@ export function BoundaryPanel({
         </div>
         {/* The seam, narrated: the one fact the current beat proves. The
             ghost reserves the taller seam's height for the same reason. */}
-        <p
-          className="grid font-mono text-muted-foreground text-xs/5"
+        <StableStack
+          active={beat}
+          as="p"
+          className="font-mono text-muted-foreground text-xs/5"
           role="status"
-        >
-          {ALL_BEATS.map((b) => (
-            <span
-              aria-hidden={b !== beat}
-              className={cn("[grid-area:1/1]", b !== beat && "invisible")}
-              key={b}
-            >
-              <Seam text={SEAMS[b]} />
-            </span>
-          ))}
-        </p>
+          variants={ALL_BEATS.map((b) => ({
+            key: b,
+            node: <Seam text={SEAMS[b]} />,
+          }))}
+        />
       </div>
     </LivePanel>
   );

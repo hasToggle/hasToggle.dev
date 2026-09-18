@@ -68,7 +68,7 @@ export function isDisposableEmail(email: string): boolean {
   return disposableSet.has(domain);
 }
 
-async function checkEmailDeliverability(
+export async function checkEmailDeliverability(
   email: string
 ): Promise<ValidationResult> {
   // Dynamic import: Bun's mock.module does not intercept @/ path aliases in
@@ -94,7 +94,7 @@ async function checkEmailDeliverability(
 
     if (!response.ok) {
       log.error(
-        `Email deliverability API returned HTTP ${response.status} for domain "${domain}". Failing open.`
+        `Email deliverability API returned HTTP ${response.status}. Failing open.`
       );
       return { valid: true };
     }
@@ -104,7 +104,7 @@ async function checkEmailDeliverability(
 
     if (!parsed.success) {
       log.error(
-        `Unexpected Abstract API response shape for domain "${domain}": ${JSON.stringify(raw)}`
+        `Unexpected Abstract API response shape: ${JSON.stringify(raw)}`
       );
       return { valid: true };
     }
@@ -116,19 +116,18 @@ async function checkEmailDeliverability(
     return { valid: true };
   } catch (error) {
     if (error instanceof DOMException && error.name === "TimeoutError") {
-      log.warn(
-        `Email deliverability check timed out for domain "${domain}". Failing open.`
-      );
+      log.warn("Email deliverability check timed out. Failing open.");
     } else {
       log.error(
-        `Email deliverability check failed for domain "${domain}": ${error instanceof Error ? error.message : String(error)}`
+        `Email deliverability check failed: ${error instanceof Error ? error.message : String(error)}`
       );
     }
     return { valid: true };
   }
 }
 
-export async function validateEmail(email: string): Promise<ValidationResult> {
+/** The cheap half: shape and the disposable blocklist, no network. */
+export function validateEmailFormat(email: string): ValidationResult {
   if (
     !email ||
     typeof email !== "string" ||
@@ -142,5 +141,10 @@ export async function validateEmail(email: string): Promise<ValidationResult> {
     return { reason: "disposable", valid: false };
   }
 
-  return await checkEmailDeliverability(email);
+  return { valid: true };
+}
+
+export async function validateEmail(email: string): Promise<ValidationResult> {
+  const format = validateEmailFormat(email);
+  return format.valid ? await checkEmailDeliverability(email) : format;
 }

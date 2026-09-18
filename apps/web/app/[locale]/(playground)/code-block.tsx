@@ -1,7 +1,12 @@
 import { cacheLife } from "next/cache";
 import { codeToHtml } from "shiki";
 
-async function highlight(code: string, lang: string): Promise<string> {
+/**
+ * The one Shiki pipeline: cached forever, since the source strings are
+ * repo-owned and only change with a deploy. Nothing of it ships to the
+ * browser.
+ */
+export async function highlight(code: string, lang: string): Promise<string> {
   "use cache";
   cacheLife("max");
   return await codeToHtml(code.trim(), {

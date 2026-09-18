@@ -1,11 +1,10 @@
 "use client";
 
 import { Button } from "@repo/design-system/components/ui/button";
-import { Input } from "@repo/design-system/components/ui/input";
 import { Label } from "@repo/design-system/components/ui/label";
 import { cn } from "@repo/design-system/lib/utils";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { DEFAULT_OG_TITLE } from "@/app/api/og/title";
+import { DEFAULT_OG_TITLE, OG_TITLES } from "@/app/api/og/title";
 import { LivePanel } from "../live-panel";
 
 interface GeneratedImage {
@@ -26,18 +25,19 @@ function formatKb(bytes: number): string {
 }
 
 /**
- * The image chapter's instrument. Types a title, requests `/api/og?title=…`,
+ * The image chapter's instrument. Picks a page, requests `/api/og?title=…`,
  * shows the PNG the server just rendered — on an image-viewer checkerboard,
- * with the file's own facts read from the response. The interesting part is the URL:
- * it's a plain GET endpoint, so the link opens the same file the crawlers
- * see.
+ * with the file's own facts read from the response. The interesting part is
+ * the URL: it's a plain GET endpoint, so the link opens the same file the
+ * crawlers see. The pick is a select rather than a text field because the
+ * route only draws the site's own titles (see api/og/title.ts).
  *
  * Owns the panel chrome because the gauge follows its fetch state: the form
  * is the deck, the PNG is the specimen, and the pipeline facts (including
  * Satori's flexbox limit) are the narration line.
  */
 export function OgDemo({ references }: OgDemoProps) {
-  const [draft, setDraft] = useState("");
+  const [draft, setDraft] = useState(DEFAULT_OG_TITLE);
   const [title, setTitle] = useState(DEFAULT_OG_TITLE);
   const [image, setImage] = useState<GeneratedImage | null>(null);
   const [loading, setLoading] = useState(true);
@@ -119,7 +119,7 @@ export function OgDemo({ references }: OgDemoProps) {
       })
       .catch(() => {
         if (!cancelled) {
-          setError("The server couldn’t draw that one. Try another title.");
+          setError("The server couldn’t draw that one. Try another page.");
         }
       })
       .finally(() => {
@@ -147,13 +147,13 @@ export function OgDemo({ references }: OgDemoProps) {
   const generate = useCallback(
     (event: React.SyntheticEvent<HTMLFormElement>) => {
       event.preventDefault();
-      setTitle(draft.trim() || DEFAULT_OG_TITLE);
+      setTitle(draft);
     },
     [draft]
   );
 
   const handleDraftChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
+    (event: React.ChangeEvent<HTMLSelectElement>) => {
       setDraft(event.target.value);
     },
     []
@@ -163,18 +163,21 @@ export function OgDemo({ references }: OgDemoProps) {
     <form className="flex flex-col gap-3 sm:flex-row" onSubmit={generate}>
       <div className="flex-1">
         <Label className="sr-only" htmlFor="og-title">
-          Title for the generated image
+          Page to draw the card for
         </Label>
-        <Input
-          className="h-11"
+        <select
+          className="h-11 w-full rounded-md border border-input bg-background px-3 text-sm shadow-xs focus-visible:border-ring focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
           id="og-title"
-          maxLength={120}
           name="title"
           onChange={handleDraftChange}
-          placeholder={DEFAULT_OG_TITLE}
-          type="text"
           value={draft}
-        />
+        >
+          {OG_TITLES.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
       </div>
       <Button className="h-11 px-6" disabled={loading} type="submit">
         {loading ? "Rendering…" : "Generate the image"}

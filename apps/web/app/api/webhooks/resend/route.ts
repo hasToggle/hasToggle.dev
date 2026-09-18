@@ -1,7 +1,7 @@
 import { resend, type WebhookEventPayload } from "@repo/email";
 import { keys } from "@repo/email/keys";
 import { parseError } from "@repo/observability/error";
-import { after, type NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { removeSubscriber } from "@/lib/subscribers";
 
 /**
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     await Promise.all(emailsLeaving(event).map(removeSubscriber));
   } catch (error) {
     // A 500 makes Resend retry, which is what a failed deletion needs.
-    after(() => parseError(error));
+    parseError(error);
     return NextResponse.json({ error: "Removal failed" }, { status: 500 });
   }
 

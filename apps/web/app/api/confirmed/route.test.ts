@@ -52,6 +52,15 @@ describe("/api/confirmed", () => {
     expect(updateOne).toHaveBeenCalledTimes(1);
   });
 
+  test("hands the confirmed page a short-lived ticket", async () => {
+    const response = await get(subscriber({}));
+    const cookie = response.headers.get("Set-Cookie") ?? "";
+    expect(cookie).toContain("confirmed=1");
+    expect(cookie).toContain("Path=/confirmed");
+    expect(cookie).toContain("HttpOnly");
+    expect(cookie).toContain("Max-Age=300");
+  });
+
   test("lands a second click of a used link on the confirmed page", async () => {
     const response = await get(
       subscriber({ emailVerified: new Date(), tokenExpiresAt: null })
@@ -59,6 +68,7 @@ describe("/api/confirmed", () => {
     expect(response.status).toBe(303);
     expect(response.headers.get("Location")).toBe("/confirmed");
     expect(updateOne).not.toHaveBeenCalled();
+    expect(createContact).not.toHaveBeenCalled();
   });
 
   test("rejects an expired link that was never confirmed", async () => {

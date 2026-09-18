@@ -16,10 +16,7 @@ interface PageProps {
 
 export default function StreamingChapterPage({ searchParams }: PageProps) {
   return (
-    <ChapterShell
-      chapter={chapter}
-      commitsHref="https://github.com/hasToggle/hasToggle.dev/commits/main/apps/web/app/%5Blocale%5D/(playground)/stream"
-    >
+    <ChapterShell chapter={chapter}>
       <StreamDemo headingAs="h1" searchParams={searchParams} />
     </ChapterShell>
   );
