@@ -6,18 +6,13 @@
 
 // biome-ignore lint/performance/noNamespaceImport: Sentry SDK requires namespace import for proper initialization
 import * as Sentry from "@sentry/nextjs";
-import { keys } from "./keys";
+import { baseOptions, consoleLogging } from "./client-options";
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
 
 export const initializeSentry = (): ReturnType<typeof Sentry.init> =>
   Sentry.init({
-    // Setting this option to true will print useful information to the console while you're setting up Sentry.
-    debug: false,
-    dsn: keys().NEXT_PUBLIC_SENTRY_DSN,
-
-    // Enable logging
-    enableLogs: true,
+    ...baseOptions(),
 
     // You can remove this option if you're not planning to use the Sentry Session Replay feature:
     integrations: [
@@ -26,8 +21,7 @@ export const initializeSentry = (): ReturnType<typeof Sentry.init> =>
         // Additional Replay configuration goes in here, for example:
         maskAllText: true,
       }),
-      // Send console.log, console.error, and console.warn calls as logs to Sentry
-      Sentry.consoleLoggingIntegration({ levels: ["log", "error", "warn"] }),
+      consoleLogging(),
     ],
 
     replaysOnErrorSampleRate: 1,
@@ -37,7 +31,4 @@ export const initializeSentry = (): ReturnType<typeof Sentry.init> =>
      * in development and sample at a lower rate in production
      */
     replaysSessionSampleRate: 0.1,
-
-    // Adjust this value in production, or use tracesSampler for greater control
-    tracesSampleRate: 1,
   });
