@@ -77,6 +77,7 @@ export async function ShellDemo({ headingAs }: ShellDemoProps) {
           <ReferenceBar
             docsHref="https://nextjs.org/docs/app/getting-started/caching"
             sourceHref={chapterSourceHref(chapter)}
+            topic={chapter.topic}
           >
             <CodeBlock
               code={SHELL_SOURCE}
