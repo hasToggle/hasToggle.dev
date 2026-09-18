@@ -16,11 +16,6 @@ import { notFound } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
 import { env } from "@/env";
 
-const protocol = env.VERCEL_PROJECT_PRODUCTION_URL?.startsWith("https")
-  ? "https"
-  : "http";
-const url = new URL(`${protocol}://${env.VERCEL_PROJECT_PRODUCTION_URL}`);
-
 interface BlogPostProperties {
   readonly params: Promise<{
     slug: string;
@@ -83,7 +78,11 @@ async function Article({ slug }: { slug: string }) {
           image: post.image,
           isAccessibleForFree: true,
           mainEntityOfPage: {
-            "@id": new URL(`/blog/${post.slug}`, url).toString(),
+            // The root layout's `metadataBase`, so every absolute URL agrees.
+            "@id": new URL(
+              `/blog/${post.slug}`,
+              env.NEXT_PUBLIC_WEB_URL
+            ).toString(),
             "@type": "WebPage",
           },
         }}
