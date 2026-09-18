@@ -239,14 +239,13 @@ export function StateCard({ narrate, replayCode }: StateCardProps) {
               ref={badgeRef}
             />
           </div>
-          {/* Back: the source, walked line by line. Pointer events off while
-              hidden — an invisible backface still sits over the button. */}
+          {/* Back: the source, walked line by line. Inert while hidden — an
+              invisible backface still sits over the button, and the
+              highlighted <pre> is a tab stop. aria-hidden alone would leave
+              that stop in the tab order with nothing to announce. */}
           <div
-            aria-hidden={!flipped}
-            className={cn(
-              "[backface-visibility:hidden] [grid-area:1/1] [transform:rotateY(180deg)]",
-              !flipped && "pointer-events-none"
-            )}
+            className="[backface-visibility:hidden] [grid-area:1/1] [transform:rotateY(180deg)]"
+            inert={!flipped}
           >
             <div ref={codeRef}>{replayCode}</div>
             {/* The history, whole from the start: three dimmed lines that

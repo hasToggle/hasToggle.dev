@@ -55,6 +55,7 @@ export function BoundaryDemo({ headingAs }: BoundaryDemoProps) {
           <ReferenceBar
             docsHref="https://nextjs.org/docs/app/getting-started/server-and-client-components"
             sourceHref={chapterSourceHref(chapter)}
+            topic={chapter.topic}
           >
             <CodeBlock code={BOUNDARY_SOURCE} file="card.tsx · before, after" />
           </ReferenceBar>

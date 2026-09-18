@@ -58,6 +58,7 @@ export function StateDemo({ headingAs }: StateDemoProps) {
           <ReferenceBar
             docsHref="https://react.dev/learn/state-a-components-memory"
             sourceHref={chapterSourceHref(chapter)}
+            topic={chapter.topic}
           >
             <CodeBlock code={STATE_SOURCE} file="state-card.tsx" />
           </ReferenceBar>

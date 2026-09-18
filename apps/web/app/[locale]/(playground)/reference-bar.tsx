@@ -5,6 +5,8 @@ interface ReferenceBarProps {
   children: React.ReactNode;
   docsHref: string;
   sourceHref: string;
+  /** The chapter's topic — tells one bar's links from the next bar's. */
+  topic: string;
 }
 
 /**
@@ -18,13 +20,14 @@ export function ReferenceBar({
   children,
   docsHref,
   sourceHref,
+  topic,
 }: ReferenceBarProps) {
   return (
     <div className="relative">
       {children}
       <div className="absolute top-0 right-0 flex h-11 items-center gap-5 px-4 sm:px-5">
-        <SectionLink href={docsHref} label="docs" />
-        <SectionLink href={sourceHref} label="source" />
+        <SectionLink href={docsHref} label="docs" topic={topic} />
+        <SectionLink href={sourceHref} label="source" topic={topic} />
       </div>
     </div>
   );

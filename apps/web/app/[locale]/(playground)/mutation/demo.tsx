@@ -62,6 +62,7 @@ export function MutationDemo({ headingAs }: MutationDemoProps) {
           <ReferenceBar
             docsHref="https://nextjs.org/docs/app/getting-started/updating-data"
             sourceHref={chapterSourceHref(chapter)}
+            topic={chapter.topic}
           >
             <CodeBlock
               code={MUTATION_SOURCE}
