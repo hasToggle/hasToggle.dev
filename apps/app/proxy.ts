@@ -13,7 +13,7 @@ const securityHeaders = env.FLAGS_SECRET
 
 // authMiddleware wraps the app's middleware chain; route protection lives
 // in the authenticated layout and per-page checks, not here (see apps/web
-// for createNEMO composition without the wrapper).
+// for the same chain composed without the wrapper).
 export const proxy = authMiddleware(() =>
   securityHeaders()
 ) as unknown as NextProxy;

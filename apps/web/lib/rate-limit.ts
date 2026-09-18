@@ -1,7 +1,8 @@
 import { keys as rateLimitKeys } from "@repo/rate-limit/keys";
 
 /**
- * A sliding-window limiter for the two forms that send mail.
+ * A sliding-window limiter for the two forms that send mail and the shell
+ * demo's revalidate button.
  *
  * Production has no Upstash keys today, so the Redis limiter in
  * `@repo/rate-limit` would be a no-op there. This one runs in memory when
