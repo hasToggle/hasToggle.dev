@@ -16,6 +16,11 @@ import { notFound } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
 import { env } from "@/env";
 
+// A post's one address, for the canonical link and the structured data.
+// Built on the root layout's `metadataBase`, so the two always agree.
+const postUrl = (slug: string) =>
+  new URL(`/blog/${slug}`, env.NEXT_PUBLIC_WEB_URL).toString();
+
 interface BlogPostProperties {
   readonly params: Promise<{
     slug: string;
@@ -37,6 +42,7 @@ export const generateMetadata = async ({
   }
 
   return createMetadata({
+    alternates: { canonical: postUrl(slug) },
     description: post.description,
     image: post.image,
     title: post.title,
@@ -78,11 +84,7 @@ async function Article({ slug }: { slug: string }) {
           image: post.image,
           isAccessibleForFree: true,
           mainEntityOfPage: {
-            // The root layout's `metadataBase`, so every absolute URL agrees.
-            "@id": new URL(
-              `/blog/${post.slug}`,
-              env.NEXT_PUBLIC_WEB_URL
-            ).toString(),
+            "@id": postUrl(post.slug),
             "@type": "WebPage",
           },
         }}
