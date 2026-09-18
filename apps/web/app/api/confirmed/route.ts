@@ -1,8 +1,7 @@
 import { database } from "@repo/database";
-import { resend } from "@repo/email";
 import { parseError } from "@repo/observability/error";
 import { after, type NextRequest, NextResponse } from "next/server";
-import { env } from "@/env";
+import { addSubscriberContact } from "@/lib/subscribers";
 import { CONFIRMED_TICKET, ticketRedirect } from "@/lib/tickets";
 import { generateTokenHash } from "@/lib/token";
 
@@ -40,7 +39,8 @@ export async function GET(request: NextRequest) {
     // nothing and never re-creates the contact, so a link that lingers in
     // an inbox or a request log cannot undo a later unsubscribe.
     if (subscriber.emailVerified) {
-      return confirmedPage(request);
+      // The redirect carries the ticket the proxy checks; see lib/tickets.
+      return ticketRedirect(CONFIRMED_TICKET, request);
     }
 
     // The contact is what broadcasts send to. Resend's unsubscribe link
@@ -56,18 +56,14 @@ export async function GET(request: NextRequest) {
           },
         }
       ),
-      resend.contacts.create({
-        email: subscriber.email,
-        segments: [{ id: env.RESEND_SEGMENT_ID }],
-        unsubscribed: false,
-      }),
+      addSubscriberContact(subscriber.email),
     ]);
 
     if (error) {
       after(() => parseError(error));
     }
 
-    return confirmedPage(request);
+    return ticketRedirect(CONFIRMED_TICKET, request);
   } catch (error) {
     after(() => parseError(error));
     return NextResponse.json(
@@ -75,12 +71,4 @@ export async function GET(request: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-// The redirect carries the ticket the proxy checks; see lib/tickets.
-function confirmedPage(request: NextRequest) {
-  return ticketRedirect(
-    CONFIRMED_TICKET,
-    request.nextUrl.protocol === "https:"
-  );
 }

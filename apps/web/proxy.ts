@@ -52,9 +52,9 @@ const arcjetMiddleware = async (request: NextRequest) => {
 };
 
 // Skip i18n rewriting for routes outside [locale] (i18n middleware's own
-// matcher excludes these, but proxy.ts runs it for all matched routes via
-// createNEMO, causing rewrites to /en/... paths that don't exist). The two
-// metadata files live at the app root, where Next serves them from.
+// matcher excludes these, but proxy.ts runs it for all matched routes,
+// causing rewrites to /en/... paths that don't exist). The two metadata
+// files live at the app root, where Next serves them from.
 const UNLOCALIZED = new Set(["/robots.txt", "/sitemap.xml"]);
 
 // The pages after the waitlist link and the unsubscribe button are only

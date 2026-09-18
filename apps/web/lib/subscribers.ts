@@ -1,6 +1,18 @@
 import { database } from "@repo/database";
 import { resend } from "@repo/email";
+import { env } from "@/env";
 import { EMAIL_COLLATION, normalizeEmail } from "./email-validation";
+
+/**
+ * Puts the address in the broadcast segment. Idempotent: re-creating a
+ * contact that exists is not an error. Callers decide what a refusal means.
+ */
+export const addSubscriberContact = (email: string) =>
+  resend.contacts.create({
+    email,
+    segments: [{ id: env.RESEND_SEGMENT_ID }],
+    unsubscribed: false,
+  });
 
 /**
  * The privacy policy's promise: an unsubscribed address is deleted, not

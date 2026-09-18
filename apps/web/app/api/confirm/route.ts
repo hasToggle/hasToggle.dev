@@ -15,6 +15,7 @@ import {
   validateEmailFormat,
 } from "@/lib/email-validation";
 import { clientIp, rateLimiter } from "@/lib/rate-limit";
+import { addSubscriberContact } from "@/lib/subscribers";
 import { generateToken } from "@/lib/token";
 import { unsubscribeHeaders, unsubscribeUrl } from "@/lib/unsubscribe-link";
 
@@ -79,25 +80,16 @@ async function overLimit(request: NextRequest, email: string) {
   return !(address.success && caller.success);
 }
 
+function errorResponse(name: string, message: string, status: number) {
+  return NextResponse.json({ error: { message, name } }, { status });
+}
+
 function validationError(reason: ValidationFailureReason) {
-  return NextResponse.json(
-    {
-      error: { message: VALIDATION_MESSAGES[reason], name: "ValidationError" },
-    },
-    { status: 400 }
-  );
+  return errorResponse("ValidationError", VALIDATION_MESSAGES[reason], 400);
 }
 
 function emailError() {
-  return NextResponse.json(
-    {
-      error: {
-        message: "Failed to send confirmation email",
-        name: "EmailError",
-      },
-    },
-    { status: 500 }
-  );
+  return errorResponse("EmailError", "Failed to send confirmation email", 500);
 }
 
 /**
@@ -226,11 +218,7 @@ async function sendAlreadySubscribed(
   // Contact creation at confirm time swallows its error, so a confirmed
   // subscriber can be missing from the segment. Re-creating is idempotent.
   const [contact, mail] = await Promise.all([
-    resend.contacts.create({
-      email: subscriber.email,
-      segments: [{ id: env.RESEND_SEGMENT_ID }],
-      unsubscribed: false,
-    }),
+    addSubscriberContact(subscriber.email),
     resend.emails.send(
       {
         from: env.RESEND_FROM,
@@ -272,10 +260,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (await overLimit(request, email)) {
-      return NextResponse.json(
-        { error: { message: LIMIT_MESSAGE, name: "RateLimitError" } },
-        { status: 429 }
-      );
+      return errorResponse("RateLimitError", LIMIT_MESSAGE, 429);
     }
 
     // Collation-aware, so a row stored in another casing still counts as
@@ -322,19 +307,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: SUCCESS_MESSAGE });
   } catch (error) {
     if (error instanceof SyntaxError) {
-      return NextResponse.json(
-        {
-          error: { message: "Invalid request body", name: "ValidationError" },
-        },
-        { status: 400 }
-      );
+      return errorResponse("ValidationError", "Invalid request body", 400);
     }
     parseError(error);
-    return NextResponse.json(
-      {
-        error: { message: "An unexpected error occurred", name: "ServerError" },
-      },
-      { status: 500 }
-    );
+    return errorResponse("ServerError", "An unexpected error occurred", 500);
   }
 }

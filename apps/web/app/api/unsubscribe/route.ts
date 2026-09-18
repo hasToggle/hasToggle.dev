@@ -40,8 +40,10 @@ export function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const contentType = request.headers.get("content-type") ?? "";
-  const form = contentType.includes("form") ? await request.formData() : null;
-  const id = credentials(request, form ?? undefined);
+  const form = contentType.includes("form")
+    ? await request.formData()
+    : undefined;
+  const id = credentials(request, form);
   if (!id) {
     return refused();
   }
@@ -64,8 +66,5 @@ export async function POST(request: NextRequest) {
   if (form?.get("List-Unsubscribe") === "One-Click") {
     return new Response(null, { status: 200 });
   }
-  return ticketRedirect(
-    UNSUBSCRIBED_TICKET,
-    request.nextUrl.protocol === "https:"
-  );
+  return ticketRedirect(UNSUBSCRIBED_TICKET, request);
 }
