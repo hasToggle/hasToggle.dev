@@ -6,11 +6,12 @@
 
 // biome-ignore lint/performance/noNamespaceImport: Sentry SDK requires namespace import for proper initialization
 import * as Sentry from "@sentry/nextjs";
+import { CONSOLE_LOG_LEVELS, TRACES_SAMPLE_RATE } from "./sampling";
 
-// Send console.log, console.error, and console.warn calls as logs to Sentry
+// Send console.error and console.warn calls as logs to Sentry
 export const consoleLogging = (): ReturnType<
   typeof Sentry.consoleLoggingIntegration
-> => Sentry.consoleLoggingIntegration({ levels: ["log", "error", "warn"] });
+> => Sentry.consoleLoggingIntegration({ levels: CONSOLE_LOG_LEVELS });
 
 export const baseOptions = (): Sentry.BrowserOptions => ({
   // Setting this option to true will print useful information to the console while you're setting up Sentry.
@@ -26,6 +27,5 @@ export const baseOptions = (): Sentry.BrowserOptions => ({
 
   integrations: [consoleLogging()],
 
-  // Adjust this value in production, or use tracesSampler for greater control
-  tracesSampleRate: 1,
+  tracesSampleRate: TRACES_SAMPLE_RATE,
 });
