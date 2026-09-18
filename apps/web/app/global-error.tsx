@@ -2,9 +2,9 @@
 
 import "./styles.css";
 import { cn } from "@repo/design-system/lib/utils";
-import { captureException } from "@sentry/nextjs";
 import { useEffect } from "react";
 import { jetbrainsMono, switzer } from "@/app/fonts";
+import { reportRenderError } from "@/lib/report-render-error";
 
 interface GlobalErrorProperties {
   readonly error: Error & { digest?: string };
@@ -19,7 +19,7 @@ interface GlobalErrorProperties {
  */
 const GlobalError = ({ error, retry }: GlobalErrorProperties) => {
   useEffect(() => {
-    captureException(error);
+    reportRenderError(error);
   }, [error]);
 
   return (

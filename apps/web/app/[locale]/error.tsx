@@ -1,7 +1,7 @@
 "use client";
 
-import { captureException } from "@sentry/nextjs";
 import { useEffect } from "react";
+import { reportRenderError } from "@/lib/report-render-error";
 import { Container } from "./components/container";
 import { MarketingButton } from "./components/marketing-button";
 import { Navbar } from "./components/navbar";
@@ -19,7 +19,7 @@ interface ErrorProperties {
  */
 export default function ErrorPage({ error, retry }: ErrorProperties) {
   useEffect(() => {
-    captureException(error);
+    reportRenderError(error);
   }, [error]);
 
   return (
