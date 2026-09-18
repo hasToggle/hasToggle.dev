@@ -52,6 +52,7 @@ export function ImageDemo({ headingAs }: ImageDemoProps) {
           <ReferenceBar
             docsHref="https://nextjs.org/docs/app/api-reference/functions/image-response"
             sourceHref="https://github.com/hasToggle/hasToggle.dev/tree/main/apps/web/app/api/og"
+            topic={chapter.topic}
           >
             <CodeBlock code={OG_SOURCE} file="app/api/og/route.tsx" />
           </ReferenceBar>

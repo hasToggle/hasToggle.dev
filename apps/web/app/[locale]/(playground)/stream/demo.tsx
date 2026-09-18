@@ -92,6 +92,7 @@ export function StreamDemo({
           <ReferenceBar
             docsHref="https://nextjs.org/docs/app/api-reference/file-conventions/loading"
             sourceHref={chapterSourceHref(chapter)}
+            topic={chapter.topic}
           >
             <CodeBlock
               code={STREAM_SOURCE}
