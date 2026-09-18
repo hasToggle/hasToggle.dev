@@ -244,23 +244,25 @@ a bare employer domain — including in prose. `.entire/redactors/hastoggle-pii.
 catches those shapes as a safety net; it cannot catch an agent describing the
 data in a sentence.
 
-### Redaction layers, and what pushing costs
+### Redaction layers, and what the push no longer catches
 
-`git push` runs the OpenAI Privacy Filter over the checkpoints first — layer 9,
-the only one that catches a name in prose. It is a local model; nothing leaves
-the machine. Three things about it are not obvious:
+`git push` runs the regex layers over the checkpoints — betterleaks, goredact
+and the `pii` matcher, plus `.entire/redactors/hastoggle-pii.yaml`. All of them
+match shapes: a key, an address, a phone number.
 
-- **It runs on CPU here.** `opf` defaults to `--device cuda`, and `--device mps`
-  wants `triton`, which has no macOS build. `.entire/settings.local.json` (which
-  is untracked, and every clone needs its own) points at
-  `~/.local/bin/opf-entire`, a wrapper that pins `--device cpu`.
-- **It is slow** — roughly 110s per 64KB. Hence `timeout_seconds: 900`, because
-  a scanner timeout makes transcript writes fail closed, and
-  `prompt_default: "always"`, because the answer was always going to be yes.
-- **A big backlog blocks it.** OPF refuses to buffer more than 200MB of raw
-  blob across unpushed commits. Drain once with `ENTIRE_OPF=no git push`, then
-  ordinary pushes are small enough to scan. Do not raise
-  `ENTIRE_OPF_BATCH_LIMIT` — it buys hours of CPU for nothing.
+**The OpenAI Privacy Filter is off** (`.entire/settings.json`, 2026-09-18). It
+was the only layer that read prose, so it was the only one that could catch a
+person's name in a sentence an agent wrote. It was disabled because it blocked
+pushes: a local model on CPU, roughly 110s per 64KB, refusing outright once the
+unpushed backlog passed 200MB of raw blob — which it did repeatedly.
+
+What follows from that: **nothing reads the prose now.** The rule above is the
+whole defence. Counts and coarse buckets to stdout, identifying rows to a
+gitignored file under `.context/`, and never a name, a full address, a starred
+partial or an employer domain in a sentence. Re-enable the filter by flipping
+`redaction.openai_privacy_filter.enabled` back to `true`; it needs a wrapper
+pinning `--device cpu`, because `opf` defaults to `--device cuda` and `--device
+mps` wants `triton`, which has no macOS build.
 
 ## Development Notes
 

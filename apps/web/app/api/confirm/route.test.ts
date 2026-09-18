@@ -8,7 +8,7 @@ import { POST } from "./route";
 const DAY_MS = 1000 * 60 * 60 * 24;
 const UNSUBSCRIBE_HEADER =
   /^<http:\/\/localhost:3001\/api\/unsubscribe\?id=[^&]+&sig=[^>]+>$/;
-const SUCCESS = "Check your inbox. One click confirms it.";
+const SUCCESS = "Confirmation email sent. Check your inbox.";
 
 // The preload mocks @repo/database and @repo/email once for every test file;
 // spying on those shared objects keeps this file's behaviour from leaking.

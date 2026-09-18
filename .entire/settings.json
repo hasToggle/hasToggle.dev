@@ -20,15 +20,7 @@
       "phone": true
     },
     "openai_privacy_filter": {
-      "enabled": true,
-      "categories": {
-        "private_person": true,
-        "private_email": true,
-        "private_phone": true,
-        "private_address": true
-      },
-      "timeout_seconds": 900,
-      "prompt_default": "always"
+      "enabled": false
     },
     "externalize_images": true
   }

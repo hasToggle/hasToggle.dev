@@ -191,9 +191,18 @@ export const button = {
 
 export const signoff = body;
 
+/**
+ * The unsubscribe link, and the only styled run in either mail. It has to
+ * stay findable without inviting the press, so it drops to the grey of the
+ * sentence it sits in — it was two shades darker — and the rule beneath it
+ * is lightened. A client that ignores `text-decoration-color` falls back to
+ * a grey underline, still quieter than the near-black one it replaces.
+ */
 export const fineprintLink = {
-  color: "#3f3f46",
+  color: "#71717a",
   textDecoration: "underline",
+  textDecorationColor: "#d4d4d8",
+  textUnderlineOffset: "2px",
 };
 
 export const fineprint = {

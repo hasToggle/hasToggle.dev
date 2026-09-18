@@ -46,7 +46,7 @@ const VALIDATION_MESSAGES: Record<ValidationFailureReason, string> = {
 
 // The same reply for every outcome, so the form cannot be used to test
 // whether an address is on the list. What differs is the mail that arrives.
-const SUCCESS_MESSAGE = "Check your inbox. One click confirms it.";
+const SUCCESS_MESSAGE = "Confirmation email sent. Check your inbox.";
 
 const DUPLICATE_KEY = 11_000;
 
