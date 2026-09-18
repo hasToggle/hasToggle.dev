@@ -46,13 +46,12 @@ function StepMark({ n }: { n: string }) {
 }
 
 interface DeckProps {
-  askLabel: string;
   fetchable: boolean;
   isFetching: boolean;
+  isRebaking: boolean;
   machinery: boolean;
   onFetch: () => void;
   onRebake: () => void;
-  rebakeLabel: string;
   rebakeLocked: boolean;
   revealed: boolean;
 }
@@ -67,16 +66,16 @@ interface DeckProps {
  * logged REVALIDATED.
  */
 function Deck({
-  askLabel,
   fetchable,
   isFetching,
+  isRebaking,
   machinery,
   onFetch,
   onRebake,
-  rebakeLabel,
   rebakeLocked,
   revealed,
 }: DeckProps) {
+  const rebakeLabels = machinery ? EXPIRE_LABELS : FUSED_LABELS;
   return (
     <div className="flex flex-wrap items-center gap-3">
       <MarketingButton
@@ -87,8 +86,8 @@ function Deck({
       >
         {machinery ? <StepMark n="1" /> : null}
         <StableStack
-          value={rebakeLabel}
-          variants={machinery ? EXPIRE_LABELS : FUSED_LABELS}
+          value={rebakeLabels[isRebaking ? 1 : 0]}
+          variants={rebakeLabels}
         />
       </MarketingButton>
       {machinery ? (
@@ -105,7 +104,10 @@ function Deck({
             variant="outline"
           >
             <StepMark n="2" />
-            <StableStack value={askLabel} variants={ASK_LABELS} />
+            <StableStack
+              value={ASK_LABELS[isFetching ? 1 : 0]}
+              variants={ASK_LABELS}
+            />
           </MarketingButton>
           {/* Reserved in every machinery phase so the reveal never moves the
               row; `invisible` keeps it out of the a11y tree until it's true. */}
@@ -195,7 +197,7 @@ export function RebakePanel({
       return;
     }
     // The fused press: the same action, with the refill it implies chained
-    // into the same transition. The button stays "Re-baking…" across both
+    // into the same transition. The button stays "Revalidating…" across both
     // halves, so the press reads as the one event it is pretending to be.
     startRebake(async () => {
       try {
@@ -257,22 +259,18 @@ export function RebakePanel({
   } = settling
     ? SETTLING_READOUT
     : readout(fusedInFlight ? INITIAL_REBAKE_STATE : state, currentId);
-  const rebakeLabels = machinery ? EXPIRE_LABELS : FUSED_LABELS;
-  const rebakeLabel = isRebaking ? rebakeLabels[1] : rebakeLabels[0];
-  const askLabel = isFetching ? ASK_LABELS[1] : ASK_LABELS[0];
   const captionText = rebakeFailed ? REBAKE_FAILED_CAPTION : caption;
 
   const deck = (
     <Deck
-      askLabel={askLabel}
       fetchable={fetchable}
       isFetching={isFetching}
+      isRebaking={isRebaking}
       machinery={machinery}
       onFetch={handleFetch}
       onRebake={handleRebake}
-      rebakeLabel={rebakeLabel}
       rebakeLocked={rebakeLocked}
-      revealed={machinery && state.phase === "refetched"}
+      revealed={state.phase === "refetched"}
     />
   );
 
