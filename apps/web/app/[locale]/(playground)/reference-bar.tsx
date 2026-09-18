@@ -1,7 +1,7 @@
 import { SectionLink } from "./section-link";
 
 interface ReferenceBarProps {
-  /** The code drawer (a CodeBlock with variant="bar"). */
+  /** The code drawer: a CodeBlock. */
   children: React.ReactNode;
   docsHref: string;
   sourceHref: string;

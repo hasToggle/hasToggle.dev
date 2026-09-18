@@ -20,7 +20,6 @@ interface CodeBlockProps {
   code: string;
   /** Displayed filename, e.g. "server-card.tsx". */
   file: string;
-  lang?: string;
 }
 
 /**
@@ -31,8 +30,8 @@ interface CodeBlockProps {
  * Frameless by design: it renders as the left side of an instrument's
  * reference bar, inside a ReferenceBar, and the chassis provides the frame.
  */
-export async function CodeBlock({ code, file, lang = "tsx" }: CodeBlockProps) {
-  const html = await highlight(code, lang);
+export async function CodeBlock({ code, file }: CodeBlockProps) {
+  const html = await highlight(code, "tsx");
 
   return (
     <details className="group">

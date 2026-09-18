@@ -99,7 +99,7 @@ export function OgDemo({ references }: OgDemoProps) {
     setLoading(true);
     setError(null);
 
-    fetch(`/api/og?title=${encodeURIComponent(title)}`)
+    fetch(endpoint)
       .then(async (response) => {
         if (!response.ok) {
           throw new Error(`the server said ${response.status}`);
@@ -131,7 +131,7 @@ export function OgDemo({ references }: OgDemoProps) {
     return () => {
       cancelled = true;
     };
-  }, [title, armed]);
+  }, [endpoint, armed]);
 
   useEffect(
     () => () => {

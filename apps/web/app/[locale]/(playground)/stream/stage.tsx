@@ -1,7 +1,7 @@
 import { setTimeout as sleep } from "node:timers/promises";
 import { connection } from "next/server";
 import { Suspense } from "react";
-import { GroupPending, LandedRow, PendingRow } from "./row";
+import { GroupPending, LandedRow, LandedRows, PendingRow } from "./row";
 import { STREAM_ROWS } from "./rows";
 import { StageRendered, StageSettled, StartOnView } from "./stage-signals";
 import type { Strategy } from "./strategy";
@@ -25,15 +25,7 @@ async function GroupRows({ run, strategy }: RunProps) {
 
   return (
     <>
-      {STREAM_ROWS.map((row) => (
-        <LandedRow
-          delayMs={row.delayMs}
-          key={row.label}
-          label={row.label}
-          landedMs={landedMs}
-          short={row.short}
-        />
-      ))}
+      <LandedRows landedMs={landedMs} />
       <StageSettled run={run} strategy={strategy} />
     </>
   );

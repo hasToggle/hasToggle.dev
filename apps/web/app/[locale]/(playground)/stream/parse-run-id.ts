@@ -9,10 +9,7 @@ export const MAX_RUN_ID = 999;
 const RUN_ID_PATTERN = /^\d{1,3}$/;
 
 export function parseRunId(raw: string | undefined): number {
-  if (!raw) {
-    return 0;
-  }
-  if (!RUN_ID_PATTERN.test(raw)) {
+  if (!(raw && RUN_ID_PATTERN.test(raw))) {
     return 0;
   }
   const parsed = Number.parseInt(raw, 10);

@@ -117,10 +117,19 @@ export function ShellBar({ strategy }: { strategy: Strategy }) {
   );
 }
 
+/** The first label sits flush left, the last flush right, the rest centred. */
+function tickLabelStyle(ms: number): React.CSSProperties {
+  if (ms === 0) {
+    return { left: 0 };
+  }
+  const shift = ms === TIMELINE_MAX_MS ? "-100%" : "-50%";
+  return { left: `${trackPercent(ms)}%`, transform: `translateX(${shift})` };
+}
+
 /** The axis under the bars. Zero is where the response opened. */
 export function Axis() {
   return (
-    <div className={cn(RESPONSE_ONLY)}>
+    <div className={RESPONSE_ONLY}>
       <div className={TRACK_GRID}>
         <span className="order-1 hidden sm:block" />
         <span
@@ -130,21 +139,7 @@ export function Axis() {
           )}
         >
           {TIMELINE_TICKS_MS.map((ms) => (
-            <span
-              className="absolute"
-              key={ms}
-              style={
-                ms === 0
-                  ? { left: 0 }
-                  : {
-                      left: `${trackPercent(ms)}%`,
-                      transform:
-                        ms === TIMELINE_MAX_MS
-                          ? "translateX(-100%)"
-                          : "translateX(-50%)",
-                    }
-              }
-            >
+            <span className="absolute" key={ms} style={tickLabelStyle(ms)}>
               {ms === 0 ? "0" : `${ms / 1000}s`}
             </span>
           ))}
