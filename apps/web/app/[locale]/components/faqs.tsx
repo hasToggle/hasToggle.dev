@@ -1,13 +1,15 @@
 import { Separator } from "@repo/design-system/components/ui/separator";
 import { Container } from "./container";
-import { MetaAside } from "./meta-aside";
+import { ASIDE_LINK_CLASS, MetaAside } from "./meta-aside";
 import { Heading, Subheading } from "./text";
 
-const faqs: {
+interface Faq {
   answer: React.ReactNode;
   meta?: string;
   question: string;
-}[] = [
+}
+
+const faqs: Faq[] = [
   {
     answer:
       "A place to find out what happens when you press things. Each chapter pairs a demo with its source — press the button, watch the cache expire, read the code that did it. The plan is to cover everything Next.js and Vercel can do, one chapter at a time. The official docs are good; this is the lab bench that belongs next to them.",
@@ -39,7 +41,7 @@ const faqs: {
       <>
         In public, with AI. The{" "}
         <a
-          className="underline decoration-ht-cyan-700/40 underline-offset-2 transition-colors hover:decoration-ht-cyan-700"
+          className={ASIDE_LINK_CLASS}
           href="https://github.com/hasToggle/hasToggle.dev"
           rel="noreferrer"
           target="_blank"
@@ -50,7 +52,7 @@ const faqs: {
         and Entire.io publishes the process — prompts, checkpoints, wrong turns
         included — to{" "}
         <a
-          className="underline decoration-ht-cyan-700/40 underline-offset-2 transition-colors hover:decoration-ht-cyan-700"
+          className={ASIDE_LINK_CLASS}
           href="https://github.com/hasToggle/hasToggle.dev-checkpoints"
           rel="noreferrer"
           target="_blank"
@@ -70,15 +72,7 @@ const faqs: {
   },
 ];
 
-function FaqItem({
-  question,
-  answer,
-  meta,
-}: {
-  question: string;
-  answer: React.ReactNode;
-  meta?: string;
-}) {
+function FaqItem({ question, answer, meta }: Faq) {
   return (
     <div className="grid gap-x-12 gap-y-4 py-10 lg:grid-cols-[18rem_minmax(0,1fr)]">
       <h3 className="font-display font-medium text-foreground text-xl leading-tight tracking-tight sm:text-2xl">

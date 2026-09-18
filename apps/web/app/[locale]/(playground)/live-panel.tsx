@@ -2,7 +2,6 @@ import { cn } from "@repo/design-system/lib/utils";
 
 interface LivePanelProps {
   children: React.ReactNode;
-  className?: string;
   /**
    * Interactive strip pinned to the bottom of the instrument — actions only,
    * in execution order. Hands always go to the same place.
@@ -34,7 +33,6 @@ interface LivePanelProps {
  */
 export function LivePanel({
   children,
-  className,
   deck,
   references,
   status = "live",
@@ -48,8 +46,7 @@ export function LivePanel({
         // The instrument warms slightly under the cursor. It is the only
         // hover state on a non-interactive element on this page — it marks
         // the panel as the thing you are meant to reach for.
-        "transition-colors duration-300 hover:border-foreground/20",
-        className
+        "transition-colors duration-300 hover:border-foreground/20"
       )}
     >
       <figcaption className="flex min-h-11 items-center justify-between gap-4 border-foreground/10 border-b bg-muted/40 px-4 py-2 sm:px-5">

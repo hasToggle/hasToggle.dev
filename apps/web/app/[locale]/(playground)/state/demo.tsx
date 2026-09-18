@@ -48,9 +48,9 @@ export function StateDemo({ headingAs }: StateDemoProps) {
       title={chapter.title}
       topic={chapter.topic}
     >
-      {/* The client panel owns the instrument: narrate mode and the
-          re-render pass are its view state, and the +1 button stays in the
-          card — it is the specimen, not a control (design.md §4). The
+      {/* The client panel owns the instrument: narrate mode is its view
+          state, and the +1 button stays in the card — it is the specimen,
+          not a control (design.md §4). The
           replay's source arrives server-highlighted through props, so no
           highlighter ships to the browser. */}
       <StatePanel

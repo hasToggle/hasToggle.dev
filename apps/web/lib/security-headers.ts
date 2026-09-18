@@ -7,13 +7,6 @@ import {
 
 const isDevelopment = process.env.NODE_ENV === "development";
 
-/**
- * PostHog talks to its API host directly (the `/ingest` rewrite in
- * next-config points at the US region and is not what the SDK is configured
- * with) and pulls its remote config and lazy modules from the matching
- * assets host — `eu.i.posthog.com` pairs with `eu-assets.i.posthog.com`,
- * the same substitution the SDK makes itself.
- */
 type HttpsOrigin = `https://${string}.${string}`;
 
 const HTTPS_ORIGIN = /^https:\/\/[^/]+\.[^/]+$/;
@@ -21,6 +14,12 @@ const HTTPS_ORIGIN = /^https:\/\/[^/]+\.[^/]+$/;
 const isHttpsOrigin = (value: string): value is HttpsOrigin =>
   HTTPS_ORIGIN.test(value);
 
+/**
+ * PostHog talks to its API host directly and pulls its remote config and
+ * lazy modules from the matching assets host — `eu.i.posthog.com` pairs
+ * with `eu-assets.i.posthog.com`, the same substitution the SDK makes
+ * itself.
+ */
 export function posthogOrigins(apiHost: string): HttpsOrigin[] {
   const { origin, hostname } = new URL(apiHost);
   const assets = origin.replace(

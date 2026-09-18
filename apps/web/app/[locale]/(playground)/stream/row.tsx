@@ -129,6 +129,19 @@ export function GroupPending() {
   );
 }
 
+/** Every row, landed at the same moment — one settle for the whole group. */
+export function LandedRows({ landedMs }: { landedMs: number }) {
+  return STREAM_ROWS.map((row) => (
+    <LandedRow
+      delayMs={row.delayMs}
+      key={row.label}
+      label={row.label}
+      landedMs={landedMs}
+      short={row.short}
+    />
+  ));
+}
+
 /**
  * The stage's height, reserved by the thing that will fill it. Rendered
  * invisible behind every arrangement so the deck never moves when a run
@@ -136,13 +149,5 @@ export function GroupPending() {
  * does.
  */
 export function StageGhosts() {
-  return STREAM_ROWS.map((row) => (
-    <LandedRow
-      delayMs={row.delayMs}
-      key={row.label}
-      label={row.label}
-      landedMs={SLOWEST_MS}
-      short={row.short}
-    />
-  ));
+  return <LandedRows landedMs={SLOWEST_MS} />;
 }

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { ogImageUrl } from "@/app/api/og/title";
+import { ogCard } from "@/app/api/og/title";
 import { Container } from "../components/container";
 import { Footer } from "../components/footer";
 import { Link } from "../components/marketing-link";
-import { MetaAside } from "../components/meta-aside";
+import { ASIDE_LINK_CLASS, MetaAside } from "../components/meta-aside";
 import { Navbar } from "../components/navbar";
 import { chapterCommitsHref, prevNext, type ShippedChapter } from "./syllabus";
 
@@ -14,26 +14,12 @@ import { chapterCommitsHref, prevNext, type ShippedChapter } from "./syllabus";
  * promoted to the page's h1.
  */
 
-const ASIDE_LINK_CLASS =
-  "underline decoration-ht-cyan-700/40 underline-offset-2 transition-colors hover:decoration-ht-cyan-700";
-
 /** Chapter metadata derives from the registry: the chapter title is the page title, and /api/og draws its card. */
 export function chapterMetadata(chapter: ShippedChapter): Metadata {
   return {
     description: `The real thing, running: ${chapter.topic}. Poke it, break it, read the code that did it — a chapter of the hasToggle lab.`,
-    openGraph: {
-      images: [
-        {
-          height: 630,
-          url: ogImageUrl(chapter.title),
-          width: 1200,
-        },
-      ],
-    },
     title: `${chapter.title} — the hasToggle lab`,
-    twitter: {
-      card: "summary_large_image",
-    },
+    ...ogCard(chapter.title),
   };
 }
 

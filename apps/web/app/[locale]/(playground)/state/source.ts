@@ -1,4 +1,7 @@
-export const STATE_CARD_SOURCE = `
+/**
+ * What the reference bar's drawer shows for the chapter.
+ */
+export const STATE_SOURCE = `// state-card.tsx
 "use client";
 
 import { useState } from "react";
@@ -13,14 +16,7 @@ export function StateCard() {
       <p>{count}</p>
     </Card>
   );
-}
-`;
-
-/**
- * What the reference bar's drawer shows for the chapter.
- */
-export const STATE_SOURCE = `// state-card.tsx
-${STATE_CARD_SOURCE.trim()}`;
+}`;
 
 /**
  * The source the replay walks: compact enough that every line fits the

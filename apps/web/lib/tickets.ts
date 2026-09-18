@@ -1,3 +1,5 @@
+import type { NextRequest } from "next/server";
+
 /**
  * Pages that exist only as the landing spot after a redirect: the one
  * after the confirmation link, the one after leaving the list. The route
@@ -28,7 +30,8 @@ export const TICKETS: readonly Ticket[] = [
 const TICKET_MAX_AGE_S = 300;
 
 /** The 303 to the ticketed page, cookie attached. */
-export function ticketRedirect(ticket: Ticket, secure: boolean): Response {
+export function ticketRedirect(ticket: Ticket, request: NextRequest): Response {
+  const secure = request.nextUrl.protocol === "https:";
   const response = new Response(null, {
     headers: { Location: ticket.path },
     status: 303,

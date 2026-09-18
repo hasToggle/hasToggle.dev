@@ -127,13 +127,10 @@ export function readout(state: RebakeState, currentId: string): Readout {
       label: "expired",
     };
   }
-  if (state.phase === "refetched") {
-    // A different visitor's request may have regenerated the shell in the
-    // window between your expiry and your fetch, so the same id back is not
-    // a bug — it's just nothing left to compare.
-    if (state.privateId === currentId) {
-      return MACHINERY_SERVED_READOUT;
-    }
+  // A different visitor's request may have regenerated the shell in the
+  // window between your expiry and your fetch, so the same id back is not
+  // a bug — it's just nothing left to compare.
+  if (state.phase === "refetched" && state.privateId !== currentId) {
     return {
       caption: REVEALED_CAPTION,
       detail: revealedDetail(state.privateId, currentId),

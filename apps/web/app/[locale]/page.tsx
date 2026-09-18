@@ -1,6 +1,6 @@
 import { Separator } from "@repo/design-system/components/ui/separator";
 import type { Metadata } from "next";
-import { DEFAULT_OG_TITLE, ogImageUrl } from "@/app/api/og/title";
+import { DEFAULT_OG_TITLE, ogCard } from "@/app/api/og/title";
 import { BoundaryDemo } from "./(playground)/boundary/demo";
 import { MutationDemo } from "./(playground)/mutation/demo";
 import { ShellDemo } from "./(playground)/shell/demo";
@@ -15,7 +15,7 @@ import { FrequentlyAskedQuestions } from "./components/faqs";
 import { Footer } from "./components/footer";
 import { Hero } from "./components/hero";
 import { Link } from "./components/marketing-link";
-import { MetaAside } from "./components/meta-aside";
+import { ASIDE_LINK_CLASS, MetaAside } from "./components/meta-aside";
 import { SeatsCta } from "./components/seats-cta";
 import { Heading, Subheading } from "./components/text";
 import { Waitlist } from "./components/waitlist";
@@ -49,19 +49,8 @@ function PartDivider() {
 export const metadata: Metadata = {
   description:
     "Every chapter of the lab opens on something the platform can already do and runs the real feature next to it: the server/client boundary, caching, streaming, Server Actions, generated images. Press it, break it, read the code that did it.",
-  openGraph: {
-    images: [
-      {
-        height: 630,
-        url: ogImageUrl(DEFAULT_OG_TITLE),
-        width: 1200,
-      },
-    ],
-  },
   title: "hasToggle — the unofficial live playground for Next.js & Vercel",
-  twitter: {
-    card: "summary_large_image",
-  },
+  ...ogCard(DEFAULT_OG_TITLE),
 };
 
 interface PageProps {
@@ -117,7 +106,7 @@ function Roadmap() {
             <MetaAside className="mt-16 max-w-2xl" variant="block">
               Built in the open: the{" "}
               <a
-                className="underline decoration-ht-cyan-700/40 underline-offset-2 transition-colors hover:decoration-ht-cyan-700"
+                className={ASIDE_LINK_CLASS}
                 href="https://github.com/hasToggle/hasToggle.dev"
                 rel="noreferrer"
                 target="_blank"
@@ -127,7 +116,7 @@ function Roadmap() {
               , and the building is done with AI — Conductor orchestrating
               Claude Code, with{" "}
               <a
-                className="underline decoration-ht-cyan-700/40 underline-offset-2 transition-colors hover:decoration-ht-cyan-700"
+                className={ASIDE_LINK_CLASS}
                 href="https://github.com/hasToggle/hasToggle.dev-checkpoints"
                 rel="noreferrer"
                 target="_blank"

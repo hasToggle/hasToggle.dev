@@ -1,16 +1,18 @@
 import { cn } from "@repo/design-system/lib/utils";
 
+/** A link inside an aside or an answer: underlined in the aside's own cyan. */
+export const ASIDE_LINK_CLASS =
+  "underline decoration-ht-cyan-700/40 underline-offset-2 transition-colors hover:decoration-ht-cyan-700";
+
 interface MetaAsideProps {
   children: React.ReactNode;
   className?: string;
-  noMarker?: boolean;
   variant?: "comment" | "inline" | "block";
 }
 
 export function MetaAside({
   children,
   className,
-  noMarker = false,
   variant = "inline",
 }: MetaAsideProps) {
   if (variant === "comment") {
@@ -62,11 +64,9 @@ export function MetaAside({
         className
       )}
     >
-      {!noMarker && (
-        <span aria-hidden="true" className="mr-2 select-none opacity-55">
-          {"//"}
-        </span>
-      )}
+      <span aria-hidden="true" className="mr-2 select-none opacity-55">
+        {"//"}
+      </span>
       {children}
     </p>
   );

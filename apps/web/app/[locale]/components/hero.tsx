@@ -64,7 +64,7 @@ export function Hero() {
         <div className="md:hidden" id="hero-footnote-1">
           <Separator className="bg-foreground/10" />
           <div className="pt-8 pb-16">
-            <MetaAside noMarker variant="block">
+            <MetaAside variant="block">
               <HeroFootnoteBody />
             </MetaAside>
           </div>

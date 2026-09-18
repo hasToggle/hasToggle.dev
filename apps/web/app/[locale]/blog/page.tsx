@@ -3,7 +3,7 @@ import type { Blog, WithContext } from "@repo/seo/json-ld";
 import { JsonLd } from "@repo/seo/json-ld";
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ogImageUrl, PAGE_OG_TITLES } from "@/app/api/og/title";
+import { ogCard, PAGE_OG_TITLES } from "@/app/api/og/title";
 import { Container } from "../components/container";
 import { Footer } from "../components/footer";
 import { Link } from "../components/marketing-link";
@@ -13,19 +13,8 @@ import { Heading, Subheading } from "../components/text";
 export const metadata: Metadata = {
   description:
     "Written from experience, wrong turns included. Nothing is too out-of-scope to deserve a story.",
-  openGraph: {
-    images: [
-      {
-        height: 630,
-        url: ogImageUrl(PAGE_OG_TITLES.blog),
-        width: 1200,
-      },
-    ],
-  },
   title: "Articles — hasToggle",
-  twitter: {
-    card: "summary_large_image",
-  },
+  ...ogCard(PAGE_OG_TITLES.blog),
 };
 
 const formatDate = (iso: string) => new Date(iso).toISOString().slice(0, 10);

@@ -38,8 +38,7 @@ interface StateCardProps {
  * The counter, with the replay on its back. A press updates state
  * immediately — the new number exists before the card finishes turning —
  * and in narrate mode the card flips to the source and replays the click
- * against it: the press (annotated with the closure's genuinely stale
- * read), the fresh call, the kept value coming back, the paint. Slowed,
+ * against it: the fresh call, the kept value coming back, the paint. Slowed,
  * not simulated; every value in the annotations was read live. Then it
  * turns back, and the number has moved.
  *

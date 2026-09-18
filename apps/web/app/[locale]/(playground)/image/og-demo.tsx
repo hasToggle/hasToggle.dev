@@ -4,7 +4,7 @@ import { Button } from "@repo/design-system/components/ui/button";
 import { Label } from "@repo/design-system/components/ui/label";
 import { cn } from "@repo/design-system/lib/utils";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { DEFAULT_OG_TITLE, OG_TITLES } from "@/app/api/og/title";
+import { DEFAULT_OG_TITLE, OG_TITLES, ogImageUrl } from "@/app/api/og/title";
 import { LivePanel } from "../live-panel";
 
 interface GeneratedImage {
@@ -48,7 +48,7 @@ export function OgDemo({ references }: OgDemoProps) {
   const panelRef = useRef<HTMLDivElement | null>(null);
   const [armed, setArmed] = useState(false);
 
-  const endpoint = `/api/og?title=${encodeURIComponent(title)}`;
+  const endpoint = ogImageUrl(title);
 
   /*
    * The PNG this demo asks for is about 60 kB, and this exhibit sits a long
@@ -99,7 +99,7 @@ export function OgDemo({ references }: OgDemoProps) {
     setLoading(true);
     setError(null);
 
-    fetch(`/api/og?title=${encodeURIComponent(title)}`)
+    fetch(endpoint)
       .then(async (response) => {
         if (!response.ok) {
           throw new Error(`the server said ${response.status}`);
@@ -131,7 +131,7 @@ export function OgDemo({ references }: OgDemoProps) {
     return () => {
       cancelled = true;
     };
-  }, [title, armed]);
+  }, [endpoint, armed]);
 
   useEffect(
     () => () => {
