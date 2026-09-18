@@ -1,24 +1,37 @@
 import { initializeAnalytics } from "@repo/analytics/instrumentation-client";
+import { afterLoad } from "@/lib/after-load";
 
 initializeAnalytics();
 
 /*
  * This file runs before hydration, so everything it imports statically sits
- * on the path to first paint. Sentry's browser SDK (with Replay) is about
- * 300 KB of it, and this site has no DSN in production — the SDK downloaded,
- * parsed and ran only to do nothing.
+ * on the path to first paint. Sentry arrives as its own chunk instead, and
+ * only once the page has loaded and gone idle: with it, about 100 KB of SDK
+ * stopped competing with the page for the network and the main thread.
+ * Errors thrown before then go unreported; that is the price of it.
+ *
+ * Without Session Replay: error reports carry the stack, the URL and the
+ * breadcrumbs (clicks, navigations, fetches, console) leading up to them,
+ * which is all these pages need, and the privacy policy promises a report
+ * when something crashes, not a recording of the visit.
  *
  * Next inlines `NEXT_PUBLIC_*` at build time, so with no DSN the condition is
- * the constant `undefined` and the import is dropped from the bundle. With a
- * DSN, Sentry arrives as its own chunk instead of blocking hydration; errors
- * thrown before it lands go uncaptured, which is the price of that.
+ * the constant `undefined` and none of this reaches the bundle.
  */
-const sentry = process.env.NEXT_PUBLIC_SENTRY_DSN
-  ? import("@repo/observability/client").then((module) => {
-      module.initializeSentry();
-      return module;
-    })
-  : undefined;
+let sentry:
+  | Promise<typeof import("@repo/observability/client-without-replay")>
+  | undefined;
+
+if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
+  afterLoad(() => {
+    sentry = import("@repo/observability/client-without-replay").then(
+      (module) => {
+        module.initializeSentryWithoutReplay();
+        return module;
+      }
+    );
+  });
+}
 
 export const onRouterTransitionStart = (
   href: string,
