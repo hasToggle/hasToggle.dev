@@ -240,7 +240,7 @@ export default function MarketingPage({ searchParams }: PageProps) {
           <SectionDivider />
           <ShellDemo />
           <SectionDivider />
-          <StreamDemo searchParams={searchParams} />
+          <StreamDemo searchParams={searchParams} startOnView />
           <SectionDivider />
           <MutationDemo />
           <SectionDivider />

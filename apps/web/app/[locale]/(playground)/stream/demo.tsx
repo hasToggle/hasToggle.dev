@@ -6,7 +6,7 @@ import { DemoSection } from "../demo-section";
 import { ReferenceBar } from "../reference-bar";
 import { loadStreamSearchParams } from "./search-params";
 import { STREAM_SOURCE } from "./source";
-import { Stage } from "./stage";
+import { IdleStage, Stage } from "./stage";
 import { StreamPanel } from "./stream-panel";
 
 const chapter = requireChapter("streaming");
@@ -17,6 +17,12 @@ export type StreamSearchParams = Promise<SearchParams>;
 interface StreamDemoProps {
   headingAs?: "h1" | "h2";
   searchParams: StreamSearchParams;
+  /**
+   * Hold the first run until the stage scrolls into view. For a host where
+   * this exhibit sits below the fold: its slow rows would otherwise keep that
+   * page's response open for seconds.
+   */
+  startOnView?: boolean;
 }
 
 /**
@@ -27,14 +33,24 @@ interface StreamDemoProps {
  */
 async function StreamStage({
   searchParams,
+  startOnView,
 }: {
   searchParams: StreamSearchParams;
+  startOnView: boolean;
 }) {
   const { mode, stream } = loadStreamSearchParams(await searchParams);
+  // A press always writes a run id of 1 or more, so 0 means no run yet.
+  if (startOnView && stream === 0) {
+    return <IdleStage strategy={mode} />;
+  }
   return <Stage run={stream} strategy={mode} />;
 }
 
-export function StreamDemo({ headingAs, searchParams }: StreamDemoProps) {
+export function StreamDemo({
+  headingAs,
+  searchParams,
+  startOnView = false,
+}: StreamDemoProps) {
   return (
     <DemoSection
       headingAs={headingAs}
@@ -85,7 +101,7 @@ export function StreamDemo({ headingAs, searchParams }: StreamDemoProps) {
         }
       >
         <Suspense fallback={null}>
-          <StreamStage searchParams={searchParams} />
+          <StreamStage searchParams={searchParams} startOnView={startOnView} />
         </Suspense>
       </StreamPanel>
     </DemoSection>

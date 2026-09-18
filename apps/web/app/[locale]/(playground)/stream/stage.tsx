@@ -3,7 +3,7 @@ import { connection } from "next/server";
 import { Suspense } from "react";
 import { GroupPending, LandedRow, PendingRow } from "./row";
 import { STREAM_ROWS } from "./rows";
-import { StageRendered, StageSettled } from "./stage-signals";
+import { StageRendered, StageSettled, StartOnView } from "./stage-signals";
 import type { Strategy } from "./strategy";
 
 interface RunProps {
@@ -133,6 +133,31 @@ export function Stage({ run, strategy }: RunProps) {
       >
         <GroupRows run={run} strategy={strategy} />
       </Suspense>
+    </>
+  );
+}
+
+/**
+ * The specimen before its first run: the arrangement's fallbacks with no
+ * work behind them, so nothing holds the response open. `StartOnView` begins
+ * the run once the reader reaches it.
+ */
+export function IdleStage({ strategy }: { strategy: Strategy }) {
+  return (
+    <>
+      <StageRendered run={0} strategy={strategy} />
+      <StartOnView strategy={strategy} />
+      {strategy === "parts"
+        ? STREAM_ROWS.map((row) => (
+            <PendingRow
+              delayMs={row.delayMs}
+              key={row.label}
+              label={row.label}
+              short={row.short}
+            />
+          ))
+        : null}
+      {strategy === "loading" ? <GroupPending /> : null}
     </>
   );
 }

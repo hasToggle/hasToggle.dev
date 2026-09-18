@@ -186,14 +186,8 @@ export function StreamPanel({ children, references }: StreamPanelProps) {
     setSettledKey(`${settled}-${nextRun}`);
   }, []);
 
-  const signals = useMemo(
-    () => ({ onRendered, onSettled }),
-    [onRendered, onSettled]
-  );
-
-  const select = useCallback(
-    (target: Strategy) => {
-      const nextRun = (run % MAX_RUN_ID) + 1;
+  const navigate = useCallback(
+    (target: Strategy, nextRun: number) => {
       setStrategy(target);
       setRun(nextRun);
       setSettledKey(null);
@@ -205,7 +199,25 @@ export function StreamPanel({ children, references }: StreamPanelProps) {
         router.replace(href, { scroll: false });
       });
     },
-    [router, run]
+    [router]
+  );
+
+  const select = useCallback(
+    (target: Strategy) => navigate(target, (run % MAX_RUN_ID) + 1),
+    [navigate, run]
+  );
+
+  // The first run of a stage that waited to be seen. Separate from `select`
+  // so the signals stay stable: `select` changes with every run, and a new
+  // signals object would re-fire the stage's own effects mid-transition.
+  const start = useCallback(
+    (target: Strategy) => navigate(target, 1),
+    [navigate]
+  );
+
+  const signals = useMemo(
+    () => ({ onRendered, onSettled, start }),
+    [onRendered, onSettled, start]
   );
 
   const handleViewChange = useCallback((checked: boolean) => {
