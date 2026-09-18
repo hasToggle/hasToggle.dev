@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { SHIPPED } from "@/app/[locale]/lab/syllabus";
 
 export const DEFAULT_OG_TITLE =
@@ -30,6 +31,16 @@ const ALLOWED = new Set(OG_TITLES);
 /** The title the card will carry: the one asked for if it is a page's, else the site line. */
 export function resolveTitle(raw: string | null | undefined): string {
   return raw && ALLOWED.has(raw) ? raw : DEFAULT_OG_TITLE;
+}
+
+/** A page's link preview: the card /api/og draws for it, at full size. */
+export function ogCard(title: string): Pick<Metadata, "openGraph" | "twitter"> {
+  return {
+    openGraph: {
+      images: [{ height: 630, url: ogImageUrl(title), width: 1200 }],
+    },
+    twitter: { card: "summary_large_image" },
+  };
 }
 
 /** The route URL for a page's card, for `openGraph.images`. */

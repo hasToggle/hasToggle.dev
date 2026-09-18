@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { ogImageUrl, PAGE_OG_TITLES } from "@/app/api/og/title";
+import { ogCard, PAGE_OG_TITLES } from "@/app/api/og/title";
 import { BoundaryIndexValue } from "../(playground)/boundary/index-value";
 import { ImageIndexValue } from "../(playground)/image/index-value";
 import { MutationIndexValue } from "../(playground)/mutation/index-value";
@@ -26,19 +26,8 @@ import {
 export const metadata: Metadata = {
   description:
     "Every chapter of the lab: what’s running, what lands Monday, what’s still to build.",
-  openGraph: {
-    images: [
-      {
-        height: 630,
-        url: ogImageUrl(PAGE_OG_TITLES.lab),
-        width: 1200,
-      },
-    ],
-  },
   title: "Contents — the hasToggle lab",
-  twitter: {
-    card: "summary_large_image",
-  },
+  ...ogCard(PAGE_OG_TITLES.lab),
 };
 
 /**

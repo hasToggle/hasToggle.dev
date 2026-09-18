@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { ogImageUrl, PAGE_OG_TITLES } from "@/app/api/og/title";
+import { ogCard, PAGE_OG_TITLES } from "@/app/api/og/title";
 import { Container } from "../components/container";
 import { Footer } from "../components/footer";
 import { Link } from "../components/marketing-link";
-import { MetaAside } from "../components/meta-aside";
+import { ASIDE_LINK_CLASS, MetaAside } from "../components/meta-aside";
 import { Navbar } from "../components/navbar";
 import { Heading, Subheading } from "../components/text";
 import { ContactForm } from "./components/contact-form";
@@ -11,19 +11,8 @@ import { ContactForm } from "./components/contact-form";
 export const metadata: Metadata = {
   description:
     "A question about a chapter, something that looks broken, an idea the lab should steal — it all lands in one inbox, and a person answers.",
-  openGraph: {
-    images: [
-      {
-        height: 630,
-        url: ogImageUrl(PAGE_OG_TITLES.contact),
-        width: 1200,
-      },
-    ],
-  },
   title: "Contact — hasToggle",
-  twitter: {
-    card: "summary_large_image",
-  },
+  ...ogCard(PAGE_OG_TITLES.contact),
 };
 
 export default function ContactPage() {
@@ -57,10 +46,7 @@ export default function ContactPage() {
               <MetaAside className="mt-8 max-w-xl" variant="comment">
                 The form is a Server Action wired straight to an email inbox —
                 the lesson from{" "}
-                <Link
-                  className="underline decoration-ht-cyan-700/40 underline-offset-2 transition-colors hover:decoration-ht-cyan-700"
-                  href="/lab/server-actions"
-                >
+                <Link className={ASIDE_LINK_CLASS} href="/lab/server-actions">
                   the mutation chapter
                 </Link>
                 , doing its day job.
