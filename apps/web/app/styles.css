@@ -1,6 +1,15 @@
 @import "tailwindcss";
 @import "@repo/design-system/styles/globals.css";
 
+/* The design-system stylesheet scans every shadcn component it ships and the
+   auth and notifications UI, so the site's CSS carried utilities for dozens of
+   components it never renders. With inlineCss that weight lands in every HTML
+   document, so scan only the components this app imports. */
+@source not "../../../packages/design-system/components";
+@source not "../../../packages/auth/components";
+@source not "../../../packages/notifications/components";
+@source "../../../packages/design-system/components/ui/{button,hover-card,input,label,separator,sonner,switch,textarea,tooltip}.tsx";
+
 /* Marketing color scales & design tokens */
 @theme inline {
   /* Brand colors */
