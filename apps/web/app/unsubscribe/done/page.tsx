@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   robots: { follow: false, index: false },
-  title: "You’re off the list — hasToggle",
+  title: "You’re unsubscribed — hasToggle",
 };
 
 /** Reachable only from the unsubscribe button; see lib/tickets.ts. */
@@ -10,12 +10,11 @@ export default function Unsubscribed() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-6 text-center">
       <h1 className="font-display font-medium text-4xl text-foreground tracking-tight sm:text-5xl">
-        You&rsquo;re off the list.
+        You&rsquo;re unsubscribed!
       </h1>
       <p className="mt-6 max-w-md text-balance text-foreground/75 text-lg leading-8">
-        The address is gone from the list and from the mail service. If it was
-        never yours to begin with, sorry for the noise. If you want back in, the
-        form on the playground still works.
+        hasToggle is free. The playground stays open, and the waitlist is still
+        there if you change your mind.
       </p>
       <p className="mt-10">
         <a
