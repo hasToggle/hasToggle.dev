@@ -322,7 +322,11 @@ shipped, belief and navLabel added.
   instrument on its contents row, each inside its own Suspense — the
   index is itself a partial-prerender demonstration. Truth rule: a
   per-visitor value says so ("your presses · 3"); a global-sounding
-  count would be the index's first lie.
+  count would be the index's first lie. Store rule (2026-09-19): a
+  reading the chapter page also renders must come from a store both
+  pages share. Plain `use cache` is not one on Vercel — it is the memory
+  of the instance that rendered it — so a shared entry is
+  `use cache: remote`, and the drawer shows the same directive.
 - **Vocabulary.** Visitor prose says *the lab* and *chapter* (voice.md
   §6, 2026-08-20). "Exhibit" remains the working word in code comments
   and these docs.
@@ -413,9 +417,16 @@ as "the part that was visible passed".
 Build workers bake `use cache` entries independently (observed 2026-08-20,
 lab build): the landing shell and /lab's contents row each prerendered
 their own bake, so a fresh deploy can serve two fingerprints for "one
-shared entry" until the first tag revalidation or cacheLife expiry
-converges them at runtime. Copy must not claim cross-page agreement for
-the static shells of a fresh deploy. The React DevTools extension throws spurious "The
+shared entry". This note used to say the first tag revalidation converges
+them at runtime; it does not (observed live 2026-09-19: `/`, `/lab` and
+`/lab/caching` regenerated hours after the deploy and still wore three
+fingerprints). Plain `use cache` is an in-memory LRU per serverless
+instance, so every page's regeneration mints its own entry. The bake is
+`use cache: remote` now, which is the Vercel Runtime Cache — shared per
+region across functions and, per Vercel's docs, builds. Copy still must
+not claim cross-page agreement for the static shells of a fresh deploy
+until a preview deploy shows the build-time entries converging too. The
+React DevTools extension throws spurious "The
 children should not have changed if we pass in the same set." errors on
 transition commits here; stacks resolving to `chrome-extension://…` are the
 extension's mirror desyncing, not an app bug.

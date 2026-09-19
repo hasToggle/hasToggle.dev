@@ -56,7 +56,12 @@ export async function ShellDemo({ headingAs }: ShellDemoProps) {
           In your app, the two renders behind one press would read the same
           database and agree, and no visitor would ever see the seam. The entry
           here is a random color precisely so two renders can never agree. A
-          cache can only be watched working on something that never repeats.
+          cache can only be watched working on something that never repeats. The{" "}
+          <InlineCode>remote</InlineCode> in the directive is the same honesty:
+          plain <InlineCode>use cache</InlineCode> is the memory of whichever
+          server rendered it, and the contents page, rendering on another, was
+          baking a second entry of its own. Remote is one entry, and every page
+          that reads it shows the same color.
         </>
       }
       navLabel={chapter.navLabel}

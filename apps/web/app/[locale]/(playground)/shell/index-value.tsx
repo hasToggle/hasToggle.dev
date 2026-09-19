@@ -7,11 +7,11 @@ import { getBake } from "./bake";
  * anywhere and this row changes with it — one entry, shared by every
  * visitor, and by every page that reads it.
  *
- * One caveat, by construction: build workers bake independently, so a
- * fresh deploy's static shells can open with this row and the landing
- * stamp disagreeing. The first rebake (or an expired cacheLife window)
- * converges them — the runtime entry is shared; the build-time ones were
- * not. See design.md §6.
+ * That sharing is only true because the entry is `use cache: remote`.
+ * With plain `use cache` each page's regeneration minted its own bake and
+ * the three surfaces never agreed again (observed live, 2026-09-19). Any
+ * future reading that a second page also renders needs the same store —
+ * see design.md §4 (index readings) and §6.
  */
 export async function ShellIndexValue() {
   const bake = await getBake();

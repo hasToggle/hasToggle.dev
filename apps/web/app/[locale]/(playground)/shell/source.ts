@@ -1,7 +1,8 @@
 export const SHELL_SOURCE = `
 // bake.ts — the cache entry (lives in the static shell)
 export async function getBake() {
-  "use cache";
+  "use cache: remote"; // plain "use cache" is per-instance memory on a serverless host;
+                       // remote is one entry, and every page that reads it agrees
   cacheTag("landing-shell");
   cacheLife("days");
   return {
