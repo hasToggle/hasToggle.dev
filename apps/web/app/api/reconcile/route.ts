@@ -5,7 +5,7 @@ import { parseError } from "@repo/observability/error";
 import { type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
 import { normalizeEmail } from "@/lib/email-validation";
-import { removeSubscriber } from "@/lib/subscribers";
+import { addSubscriberContact, removeSubscriber } from "@/lib/subscribers";
 
 /**
  * The safety net under the webhook. Called on a schedule (an Atlas trigger),
@@ -14,12 +14,22 @@ import { removeSubscriber } from "@/lib/subscribers";
  * - a contact Resend has flagged `unsubscribed` is deleted from both stores;
  * - a confirmed subscriber Resend no longer knows (deleted in the dashboard,
  *   webhook missed) is deleted here too;
+ * - a confirmed subscriber Resend never knew — the contact was refused at
+ *   confirmation, `contactCreatedAt: null` — is given the contact. That one
+ *   is our failure, not their departure, so no amount of elapsed time turns
+ *   it into a deletion;
  * - a signup that never confirmed is dropped once its link has been dead
  *   for a week — the address was collected for a confirmation that never
  *   came, so the purpose it was collected for has ended.
  */
 const UNCONFIRMED_GRACE_MS = 1000 * 60 * 60 * 24 * 7;
 const PAGE_SIZE = 100;
+
+/**
+ * A contact created moments ago may not be in the listing yet. Its row
+ * waits for the next run rather than being read as a departure.
+ */
+const NEW_CONTACT_GRACE_MS = 1000 * 60 * 60;
 
 /**
  * "Orphaned" means Resend no longer knows the address — but an empty or
@@ -95,6 +105,16 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    // The database is read first. A confirmation that lands between the two
+    // reads is then simply not part of this run; read the other way round,
+    // it would be a row with no listed contact, which is what an orphan is.
+    const confirmed = await database.subscriber
+      .find(
+        { emailVerified: { $ne: null } },
+        { projection: { contactCreatedAt: 1, email: 1 } }
+      )
+      .toArray();
+
     // Both stores are compared in the one normalized shape: a row written
     // before normalization began still carries its original casing, and
     // Resend keeps whatever casing it was given. Compared raw, the same
@@ -105,10 +125,16 @@ export async function POST(request: NextRequest) {
       .filter((c) => c.unsubscribed)
       .map((c) => normalizeEmail(c.email));
 
-    const confirmed = await database.subscriber
-      .find({ emailVerified: { $ne: null } }, { projection: { email: 1 } })
-      .toArray();
+    // Only a row whose contact once existed can have lost it. A row from
+    // before the marker has no `contactCreatedAt` at all and counts as one.
+    const newest = new Date(Date.now() - NEW_CONTACT_GRACE_MS);
+    const unmirrored = confirmed.filter((s) => s.contactCreatedAt === null);
     const orphaned = confirmed
+      .filter(
+        (s) =>
+          s.contactCreatedAt === undefined ||
+          (s.contactCreatedAt !== null && s.contactCreatedAt < newest)
+      )
       .map((s) => normalizeEmail(s.email))
       .filter((email) => !known.has(email));
 
@@ -133,6 +159,29 @@ export async function POST(request: NextRequest) {
       await removeSubscriber(email);
     }
 
+    // Sequential for the same reason. A refusal is reported and the row
+    // keeps its null, so the next run tries again.
+    let mirrored = 0;
+    for (const subscriber of unmirrored) {
+      const email = normalizeEmail(subscriber.email);
+      if (flagged.includes(email)) {
+        continue;
+      }
+      if (!known.has(email)) {
+        // biome-ignore lint/performance/noAwaitInLoops: sequential on purpose, see above
+        const { error } = await addSubscriberContact(subscriber.email);
+        if (error) {
+          parseError(error);
+          continue;
+        }
+      }
+      await database.subscriber.updateOne(
+        { _id: subscriber._id },
+        { $set: { contactCreatedAt: new Date() } }
+      );
+      mirrored += 1;
+    }
+
     const { deletedCount: unconfirmed } = await database.subscriber.deleteMany({
       emailVerified: null,
       tokenExpiresAt: { $lt: new Date(Date.now() - UNCONFIRMED_GRACE_MS) },
@@ -140,6 +189,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       contacts: contacts.length,
+      mirrored,
       removed: {
         orphaned: orphaned.length,
         unconfirmed,

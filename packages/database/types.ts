@@ -20,6 +20,12 @@ export interface Digest {
 
 export interface Subscriber {
   _id: string;
+  /**
+   * When the Resend contact was created. `null` means confirmation asked
+   * and Resend refused, so the reconcile run still owes this row a contact.
+   * Absent on rows confirmed before the field existed; those had one.
+   */
+  contactCreatedAt?: Date | null;
   createdAt: Date | null;
   email: string;
   emailVerified: Date | null;

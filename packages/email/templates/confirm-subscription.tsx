@@ -28,11 +28,12 @@ const ConfirmSubscription = ({
   baseUrl = PUBLIC_ORIGIN,
   unsubscribeUrl,
 }: ConfirmSubscriptionProps) => (
-  <Chrome preview="Confirm below and you’re on the cohort waitlist: first to hear when seats open, and when a chapter ships that the cohort will build on.">
-    <Text style={heading}>One click and you’re on the waitlist.</Text>
+  <Chrome preview="Confirm below, press the button on the page it opens, and you’re on the cohort waitlist: first to hear when seats open, and when a chapter ships that the cohort will build on.">
+    <Text style={heading}>Two clicks and you’re on the waitlist.</Text>
     <Text style={body}>
-      Confirm below and you’re first to hear when cohort seats open, and when a
-      chapter ships that the cohort will build on.
+      Confirm below, press the button on the page it opens, and you’re first to
+      hear when cohort seats open, and when a chapter ships that the cohort will
+      build on.
     </Text>
     <Section style={ctaSection}>
       <Button href={`${baseUrl}/api/confirmed?token=${token}`} style={button}>

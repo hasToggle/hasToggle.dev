@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { env } from "@/env";
+import { LEAVING_TICKET } from "@/lib/tickets";
 import { verifyUnsubscribe } from "@/lib/unsubscribe-link";
 import { LeaveForm } from "./leave-form";
 
@@ -10,23 +12,23 @@ export const metadata: Metadata = {
   title: "Leave the waitlist — hasToggle",
 };
 
-interface PageProps {
-  searchParams: Promise<{ id?: string; sig?: string }>;
-}
-
 /**
  * The page behind the unsubscribe link: one button, which is the only
  * thing that deletes anything. The link itself is a GET and does nothing,
  * so a mail scanner following it removes nobody. The signature is checked
  * here too, so a mistyped link is a 404 rather than a button that would
- * fail on press.
+ * fail on press. Both arrive in the ticket /api/unsubscribe set, not in
+ * this page's address; see lib/tickets.
  *
  * The page carries no header or footer — it is reached from a mail, not
  * from the site — so the prose says who is asking before it asks.
  */
-async function Leave({ searchParams }: PageProps) {
-  const { id, sig } = await searchParams;
-  if (!(id && sig && verifyUnsubscribe(id, sig, env.UNSUBSCRIBE_SECRET))) {
+async function Leave() {
+  const ticket = (await cookies()).get(LEAVING_TICKET.cookie)?.value ?? "";
+  const seam = ticket.lastIndexOf(".");
+  const id = ticket.slice(0, seam);
+  const sig = ticket.slice(seam + 1);
+  if (!(seam > 0 && verifyUnsubscribe(id, sig, env.UNSUBSCRIBE_SECRET))) {
     notFound();
   }
 
@@ -50,11 +52,11 @@ async function Leave({ searchParams }: PageProps) {
   );
 }
 
-export default function UnsubscribePage(props: PageProps) {
+export default function UnsubscribePage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-6 text-center">
       <Suspense fallback={null}>
-        <Leave {...props} />
+        <Leave />
       </Suspense>
     </div>
   );
