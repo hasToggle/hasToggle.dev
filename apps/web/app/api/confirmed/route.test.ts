@@ -62,9 +62,12 @@ function post(existing: Row, token: string | null = TOKEN) {
   );
 }
 
-const written = () =>
-  (updateOne.mock.calls[0]?.[1] as { $set?: Record<string, unknown> })?.$set ??
-  {};
+function written(): Record<string, unknown> {
+  const update = updateOne.mock.calls[0]?.[1] as
+    | { $set: Record<string, unknown> }
+    | undefined;
+  return update?.$set ?? {};
+}
 
 // The link in the mail is a GET, and a GET confirms nobody: mail scanners
 // follow links before people do. It hands the token to the page with the

@@ -64,6 +64,48 @@ function sentSubjects() {
 }
 
 describe("/api/confirm", () => {
+  // A cross-site form can POST text/plain JSON with no preflight, which
+  // would let any page spend its visitors' addresses on this route.
+  test("refuses a body that is not declared as JSON", async () => {
+    const response = await POST(
+      new NextRequest("http://localhost:3001/api/confirm", {
+        body: JSON.stringify({ email: "user@example.com" }),
+        headers: { "Content-Type": "text/plain" },
+        method: "POST",
+      })
+    );
+    expect(response.status).toBe(400);
+    expect(send).not.toHaveBeenCalled();
+  });
+
+  test("refuses a request another site's page sent", async () => {
+    const response = await POST(
+      new NextRequest("http://localhost:3001/api/confirm", {
+        body: JSON.stringify({ email: "user@example.com" }),
+        headers: {
+          "Content-Type": "application/json",
+          Origin: "https://elsewhere.example",
+        },
+        method: "POST",
+      })
+    );
+    expect(response.status).toBe(403);
+    expect(send).not.toHaveBeenCalled();
+  });
+
+  test("answers 400 to a body that does not parse", async () => {
+    const response = await POST(
+      new NextRequest("http://localhost:3001/api/confirm", {
+        body: "{",
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+      })
+    );
+    const data = await response.json();
+    expect(response.status).toBe(400);
+    expect(data.error.name).toBe("ValidationError");
+  });
+
   test("rejects disposable email addresses", async () => {
     const response = await POST(makeRequest({ email: "test@mailinator.com" }));
     const data = await response.json();
