@@ -1,7 +1,18 @@
 import { initializeAnalytics } from "@repo/analytics/instrumentation-client";
+import { initBotId } from "botid/client/core";
 import { afterLoad } from "@/lib/after-load";
+import { PROTECTED_ROUTES } from "@/lib/bot-protected";
 
 initializeAnalytics();
+
+/*
+ * BotID is the exception to the rule below, and a cheap one: about 6 KB that
+ * wraps `fetch` so a request to a protected route carries a solved
+ * challenge. It has to be in place before the first such request, and it
+ * fetches nothing until then: the challenge script loads when a visitor
+ * submits one of the two forms, not when the page does.
+ */
+initBotId({ protect: PROTECTED_ROUTES });
 
 /*
  * This file runs before hydration, so everything it imports statically sits

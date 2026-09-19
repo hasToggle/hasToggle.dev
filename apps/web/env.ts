@@ -4,21 +4,12 @@ import { keys as flags } from "@repo/feature-flags/keys";
 import { keys as core } from "@repo/next-config/keys";
 import { keys as observability } from "@repo/observability/keys";
 import { keys as rateLimit } from "@repo/rate-limit/keys";
-import { keys as security } from "@repo/security/keys";
 import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 
 export const env = createEnv({
   client: {},
-  extends: [
-    core(),
-    database(),
-    email(),
-    observability(),
-    flags(),
-    security(),
-    rateLimit(),
-  ],
+  extends: [core(), database(), email(), observability(), flags(), rateLimit()],
   runtimeEnv: {
     ABSTRACT_API_KEY: process.env.ABSTRACT_API_KEY,
     RECONCILE_SECRET: process.env.RECONCILE_SECRET,

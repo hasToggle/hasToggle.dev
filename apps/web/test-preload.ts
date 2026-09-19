@@ -30,6 +30,12 @@ mock.module("@repo/rate-limit/keys", () => ({
   keys: () => ({}),
 }));
 
+// BotID answers "human" unless a test says otherwise. The real check calls
+// Vercel and only means anything on a deployment.
+mock.module("botid/server", () => ({
+  checkBotId: async () => ({ isBot: false }),
+}));
+
 mock.module("@/env", () => ({
   env: {
     ABSTRACT_API_KEY: "",

@@ -1,6 +1,7 @@
 import { withToolbar } from "@repo/feature-flags/lib/toolbar";
 import { config, withAnalyzer } from "@repo/next-config";
 import { withLogging, withSentry } from "@repo/observability/next-config";
+import { withBotId } from "botid/next/config";
 import type { NextConfig } from "next";
 import { env } from "@/env";
 
@@ -43,5 +44,7 @@ export default async (): Promise<NextConfig> => {
     nextConfig = withAnalyzer(nextConfig);
   }
 
-  return nextConfig;
+  // Serves BotID's challenge from this origin, so the CSP's 'self' covers it
+  // and an ad blocker has no third-party host to block.
+  return withBotId(nextConfig);
 };

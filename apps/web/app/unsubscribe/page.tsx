@@ -21,7 +21,9 @@ export const metadata: Metadata = {
  * this page's address; see lib/tickets.
  *
  * The page carries no header or footer — it is reached from a mail, not
- * from the site — so the prose says who is asking before it asks.
+ * from the site — so the prose says who is asking before it asks. Three
+ * short paragraphs, the last one in full foreground: it is the instruction,
+ * and it sits on the button.
  */
 async function Leave() {
   const ticket = (await cookies()).get(LEAVING_TICKET.cookie)?.value ?? "";
@@ -37,16 +39,20 @@ async function Leave() {
       <h1 className="font-display font-medium text-4xl text-foreground tracking-tight sm:text-5xl">
         Leave the waitlist?
       </h1>
-      <p className="mt-6 max-w-md text-balance text-foreground/75 text-lg leading-8">
-        hasToggle is the unofficial live playground for Next.js and Vercel. The
-        playground is free. This address is on the waitlist that hears when a
-        new chapter lands, and when seats open in the cohort — small paid groups
-        building production web apps with the same AI workflow that built the
-        site.
-      </p>
-      <p className="mt-4 max-w-md text-balance text-foreground/75 text-lg leading-8">
-        Press the button to remove this address. Nothing has happened yet.
-      </p>
+      <div className="mt-8 max-w-xl space-y-5 text-balance text-foreground/75 text-lg leading-8">
+        <p>
+          hasToggle is the unofficial live playground for Next.js and Vercel.
+          The playground is free.
+        </p>
+        <p>
+          This address is on the waitlist that hears when a new chapter lands,
+          and when seats open in the cohort — small paid groups building
+          production web apps with the same AI workflow that built the site.
+        </p>
+        <p className="text-foreground">
+          To unsubscribe from the list, remove your address below.
+        </p>
+      </div>
       <LeaveForm id={id} sig={sig} />
     </>
   );

@@ -6,6 +6,7 @@ import { parseError } from "@repo/observability/error";
 import { log } from "@repo/observability/log";
 import { type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
+import { looksAutomated } from "@/lib/bot-check";
 import { confirmationOrigin } from "@/lib/confirmation-origin";
 import {
   checkEmailDeliverability,
@@ -277,6 +278,11 @@ export async function POST(request: NextRequest) {
     const format = validateEmailFormat(email);
     if (!format.valid) {
       return validationError(format.reason);
+    }
+
+    // Before the windows, so a script does not spend a real person's.
+    if (await looksAutomated()) {
+      return errorResponse("BotError", LIMIT_MESSAGE, 403);
     }
 
     if (await overLimit(request, email)) {
