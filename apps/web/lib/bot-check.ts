@@ -1,5 +1,4 @@
 import { parseError } from "@repo/observability/error";
-import { log } from "@repo/observability/log";
 import { checkBotId } from "botid/server";
 import { BOT_CHECK_LEVEL } from "./bot-protected";
 
@@ -17,13 +16,6 @@ export async function looksAutomated(): Promise<boolean> {
     const verdict = await checkBotId({
       advancedOptions: { checkLevel: BOT_CHECK_LEVEL },
     });
-    // One line per check, on two low-traffic routes: without it a request
-    // that got through looks the same whether BotID judged it human, was
-    // told to stand aside (`bypassed`), or never saw a challenge at all.
-    // None of these fields describe the visitor.
-    log.info(
-      `BotID: bot=${verdict.isBot} bypassed=${verdict.bypassed} verified=${verdict.isVerifiedBot} reason=${"classificationReason" in verdict ? verdict.classificationReason : "n/a"}`
-    );
     return verdict.isBot;
   } catch (error) {
     parseError(error);
