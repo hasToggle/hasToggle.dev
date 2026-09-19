@@ -1,9 +1,6 @@
 import { isToolbarEnabled } from "@repo/feature-flags/lib/toolbar-enabled";
 import { internationalizationMiddleware } from "@repo/internationalization/middleware";
-import { parseError } from "@repo/observability/error";
-import { secure } from "@repo/security";
 import { type NextProxy, type NextRequest, NextResponse } from "next/server";
-import { env } from "@/env";
 import {
   securityHeaders,
   securityOptions,
@@ -14,8 +11,11 @@ import { TICKETS } from "@/lib/tickets";
 
 export const config = {
   matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
-    "/((?!_next|monitoring|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    // Skip Next.js internals and all static files, unless found in search
+    // params. The UUID is BotID's prefix: next.config rewrites it to Vercel,
+    // which sets its own headers, and a locale redirect there would break
+    // the challenge.
+    "/((?!_next|monitoring|149e9513-01fa-4fb0-aad4-566afd725d1b|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
     // Always run for API routes
     "/api/:path*",
   ],
@@ -27,29 +27,6 @@ export const config = {
 const headerOptions = isToolbarEnabled()
   ? securityOptionsWithToolbar
   : securityOptions;
-
-// Custom middleware for Arcjet security checks
-const arcjetMiddleware = async (request: NextRequest) => {
-  if (!env.ARCJET_KEY) {
-    return;
-  }
-
-  try {
-    await secure(
-      [
-        // See https://docs.arcjet.com/bot-protection/identifying-bots
-        "CATEGORY:SEARCH_ENGINE", // Allow search engines
-        "CATEGORY:PREVIEW", // Allow preview links to show OG images
-        "CATEGORY:MONITOR", // Allow uptime monitoring services
-      ],
-      request
-    );
-  } catch (error) {
-    // The reason goes to Sentry; the visitor gets the same line either way.
-    parseError(error);
-    return NextResponse.json({ error: "Access denied" }, { status: 403 });
-  }
-};
 
 // Skip i18n rewriting for routes outside [locale] (i18n middleware's own
 // matcher excludes these, but proxy.ts runs it for all matched routes,
@@ -86,13 +63,13 @@ const i18nWithExclusions = (request: NextRequest) => {
   return internationalizationMiddleware(request);
 };
 
-// The chain: Arcjet first, so a refusal ends the request before any
-// rewrite; then the locale rewrite; then a plain `next()`. Whichever
-// response comes back, the security headers are merged onto it rather than
-// offered as a fallback that never gets used.
+// The chain: the ticket check, then the locale rewrite, then a plain
+// `next()`. Whichever response comes back, the security headers are merged
+// onto it rather than offered as a fallback that never gets used. Bots are
+// not this file's business: BotID checks the two forms that send mail, in
+// their own handlers (lib/bot-check.ts).
 export const proxy: NextProxy = async (request: NextRequest) => {
   const response =
-    (await arcjetMiddleware(request)) ??
     ticketed(request) ??
     (await i18nWithExclusions(request)) ??
     NextResponse.next();

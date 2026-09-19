@@ -104,7 +104,10 @@ export async function checkEmailDeliverability(
 
     if (!parsed.success) {
       // Field names only: the response echoes the address it checked.
-      const fields = Object.keys(Object(raw)).join(", ");
+      const fields =
+        raw && typeof raw === "object"
+          ? Object.keys(raw).join(", ")
+          : typeof raw;
       log.error(`Unexpected Abstract API response shape: ${fields}`);
       return { valid: true };
     }

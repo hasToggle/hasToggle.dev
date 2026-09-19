@@ -64,6 +64,21 @@ function sentSubjects() {
 }
 
 describe("/api/confirm", () => {
+  test("refuses a request BotID calls automated, before it costs anything", async () => {
+    const botid = await import("botid/server");
+    const verdict = spyOn(botid, "checkBotId").mockResolvedValue({
+      isBot: true,
+    } as never);
+    const response = await post(null, "user@example.com");
+    const data = await response.json();
+    verdict.mockRestore();
+
+    expect(response.status).toBe(403);
+    expect(data.error.name).toBe("BotError");
+    expect(findOne).not.toHaveBeenCalled();
+    expect(send).not.toHaveBeenCalled();
+  });
+
   // A cross-site form can POST text/plain JSON with no preflight, which
   // would let any page spend its visitors' addresses on this route.
   test("refuses a body that is not declared as JSON", async () => {

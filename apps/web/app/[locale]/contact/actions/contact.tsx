@@ -5,6 +5,7 @@ import ContactTemplate from "@repo/email/templates/contact";
 import { parseError } from "@repo/observability/error";
 import { headers } from "next/headers";
 import { env } from "@/env";
+import { looksAutomated } from "@/lib/bot-check";
 import { clientIp, rateLimiter } from "@/lib/rate-limit";
 import { parseContact } from "./schema";
 
@@ -32,6 +33,12 @@ export const contact = async (
   const input = parseContact(formData);
   if (!input) {
     return { error: MESSAGES.invalid };
+  }
+
+  // The same line a failed send gets: it tells a person wrongly refused
+  // where else to write, and tells a script nothing.
+  if (await looksAutomated()) {
+    return { error: MESSAGES.sendFailed };
   }
 
   try {

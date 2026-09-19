@@ -79,7 +79,9 @@ The repository uses **Bun workspaces** with two main directories:
 2. **web** (port 3001) - Marketing/landing page
    - Internationalization support (uses `[locale]` route)
    - Content management via CMS package
-   - Rate limiting via Arcjet
+   - Bot filtering via Vercel BotID on the two forms that send mail
+     (`lib/bot-protected.ts` is the one list both halves read); rate limits
+     via Upstash (`lib/rate-limit.ts`). Arcjet is not used here.
 
 3. **api** (port 3002) - RESTful API server
    - Health check endpoint at `/health`
