@@ -122,7 +122,7 @@ describe("/api/confirm", () => {
     const response = await post(null, "new@example.com");
     expect(response.status).toBe(200);
     expect((await response.json()).message).toBe(SUCCESS);
-    expect(sentSubjects()).toEqual(["Two clicks and you’re on the waitlist"]);
+    expect(sentSubjects()).toEqual(["One click and you’re on the waitlist"]);
     expect(send.mock.calls[0]?.[0].to).toEqual(["new@example.com"]);
     expect(updateOne.mock.calls[0]?.[2]).toEqual({ upsert: true });
   });
@@ -159,7 +159,7 @@ describe("/api/confirm", () => {
       "eric@example.com"
     );
     expect(response.status).toBe(200);
-    expect(sentSubjects()).toEqual(["Two clicks and you’re on the waitlist"]);
+    expect(sentSubjects()).toEqual(["One click and you’re on the waitlist"]);
     const setFields = updateOne.mock.calls[0]?.[1] as {
       $set: { token: string };
     };
@@ -171,7 +171,7 @@ describe("/api/confirm", () => {
       subscriber({ tokenExpiresAt: new Date(Date.now() - DAY_MS) }),
       "eric@example.com"
     );
-    expect(sentSubjects()).toEqual(["Two clicks and you’re on the waitlist"]);
+    expect(sentSubjects()).toEqual(["One click and you’re on the waitlist"]);
   });
 
   test("tells a confirmed address it is already on the list", async () => {
@@ -324,7 +324,7 @@ describe("/api/confirm legacy casing", () => {
     expect(updateOne.mock.calls[1]?.[2]).toEqual({
       collation: { locale: "en", strength: 2 },
     });
-    expect(sentSubjects()).toEqual(["Two clicks and you’re on the waitlist"]);
+    expect(sentSubjects()).toEqual(["One click and you’re on the waitlist"]);
   });
 
   test("fails rather than mail a token no row holds", async () => {

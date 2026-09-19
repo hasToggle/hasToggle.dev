@@ -185,7 +185,7 @@ async function sendConfirmation(
         token,
         unsubscribeUrl: leave,
       }),
-      subject: "Two clicks and you’re on the waitlist",
+      subject: "One click and you’re on the waitlist",
       to: [email],
     },
     // A retried request with the same token must not send twice.
