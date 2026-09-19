@@ -35,11 +35,6 @@ async function Join() {
         You&rsquo;re first to hear when cohort seats open, and when a chapter
         ships that the cohort will build on.
       </p>
-      <p className="mt-4 max-w-md text-balance text-foreground/75 text-lg leading-8">
-        Mail scanners follow links before people do, so the link only brought
-        you here. Press the button to add this address. Nothing has happened
-        yet.
-      </p>
       <JoinForm token={token} />
     </>
   );
