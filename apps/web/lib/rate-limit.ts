@@ -4,15 +4,11 @@ import { keys as rateLimitKeys } from "@repo/rate-limit/keys";
  * A sliding-window limiter for the two forms that send mail and the shell
  * demo's revalidate button.
  *
- * Production has no Upstash keys today, so the Redis limiter in
- * `@repo/rate-limit` would be a no-op there. This one runs in memory when
- * Redis is absent: per function instance, reset on cold start, so it bounds
- * a burst rather than a patient attacker. That is still the difference
- * between a script sending a confirmation mail per request and one sending a
- * handful per instance per window. A platform-level rule (Vercel WAF rate
- * limiting) is the stronger tool and needs no code; this is the floor under
- * it. When Upstash is configured the same calls share a window across
- * instances.
+ * Production and preview carry the Upstash keys, so there the window is
+ * shared across function instances. Without them — local development, a
+ * deployment that lost its keys — the limiter runs in memory: per
+ * instance, reset on cold start, so it bounds a burst rather than a patient
+ * attacker. That is the floor, not the plan.
  */
 export interface RateLimitResult {
   readonly success: boolean;

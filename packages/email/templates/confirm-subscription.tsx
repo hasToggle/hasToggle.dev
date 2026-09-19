@@ -31,8 +31,13 @@ const ConfirmSubscription = ({
   <Chrome preview="Confirm below and you’re on the cohort waitlist: first to hear when seats open, and when a chapter ships that the cohort will build on.">
     <Text style={heading}>One click and you’re on the waitlist.</Text>
     <Text style={body}>
-      Confirm below and you’re first to hear when cohort seats open, and when a
-      chapter ships that the cohort will build on.
+      hasToggle is the unofficial live playground for Next.js and Vercel. The
+      playground is free, and it stays open whether you confirm or not.
+    </Text>
+    <Text style={body}>
+      The waitlist is for the cohort: small paid groups building production web
+      apps with the same AI workflow that built the site. Confirm below and
+      you’re first to hear when seats open, and when a new chapter lands.
     </Text>
     <Section style={ctaSection}>
       <Button href={`${baseUrl}/api/confirmed?token=${token}`} style={button}>

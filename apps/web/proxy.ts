@@ -57,8 +57,8 @@ const arcjetMiddleware = async (request: NextRequest) => {
 // files live at the app root, where Next serves them from.
 const UNLOCALIZED = new Set(["/robots.txt", "/sitemap.xml"]);
 
-// The pages after the waitlist link and the unsubscribe button are only
-// for the visitor who just came from them: without the ticket their
+// The pages after the confirmation link, its button and the unsubscribe
+// button are only for the visitor who just came from them: without the ticket their
 // redirect set, the address is a 404.
 const ticketed = (request: NextRequest) => {
   const { pathname } = request.nextUrl;
@@ -76,7 +76,8 @@ const i18nWithExclusions = (request: NextRequest) => {
   if (
     UNLOCALIZED.has(pathname) ||
     pathname.startsWith("/api") ||
-    pathname.startsWith("/confirmed") ||
+    // /confirm (the button) and /confirmed (the thank-you).
+    pathname.startsWith("/confirm") ||
     pathname.startsWith("/unsubscribe") ||
     pathname.startsWith("/.well-known")
   ) {

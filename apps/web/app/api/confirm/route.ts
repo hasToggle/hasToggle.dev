@@ -247,8 +247,28 @@ async function sendAlreadySubscribed(
     : mail.error;
 }
 
+/**
+ * The form sends JSON from this site. A cross-site page can POST without a
+ * preflight only as a "simple" content type, and a browser always names
+ * the sending origin on a POST, so these two checks are what stop another
+ * site spending its visitors' addresses here. A script that sets its own
+ * headers passes both; the rate limits are for that.
+ */
+function foreign(request: NextRequest) {
+  const origin = request.headers.get("origin");
+  return Boolean(origin) && origin !== request.nextUrl.origin;
+}
+
 export async function POST(request: NextRequest) {
   try {
+    if (foreign(request)) {
+      return errorResponse("ForbiddenError", "Cross-site request refused", 403);
+    }
+    const contentType = request.headers.get("content-type") ?? "";
+    if (!contentType.includes("application/json")) {
+      return errorResponse("ValidationError", "Invalid request body", 400);
+    }
+
     const body = await request.json();
     const email = normalizeEmail(body?.email);
 
@@ -279,7 +299,8 @@ export async function POST(request: NextRequest) {
         origin
       );
       if (error) {
-        log.error(`Failed to send reminder email: ${JSON.stringify(error)}`);
+        // The name only: Resend's message can quote the recipient.
+        log.error(`Failed to send reminder email: ${error.name}`);
         return emailError();
       }
       return NextResponse.json({ message: SUCCESS_MESSAGE });
@@ -300,7 +321,7 @@ export async function POST(request: NextRequest) {
 
     const error = await sendConfirmation(email, origin, existing);
     if (error) {
-      log.error(`Failed to send confirmation email: ${JSON.stringify(error)}`);
+      log.error(`Failed to send confirmation email: ${error.name}`);
       return emailError();
     }
 

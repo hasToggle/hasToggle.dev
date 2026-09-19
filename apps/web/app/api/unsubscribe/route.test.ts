@@ -40,13 +40,28 @@ function formPost(url: string, fields: Record<string, string>) {
 }
 
 describe("/api/unsubscribe", () => {
+  test("answers 400, not 500, to a form body that does not parse", async () => {
+    const response = await POST(
+      new NextRequest("http://localhost:3001/api/unsubscribe", {
+        body: "--broken",
+        headers: { "content-type": "multipart/form-data" },
+        method: "POST",
+      })
+    );
+    expect(response.status).toBe(400);
+  });
+
   test("a browser on the link is sent to the page, nothing deleted", async () => {
     arm({ _id: ID, email: "leaving@example.com" });
     const response = await GET(new NextRequest(link()));
     expect(response.status).toBe(303);
-    expect(response.headers.get("Location")).toBe(
-      `http://localhost:3001/unsubscribe?id=${ID}&sig=${SIG}`
-    );
+    // The signature never expires, so it stays out of the page's address,
+    // where every analytics script and the Referer header would read it.
+    expect(response.headers.get("Location")).toBe("/unsubscribe");
+    const cookie = response.headers.get("Set-Cookie") ?? "";
+    expect(cookie).toContain(`leaving=${ID}.${SIG}`);
+    expect(cookie).toContain("Path=/unsubscribe");
+    expect(cookie).toContain("HttpOnly");
     expect(deleteMany).not.toHaveBeenCalled();
   });
 

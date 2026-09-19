@@ -3,7 +3,11 @@ import { parseError } from "@repo/observability/error";
 import { type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
 import { removeSubscriber } from "@/lib/subscribers";
-import { ticketRedirect, UNSUBSCRIBED_TICKET } from "@/lib/tickets";
+import {
+  LEAVING_TICKET,
+  ticketRedirect,
+  UNSUBSCRIBED_TICKET,
+} from "@/lib/tickets";
 import { verifyUnsubscribe } from "@/lib/unsubscribe-link";
 
 /**
@@ -30,19 +34,25 @@ function refused() {
 }
 
 export function GET(request: NextRequest) {
-  if (!credentials(request)) {
+  const id = credentials(request);
+  if (!id) {
     return refused();
   }
-  const page = new URL("/unsubscribe", request.url);
-  page.search = request.nextUrl.search;
-  return NextResponse.redirect(page, 303);
+  // The signature never expires, so it rides in the ticket rather than in
+  // the page's address: a query string reaches every analytics script on
+  // the page, the Referer header and the browser's history.
+  const sig = request.nextUrl.searchParams.get("sig");
+  return ticketRedirect(LEAVING_TICKET, request, `${id}.${sig}`);
 }
 
 export async function POST(request: NextRequest) {
   const contentType = request.headers.get("content-type") ?? "";
   const form = contentType.includes("form")
-    ? await request.formData()
+    ? await request.formData().catch(() => null)
     : undefined;
+  if (form === null) {
+    return refused();
+  }
   const id = credentials(request, form);
   if (!id) {
     return refused();
