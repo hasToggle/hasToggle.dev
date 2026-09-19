@@ -34,7 +34,7 @@
     "@turbo/gen": "^2.8.9",
     "@types/node": "^26.0.0",
     "bun-types": "latest",
-    "turbo": "2.10.13",
+    "turbo": "2.11.2",
     "typescript": "^7.0.2",
     "ultracite": "7.12.0"
   },
