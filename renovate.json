@@ -3,6 +3,7 @@
   "extends": ["config:recommended"],
   "automerge": true,
   "automergeType": "pr",
+  "osvVulnerabilityAlerts": true,
   "packageRules": [
     {
       "matchFileNames": ["apps/**/package.json", "packages/**/package.json"],
