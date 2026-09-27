@@ -28,7 +28,7 @@
     "@repo/rate-limit": "workspace:*",
     "@repo/security": "workspace:*",
     "@repo/seo": "workspace:*",
-    "@sentry/nextjs": "^10.75.3",
+    "@sentry/nextjs": "^11.0.0",
     "@t3-oss/env-nextjs": "^0.13.11",
     "botid": "^1.5.11",
     "disposable-email-domains": "^1.0.62",
