@@ -1,5 +1,5 @@
 import { withLogtail } from "@logtail/next";
-import { withSentryConfig } from "@sentry/nextjs";
+import { withSentryConfig } from "@sentry/nextjs/config";
 import { keys } from "./keys";
 
 const hasAuthToken = !!process.env.SENTRY_AUTH_TOKEN;

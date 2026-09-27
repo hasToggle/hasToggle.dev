@@ -7,6 +7,7 @@
 // biome-ignore lint/performance/noNamespaceImport: Sentry SDK requires namespace import for proper initialization
 import * as Sentry from "@sentry/nextjs";
 import { CONSOLE_LOG_LEVELS, TRACES_SAMPLE_RATE } from "./sampling";
+import { clientDefaults } from "./v10-defaults";
 
 // Send console.error and console.warn calls as logs to Sentry
 export const consoleLogging = (): ReturnType<
@@ -14,6 +15,8 @@ export const consoleLogging = (): ReturnType<
 > => Sentry.consoleLoggingIntegration({ levels: CONSOLE_LOG_LEVELS });
 
 export const baseOptions = (): Sentry.BrowserOptions => ({
+  ...clientDefaults(),
+
   // Setting this option to true will print useful information to the console while you're setting up Sentry.
   debug: false,
 
@@ -22,9 +25,7 @@ export const baseOptions = (): Sentry.BrowserOptions => ({
   // re-check a constant. Apps validate it server-side via their env.ts.
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
-  // Enable logging
-  enableLogs: true,
-
+  // The console integration is what turns logging on; there is no flag.
   integrations: [consoleLogging()],
 
   tracesSampleRate: TRACES_SAMPLE_RATE,

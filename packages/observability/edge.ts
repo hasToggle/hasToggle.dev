@@ -8,17 +8,17 @@
 import * as Sentry from "@sentry/nextjs";
 import { keys } from "./keys";
 import { CONSOLE_LOG_LEVELS, TRACES_SAMPLE_RATE } from "./sampling";
+import { serverDefaults } from "./v10-defaults";
 
 export const initializeSentry = (): ReturnType<typeof Sentry.init> =>
   Sentry.init({
+    ...serverDefaults(),
+
     // Setting this option to true will print useful information to the console while you're setting up Sentry.
     debug: false,
     dsn: keys().NEXT_PUBLIC_SENTRY_DSN,
 
-    // Enable logging
-    enableLogs: true,
-
-    // Integrations for console logging
+    // The console integration is what turns logging on; there is no flag.
     integrations: [
       // Send console.error and console.warn calls as logs to Sentry
       Sentry.consoleLoggingIntegration({ levels: CONSOLE_LOG_LEVELS }),
