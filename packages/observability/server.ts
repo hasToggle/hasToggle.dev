@@ -6,13 +6,13 @@
 
 // biome-ignore lint/performance/noNamespaceImport: Sentry SDK requires namespace import for proper initialization
 import * as Sentry from "@sentry/nextjs";
+import { DATA_COLLECTION } from "./data-collection";
 import { keys } from "./keys";
 import { CONSOLE_LOG_LEVELS, TRACES_SAMPLE_RATE } from "./sampling";
-import { serverDefaults } from "./v10-defaults";
 
 export const initializeSentry = (): ReturnType<typeof Sentry.init> =>
   Sentry.init({
-    ...serverDefaults(),
+    dataCollection: DATA_COLLECTION,
 
     // Setting this option to true will print useful information to the console while you're setting up Sentry.
     debug: false,

@@ -6,8 +6,8 @@
 
 // biome-ignore lint/performance/noNamespaceImport: Sentry SDK requires namespace import for proper initialization
 import * as Sentry from "@sentry/nextjs";
+import { DATA_COLLECTION } from "./data-collection";
 import { CONSOLE_LOG_LEVELS, TRACES_SAMPLE_RATE } from "./sampling";
-import { clientDefaults } from "./v10-defaults";
 
 // Send console.error and console.warn calls as logs to Sentry
 export const consoleLogging = (): ReturnType<
@@ -15,7 +15,7 @@ export const consoleLogging = (): ReturnType<
 > => Sentry.consoleLoggingIntegration({ levels: CONSOLE_LOG_LEVELS });
 
 export const baseOptions = (): Sentry.BrowserOptions => ({
-  ...clientDefaults(),
+  dataCollection: DATA_COLLECTION,
 
   // Setting this option to true will print useful information to the console while you're setting up Sentry.
   debug: false,

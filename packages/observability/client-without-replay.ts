@@ -24,4 +24,4 @@ export const initializeSentryWithoutReplay = (): void => {
   Sentry.init(baseOptions());
 };
 
-export const captureException = Sentry.captureException;
+export const { captureException } = Sentry;
