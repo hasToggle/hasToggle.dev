@@ -30,7 +30,7 @@
         "next": "16.3.7",
         "react": "^19.3.0",
         "react-dom": "^19.3.0",
-        "svix": "^2.5.0",
+        "svix": "^2.6.0",
         "zod": "^4.6.5",
       },
       "devDependencies": {
@@ -551,7 +551,7 @@
         "@repo/auth": "workspace:*",
         "@t3-oss/env-nextjs": "^0.13.11",
         "server-only": "^0.0.1",
-        "svix": "^2.5.0",
+        "svix": "^2.6.0",
         "zod": "^4.6.5",
       },
       "devDependencies": {
@@ -3588,7 +3588,7 @@
 
     "supports-preserve-symlinks-flag": ["supports-preserve-symlinks-flag@1.0.0", "", {}, "sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w=="],
 
-    "svix": ["svix@2.5.0", "", { "dependencies": { "standardwebhooks": "^1.1.1" } }, "sha512-mqcwCPKL6J5yqC2EQy5ZqE5XEJriCZffy49EGBDCsnrQ7RAYF4kZLJhKfXrB0n21S+3M9qYmQ9YjzrNjRlIuCw=="],
+    "svix": ["svix@2.6.0", "", { "dependencies": { "standardwebhooks": "^1.1.1" } }, "sha512-VYfF6HF6TqbjJhLN1hkjhzpK0OCEzMe2vBW2MGXBkQDb8HSHvYogPHOC/xwhX9d5DvL9Wj1/eIf0I3nWUVrrBw=="],
 
     "swr": ["swr@2.5.0", "", { "dependencies": { "dequal": "^2.0.3", "use-sync-external-store": "^1.6.0" }, "peerDependencies": { "react": "^16.11.0 || ^17.0.0 || ^18.0.0 || ^19.0.0" } }, "sha512-W0GomadRJe9OfzIoRX0kZHhDSaRRfdiOUeH6uazgR05SibBhDNwfdTbhAxmFtObvkf59fFymo22mooKukosvNA=="],
 
